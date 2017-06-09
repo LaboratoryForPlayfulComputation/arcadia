@@ -14,10 +14,48 @@
     <script src="/cdn/bluebird.min.js"></script>
     <script src="/cdn/pxtsim.js"></script>
     <script src="/sim/sim.js"></script>
+
+    <!-- CDN for aframe -->
+    <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+
+    <!-- include AR.js -->
+    <script src="/sim/aframe-ar.js"></script>
+    <script>THREEx.ArToolkitContext.baseURL = '/sim/AR.js/three.js/'</script>
+
+    <script>
+      AFRAME.registerComponent('foo', {
+        schema: {},
+        init: function () {},
+        update: function () {},
+        tick: function () {
+          console.log("tick tick");
+        },
+        remove: function () {},
+        pause: function () {},
+        play: function () {}
+      });
+    
+    </script>
+
 </head>
 
 <body>
     <svg id='svgcanvas' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 280">
-        <circle id='svgsprite' cx="100" cy="100" r="50" class="sprite" />
+      <!--<circle id='svgsprite' cx="100" cy="100" r="50" class="sprite" />-->
     </svg>
+
+    <!-- add video feed and handler for barcode marker -->
+    <a-scene embedded artoolkit='sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;'>
+        <!-- handle barcode marker -->
+        <a-marker type='barcode' value='20'>
+            <a-box position='0 0.5 0' material='opacity: 0.75; side: double; color:purple;'>
+                <a-torus-knot radius='0.27' radius-tubular='0.05'>
+                    <a-animation attribute="rotation" to="360 0 0" dur="5000" easing='linear' repeat="indefinite"></a-animation>
+                </a-torus-knot>
+            </a-box>
+        </a-marker>
+        <!-- add a simple camera -->
+        <a-entity camera></a-entity>
+    </a-scene>
+
 </body>
