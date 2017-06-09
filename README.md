@@ -1,9 +1,7 @@
-# Sample editor target for Microsoft MakeCode
+# AR editor target for Microsoft MakeCode
 
-Sample editor target for
-[Microsoft MakeCode](https://github.com/Microsoft/pxt) - [TRY IT LIVE](https://microsoft.github.io/pxt-sample/)
-
-[![Build Status](https://travis-ci.org/Microsoft/pxt-sample.svg?branch=master)](https://travis-ci.org/Microsoft/pxt-sample)
+AR editor target for
+[Microsoft MakeCode](https://github.com/Microsoft/pxt)
 
 ## Running locally
 
