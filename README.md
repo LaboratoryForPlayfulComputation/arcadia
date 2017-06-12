@@ -70,13 +70,19 @@ markerEl.setAttribute('type', 'barcode');
 markerEl.setAttribute('value', '20');
 ```
 
+Next, we'll add some code for a nice purple box that will show up on top of the marker when it's detected.
+
 ```
 var boxEl = document.createElement('a-box');
 boxEl.setAttribute('material', 'opacity: 0.75; side: double; color:purple;');
 markerEl.appendChild(boxEl);
 ```
 
+Finally, we need to add our marker to the scene.
+
 ```
 var sceneEl = document.querySelector('a-scene');
 sceneEl.appendChild(markerEl);
 ```
+
+
