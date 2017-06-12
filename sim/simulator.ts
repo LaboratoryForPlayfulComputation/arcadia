@@ -21,15 +21,11 @@ namespace pxsim {
      * Do not store state anywhere else!
      */
     export class Board extends pxsim.BaseBoard {
-        public element : SVGSVGElement;
-        public spriteElement: SVGCircleElement;
-        public sprite : Sprite;
+        public element : ASceneElement;
         
         constructor() {
             super();
-            this.element = <SVGSVGElement><any>document.getElementById('svgcanvas');
-            this.spriteElement = <SVGCircleElement>this.element.getElementById('svgsprite');
-            this.sprite = new Sprite()
+            this.element = document.getElementById('a-scene');
         }
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
@@ -38,8 +34,6 @@ namespace pxsim {
         }       
         
         updateView() {
-            this.spriteElement.cx.baseVal.value = this.sprite.x;
-            this.spriteElement.cy.baseVal.value = this.sprite.y;
             
         }
     }

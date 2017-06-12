@@ -27,17 +27,81 @@
 <body>
 
     <!-- add video feed and handler for barcode marker -->
-    <a-scene embedded artoolkit='sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;'>
-        <!-- handle barcode marker -->
-        <a-marker type='barcode' value='20'>
-            <a-box position='0 0.5 0' material='opacity: 0.75; side: double; color:purple;'>
-                <a-torus-knot radius='0.27' radius-tubular='0.05'>
-                    <a-animation attribute="rotation" to="360 0 0" dur="5000" easing='linear' repeat="indefinite"></a-animation>
-                </a-torus-knot>
-            </a-box>
-        </a-marker>
+    <a-scene embedded artoolkit='sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;' id='a-scene'>
         <!-- add a simple camera -->
         <a-entity camera></a-entity>
     </a-scene>
+
+    <script>
+      /* basic range mapping function */
+      function map_range(value, low1, high1, low2, high2) {
+          return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+      }
+
+      /* web audio stuff (just for fun right now) */
+      var audioCtx = new AudioContext();
+      var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      var oscillator = audioCtx.createOscillator();
+      var gainNode = audioCtx.createGain();
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination); 
+      var initialFreq = 460;
+      var initialVol = 0.5;
+      var minFreq = 300;
+      var maxFreq = 600;
+      var minVol = 0.2;
+      var maxVol = 1.0;
+      // set options for the oscillator
+      oscillator.type = 'sine'; // sine wave — other values are 'square', 'sawtooth', 'triangle' and 'custom'
+      oscillator.frequency.value = initialFreq; // value in hertz
+      oscillator.start();
+      gainNode.gain.value = initialVol;    
+
+      /* AFRAME component stuff */
+      AFRAME.registerComponent('foo', {
+        schema: {
+          type: 'string'
+        },
+        init: function () {},
+        update: function () {},
+        tick: function () {
+          var el = document.getElementById(this.data);
+          var xPos = el.object3D.getWorldPosition().x;
+          var yPos = el.object3D.getWorldPosition().y;
+          if (xPos && yPos){
+            oscillator.frequency.value = map_range(xPos, -3, 3, minFreq, maxFreq);
+            gainNode.gain.value = map_range(yPos, -3, 3, minVol, maxVol);            
+          }
+
+        },
+        remove: function () {},
+        pause: function () {},
+        play: function () {}
+      });      
+
+      /* AR stuff (now done with pure javascript instead of HTML, thank god) */
+      var sceneEl = document.querySelector('a-scene');
+      var markerEl = document.createElement('a-marker');
+      var boxEl = document.createElement('a-box');
+      var torusKnotEl = document.createElement('a-torus-knot');
+      var animationEl = document.createElement('a-animation');
+      markerEl.setAttribute('type', 'barcode');
+      markerEl.setAttribute('value', '20'); 
+      markerEl.setAttribute('id', 'marker1'); 
+      markerEl.setAttribute('foo', 'marker1'); // register the foo component to the barcode marker 20
+      boxEl.setAttribute('material', 'opacity: 0.75; side: double; color:purple;');
+      torusKnotEl.setAttribute('radius', '0.27');
+      torusKnotEl.setAttribute('radius-tubular', '0.05');
+      animationEl.setAttribute('attribute', 'rotation');
+      animationEl.setAttribute('to', '360 0 0');
+      animationEl.setAttribute('dur', '5000');
+      animationEl.setAttribute('easing', 'linear');
+      animationEl.setAttribute('repeat', 'indefinite');
+
+      sceneEl.appendChild(markerEl);
+      markerEl.appendChild(boxEl);
+      boxEl.appendChild(torusKnotEl);
+      torusKnotEl.appendChild(animationEl);
+    </script>
 
 </body>
