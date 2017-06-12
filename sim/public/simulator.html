@@ -26,9 +26,8 @@
 
 <body>
 
-    <!-- add video feed and handler for barcode marker -->
+    <!-- Adds video feed for AR, do not remove -->
     <a-scene embedded artoolkit='sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;' id='a-scene'>
-        <!-- add a simple camera -->
         <a-entity camera></a-entity>
     </a-scene>
 
@@ -45,15 +44,14 @@
       var gainNode = audioCtx.createGain();
       oscillator.connect(gainNode);
       gainNode.connect(audioCtx.destination); 
-      var initialFreq = 460;
+      var initialFreq = 440.0;
       var initialVol = 0.5;
-      var minFreq = 300;
-      var maxFreq = 600;
+      var minFreq = 261.63;
+      var maxFreq = 523.25;
       var minVol = 0.2;
       var maxVol = 1.0;
-      // set options for the oscillator
-      oscillator.type = 'sine'; // sine wave — other values are 'square', 'sawtooth', 'triangle' and 'custom'
-      oscillator.frequency.value = initialFreq; // value in hertz
+      oscillator.type = 'sine';
+      oscillator.frequency.value = initialFreq; 
       oscillator.start();
       gainNode.gain.value = initialVol;    
 
@@ -72,7 +70,6 @@
             oscillator.frequency.value = map_range(xPos, -3, 3, minFreq, maxFreq);
             gainNode.gain.value = map_range(yPos, -3, 3, minVol, maxVol);            
           }
-
         },
         remove: function () {},
         pause: function () {},
@@ -97,7 +94,6 @@
       animationEl.setAttribute('dur', '5000');
       animationEl.setAttribute('easing', 'linear');
       animationEl.setAttribute('repeat', 'indefinite');
-
       sceneEl.appendChild(markerEl);
       markerEl.appendChild(boxEl);
       boxEl.appendChild(torusKnotEl);
