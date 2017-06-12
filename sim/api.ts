@@ -45,9 +45,8 @@ namespace pxsim {
         public worldRotation : {x : number, y : number, z: number};
         
         constructor(value: number) {
-            this.value = <number>value;
+            this.value = <number>value;            
         }
     }     
 
-    testmarker = new Marker(20);
 }
