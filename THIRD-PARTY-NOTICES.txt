@@ -21,3 +21,4 @@ AFRAME
 AR.js
 ARToolkit
 AFRAME-typings
+@types/three
