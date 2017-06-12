@@ -15,9 +15,17 @@ The following commands are a 1-time setup after synching the repo on your machin
 ```
 npm install -g pxt
 ```
+* install typings
+```
+npm install -g typings
+```
 * install the dependencies
 ```
 npm install
+```
+* install typings
+```
+typings install
 ```
 
 ### Running the local server

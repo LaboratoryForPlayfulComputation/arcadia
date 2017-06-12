@@ -1,5 +1,7 @@
 /// <reference path="../node_modules/pxt-core/typings/globals/bluebird/index.d.ts"/>
 /// <reference path="../node_modules/pxt-core/built/pxtsim.d.ts"/>
+/// <reference path="../typings/globals/three/index.d.ts" />
+/// <reference path="../typings/globals/three-vreffect/index.d.ts" />
 /// <reference path="aframe.d.ts" />
 
 namespace pxsim {
@@ -22,7 +24,7 @@ namespace pxsim {
      * Do not store state anywhere else!
      */
     export class Board extends pxsim.BaseBoard {
-        public element : AFrame.AScene;
+        public element :  AFrame.AScene;
         
         constructor() {
             super();
