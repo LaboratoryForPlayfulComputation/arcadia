@@ -12,16 +12,9 @@
   "loops.forever|block": "forever",
   "loops.pause|block": "pause (ms) %pause",
   "loops|block": "loops",
-  "sprites.createSprite|block": "create sprite",
-  "sprites|block": "sprites",
-  "turtle.forward|block": "forward|steps %steps",
-  "turtle.turn|block": "turn %direction|by %angle degrees",
-  "turtle|block": "turtle",
   "{id:category}Console": "Console",
   "{id:category}Loops": "Loops",
   "{id:category}Math": "Math",
-  "{id:category}Sprites": "Sprites",
   "{id:category}String": "String",
-  "{id:category}Text": "Text",
-  "{id:category}Turtle": "Turtle"
+  "{id:category}Text": "Text"
 }

@@ -30,12 +30,10 @@ namespace pxsim {
         }
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
-
             return Promise.resolve();
         }       
         
         updateView() {
-            
         }
     }
 }
