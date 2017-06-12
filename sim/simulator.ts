@@ -24,11 +24,11 @@ namespace pxsim {
      * Do not store state anywhere else!
      */
     export class Board extends pxsim.BaseBoard {
-        public element :  AFrame.AScene;
+        public element :  AFrame.Scene;
         
         constructor() {
             super();
-            this.element = <AFrame.AScene>document.getElementById('a-scene');
+            this.element = <AFrame.Scene>document.getElementById('a-scene');
         }
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {

@@ -111,8 +111,8 @@ declare namespace AFrame {
 
 	export interface ComponentDescriptor {
 		Component: Component;
-		dependencies: string[] | null;
-		multiple: boolean | null;
+		dependencies?: string[];
+		multiple?: boolean;
 
 		// internal APIs2
 		// parse
@@ -146,15 +146,15 @@ declare namespace AFrame {
 		pause(): void;
 		play(): void;
 		setAttribute(attr: string, value: any, componentAttrValue?: any): void;
-		setObject3D(type: string, obj: THREE.Object3D | null): void;
+		setObject3D(type: string, obj?: THREE.Object3D): void;
 		removeAttribute(attr: string): void;
 		removeObject3D(type: string): void;
 		removeState(stateName: string): void;
 
 		getAttribute(type: string): string | any;
-		getAttribute(type: 'position'): Coordinate | null;
-		getAttribute(type: 'rotation'): Coordinate | null;
-		getAttribute(type: 'scale'): Coordinate | null;
+		getAttribute(type: 'position'): Coordinate;
+		getAttribute(type: 'rotation'): Coordinate;
+		getAttribute(type: 'scale'): Coordinate;
 
 		getComputedAttribute(type: string): any;
 		getComputedAttribute(type: 'position'): Coordinate;
