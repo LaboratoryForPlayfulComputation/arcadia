@@ -13,3 +13,11 @@ namespace turtle {
 namespace control {
 
 }
+
+/**
+ * Augment Reality markers
+ */
+//% weight=90 icon="\uf21d"
+namespace markers {
+
+}
