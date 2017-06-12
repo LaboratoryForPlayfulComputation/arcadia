@@ -25,25 +25,19 @@
 </head>
 
 <body>
-    <svg id='svgcanvas' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 280">
-      <!--<circle id='svgsprite' cx="100" cy="100" r="50" class="sprite" />-->
 
-      <!-- add video feed and handler for barcode marker -->
-      <a-scene id='aframescene' embedded artoolkit='sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;'>
-          <!-- handle barcode marker -->
-          <a-marker type='barcode' value='20'>
-              <a-box position='0 0.5 0' material='opacity: 0.75; side: double; color:purple;'>
-                  <a-torus-knot radius='0.27' radius-tubular='0.05'>
-                      <a-animation attribute="rotation" to="360 0 0" dur="5000" easing='linear' repeat="indefinite"></a-animation>
-                  </a-torus-knot>
-              </a-box>
-          </a-marker>
-          <!-- add a simple camera -->
-          <a-entity camera></a-entity>
-      </a-scene>
-
-    </svg>
-
-
+    <!-- add video feed and handler for barcode marker -->
+    <a-scene embedded artoolkit='sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;'>
+        <!-- handle barcode marker -->
+        <a-marker type='barcode' value='20'>
+            <a-box position='0 0.5 0' material='opacity: 0.75; side: double; color:purple;'>
+                <a-torus-knot radius='0.27' radius-tubular='0.05'>
+                    <a-animation attribute="rotation" to="360 0 0" dur="5000" easing='linear' repeat="indefinite"></a-animation>
+                </a-torus-knot>
+            </a-box>
+        </a-marker>
+        <!-- add a simple camera -->
+        <a-entity camera></a-entity>
+    </a-scene>
 
 </body>

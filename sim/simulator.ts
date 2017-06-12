@@ -33,8 +33,6 @@ namespace pxsim {
         }
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
-            document.body.innerHTML = ''; // clear children
-            document.body.appendChild(this.element);
 
             return Promise.resolve();
         }       
