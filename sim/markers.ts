@@ -7,7 +7,9 @@ namespace pxsim.markers {
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     export function setColor(marker: Marker, color: number) {
-
+        const m = board().marker(marker);
+        // TODO: this won't work
+        m.setAttribute('color', '#' + color.toString(16))
     } 
 }
 

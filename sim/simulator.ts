@@ -24,18 +24,61 @@ namespace pxsim {
      * Do not store state anywhere else!
      */
     export class Board extends pxsim.BaseBoard {
-        public element :  AFrame.Scene;
+        public scene :  AFrame.Scene;
+        public markers: pxsim.Map<AFrame.Entity>;
         
         constructor() {
             super();
-            this.element = <AFrame.Scene>document.getElementById('a-scene');
         }
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
+            this.scene = <AFrame.Scene>document.getElementById('a-scene');
+            this.markers = {};
             return Promise.resolve();
         }       
         
         updateView() {
+        }
+
+        kill() {
+            // TODO: remove AFrame scene and DOM
+            if (this.scene) {
+
+            }
+        }
+
+        // gets or creates a new marker
+        marker(marker: Marker) : AFrame.Entity {
+            let m = this.markers[marker.toString()];
+            if (!m) 
+                m = this.markers[marker.toString()] = this.createMarker();
+            return m;
+        }
+
+        createMarker(): AFrame.Entity {
+            // TODO: do something better here
+            let markerEl = document.createElement('a-marker'); // create Element will probably become a typescript function
+            let boxEl = document.createElement('a-box');
+            let torusKnotEl = document.createElement('a-torus-knot');
+            let animationEl = document.createElement('a-animation');
+            let slider = document.createElement('ui-entity');
+            markerEl.setAttribute('type', 'barcode'); // all of these setAttributes can become a typescript function
+            markerEl.setAttribute('value', '20'); 
+            markerEl.setAttribute('id', 'marker1'); 
+            markerEl.setAttribute('updateSynthParams', 'marker1'); // register the foo component to the barcode marker 20
+            boxEl.setAttribute('material', 'opacity: 0.75; side: double; color:purple;');
+            torusKnotEl.setAttribute('radius', '0.27');
+            torusKnotEl.setAttribute('radius-tubular', '0.05');
+            animationEl.setAttribute('attribute', 'rotation');
+            animationEl.setAttribute('to', '360 0 0');
+            animationEl.setAttribute('dur', '5000');
+            animationEl.setAttribute('easing', 'linear');
+            animationEl.setAttribute('repeat', 'indefinite');
+            this.scene.appendChild(markerEl); // append child will also become a typescript function
+            markerEl.appendChild(boxEl);
+            boxEl.appendChild(torusKnotEl);
+            torusKnotEl.appendChild(animationEl);                    
+            return markerEl as AFrame.Entity;
         }
     }
 }
