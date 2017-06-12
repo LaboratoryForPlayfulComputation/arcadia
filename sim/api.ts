@@ -98,7 +98,7 @@ namespace pxsim {
             this.x += Math.cos(deg) * steps * 10;
             this.y += Math.sin(deg) * steps * 10;
             board().updateView();
-            return Promise.delay(400)
+            return Promise.delay(400);
         }
     }
 }
