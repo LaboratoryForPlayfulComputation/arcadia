@@ -38,4 +38,16 @@ namespace pxsim.console {
 }
 
 namespace pxsim {
+
+    export class Marker {
+        public value : number;
+        public worldPosition : {x : number, y : number, z: number};
+        public worldRotation : {x : number, y : number, z: number};
+        
+        constructor(value: number) {
+            this.value = <number>value;
+        }
+    }     
+
+    testmarker = new Marker(20);
 }
