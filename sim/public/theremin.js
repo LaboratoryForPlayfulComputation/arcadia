@@ -25,7 +25,7 @@ oscillator.start();
 gainNode.gain.value = initialVol;    
 
 /* AFRAME component stuff */
-AFRAME.registerComponent('updateSynthParams', {
+AFRAME.registerComponent('updateSynthParams', { // maybe register components will also become typescript functions
 schema: {
   type: 'string'
 },
@@ -47,12 +47,12 @@ play: function () {}
 
 /* AR stuff (now done with pure javascript instead of HTML, thank god) */
 var sceneEl = document.querySelector('a-scene');
-var markerEl = document.createElement('a-marker');
+var markerEl = document.createElement('a-marker'); // create Element will probably become a typescript function
 var boxEl = document.createElement('a-box');
 var torusKnotEl = document.createElement('a-torus-knot');
 var animationEl = document.createElement('a-animation');
 var slider = document.createElement('ui-entity');
-markerEl.setAttribute('type', 'barcode');
+markerEl.setAttribute('type', 'barcode'); // all of these setAttributes can become a typescript function
 markerEl.setAttribute('value', '20'); 
 markerEl.setAttribute('id', 'marker1'); 
 markerEl.setAttribute('updateSynthParams', 'marker1'); // register the foo component to the barcode marker 20
@@ -64,7 +64,7 @@ animationEl.setAttribute('to', '360 0 0');
 animationEl.setAttribute('dur', '5000');
 animationEl.setAttribute('easing', 'linear');
 animationEl.setAttribute('repeat', 'indefinite');
-sceneEl.appendChild(markerEl);
+sceneEl.appendChild(markerEl); // append child will also become a typescript function
 markerEl.appendChild(boxEl);
 boxEl.appendChild(torusKnotEl);
 torusKnotEl.appendChild(animationEl);
