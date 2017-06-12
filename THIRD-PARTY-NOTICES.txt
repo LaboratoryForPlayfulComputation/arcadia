@@ -22,3 +22,4 @@ AR.js
 ARToolkit
 AFRAME-typings
 @types/three
+AFRAME UI Widgets
