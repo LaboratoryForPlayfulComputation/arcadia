@@ -39,9 +39,16 @@
   "String.substr": "Return substring of the current string.",
   "String.substr|param|length": "number of characters to extract",
   "String.substr|param|start": "first character index; can be negative from counting from the end, eg:0",
+  "colors.named": "Get the RGB value of a known color",
+  "colors.rgb": "Converts red, green, blue channels into a RGB color",
+  "colors.rgb|param|blue": "value of the blue channel between 0 and 255. eg: 255",
+  "colors.rgb|param|green": "value of the green channel between 0 and 255. eg: 255",
+  "colors.rgb|param|red": "value of the red channel between 0 and 255. eg: 255",
   "console.log": "Print out message",
   "loops.forever": "Repeats the code forever in the background. On each iteration, allows other code to run.",
   "loops.forever|param|body": "the code to repeat",
   "loops.pause": "Pause for the specified time in milliseconds",
-  "loops.pause|param|ms": "how long to pause for, eg: 100, 200, 500, 1000, 2000"
+  "loops.pause|param|ms": "how long to pause for, eg: 100, 200, 500, 1000, 2000",
+  "markers": "Augment Reality markers",
+  "markers.setColor": "Sets the color of an AR marker"
 }
