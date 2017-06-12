@@ -16,3 +16,8 @@ Third Party Code Components
 ---------------------------------------------
 
 Some code derived (as noted) from
+
+AFRAME
+AR.js
+ARToolkit
+AFRAME-typings
