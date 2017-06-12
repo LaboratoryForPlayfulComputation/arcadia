@@ -25,7 +25,7 @@ oscillator.start();
 gainNode.gain.value = initialVol;    
 
 /* AFRAME component stuff */
-AFRAME.registerComponent('foo', {
+AFRAME.registerComponent('updateSynthParams', {
 schema: {
   type: 'string'
 },
@@ -51,10 +51,11 @@ var markerEl = document.createElement('a-marker');
 var boxEl = document.createElement('a-box');
 var torusKnotEl = document.createElement('a-torus-knot');
 var animationEl = document.createElement('a-animation');
+var slider = document.createElement('ui-entity');
 markerEl.setAttribute('type', 'barcode');
 markerEl.setAttribute('value', '20'); 
 markerEl.setAttribute('id', 'marker1'); 
-markerEl.setAttribute('foo', 'marker1'); // register the foo component to the barcode marker 20
+markerEl.setAttribute('updateSynthParams', 'marker1'); // register the foo component to the barcode marker 20
 boxEl.setAttribute('material', 'opacity: 0.75; side: double; color:purple;');
 torusKnotEl.setAttribute('radius', '0.27');
 torusKnotEl.setAttribute('radius-tubular', '0.05');
