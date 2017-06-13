@@ -21,12 +21,15 @@ namespace pxsim.markers {
         m.appendChild(shapeEl);   
     }
 
+    export function createMarker(marker: Marker){
+        const m = board().marker(marker);
+    }
+
     /**
      * Sets the shape that displays when the marker is detected
      */
     //% blockId=ar_marker_on_move block="on move stub"    
     export function onMove(){
-
     }
 
     /**
@@ -34,7 +37,6 @@ namespace pxsim.markers {
      */
     //% blockId=ar_marker_on_rotate block="on rotate stub"
     export function onRotate(){
-        
     }    
 }
 
