@@ -3,6 +3,7 @@
 /// <reference path="../typings/globals/three/index.d.ts" />
 /// <reference path="../typings/globals/three-vreffect/index.d.ts" />
 /// <reference path="aframe.d.ts" />
+/// <reference path="threex.d.ts" />
 
 namespace pxsim {
     /**
@@ -24,15 +25,15 @@ namespace pxsim {
      * Do not store state anywhere else!
      */
     export class Board extends pxsim.BaseBoard {
-        public scene :  AFrame.Scene;
-        public markers: pxsim.Map<AFrame.Entity>;
+        public scene :  THREE.Scene;
+        public markers: pxsim.Map<Threex.ArMarkerControls>;
         
         constructor() {
             super();
         }
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
-            this.scene = <AFrame.Scene>document.getElementById('a-scene');
+            this.scene = this.initScene();
             this.markers = {};
             return Promise.resolve();
         }       
@@ -40,18 +41,79 @@ namespace pxsim {
         updateView() {
         }
 
+        initScene(){
+            // init renderer
+            var renderer	= new THREE.WebGLRenderer({
+                antialias: true,
+                alpha: true
+            });
+            renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+            renderer.setSize( 640, 480 );
+            renderer.domElement.style.position = 'absolute'
+            renderer.domElement.style.top = '0px'
+            renderer.domElement.style.left = '0px'
+            document.body.appendChild( renderer.domElement );
+
+            // array of functions for the rendering loop
+            var onRenderFcts= [];
+
+            // init scene and camera
+            var scene	= new THREE.Scene();
+            var camera = new THREE.Camera();
+            scene.add(camera);
+
+            var arToolkitSource = new THREEx.ArToolkitSource({
+                sourceType : 'webcam',
+            })
+
+            arToolkitSource.init(function onReady(){
+                onResize()
+            })
+            
+            // handle resize
+            window.addEventListener('resize', function(){
+                onResize()
+            })
+            function onResize(){
+                arToolkitSource.onResize()	
+                arToolkitSource.copySizeTo(renderer.domElement)	
+                if( arToolkitContext.arController !== null ){
+                    arToolkitSource.copySizeTo(arToolkitContext.arController.canvas)	
+                }	
+            }
+
+            // create arToolkitContext
+            var arToolkitContext = new THREEx.ArToolkitContext({
+                cameraParametersUrl: THREEx.ArToolkitContext.baseURL + '../data/data/camera_para.dat',
+                detectionMode: 'mono_and_matrix',
+                matrixCodeType: '3x3'
+            })
+            // initialize it
+            arToolkitContext.init(function onCompleted(){
+                // copy projection matrix to camera
+                camera.projectionMatrix.copy( arToolkitContext.getProjectionMatrix() );
+            })
+
+            // update artoolkit on every frame
+            onRenderFcts.push(function(){
+                if( arToolkitSource.ready === false )	return
+                arToolkitContext.update( arToolkitSource.domElement )
+                scene.visible = camera.visible
+            })            
+
+            return scene;
+        }
+
         kill() {
             // TODO: remove AFrame scene and DOM
             if (this.scene) {
-                while (this.scene.firstChild){
-                    this.scene.removeChild(this.scene.firstChild);
                 }
                 this.markers = {};
             }
         }
 
         // gets or creates a new marker
-        marker(marker: Marker) : AFrame.Entity {
+        marker(marker: Marker) : Threex.ArMarkerControls {
             let m = this.markers[marker.toString()];
             if (!m) 
                 m = this.markers[marker.toString()] = this.createMarker(marker);
