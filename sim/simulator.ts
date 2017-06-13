@@ -43,7 +43,7 @@ namespace pxsim {
         kill() {
             // TODO: remove AFrame scene and DOM
             if (this.scene) {
-
+                this.scene.remove();
             }
         }
 
@@ -57,15 +57,14 @@ namespace pxsim {
 
         createMarker(marker: Marker): AFrame.Entity {
             // TODO: do something better here
-            let markerEl = document.createElement('a-marker'); // create Element will probably become a typescript function
+            let markerEl = document.createElement('a-marker');
             let boxEl = document.createElement('a-box');
             let torusKnotEl = document.createElement('a-torus-knot');
             let animationEl = document.createElement('a-animation');
             let slider = document.createElement('ui-entity');
-            markerEl.setAttribute('type', 'barcode'); // all of these setAttributes can become a typescript function
+            markerEl.setAttribute('type', 'barcode'); 
             markerEl.setAttribute('value', marker.toString()); 
             markerEl.setAttribute('id', 'marker' + marker.toString()); 
-         //   markerEl.setAttribute('updateSynthParams', 'marker1'); // register the foo component to the barcode marker 20
             boxEl.setAttribute('material', 'opacity: 0.75; side: double; color:purple;');
             torusKnotEl.setAttribute('radius', '0.27');
             torusKnotEl.setAttribute('radius-tubular', '0.05');
@@ -74,7 +73,7 @@ namespace pxsim {
             animationEl.setAttribute('dur', '5000');
             animationEl.setAttribute('easing', 'linear');
             animationEl.setAttribute('repeat', 'indefinite');
-            this.scene.appendChild(markerEl); // append child will also become a typescript function
+            this.scene.appendChild(markerEl); 
             markerEl.appendChild(boxEl);
             boxEl.appendChild(torusKnotEl);
             torusKnotEl.appendChild(animationEl);                    
