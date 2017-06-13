@@ -8,10 +8,21 @@ namespace pxsim.markers {
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     export function setColor(marker: Marker, color: number) {
         const m = board().marker(marker);
-        // TODO: this won't work
+        // TODO: this only works when the page is refreshed completely
         const box = m.getElementsByTagName('a-box')[0];
         box.setAttribute('material', 'opacity: 0.75; side: double; color: #' + color.toString(16));
     } 
+
+    /**
+     * Sets the shape that displays when the marker is detected
+     */
+    //% blockId=ar_set_shape block="%marker|set shape %shape=shapes_named"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    export function setShape(marker: Marker, shape: string){
+        const m = board().marker(marker);
+    }
 }
 
 namespace pxsim.colors {

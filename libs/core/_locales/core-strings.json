@@ -43,6 +43,7 @@
   "loops.pause|block": "pause (ms) %pause",
   "loops|block": "loops",
   "markers.setColor|block": "%marker|set color %color=colors_named",
+  "markers.setShape|block": "%marker|set shape %shape=shapes_named",
   "markers|block": "markers",
   "{id:category}Colors": "Colors",
   "{id:category}Console": "Console",

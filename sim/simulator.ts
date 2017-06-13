@@ -65,7 +65,7 @@ namespace pxsim {
             markerEl.setAttribute('type', 'barcode'); 
             markerEl.setAttribute('value', marker.toString()); 
             markerEl.setAttribute('id', 'marker' + marker.toString()); 
-            boxEl.setAttribute('material', 'opacity: 0.75; side: double; color:purple;');
+            boxEl.setAttribute('material', 'opacity: 0.75; side: double; color: purple;');
             torusKnotEl.setAttribute('radius', '0.27');
             torusKnotEl.setAttribute('radius-tubular', '0.05');
             animationEl.setAttribute('attribute', 'rotation');

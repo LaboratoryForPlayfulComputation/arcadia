@@ -39,6 +39,16 @@ declare namespace markers {
     //% shim=markers::setColor
     function setColor(marker: Marker, color: number): void;
 
+    /**
+     * Sets the shape that displays when the marker is detected
+     */
+    //% blockId=ar_set_shape block="%marker|set shape %shape=shapes_named"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    //% shim=markers::setShape
+    function setShape(marker: Marker, shape: string): void;
+
 }
 declare namespace colors {
     /**

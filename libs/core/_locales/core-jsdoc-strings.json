@@ -50,5 +50,6 @@
   "loops.pause": "Pause for the specified time in milliseconds",
   "loops.pause|param|ms": "how long to pause for, eg: 100, 200, 500, 1000, 2000",
   "markers": "Augment Reality markers",
-  "markers.setColor": "Sets the color of an AR marker"
+  "markers.setColor": "Sets the color of an AR marker",
+  "markers.setShape": "Sets the shape that displays when the marker is detected"
 }
