@@ -30,24 +30,31 @@ declare namespace console {
 }
 declare namespace markers {
     /**
-     * Sets the color of an AR marker
+     * Sets the shape and color that displays when the marker is detected
      */
-    //% blockId=ar_set_color block="%marker|set color %color=colors_named"
+    //% blockId=ar_set_shape block="%marker|set shape %shape|set color %color=colors.named"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    //% shim=markers::setColor
-    function setColor(marker: Marker, color: number): void;
+    //% shape.fieldEditor="gridpicker"
+    //% shape.fieldOptions.width="200" shape.fieldOptions.columns="2"
+    //% shape.fieldOptions.itemColour="black" shape.fieldOptions.tooltips="true"
+    //% shim=markers::setShapeAndColor
+    function setShapeAndColor(marker: Marker, shape: Shape, color: number): void;
 
     /**
      * Sets the shape that displays when the marker is detected
      */
-    //% blockId=ar_set_shape block="%marker|set shape %shape=shapes_named"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    //% shim=markers::setShape
-    function setShape(marker: Marker, shape: string): void;
+    //% blockId=ar_marker_on_move block="on move stub"
+    //% shim=markers::onMove
+    function onMove(): void;
+
+    /**
+     * Sets the shape that displays when the marker is detected
+     */
+    //% blockId=ar_marker_on_rotate block="on rotate stub"
+    //% shim=markers::onRotate
+    function onRotate(): void;
 
 }
 declare namespace colors {

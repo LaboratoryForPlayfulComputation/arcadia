@@ -9,10 +9,10 @@ declare const enum Direction {
  * An augmented reality marker
  */
 declare const enum Marker {
-    //% block="0" enumval=0
+    //% block=0 enumval=0
     //% blockImage=1
     Marker0 = 0,
-    //% block="1" enumval=1
+    //% block=1 enumval=1
     //% blockImage=1
     Marker1 = 1,
     //% block=2 enumval=2
@@ -36,25 +36,25 @@ declare const enum Marker {
     //% block=8 enumval=8
     //% blockImage=1
     Marker8 = 8,
-    //% block=8 enumval=9
+    //% block=9 enumval=9
     //% blockImage=1
     Marker9 = 9,
-    //% block=8 enumval=10
+    //% block=10 enumval=10
     //% blockImage=1
     Marker10 = 10,
-    //% block=8 enumval=11
+    //% block=11 enumval=11
     //% blockImage=1
     Marker11 = 11,
-    //% block=8 enumval=12
+    //% block=12 enumval=12
     //% blockImage=1
     Marker12 = 12,
-    //% block=8 enumval=13
+    //% block=13 enumval=13
     //% blockImage=1
     Marker13 = 13,
-    //% block=8 enumval=14
+    //% block=14 enumval=14
     //% blockImage=1
     Marker14 = 14,
-    //% block=8 enumval=15
+    //% block=15 enumval=15
     //% blockImage=1
     Marker15 = 15
 }
@@ -96,4 +96,28 @@ declare const enum Colors {
     //% block=black  blockIdentity=colors.named
     //% enumval=0x000000
     Black = 0x000000
+}
+
+/**
+ * 3D Shape Primitives supported by THREE.js
+ */
+declare const enum Shape {
+    //% block=box
+    //% blockImage=1
+    Box,
+    //% block=sphere
+    //% blockImage=1
+    Sphere,    
+    //% block=cone
+    //% blockImage=1
+    Cone, 
+    //% block=cylinder
+    //% blockImage=1
+    Cylinder,    
+    //% block=tetrahedron
+    //% blockImage=1
+    Tetrahedron,
+    //% block=icosahedron
+    //% blockImage=1    
+    Icosahedron
 }

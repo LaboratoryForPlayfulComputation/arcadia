@@ -20,6 +20,7 @@ Some code derived (as noted) from
 AFRAME
 AR.js
 ARToolkit
+THREE.js
 AFRAME-typings
 @types/three
 AFRAME UI Widgets

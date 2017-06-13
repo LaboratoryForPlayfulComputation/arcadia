@@ -1,28 +1,41 @@
 namespace pxsim.markers {
     /**
-     * Sets the color of an AR marker
+     * Sets the shape and color that displays when the marker is detected
      */
-    //% blockId=ar_set_color block="%marker|set color %color=colors_named"
+    //% blockId=ar_set_shape block="%marker|set shape %shape|set color %color=colors.named"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function setColor(marker: Marker, color: number) {
+    //% shape.fieldEditor="gridpicker"
+    //% shape.fieldOptions.width="200" shape.fieldOptions.columns="2"
+    //% shape.fieldOptions.itemColour="black" shape.fieldOptions.tooltips="true"
+    export function setShapeAndColor(marker: Marker, shape: Shape, color: number){
         const m = board().marker(marker);
-        // TODO: this only works when the page is refreshed completely
-        const box = m.getElementsByTagName('a-box')[0];
-        box.setAttribute('material', 'opacity: 0.75; side: double; color: #' + color.toString(16));
-    } 
+        // for some reason the shapes are evaluating to numbers and not strings...temporary fix
+        let shapesList = ['box', 'sphere', 'cone', 'cylinder', 'tetrahedron', 'icosahedron']; 
+        let shapeName = shapesList[shape];
+        let shapeEl = document.createElement('a-' + shapeName);
+        shapeEl.setAttribute('material', 'color', '#' + color.toString(16));
+        shapeEl.setAttribute('material', 'opacity', '0.75');
+        shapeEl.setAttribute('material', 'side', 'double');
+        m.appendChild(shapeEl);   
+    }
 
     /**
      * Sets the shape that displays when the marker is detected
      */
-    //% blockId=ar_set_shape block="%marker|set shape %shape=shapes_named"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function setShape(marker: Marker, shape: string){
-        const m = board().marker(marker);
+    //% blockId=ar_marker_on_move block="on move stub"    
+    export function onMove(){
+
     }
+
+    /**
+     * Sets the shape that displays when the marker is detected
+     */
+    //% blockId=ar_marker_on_rotate block="on rotate stub"
+    export function onRotate(){
+        
+    }    
 }
 
 namespace pxsim.colors {
