@@ -23,14 +23,14 @@ namespace pxsim.loops {
     }
 }
 
-function logMsg(m:string) { console.log(m) }
+function logMsg(m: string) { console.log(m) }
 
 namespace pxsim.console {
     /**
      * Print out message
      */
     //% 
-    export function log(msg:string) {
+    export function log(msg: string) {
         logMsg("CONSOLE: " + msg)
         // why doesn't that work?
         board().writeSerial(msg + "\n")
@@ -39,14 +39,14 @@ namespace pxsim.console {
 
 namespace pxsim {
 
-    export class Marker {
-        public value : number;
-        public worldPosition : {x : number, y : number, z: number};
-        public worldRotation : {x : number, y : number, z: number};
-        
-        constructor(value: number) {
-            this.value = <number>value;            
+    export interface Position { x: number, y: number, z: number }
+
+    export class ArMarker {
+        public worldPosition: Position;
+        public worldRotation: Position;
+
+        constructor(private value: number) {
         }
-    }     
+    }
 
 }

@@ -51,11 +51,11 @@ namespace pxsim {
         marker(marker: Marker) : AFrame.Entity {
             let m = this.markers[marker.toString()];
             if (!m) 
-                m = this.markers[marker.toString()] = this.createMarker();
+                m = this.markers[marker.toString()] = this.createMarker(marker);
             return m;
         }
 
-        createMarker(): AFrame.Entity {
+        createMarker(marker: Marker): AFrame.Entity {
             // TODO: do something better here
             let markerEl = document.createElement('a-marker'); // create Element will probably become a typescript function
             let boxEl = document.createElement('a-box');
@@ -63,9 +63,9 @@ namespace pxsim {
             let animationEl = document.createElement('a-animation');
             let slider = document.createElement('ui-entity');
             markerEl.setAttribute('type', 'barcode'); // all of these setAttributes can become a typescript function
-            markerEl.setAttribute('value', '20'); 
-            markerEl.setAttribute('id', 'marker1'); 
-            markerEl.setAttribute('updateSynthParams', 'marker1'); // register the foo component to the barcode marker 20
+            markerEl.setAttribute('value', marker.toString()); 
+            markerEl.setAttribute('id', 'marker' + marker.toString()); 
+         //   markerEl.setAttribute('updateSynthParams', 'marker1'); // register the foo component to the barcode marker 20
             boxEl.setAttribute('material', 'opacity: 0.75; side: double; color:purple;');
             torusKnotEl.setAttribute('radius', '0.27');
             torusKnotEl.setAttribute('radius-tubular', '0.05');
