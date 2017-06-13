@@ -79,5 +79,27 @@ namespace pxsim {
             torusKnotEl.appendChild(animationEl);                    
             return markerEl as AFrame.Entity;
         }
+
+        /**
+         *  Gets the world x, y, and z coordinates of a marker
+         */
+        getMarkerPosition(marker: Marker): {x: Number, y: Number, z: Number} {
+            let markerEl = this.marker(marker);
+            let pos = {x: markerEl.object3D.getWorldPosition().x,
+                       y: markerEl.object3D.getWorldPosition().y,
+                       z: markerEl.object3D.getWorldPosition().z};
+            return pos;
+        }
+
+        /**
+         *  Gets the world x, y, and z rotations of a marker
+         */
+        getMarkerRotation(marker: Marker): {x: Number, y: Number, z: Number} {
+            let markerEl = this.marker(marker);
+            let rot = {x: markerEl.object3D.getWorldRotation().x,
+                       y: markerEl.object3D.getWorldRotation().y,
+                       z: markerEl.object3D.getWorldRotation().z};
+            return rot;
+        }        
     }
 }
