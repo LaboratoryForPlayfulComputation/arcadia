@@ -9,7 +9,8 @@ namespace pxsim.markers {
     export function setColor(marker: Marker, color: number) {
         const m = board().marker(marker);
         // TODO: this won't work
-        m.setAttribute('color', '#' + color.toString(16))
+        const box = m.getElementsByTagName('a-box')[0];
+        box.setAttribute('material', 'opacity: 0.75; side: double; color: #' + color.toString(16));
     } 
 }
 
