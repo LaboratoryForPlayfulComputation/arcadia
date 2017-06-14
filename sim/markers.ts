@@ -11,14 +11,53 @@ namespace pxsim.markers {
     //% shape.fieldOptions.itemColour="black" shape.fieldOptions.tooltips="true"
     export function setShapeAndColor(marker: Marker, shape: Shape, color: number){
         const m = board().marker(marker);
-        // for some reason the shapes are evaluating to numbers and not strings...temporary fix
-        let shapesList = ['box', 'sphere', 'cone', 'cylinder', 'tetrahedron', 'icosahedron']; 
-        let shapeName = shapesList[shape];
-        let shapeEl = document.createElement('a-' + shapeName);
-        shapeEl.setAttribute('material', 'color', '#' + color.toString(16));
-        shapeEl.setAttribute('material', 'opacity', '0.75');
-        shapeEl.setAttribute('material', 'side', 'double');
-        m.appendChild(shapeEl);   
+
+        let geometry	= new THREE.CubeGeometry(1,1,1);
+        let material	= new THREE.MeshNormalMaterial({
+            transparent : true,
+            opacity: 0.5,
+            side: THREE.DoubleSide
+        }); 
+        let mesh	= new THREE.Mesh(geometry, material);
+        mesh.position.y	= geometry.parameters.height/2
+        board().scene.add(mesh);
+        
+       /* var geometry	= new THREE.TorusKnotGeometry(0.3,0.1,64,16);
+        var material	= new THREE.MeshNormalMaterial(); 
+        var mesh	= new THREE.Mesh( geometry, material );
+        mesh.position.y	= 0.5
+        board().scene.add(mesh);*/
+        
+        /*board().onRenderFcts.push(function(delta: number){
+            mesh.rotation.x += Math.PI*delta;
+        })  */ // torus animation     
+    }
+
+   /* function createGeometry(shape: Shape) : THREE.Geometry {
+    } */
+
+    function createBox(side: number) : THREE.Geometry{
+        return new THREE.BoxGeometry(side, side, side);
+    }
+
+    function createSphere(radius : number) : THREE.Geometry {
+        return new THREE.SphereGeometry(radius, 32, 32);
+    }
+
+    function createCone(radius : number, height : number) : THREE.Geometry {
+        return new THREE.ConeGeometry(radius, height, 32);
+    }
+
+    function createCylinder(radius : number, height : number) : THREE.Geometry {
+        return new THREE.CylinderGeometry(radius, radius, height, 32);
+    }
+
+    function createTetrahedron(radius : number) : THREE.Geometry {
+        return new THREE.TetrahedronGeometry(radius, 0);
+    }
+
+    function createIcosahedron(radius : number) : THREE.Geometry {
+        return new THREE.IcosahedronGeometry(radius, 0);
     }
 
     export function createMarker(marker: Marker){
