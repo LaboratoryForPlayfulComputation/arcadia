@@ -3,6 +3,7 @@
 /// <reference path="../typings/globals/three/index.d.ts" />
 /// <reference path="../typings/globals/three-vreffect/index.d.ts" />
 /// <reference path="aframe.d.ts" />
+/// <reference path="aframe-ar.d.ts" />
 /// <reference path="threex.d.ts" />
 
 namespace pxsim {
@@ -26,7 +27,7 @@ namespace pxsim {
      */
     export class Board extends pxsim.BaseBoard {
         public scene :  THREE.Scene;
-        public markers: pxsim.Map<Threex.ArMarkerControls>;
+        public markers: pxsim.Map<THREEx.ArMarkerControls>;
         
         constructor() {
             super();
@@ -106,14 +107,12 @@ namespace pxsim {
 
         kill() {
             // TODO: remove AFrame scene and DOM
-            if (this.scene) {
-                }
-                this.markers = {};
-            }
+            if (this.scene) {}
+            this.markers = {};
         }
 
         // gets or creates a new marker
-        marker(marker: Marker) : Threex.ArMarkerControls {
+        marker(marker: Marker) : THREEx.ArMarkerControls {
             let m = this.markers[marker.toString()];
             if (!m) 
                 m = this.markers[marker.toString()] = this.createMarker(marker);
