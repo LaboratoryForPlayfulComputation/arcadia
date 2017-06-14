@@ -27,14 +27,18 @@ namespace pxsim {
      */
     export class Board extends pxsim.BaseBoard {
         public scene :  THREE.Scene;
+        public camera: THREE.Camera;
         public markers: pxsim.Map<THREEx.ArMarkerControls>;
+        public arToolkitContext: THREEx.ArToolkitContext;
+        public arToolkitSource: THREEx.ArToolkitSource;
+        public renderer: THREE.WebGLRenderer;
         
         constructor() {
             super();
         }
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
-            this.scene = this.initScene();
+            this.initScene();
             this.markers = {};
             return Promise.resolve();
         }       
@@ -42,67 +46,66 @@ namespace pxsim {
         updateView() {
         }
 
+        /**
+         * Initializes the THREE.js scene, renderer, and ARToolkit params
+         */
         initScene(){
             // init renderer
-            var renderer	= new THREE.WebGLRenderer({
+            this.renderer	= new THREE.WebGLRenderer({
                 antialias: true,
                 alpha: true
             });
-            renderer.setClearColor(new THREE.Color('lightgrey'), 0)
-            renderer.setSize( 640, 480 );
-            renderer.domElement.style.position = 'absolute'
-            renderer.domElement.style.top = '0px'
-            renderer.domElement.style.left = '0px'
-            document.body.appendChild( renderer.domElement );
+            this.renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+            this.renderer.setSize( 640, 480 );
+            this.renderer.domElement.style.position = 'absolute'
+            this.renderer.domElement.style.top = '0px'
+            this.renderer.domElement.style.left = '0px'
+            document.body.appendChild(this.renderer.domElement);
 
             // array of functions for the rendering loop
             var onRenderFcts= [];
 
             // init scene and camera
-            var scene	= new THREE.Scene();
-            var camera = new THREE.Camera();
-            scene.add(camera);
+            this.scene	= new THREE.Scene();
+            this.camera = new THREE.Camera();
+            this.scene.add(this.camera);
 
-            var arToolkitSource = new THREEx.ArToolkitSource({
+            this.arToolkitSource = new THREEx.ArToolkitSource({
                 sourceType : 'webcam',
             })
-
-            arToolkitSource.init(function onReady(){
+            this.arToolkitSource.init(function onReady(){
                 onResize()
             })
             
-            // handle resize
             window.addEventListener('resize', function(){
                 onResize()
             })
             function onResize(){
-                arToolkitSource.onResize()	
-                arToolkitSource.copySizeTo(renderer.domElement)	
-                if( arToolkitContext.arController !== null ){
-                    arToolkitSource.copySizeTo(arToolkitContext.arController.canvas)	
+                this.arToolkitSource.onResize()	
+                this.arToolkitSource.copySizeTo(this.renderer.domElement)	
+                if( this.arToolkitContext.arController !== null ){
+                    this.arToolkitSource.copySizeTo(this.arToolkitContext.arController.canvas)	
                 }	
             }
 
             // create arToolkitContext
-            var arToolkitContext = new THREEx.ArToolkitContext({
+            this.arToolkitContext = new THREEx.ArToolkitContext({
                 cameraParametersUrl: THREEx.ArToolkitContext.baseURL + '../data/data/camera_para.dat',
                 detectionMode: 'mono_and_matrix',
                 matrixCodeType: '3x3'
             })
-            // initialize it
-            arToolkitContext.init(function onCompleted(){
+            this.arToolkitContext.init(function onCompleted(){
                 // copy projection matrix to camera
-                camera.projectionMatrix.copy( arToolkitContext.getProjectionMatrix() );
+                this.camera.projectionMatrix.copy(this.arToolkitContext.getProjectionMatrix());
             })
 
             // update artoolkit on every frame
             onRenderFcts.push(function(){
-                if( arToolkitSource.ready === false )	return
-                arToolkitContext.update( arToolkitSource.domElement )
-                scene.visible = camera.visible
-            })            
-
-            return scene;
+                if(this.arToolkitSource.ready === false) return
+                this.arToolkitContext.update(this.arToolkitSource.domElement)
+                this.scene.visible = this.camera.visible
+            })
+            
         }
 
         kill() {
@@ -119,36 +122,31 @@ namespace pxsim {
             return m;
         }
 
-        createMarker(marker: Marker): AFrame.Entity {
-            // TODO: do something better here
-            let markerEl = document.createElement('a-marker');
-            markerEl.setAttribute('type', 'barcode'); 
-            markerEl.setAttribute('value', marker.toString()); 
-            markerEl.setAttribute('id', 'marker' + marker.toString()); 
-            this.scene.appendChild(markerEl); 
-            return markerEl as AFrame.Entity;
+        createMarker(marker: Marker): THREEx.ArMarkerControls {
+            let markerControls = new THREEx.ArMarkerControls(this.arToolkitContext, this.camera, {
+                type : 'barcode',
+                barcodeValue : marker,
+                changeMatrixMode: 'cameraTransformMatrix'
+            })
+            // as we do changeMatrixMode: 'cameraTransformMatrix', start with invisible scene
+            this.scene.visible = false;
+            return markerControls;
         }
 
         /**
          *  Gets the world x, y, and z coordinates of a marker
          */
-        getMarkerPosition(marker: Marker): {x: Number, y: Number, z: Number} {
+        getMarkerPosition(marker: Marker): THREEx.Coordinate {
             let markerEl = this.marker(marker);
-            let pos = {x: markerEl.object3D.getWorldPosition().x,
-                       y: markerEl.object3D.getWorldPosition().y,
-                       z: markerEl.object3D.getWorldPosition().z};
-            return pos;
+            return this.marker(marker).object3D.getWorldPosition();
         }
 
         /**
          *  Gets the world x, y, and z rotations of a marker
          */
-        getMarkerRotation(marker: Marker): {x: Number, y: Number, z: Number} {
+        getMarkerRotation(marker: Marker): THREEx.Coordinate {
             let markerEl = this.marker(marker);
-            let rot = {x: markerEl.object3D.getWorldRotation().x,
-                       y: markerEl.object3D.getWorldRotation().y,
-                       z: markerEl.object3D.getWorldRotation().z};
-            return rot;
+            return this.marker(marker).object3D.getWorldRotation();
         }        
     }
 }
