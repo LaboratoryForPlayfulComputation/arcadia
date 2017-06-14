@@ -11,42 +11,30 @@ namespace pxsim.markers {
     //% shape.fieldOptions.itemColour="black" shape.fieldOptions.tooltips="true"
     export function setShapeAndColor(marker: Marker, shape: Shape, color: number){
         const m = board().marker(marker);
-        // for some reason the shapes are evaluating to numbers and not strings...temporary fix
 
-        //shapeEl.setAttribute('material', 'color', '#' + color.toString(16));
-        //shapeEl.setAttribute('material', 'opacity', '0.75');
-        //shapeEl.setAttribute('material', 'side', 'double');
-
-        var geometry	= new THREE.TorusKnotGeometry(0.3,0.1,64,16);
-        var material	= new THREE.MeshNormalMaterial(); 
-        var mesh	= new THREE.Mesh(geometry, material);
-        mesh.position.y	= 0.5
-        board().scene.add( mesh );
+        let geometry	= new THREE.CubeGeometry(1,1,1);
+        let material	= new THREE.MeshNormalMaterial({
+            transparent : true,
+            opacity: 0.5,
+            side: THREE.DoubleSide
+        }); 
+        let mesh	= new THREE.Mesh(geometry, material);
+        mesh.position.y	= geometry.parameters.height/2
+        board().scene.add(mesh);
         
-        board().onRenderFcts.push(function(delta){
-            mesh.rotation.x += Math.PI*delta
-        })         
+       /* var geometry	= new THREE.TorusKnotGeometry(0.3,0.1,64,16);
+        var material	= new THREE.MeshNormalMaterial(); 
+        var mesh	= new THREE.Mesh( geometry, material );
+        mesh.position.y	= 0.5
+        board().scene.add(mesh);*/
+        
+        /*board().onRenderFcts.push(function(delta: number){
+            mesh.rotation.x += Math.PI*delta;
+        })  */ // torus animation     
     }
 
-    function createGeometry(shape: Shape) : THREE.Geometry {
-        /*let shapesMap = {
-            'box': createBox,
-            'sphere': createSphere,
-            'cone': createCone,
-            'cylinder': createCylinder,
-            'tetrahedron': createTetrahedron,
-            'icosahedron': createIcosahedron
-        }; */
-        let shapesMap = {
-            0: createBox,
-            1: createSphere,
-            2: createCone,
-            3: createCylinder,
-            4: createTetrahedron,
-            5: createIcosahedron
-        };
-        return shapesMap[shape](); // TO DO
-    }
+   /* function createGeometry(shape: Shape) : THREE.Geometry {
+    } */
 
     function createBox(side: number) : THREE.Geometry{
         return new THREE.BoxGeometry(side, side, side);

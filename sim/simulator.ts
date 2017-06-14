@@ -32,14 +32,23 @@ namespace pxsim {
         public arToolkitContext: THREEx.ArToolkitContext;
         public arToolkitSource: THREEx.ArToolkitSource;
         public renderer: THREE.WebGLRenderer;
+        public baseURL: String;
+        public onRenderFcts: Array<any>;
         
         constructor() {
             super();
         }
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
-            this.initScene();
+            this.baseURL = '/sim/AR.js/three.js/';
+            this.onRenderFcts= [];
             this.markers = {};
+            this.renderer = this.initRenderer();
+            this.camera = this.initCamera();
+            this.scene = this.initScene();
+            this.initArToolkit();
+            this.initRenderFunctions();
+            this.runRenderingLoop();
             return Promise.resolve();
         }       
         
@@ -47,69 +56,106 @@ namespace pxsim {
         }
 
         /**
-         * Initializes the THREE.js scene, renderer, and ARToolkit params
+         * Initializes the THREE.js renderer
          */
-        initScene(){
-            // init renderer
-            this.renderer	= new THREE.WebGLRenderer({
+        initRenderer(): THREE.WebGLRenderer{
+            let renderer	= new THREE.WebGLRenderer({
                 antialias: true,
                 alpha: true
             });
-            this.renderer.setClearColor(new THREE.Color('lightgrey'), 0)
-            this.renderer.setSize( 640, 480 );
-            this.renderer.domElement.style.position = 'absolute'
-            this.renderer.domElement.style.top = '0px'
-            this.renderer.domElement.style.left = '0px'
-            document.body.appendChild(this.renderer.domElement);
+            renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+            renderer.setSize( 640, 480 );
+            renderer.domElement.style.position = 'absolute'
+            renderer.domElement.style.top = '0px'
+            renderer.domElement.style.left = '0px'
+            document.body.appendChild(renderer.domElement);
+            return renderer;
+        }
 
-            // array of functions for the rendering loop
-            var onRenderFcts= [];
-
-            // init scene and camera
-            this.scene	= new THREE.Scene();
-            this.camera = new THREE.Camera();
-            this.scene.add(this.camera);
-
+        /**
+         * Initializes the THREE.js scene
+         */
+        initScene() : THREE.Scene{
+            let scene	= new THREE.Scene();
+            scene.add(this.camera);  
+            return scene;    
+        }
+        /**
+         * Initializes the THREE.js camera
+         */
+        initCamera() : THREE.Camera{
+            return new THREE.Camera();
+        }
+        /**
+         * Initializes the ArToolkit Source and Context
+         */
+        initArToolkit(){
+            // create arToolkitSource
             this.arToolkitSource = new THREEx.ArToolkitSource({
                 sourceType : 'webcam',
-            })
-            this.arToolkitSource.init(function onReady(){
-                onResize()
-            })
-            
-            window.addEventListener('resize', function(){
-                onResize()
-            })
-            function onResize(){
-                this.arToolkitSource.onResize()	
-                this.arToolkitSource.copySizeTo(this.renderer.domElement)	
-                if( this.arToolkitContext.arController !== null ){
-                    this.arToolkitSource.copySizeTo(this.arToolkitContext.arController.canvas)	
-                }	
-            }
+                sourceURL : null,
+            });
 
             // create arToolkitContext
             this.arToolkitContext = new THREEx.ArToolkitContext({
-                cameraParametersUrl: THREEx.ArToolkitContext.baseURL + '../data/data/camera_para.dat',
+                cameraParametersUrl: this.baseURL + '../data/data/camera_para.dat',
                 detectionMode: 'mono_and_matrix',
                 matrixCodeType: '3x3'
+            });
+
+            this.arToolkitSource.init(function onReady(){
+                onResize()
             })
+            window.addEventListener('resize', function(){
+                onResize()
+            })
+            let self = this;
+            function onResize(){
+                self.arToolkitSource.onResize();
+                self.arToolkitSource.copySizeTo(self.renderer.domElement);	
+                if(self.arToolkitContext.arController !== null){
+                    self.arToolkitSource.copySizeTo(self.arToolkitContext.arController.canvas);	
+                }	
+            }
             this.arToolkitContext.init(function onCompleted(){
                 // copy projection matrix to camera
-                this.camera.projectionMatrix.copy(this.arToolkitContext.getProjectionMatrix());
-            })
+                self.camera.projectionMatrix.copy(self.arToolkitContext.getProjectionMatrix());
+            })                        
+        }
 
+        initRenderFunctions(){
             // update artoolkit on every frame
-            onRenderFcts.push(function(){
-                if(this.arToolkitSource.ready === false) return
-                this.arToolkitContext.update(this.arToolkitSource.domElement)
-                this.scene.visible = this.camera.visible
+            let self = this; // the "this" keyword gets lost in the request animation frame callback
+            this.onRenderFcts.push(function(){
+                if(self.arToolkitSource.ready === false) return
+                self.arToolkitContext.update(self.arToolkitSource.domElement)
+                self.scene.visible = self.camera.visible
             })
-            
+            this.onRenderFcts.push(function(){ 	// render the scene
+                self.renderer.render(self.scene, self.camera);
+            })
+            self = this; // now that we've added some functions to this.onRenderFcts, we need to update "self"          
+        }
+
+        runRenderingLoop(){
+            let lastTimeMsec = null
+            let self = this; // the "this" keyword gets lost in the request animation frame callback
+            requestAnimationFrame(function animate(nowMsec){
+                // keep looping
+                requestAnimationFrame(animate);
+                // measure time
+                lastTimeMsec	= lastTimeMsec || nowMsec-1000/60;
+                let deltaMsec	= Math.min(200, nowMsec - lastTimeMsec);
+                lastTimeMsec	= nowMsec;
+                // call each update function
+                self.onRenderFcts.forEach(function(onRenderFct){
+                    onRenderFct(deltaMsec/1000, nowMsec/1000);
+                })
+            })
         }
 
         kill() {
-            // TODO: remove AFrame scene and DOM
+            // TODO: remove all three.js stuff?
             if (this.scene) {}
             this.markers = {};
         }
@@ -119,14 +165,17 @@ namespace pxsim {
             let m = this.markers[marker.toString()];
             if (!m) 
                 m = this.markers[marker.toString()] = this.createMarker(marker);
+            console.log(m);
             return m;
         }
 
         createMarker(marker: Marker): THREEx.ArMarkerControls {
             let markerControls = new THREEx.ArMarkerControls(this.arToolkitContext, this.camera, {
                 type : 'barcode',
-                barcodeValue : marker,
-                changeMatrixMode: 'cameraTransformMatrix'
+                barcodeValue : 5,
+                changeMatrixMode: 'cameraTransformMatrix',
+                size: 1,
+                patternUrl: null,
             })
             // as we do changeMatrixMode: 'cameraTransformMatrix', start with invisible scene
             this.scene.visible = false;

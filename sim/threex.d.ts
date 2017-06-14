@@ -1,22 +1,41 @@
 declare namespace THREEx {
-	export interface ArToolkitSource {
+	 interface ArToolkitSourceOptions {
       sourceType : String;
       sourceURL : String;
 	}
-    export interface ArToolkitContext {
+    class ArToolkitSource {
+        constructor(options: ArToolkitSourceOptions);
+        init(callback: () => void): void;
+        domElement: HTMLElement;
+        ready: Boolean;
+        onResize(): void;
+        copySizeTo(element: HTMLElement): void;
+    }
+    interface ArToolkitContextOptions {
 		cameraParametersUrl: String;
 		detectionMode: String;
-		matrixCodeType: String;
+		matrixCodeType: String;        
     }
-    export interface ArMarkerControls {
+    class ArToolkitContext {
+        constructor(options: ArToolkitContextOptions);
+        baseURL: String;
+        arController: any;
+        init(callback: () => void): void;
+        getProjectionMatrix(): THREE.Matrix4;
+        update(domElement: HTMLElement): void;
+    }
+    interface ArMarkerControlsOptions {
         size : Number;
         type : String;
         patternUrl : String;
         barcodeValue : Number;
         changeMatrixMode : String;
-        object3D : THREE.Object3D;        
     }
-    export interface ArMarkerContext {
+    class ArMarkerControls {
+        constructor(context: ArToolkitContext, camera: THREE.Camera, options: ArMarkerControlsOptions);
+        object3D: THREE.Object3D;
+    }
+    interface ArMarkerContextOptions {
         debug: Boolean;
         detectionMode: String;
         matrixCodeType: String;
@@ -26,7 +45,10 @@ declare namespace THREEx {
         canvasHeight: Number;
         imageSmoothingEnabled : Boolean;      
     }
-    export interface ArMarkerSource {
+    class ArMarkerContext {
+        constructor(options: ArMarkerContextOptions);
+    }    
+    interface ArMarkerSourceOptions {
         sourceType : String;
         sourceUrl : String;
         sourceWidth: Number;
@@ -34,6 +56,8 @@ declare namespace THREEx {
         displayWidth: Number;
         displayHeight: Number;        
     }
-
-    export type Coordinate = { x: number, y: number, z: number };
+    class ArMarkerSource {
+        constructor(options: ArMarkerSourceOptions);
+    }
+    type Coordinate = { x: number, y: number, z: number };
 }
