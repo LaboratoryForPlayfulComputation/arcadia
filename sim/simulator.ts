@@ -172,7 +172,7 @@ namespace pxsim {
         createMarker(marker: Marker): THREEx.ArMarkerControls {
             let markerControls = new THREEx.ArMarkerControls(this.arToolkitContext, this.camera, {
                 type : 'barcode',
-                barcodeValue : 5,
+                barcodeValue : marker,
                 changeMatrixMode: 'cameraTransformMatrix',
                 size: 1,
                 patternUrl: null,
@@ -180,6 +180,14 @@ namespace pxsim {
             // as we do changeMatrixMode: 'cameraTransformMatrix', start with invisible scene
             this.scene.visible = false;
             return markerControls;
+        }
+
+        /**
+         * Now that we dropped aframe, handling multiple unique markers got a bit more tricky.
+         * TO DO: Add a function that transforms the camera's matrix before rendering each group
+         * of shapes/colors that corresponds to a particular marker
+         */
+        markerRendererHelper(){            
         }
 
         /**
