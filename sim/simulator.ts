@@ -97,9 +97,6 @@ namespace pxsim {
             this.arToolkitSource.init(function onReady(){
                 onResize();
             });  
-            window.addEventListener('resize', function(){
-                onResize()
-            })
             let self = this;
             function onResize(){
                 self.arToolkitSource.onResize();
