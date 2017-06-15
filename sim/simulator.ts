@@ -42,15 +42,16 @@ namespace pxsim {
         }
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
-            this.baseURL = '/sim/AR.js/three.js/';
-            this.onRenderFcts= [];
             this.markers = {};
             this.markerStates = {};
+            this.baseURL = '/sim/AR.js/three.js/';
             this.renderer = getWebGlContext(); // singleton
             this.camera = this.initCamera();
             this.scene = this.initScene();
             this.scene.add(this.camera);             
-            this.initArToolkit();
+            this.arToolkitSource = this.initArToolkitSource();
+            this.arToolkitContext = this.initArToolkitContext();
+            this.initArToolkitCallbacks();
             this.initRenderFunctions();
             this.runRenderingLoop();
             return Promise.resolve();
@@ -69,25 +70,33 @@ namespace pxsim {
             return new THREE.Camera();
         }
         /**
-         * Initializes the ArToolkit Source and Context
+         * Init ArToolkit Source
          */
-        initArToolkit(){
-            // create arToolkitSource
-            this.arToolkitSource = new THREEx.ArToolkitSource({
+        initArToolkitSource() : THREEx.ArToolkitSource {
+            let arToolkitSource = new THREEx.ArToolkitSource({
                 sourceType : 'webcam',
                 sourceURL : null,
-            });
-
-            // create arToolkitContext
-            this.arToolkitContext = new THREEx.ArToolkitContext({
+            });            
+            return arToolkitSource;          
+        }
+        /**
+         * Initializes ArToolkit Context
+         */
+        initArToolkitContext() : THREEx.ArToolkitContext {
+            let arToolkitContext = new THREEx.ArToolkitContext({
                 cameraParametersUrl: this.baseURL + '../data/data/camera_para.dat',
                 detectionMode: 'mono_and_matrix',
                 matrixCodeType: '3x3'
             });
-
+            return arToolkitContext;
+        }
+        /**
+         * Initializes the ArToolkit Source and Context callbacks
+         */
+        initArToolkitCallbacks(){
             this.arToolkitSource.init(function onReady(){
-                onResize()
-            })
+                onResize();
+            });  
             window.addEventListener('resize', function(){
                 onResize()
             })
@@ -100,12 +109,14 @@ namespace pxsim {
                 }	
             }
             this.arToolkitContext.init(function onCompleted(){
-                self.camera.projectionMatrix.copy(self.arToolkitContext.getProjectionMatrix());
+                if (self.camera){
+                    self.camera.projectionMatrix.copy(self.arToolkitContext.getProjectionMatrix());
+                }
             })                        
         }
 
         initRenderFunctions(){
-            // update artoolkit on every frame
+            this.onRenderFcts= [];
             let self = this; // the "this" keyword gets lost in the request animation frame callback
             this.onRenderFcts.push(function(){
                 if(self.arToolkitSource.ready === false) return
@@ -123,16 +134,13 @@ namespace pxsim {
         }
 
         runRenderingLoop(){
-            let lastTimeMsec = null
+            let lastTimeMsec = 0;
             let self = this; // the "this" keyword gets lost in the request animation frame callback
             requestAnimationFrame(function animate(nowMsec){
-                // keep looping
                 requestAnimationFrame(animate);
-                // measure time
                 lastTimeMsec	= lastTimeMsec || nowMsec-1000/60;
                 let deltaMsec	= Math.min(200, nowMsec - lastTimeMsec);
                 lastTimeMsec	= nowMsec;
-                // call each update function
                 self.onRenderFcts.forEach(function(onRenderFct){
                     onRenderFct(deltaMsec/1000, nowMsec/1000);
                 })
@@ -140,19 +148,27 @@ namespace pxsim {
         }
 
         kill() {
-            if (this.scene){
-                while (this.scene.children.length){
-                    this.scene.remove(this.scene.children[0]);
-                }
-            }
-            while (this.renderer.domElement.lastChild){
-                this.renderer.domElement.removeChild(this.renderer.domElement.lastChild);
-            }
+            if (this.scene) this.removeSceneChildren();
+            if (this.renderer) this.removeRendererChildren();
             this.onRenderFcts = [];
             this.markers = {};
             this.markerStates = {};
-            this.scene = null;
+            this.arToolkitContext = null;
+            this.arToolkitSource = null;
             this.camera = null;            
+            this.scene = null;
+        }
+
+        removeSceneChildren(){
+            while (this.scene.children.length){
+                this.scene.remove(this.scene.children[0]);
+            }            
+        }
+
+        removeRendererChildren(){
+            while (this.renderer.domElement.lastChild){
+                this.renderer.domElement.removeChild(this.renderer.domElement.lastChild);
+            }
         }
 
         // gets or creates a new marker
@@ -165,7 +181,6 @@ namespace pxsim {
 
         createMarker(marker: Marker): THREEx.ArMarkerControls {
             let markerRoot = new THREE.Group;
-            //let markerControls = new THREEx.ArMarkerControls(this.arToolkitContext, this.camera, {
             this.scene.add(markerRoot);
             let markerControls = new THREEx.ArMarkerControls(this.arToolkitContext, markerRoot, {
                 type : 'barcode',
