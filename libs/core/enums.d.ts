@@ -119,5 +119,5 @@ declare const enum Shape {
     Tetrahedron,
     //% block=icosahedron
     //% blockImage=1    
-    Icosahedron
+    Icosahedron,
 }

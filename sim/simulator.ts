@@ -7,6 +7,7 @@
 /// <reference path="threex.d.ts" />
 
 namespace pxsim {
+
     /**
      * This function gets called each time the program restarts
      */
@@ -45,42 +46,21 @@ namespace pxsim {
             this.onRenderFcts= [];
             this.markers = {};
             this.markerStates = {};
-            this.renderer = this.initRenderer();
+            this.renderer = getWebGlContext(); // singleton
             this.camera = this.initCamera();
             this.scene = this.initScene();
+            this.scene.add(this.camera);             
             this.initArToolkit();
             this.initRenderFunctions();
             this.runRenderingLoop();
             return Promise.resolve();
         }       
         
-        updateView() {
-        }
-
-        /**
-         * Initializes the THREE.js renderer
-         */
-        initRenderer(): THREE.WebGLRenderer{
-            let renderer	= new THREE.WebGLRenderer({
-                antialias: true,
-                alpha: true
-            });
-            renderer.setClearColor(new THREE.Color('lightgrey'), 0)
-            renderer.setSize( 640, 480 );
-            renderer.domElement.style.position = 'absolute'
-            renderer.domElement.style.top = '0px'
-            renderer.domElement.style.left = '0px'
-            document.body.appendChild(renderer.domElement);
-            return renderer;
-        }
-
         /**
          * Initializes the THREE.js scene
          */
         initScene() : THREE.Scene{
-            let scene	= new THREE.Scene();
-            scene.add(this.camera);  
-            return scene;    
+            return new THREE.Scene();
         }
         /**
          * Initializes the THREE.js camera
@@ -130,10 +110,14 @@ namespace pxsim {
             this.onRenderFcts.push(function(){
                 if(self.arToolkitSource.ready === false) return
                 self.arToolkitContext.update(self.arToolkitSource.domElement)
-                self.scene.visible = self.camera.visible
+                if (self.scene && self.camera){
+                    self.scene.visible = self.camera.visible
+                }
             })
             this.onRenderFcts.push(function(){ 	// render the scene
-                self.renderer.render(self.scene, self.camera);
+                if (self.renderer && self.scene && self.camera){
+                    self.renderer.render(self.scene, self.camera);
+                }
             })
             self = this; // now that we've added some functions to this.onRenderFcts, we need to update "self"          
         }
@@ -161,8 +145,14 @@ namespace pxsim {
                     this.scene.remove(this.scene.children[0]);
                 }
             }
+            while (this.renderer.domElement.lastChild){
+                this.renderer.domElement.removeChild(this.renderer.domElement.lastChild);
+            }
+            this.onRenderFcts = [];
             this.markers = {};
             this.markerStates = {};
+            this.scene = null;
+            this.camera = null;            
         }
 
         // gets or creates a new marker
@@ -208,4 +198,27 @@ namespace pxsim {
             return this.marker(marker).object3D.getWorldRotation();
         }        
     }
+
+    /**
+     * Uses the global variable "renderer" to ensure that it is only created once
+     * WebGL contexts cannot be easily destroyed so it is best to just initialize
+     * one renderer and give it to the Board constructor whenever it is initialized
+     */
+    var renderer = null;
+    function getWebGlContext() : THREE.WebGLRenderer{
+        if (renderer == null){
+            renderer	= new THREE.WebGLRenderer({
+                antialias: true,
+                alpha: true
+            });
+            renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+            renderer.setSize( 640, 480 );
+            renderer.domElement.style.position = 'absolute'
+            renderer.domElement.style.top = '0px'
+            renderer.domElement.style.left = '0px'
+            document.body.appendChild(renderer.domElement);
+        }
+        return renderer;        
+    }
+
 }
