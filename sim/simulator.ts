@@ -29,6 +29,7 @@ namespace pxsim {
         public scene :  THREE.Scene;
         public camera: THREE.Camera;
         public markers: pxsim.Map<THREEx.ArMarkerControls>;
+        public markerStates: pxsim.Map<THREEx.ArMarkerState>;
         public arToolkitContext: THREEx.ArToolkitContext;
         public arToolkitSource: THREEx.ArToolkitSource;
         public renderer: THREE.WebGLRenderer;
@@ -43,6 +44,7 @@ namespace pxsim {
             this.baseURL = '/sim/AR.js/three.js/';
             this.onRenderFcts= [];
             this.markers = {};
+            this.markerStates = {};
             this.renderer = this.initRenderer();
             this.camera = this.initCamera();
             this.scene = this.initScene();
@@ -118,7 +120,6 @@ namespace pxsim {
                 }	
             }
             this.arToolkitContext.init(function onCompleted(){
-                // copy projection matrix to camera
                 self.camera.projectionMatrix.copy(self.arToolkitContext.getProjectionMatrix());
             })                        
         }
@@ -147,6 +148,16 @@ namespace pxsim {
                 lastTimeMsec	= lastTimeMsec || nowMsec-1000/60;
                 let deltaMsec	= Math.min(200, nowMsec - lastTimeMsec);
                 lastTimeMsec	= nowMsec;
+                /** TO DO:
+                 *  loop over each marker and it's corresponding shapes/scripts
+                 *  update the camera and proj. matrix for each shape so it
+                 *  aligns with each marker
+                 *  
+                 * for (var key in self.markerStates) {
+                        // get matrix of marker (key)
+                        // update positions of shape (key['shapes])
+                    }
+                 */ 
                 // call each update function
                 self.onRenderFcts.forEach(function(onRenderFct){
                     onRenderFct(deltaMsec/1000, nowMsec/1000);
@@ -158,6 +169,7 @@ namespace pxsim {
             // TODO: remove all three.js stuff?
             if (this.scene) {}
             this.markers = {};
+            this.markerStates = {};
         }
 
         // gets or creates a new marker
@@ -165,29 +177,26 @@ namespace pxsim {
             let m = this.markers[marker.toString()];
             if (!m) 
                 m = this.markers[marker.toString()] = this.createMarker(marker);
-            console.log(m);
             return m;
         }
 
         createMarker(marker: Marker): THREEx.ArMarkerControls {
-            let markerControls = new THREEx.ArMarkerControls(this.arToolkitContext, this.camera, {
+            let markerRoot = new THREE.Group;
+            //let markerControls = new THREEx.ArMarkerControls(this.arToolkitContext, this.camera, {
+            this.scene.add(markerRoot);
+            let markerControls = new THREEx.ArMarkerControls(this.arToolkitContext, markerRoot, {
                 type : 'barcode',
                 barcodeValue : marker,
-                changeMatrixMode: 'cameraTransformMatrix',
+                changeMatrixMode: 'modelViewMatrix',
                 size: 1,
                 patternUrl: null,
             })
-            // as we do changeMatrixMode: 'cameraTransformMatrix', start with invisible scene
-            this.scene.visible = false;
+            //this.scene.visible = false;
+            this.markerStates[marker.toString()] = {
+                group: markerRoot,
+                scripts: {}
+            }
             return markerControls;
-        }
-
-        /**
-         * Now that we dropped aframe, handling multiple unique markers got a bit more tricky.
-         * TO DO: Add a function that transforms the camera's matrix before rendering each group
-         * of shapes/colors that corresponds to a particular marker
-         */
-        markerRendererHelper(){            
         }
 
         /**

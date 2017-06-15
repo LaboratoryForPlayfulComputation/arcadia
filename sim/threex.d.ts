@@ -60,4 +60,8 @@ declare namespace THREEx {
         constructor(options: ArMarkerSourceOptions);
     }
     type Coordinate = { x: number, y: number, z: number };
+    interface ArMarkerState {
+        group: THREE.Group;
+        scripts: pxsim.Map<() => void>;
+    }
 }

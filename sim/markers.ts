@@ -19,12 +19,7 @@ namespace pxsim.markers {
             side: THREE.DoubleSide
         }); 
         let mesh	= new THREE.Mesh(geometry, material);
-        //mesh.position.y	= geometry.parameters.height/2
-        board().scene.add(mesh);
-    
-        /*board().onRenderFcts.push(function(delta: number){
-            mesh.rotation.x += Math.PI*delta;
-        })  */ // how you would add animations to a mesh  
+        board().markerStates[marker.toString()]['group'].add(mesh);
     }
 
     function createGeometry(shape: Shape) : THREE.Geometry {
