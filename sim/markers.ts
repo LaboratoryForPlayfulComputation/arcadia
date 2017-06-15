@@ -13,9 +13,10 @@ namespace pxsim.markers {
         const m = board().marker(marker);
 
         let geometry	= createGeometry(shape);
-        let material	= new THREE.MeshNormalMaterial({
+        let material	= new THREE.MeshBasicMaterial({
             transparent : true,
             opacity: 0.5,
+            color: color,
             side: THREE.DoubleSide
         }); 
         let mesh	= new THREE.Mesh(geometry, material);

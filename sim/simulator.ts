@@ -148,16 +148,6 @@ namespace pxsim {
                 lastTimeMsec	= lastTimeMsec || nowMsec-1000/60;
                 let deltaMsec	= Math.min(200, nowMsec - lastTimeMsec);
                 lastTimeMsec	= nowMsec;
-                /** TO DO:
-                 *  loop over each marker and it's corresponding shapes/scripts
-                 *  update the camera and proj. matrix for each shape so it
-                 *  aligns with each marker
-                 *  
-                 * for (var key in self.markerStates) {
-                        // get matrix of marker (key)
-                        // update positions of shape (key['shapes])
-                    }
-                 */ 
                 // call each update function
                 self.onRenderFcts.forEach(function(onRenderFct){
                     onRenderFct(deltaMsec/1000, nowMsec/1000);
@@ -166,8 +156,11 @@ namespace pxsim {
         }
 
         kill() {
-            // TODO: remove all three.js stuff?
-            if (this.scene) {}
+            if (this.scene){
+                while (this.scene.children.length){
+                    this.scene.remove(this.scene.children[0]);
+                }
+            }
             this.markers = {};
             this.markerStates = {};
         }
@@ -191,7 +184,7 @@ namespace pxsim {
                 size: 1,
                 patternUrl: null,
             })
-            //this.scene.visible = false;
+            this.scene.visible = false;
             this.markerStates[marker.toString()] = {
                 group: markerRoot,
                 scripts: {}
