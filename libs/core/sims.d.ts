@@ -74,34 +74,24 @@ declare namespace markers {
     function onMoved(marker: Marker, handler: () => void): void;
 
     /**
-     * Gets the x coordinates of a marker
+     * Gets the distance between the centers of 2 markers
      */
-    //% blockId=ar_get_pos_x block="%marker|get X position"
+    //% blockId=ar_get_dist block="get distance from %marker| to %marker"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    //% shim=markers::getPositionX
-    function getPositionX(marker: Marker): number;
+    //% shim=markers::getDistance
+    function getDistance(marker1: Marker, marker2: Marker): number;
 
     /**
-     * Gets the y coordinates of a marker
+     * Gets the coordinates of a marker
      */
-    //% blockId=ar_get_pos_y block="%marker|get Y position"
+    //% blockId=ar_get_pos block="%marker|get position %coordinate"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    //% shim=markers::getPositionY
-    function getPositionY(marker: Marker): number;
-
-    /**
-     * Gets the z coordinates of a marker
-     */
-    //% blockId=ar_get_pos_z block="%marker|get Z position"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    //% shim=markers::getPositionZ
-    function getPositionZ(marker: Marker): number;
+    //% shim=markers::getPosition
+    function getPosition(marker: Marker, coordinate: Coordinate): void;
 
 }
 declare namespace colors {

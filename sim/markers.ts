@@ -12,7 +12,11 @@ namespace pxsim.markers {
         let textMesh = createText(text, 0xffffff, marker);
         billboardMesh.rotation.x = Math.PI / 2;
         let group = board().markerStates[marker.toString()]['group'];
-        clearGroup(group);
+        let object = group.getObjectByName(marker.toString() + '-shape');
+        if (object){
+            removeObjectFromGroup(group, object);
+        }   
+        billboardMesh.name = marker.toString() + '-shape';
         group.add(billboardMesh);
     }
 
@@ -27,9 +31,13 @@ namespace pxsim.markers {
         const m = board().marker(marker);
         let billboardMesh = createBillboard(marker, bgColor);
         let textMesh = createText(number.toString(), 0xffffff, marker);
-        billboardMesh.rotation.x = Math.PI / 2;
         let group = board().markerStates[marker.toString()]['group'];
-        clearGroup(group);
+        let object = group.getObjectByName(marker.toString() + '-shape');
+        if (object){
+            removeObjectFromGroup(group, object);
+        }   
+        billboardMesh.name = marker.toString() + '-shape';
+        billboardMesh.rotation.x = Math.PI / 2;
         group.add(billboardMesh);
     }
 
@@ -47,15 +55,26 @@ namespace pxsim.markers {
         const m = board().marker(marker);
 
         let geometry	= createGeometry(shape);
-        let material	= new THREE.MeshBasicMaterial({
+        /*let material	= new THREE.MeshBasicMaterial({
             transparent : true,
             opacity: 0.5,
             color: color,
             side: THREE.DoubleSide
-        }); 
-        let mesh	= new THREE.Mesh(geometry, material);
+        }); */
+        let material = new THREE.MeshPhongMaterial({
+            transparent : true,
+            opacity: 0.9,
+            color: color,
+            side: THREE.FrontSide
+        });
         let group = board().markerStates[marker.toString()]['group'];
-        clearGroup(group);
+        let object = group.getObjectByName(marker.toString() + '-shape');
+        if (object){
+            removeObjectFromGroup(group, object);
+        }        
+        let mesh	= new THREE.Mesh(geometry, material);
+        mesh.name = marker.toString() + '-shape';
+        mesh.position.y += 0.5;
         group.add(mesh);
     }    
 
@@ -92,13 +111,6 @@ namespace pxsim.markers {
         return new THREE.PlaneGeometry(1, 1, 32);        
     }
 
-    function clearGroup(group : THREE.Group){
-        while (group.children.length){
-            board().scene.remove(group.children[0]);
-            group.remove(group.children[0]);
-        }        
-    }
-
     function createBillboard(marker: Marker, color: number) : THREE.Mesh {
         const m = board().marker(marker);
         var geometry = createPlane();
@@ -111,10 +123,10 @@ namespace pxsim.markers {
         var loader = new THREE.FontLoader();
         loader.load('fonts/helvetiker_regular.typeface.json', function (font) {
             var text3d = new THREE.TextGeometry(text, {
-                    size: 0.25,
-                    height: 0.025,
-                    curveSegments: 2,
-                    font: font 
+                size: 0.25,
+                height: 0.025,
+                curveSegments: 2,
+                font: font 
             });   
             let material	= new THREE.MeshBasicMaterial({
                 transparent : true,
@@ -122,7 +134,13 @@ namespace pxsim.markers {
                 color: color,
                 side: THREE.DoubleSide
             }); 
-            let textMesh	= new THREE.Mesh(text3d, material);            
+            let group = board().markerStates[marker.toString()]['group'];
+            let object = group.getObjectByName(marker.toString() + '-text');
+            if (object){
+                removeObjectFromGroup(group, object);
+            }
+            let textMesh = new THREE.Mesh(text3d, material); 
+            textMesh.name = marker.toString() + '-text';        
             textMesh.rotation.x = -Math.PI / 2;
             textMesh.position.z += 0.25; 
             textMesh.position.x -= 0.5; 
@@ -144,41 +162,31 @@ namespace pxsim.markers {
     }
 
     /**
-     * Gets the x coordinates of a marker
+     * Gets the distance between the centers of 2 markers
      */
-    //% blockId=ar_get_pos_x block="%marker|get X position"
+    //% blockId=ar_get_dist block="get distance from %marker| to %marker"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function getPositionX(marker: Marker) : number {
-        const pos = board().getMarkerPosition(marker);
-        return pos.x;
-    }   
+    export function getDistance(marker1: Marker, marker2: Marker) : number {
+        const dist = board().getDistanceBetweenMarkers(marker1, marker2);
+        return dist;
+    }
 
     /**
-     * Gets the y coordinates of a marker
+     * Gets the coordinates of a marker
      */
-    //% blockId=ar_get_pos_y block="%marker|get Y position"
+    //% blockId=ar_get_pos block="%marker|get position %coordinate"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function getPositionY(marker: Marker) : number {
+    export function getPosition(marker: Marker, coordinate: Coordinate) {
         const pos = board().getMarkerPosition(marker);
-        return pos.y;
-    } 
+    }
 
-    /**
-     * Gets the z coordinates of a marker
-     */
-    //% blockId=ar_get_pos_z block="%marker|get Z position"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function getPositionZ(marker: Marker) : number {
-        const pos = board().getMarkerPosition(marker);
-        console.log(pos.z.toString());
-        return pos.z;
-    }       
+    function removeObjectFromGroup(group: THREE.Group, obj: THREE.Object3D){
+        group.remove(obj);
+    }
 
 }
 

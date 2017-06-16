@@ -29,7 +29,7 @@ namespace pxsim {
     export class Board extends pxsim.BaseBoard {
         public scene :  THREE.Scene;
         public camera: THREE.Camera;
-        public markers: pxsim.Map<THREEx.ArMarkerControls>;
+        public markers: pxsim.Map<THREE.Group>;
         public markerStates: pxsim.Map<THREEx.ArMarkerState>;
         public arToolkitContext: THREEx.ArToolkitContext;
         public arToolkitSource: THREEx.ArToolkitSource;
@@ -48,7 +48,8 @@ namespace pxsim {
             this.renderer = getWebGlContext(); // singleton
             this.camera = this.initCamera();
             this.scene = this.initScene();
-            this.scene.add(this.camera);             
+            this.scene.add(this.camera);      
+            this.initLight();       
             this.arToolkitSource = this.initArToolkitSource();
             this.arToolkitContext = this.initArToolkitContext();
             this.initArToolkitCallbacks();
@@ -69,6 +70,20 @@ namespace pxsim {
         initCamera() : THREE.Camera{
             return new THREE.Camera();
         }
+
+        /**
+         * Init light sourcees for THREE.js scene
+         */
+        initLight(){
+            let directionalLight = new THREE.DirectionalLight(0xffffff);
+            directionalLight.position.set(0, 1, 0.9).normalize();
+            directionalLight.name = 'directionallight';
+            this.scene.add(directionalLight);
+            let ambientLight = new THREE.AmbientLight(0xcccccc);
+            ambientLight.name = 'ambientlight';
+            this.scene.add(ambientLight);            
+        }
+
         /**
          * Init ArToolkit Source
          */
@@ -169,16 +184,16 @@ namespace pxsim {
         }
 
         // gets or creates a new marker
-        marker(marker: Marker) : THREEx.ArMarkerControls {
+        marker(marker: Marker) : THREE.Group {
             let m = this.markers[marker.toString()];
             if (!m) 
                 m = this.markers[marker.toString()] = this.createMarker(marker);
             return m;
         }
 
-        createMarker(marker: Marker): THREEx.ArMarkerControls {
+        createMarker(marker: Marker): THREE.Group {
             let markerRoot = new THREE.Group;
-            markerRoot.name = 'marker' + marker.toString();
+            markerRoot.name = 'markerroot' + marker.toString();
             this.scene.add(markerRoot);
             let markerControls = new THREEx.ArMarkerControls(this.arToolkitContext, markerRoot, {
                 type : 'barcode',
@@ -192,29 +207,44 @@ namespace pxsim {
                 group: markerRoot,
                 scripts: {}
             }
-            return markerControls;
+            return markerRoot;
         }
 
         /**
          *  Gets the world x, y, and z coordinates of a marker
          */
         getMarkerPosition(marker: Marker): THREEx.Coordinate {
-            let markerObj = this.scene.getObjectByName('marker' + marker.toString());
-            return markerObj.position;
+            let markerObj = this.scene.getObjectByName('markerroot' + marker.toString());
+            if (markerObj){
+              return markerObj.position;
+            } else{
+                return {x: -9999, y: -9999, z: -9999};
+            }
         }
 
         /**
          *  Gets the world x, y, and z rotations of a marker
          */
         getMarkerRotation(marker: Marker): THREEx.Coordinate {
-            let markerEl = this.marker(marker);
-            return this.marker(marker).object3D.getWorldRotation();
+            let markerObj = this.scene.getObjectByName('markerroot' + marker.toString());
+            if (markerObj){
+              return markerObj.rotation;
+            }
+            return {x: -9999, y: -9999, z: -9999};
         }      
 
-        getDistanceBetweenMarkers(marker1: Marker, marker2: Marker): Number {
-            let markerObj1 = this.scene.getObjectByName('marker' + marker1.toString());
-            let markerObj2 = this.scene.getObjectByName('marker' + marker2.toString());
-            return markerObj1.position.distanceTo(markerObj2.position);
+        /**
+         * Gets distance between two markers
+         * @param marker1 
+         * @param marker2 
+         */
+        getDistanceBetweenMarkers(marker1: Marker, marker2: Marker): number {
+            let markerObj1 = this.scene.getObjectByName('markerroot' + marker1.toString());
+            let markerObj2 = this.scene.getObjectByName('markerroot' + marker2.toString());
+            if (markerObj1 && markerObj2){
+                return markerObj1.position.distanceTo(markerObj2.position);  
+            }
+            return -9999;
         }  
     }
 

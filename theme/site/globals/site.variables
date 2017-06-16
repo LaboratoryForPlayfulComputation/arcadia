@@ -115,8 +115,8 @@
    Menu
 --------------------*/
 
-@mainMenuInvertedBackground: @pink;
-@mainMenuTutorialBackground: @orange;
+@mainMenuInvertedBackground: #7158a0;
+@mainMenuTutorialBackground: @yellow;
 
 @mainMenuHeight: 4.5rem;
 @mobileMenuHeight: 4.0rem;
@@ -137,7 +137,7 @@
    Background
 --------------------*/
 
-@simulatorBackground: #607D8B;
+@simulatorBackground: #161416;
 @blocklySvgColor: #fafafa;
 
 /*-------------------

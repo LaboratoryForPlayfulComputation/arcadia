@@ -5,6 +5,15 @@ declare const enum Direction {
     Right
 }
 
+declare const enum Coordinate {
+    //% block = x
+    x,
+    //% block = y
+    y,
+    //% block = z
+    z
+}
+
 /**
  * An augmented reality marker
  */
