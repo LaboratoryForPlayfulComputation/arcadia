@@ -174,7 +174,7 @@ namespace pxsim {
         removeSceneChildren(){
             while (this.scene.children.length){
                 this.scene.remove(this.scene.children[0]);
-            }            
+            }      
         }
 
         removeRendererChildren(){
