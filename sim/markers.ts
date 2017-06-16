@@ -1,8 +1,42 @@
 namespace pxsim.markers {
     /**
+     * Sets the string and color that displays when the marker is detected
+     */
+    //% blockId=ar_set_string block="%marker|set string %text| set color %colors_named"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    export function setStringAndColor(marker: Marker, text: string, bgColor: number){
+        const m = board().marker(marker);
+        let billboardMesh = createBillboard(marker, bgColor);
+        let textMesh = createText(text, 0xffffff, marker);
+        billboardMesh.rotation.x = Math.PI / 2;
+        let group = board().markerStates[marker.toString()]['group'];
+        clearGroup(group);
+        group.add(billboardMesh);
+    }
+
+    /**
+     * Sets the number and color that displays when the marker is detected
+     */
+    //% blockId=ar_set_number block="%marker|set number %number| set color %colors_named"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    export function setNumberAndColor(marker: Marker, number: number, bgColor: number){ //textColor: number, 
+        const m = board().marker(marker);
+        let billboardMesh = createBillboard(marker, bgColor);
+        let textMesh = createText(number.toString(), 0xffffff, marker);
+        billboardMesh.rotation.x = Math.PI / 2;
+        let group = board().markerStates[marker.toString()]['group'];
+        clearGroup(group);
+        group.add(billboardMesh);
+    }
+
+    /**
      * Sets the shape and color that displays when the marker is detected
      */
-    //% blockId=ar_set_shape block="%marker|set shape %shape|set color %color=colors.named"
+    //% blockId=ar_set_shape block="%marker|set shape %shape|set color %colors_named"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
@@ -20,8 +54,10 @@ namespace pxsim.markers {
             side: THREE.DoubleSide
         }); 
         let mesh	= new THREE.Mesh(geometry, material);
-        board().markerStates[marker.toString()]['group'].add(mesh);
-    }
+        let group = board().markerStates[marker.toString()]['group'];
+        clearGroup(group);
+        group.add(mesh);
+    }    
 
     function createGeometry(shape: Shape) : THREE.Geometry {
         let cmds = [createBox, createSphere, createCone, createCylinder, createTetrahedron, createIcosahedron];
@@ -52,6 +88,48 @@ namespace pxsim.markers {
         return new THREE.IcosahedronGeometry(1, 0);
     }
 
+    function createPlane() : THREE.Geometry {
+        return new THREE.PlaneGeometry(1, 1, 32);        
+    }
+
+    function clearGroup(group : THREE.Group){
+        while (group.children.length){
+            board().scene.remove(group.children[0]);
+            group.remove(group.children[0]);
+        }        
+    }
+
+    function createBillboard(marker: Marker, color: number) : THREE.Mesh {
+        const m = board().marker(marker);
+        var geometry = createPlane();
+        var material = new THREE.MeshBasicMaterial( {color: color, side: THREE.DoubleSide} );
+        var billboard = new THREE.Mesh( geometry, material );        
+        return billboard;
+    }
+
+    function createText(text: string, color: number, marker: Marker) {
+        var loader = new THREE.FontLoader();
+        loader.load('fonts/helvetiker_regular.typeface.json', function (font) {
+            var text3d = new THREE.TextGeometry(text, {
+                    size: 0.25,
+                    height: 0.025,
+                    curveSegments: 2,
+                    font: font 
+            });   
+            let material	= new THREE.MeshBasicMaterial({
+                transparent : true,
+                opacity: 5,
+                color: color,
+                side: THREE.DoubleSide
+            }); 
+            let textMesh	= new THREE.Mesh(text3d, material);            
+            textMesh.rotation.x = -Math.PI / 2;
+            textMesh.position.z += 0.25; 
+            textMesh.position.x -= 0.5; 
+            board().markerStates[marker.toString()]['group'].add(textMesh);                                  
+        } );        
+    }
+
     /**
      * Allows use to define callbacks for a marker moved event
      * @param marker 
@@ -60,9 +138,9 @@ namespace pxsim.markers {
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"    
-    export function onMoved(marker: Marker, callbackFcts: [(options : any) => any]) : [(options : any) => any]{
+    export function onMoved(marker: Marker, handler: RefAction){
         // TO DO: map functions to the actual marker moved event
-        return callbackFcts;
+
     }
 
     /**
@@ -72,7 +150,7 @@ namespace pxsim.markers {
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function getPositionX(marker: Marker) : Number {
+    export function getPositionX(marker: Marker) : number {
         const pos = board().getMarkerPosition(marker);
         return pos.x;
     }   
@@ -84,7 +162,7 @@ namespace pxsim.markers {
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function getPositionY(marker: Marker) : Number {
+    export function getPositionY(marker: Marker) : number {
         const pos = board().getMarkerPosition(marker);
         return pos.y;
     } 
@@ -96,7 +174,7 @@ namespace pxsim.markers {
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function getPositionZ(marker: Marker) : Number {
+    export function getPositionZ(marker: Marker) : number {
         const pos = board().getMarkerPosition(marker);
         console.log(pos.z.toString());
         return pos.z;

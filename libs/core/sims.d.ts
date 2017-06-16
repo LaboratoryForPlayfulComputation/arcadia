@@ -30,9 +30,29 @@ declare namespace console {
 }
 declare namespace markers {
     /**
+     * Sets the string and color that displays when the marker is detected
+     */
+    //% blockId=ar_set_string block="%marker|set string %text| set color %colors_named"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    //% shim=markers::setStringAndColor
+    function setStringAndColor(marker: Marker, text: string, bgColor: number): void;
+
+    /**
+     * Sets the number and color that displays when the marker is detected
+     */
+    //% blockId=ar_set_number block="%marker|set number %number| set color %colors_named"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    //% shim=markers::setNumberAndColor
+    function setNumberAndColor(marker: Marker, number: number, bgColor: number): void;
+
+    /**
      * Sets the shape and color that displays when the marker is detected
      */
-    //% blockId=ar_set_shape block="%marker|set shape %shape|set color %color=colors.named"
+    //% blockId=ar_set_shape block="%marker|set shape %shape|set color %colors_named"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
@@ -51,7 +71,7 @@ declare namespace markers {
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     //% shim=markers::onMoved
-    function onMoved(marker: Marker, callbackFcts: [(options: any) => any]): [(options: any) => any];
+    function onMoved(marker: Marker, handler: () => void): void;
 
     /**
      * Gets the x coordinates of a marker
@@ -61,7 +81,7 @@ declare namespace markers {
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     //% shim=markers::getPositionX
-    function getPositionX(marker: Marker): Number;
+    function getPositionX(marker: Marker): number;
 
     /**
      * Gets the y coordinates of a marker
@@ -71,7 +91,7 @@ declare namespace markers {
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     //% shim=markers::getPositionY
-    function getPositionY(marker: Marker): Number;
+    function getPositionY(marker: Marker): number;
 
     /**
      * Gets the z coordinates of a marker
@@ -81,7 +101,7 @@ declare namespace markers {
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     //% shim=markers::getPositionZ
-    function getPositionZ(marker: Marker): Number;
+    function getPositionZ(marker: Marker): number;
 
 }
 declare namespace colors {

@@ -54,5 +54,7 @@
   "markers.getPositionY": "Gets the y coordinates of a marker",
   "markers.getPositionZ": "Gets the z coordinates of a marker",
   "markers.onMoved": "Allows use to define callbacks for a marker moved event",
-  "markers.setShapeAndColor": "Sets the shape and color that displays when the marker is detected"
+  "markers.setNumberAndColor": "Sets the number and color that displays when the marker is detected",
+  "markers.setShapeAndColor": "Sets the shape and color that displays when the marker is detected",
+  "markers.setStringAndColor": "Sets the string and color that displays when the marker is detected"
 }
