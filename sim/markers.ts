@@ -52,23 +52,56 @@ namespace pxsim.markers {
         return new THREE.IcosahedronGeometry(1, 0);
     }
 
-    export function createMarker(marker: Marker){
-        const m = board().marker(marker);
+    /**
+     * Allows use to define callbacks for a marker moved event
+     * @param marker 
+     */
+    //% blockId=ar_on_move block="%marker| on move"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"    
+    export function onMoved(marker: Marker, callbackFcts: [(options : any) => any]) : [(options : any) => any]{
+        // TO DO: map functions to the actual marker moved event
+        return callbackFcts;
     }
 
     /**
-     * Sets the shape that displays when the marker is detected
+     * Gets the x coordinates of a marker
      */
-    //% blockId=ar_marker_on_move block="on move stub"    
-    export function onMove(){
-    }
+    //% blockId=ar_get_pos_x block="%marker|get X position"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    export function getPositionX(marker: Marker) : Number {
+        const pos = board().getMarkerPosition(marker);
+        return pos.x;
+    }   
 
     /**
-     * Sets the shape that displays when the marker is detected
+     * Gets the y coordinates of a marker
      */
-    //% blockId=ar_marker_on_rotate block="on rotate stub"
-    export function onRotate(){
-    }    
+    //% blockId=ar_get_pos_y block="%marker|get Y position"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    export function getPositionY(marker: Marker) : Number {
+        const pos = board().getMarkerPosition(marker);
+        return pos.y;
+    } 
+
+    /**
+     * Gets the z coordinates of a marker
+     */
+    //% blockId=ar_get_pos_z block="%marker|get Z position"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    export function getPositionZ(marker: Marker) : Number {
+        const pos = board().getMarkerPosition(marker);
+        console.log(pos.z.toString());
+        return pos.z;
+    }       
+
 }
 
 namespace pxsim.colors {

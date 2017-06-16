@@ -43,18 +43,45 @@ declare namespace markers {
     function setShapeAndColor(marker: Marker, shape: Shape, color: number): void;
 
     /**
-     * Sets the shape that displays when the marker is detected
+     * Allows use to define callbacks for a marker moved event
+     * @param marker 
      */
-    //% blockId=ar_marker_on_move block="on move stub"
-    //% shim=markers::onMove
-    function onMove(): void;
+    //% blockId=ar_on_move block="%marker| on move"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    //% shim=markers::onMoved
+    function onMoved(marker: Marker, callbackFcts: [(options: any) => any]): [(options: any) => any];
 
     /**
-     * Sets the shape that displays when the marker is detected
+     * Gets the x coordinates of a marker
      */
-    //% blockId=ar_marker_on_rotate block="on rotate stub"
-    //% shim=markers::onRotate
-    function onRotate(): void;
+    //% blockId=ar_get_pos_x block="%marker|get X position"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    //% shim=markers::getPositionX
+    function getPositionX(marker: Marker): Number;
+
+    /**
+     * Gets the y coordinates of a marker
+     */
+    //% blockId=ar_get_pos_y block="%marker|get Y position"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    //% shim=markers::getPositionY
+    function getPositionY(marker: Marker): Number;
+
+    /**
+     * Gets the z coordinates of a marker
+     */
+    //% blockId=ar_get_pos_z block="%marker|get Z position"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    //% shim=markers::getPositionZ
+    function getPositionZ(marker: Marker): Number;
 
 }
 declare namespace colors {

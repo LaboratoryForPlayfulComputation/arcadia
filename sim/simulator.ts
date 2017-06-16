@@ -109,7 +109,7 @@ namespace pxsim {
                 if (self.camera){
                     self.camera.projectionMatrix.copy(self.arToolkitContext.getProjectionMatrix());
                 }
-            })                        
+            });                        
         }
 
         initRenderFunctions(){
@@ -178,6 +178,7 @@ namespace pxsim {
 
         createMarker(marker: Marker): THREEx.ArMarkerControls {
             let markerRoot = new THREE.Group;
+            markerRoot.name = 'marker' + marker.toString();
             this.scene.add(markerRoot);
             let markerControls = new THREEx.ArMarkerControls(this.arToolkitContext, markerRoot, {
                 type : 'barcode',
@@ -198,8 +199,8 @@ namespace pxsim {
          *  Gets the world x, y, and z coordinates of a marker
          */
         getMarkerPosition(marker: Marker): THREEx.Coordinate {
-            let markerEl = this.marker(marker);
-            return this.marker(marker).object3D.getWorldPosition();
+            let markerObj = this.scene.getObjectByName('marker' + marker.toString());
+            return markerObj.position;
         }
 
         /**
@@ -208,7 +209,13 @@ namespace pxsim {
         getMarkerRotation(marker: Marker): THREEx.Coordinate {
             let markerEl = this.marker(marker);
             return this.marker(marker).object3D.getWorldRotation();
-        }        
+        }      
+
+        getDistanceBetweenMarkers(marker1: Marker, marker2: Marker): Number {
+            let markerObj1 = this.scene.getObjectByName('marker' + marker1.toString());
+            let markerObj2 = this.scene.getObjectByName('marker' + marker2.toString());
+            return markerObj1.position.distanceTo(markerObj2.position);
+        }  
     }
 
     /**
@@ -216,7 +223,7 @@ namespace pxsim {
      * WebGL contexts cannot be easily destroyed so it is best to just initialize
      * one renderer and give it to the Board constructor whenever it is initialized
      */
-    var renderer = null;
+    let renderer : any = null;
     function getWebGlContext() : THREE.WebGLRenderer{
         if (renderer == null){
             renderer	= new THREE.WebGLRenderer({

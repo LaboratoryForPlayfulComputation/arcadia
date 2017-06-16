@@ -32,7 +32,7 @@ declare namespace THREEx {
         changeMatrixMode : String;
     }
     class ArMarkerControls {
-        constructor(context: ArToolkitContext, camera: THREE.Camera, options: ArMarkerControlsOptions);
+        constructor(context: ArToolkitContext, group: THREE.Group, options: ArMarkerControlsOptions);
         object3D: THREE.Object3D;
     }
     interface ArMarkerContextOptions {
