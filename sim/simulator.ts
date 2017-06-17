@@ -7,7 +7,6 @@
 /// <reference path="threex.d.ts" />
 
 namespace pxsim {
-
     /**
      * This function gets called each time the program restarts
      */

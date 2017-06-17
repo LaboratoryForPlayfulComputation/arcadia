@@ -1,5 +1,26 @@
 namespace pxsim.markers {
     /**
+     * Sets the text and color that displays when the marker is detected
+     */
+    //% blockId=ar_set_text block="%marker|set text %text| text %textColor| background %bgColor"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    export function setTextAndColor(marker: Marker, text: string | number, textColor: number, bgColor: number){
+        const m = board().marker(marker);
+        let billboardMesh = createBillboard(marker, bgColor);
+        let textMesh = createText(text.toString(), textColor, marker);
+        billboardMesh.rotation.x = Math.PI / 2;
+        let group = board().markerStates[marker.toString()]['group'];
+        let object = group.getObjectByName(marker.toString() + '-shape');
+        if (object){
+            removeObjectFromGroup(group, object);
+        }   
+        billboardMesh.name = marker.toString() + '-shape';
+        group.add(billboardMesh);
+    }
+
+    /**
      * Sets the string and color that displays when the marker is detected
      */
     //% blockId=ar_set_string block="%marker|set string %text| set color %colors_named"
@@ -164,10 +185,13 @@ namespace pxsim.markers {
     /**
      * Gets the distance between the centers of 2 markers
      */
-    //% blockId=ar_get_dist block="get distance from %marker| to %marker"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    //% blockId=ar_get_dist block="get distance from %marker1| to %marker2"
+    //% marker1.fieldEditor="gridpicker"
+    //% marker1.fieldOptions.width="400" marker1.fieldOptions.columns="4"
+    //% marker1.fieldOptions.itemColour="black" marker1.fieldOptions.tooltips="true"
+    //% marker2.fieldEditor="gridpicker"
+    //% marker2.fieldOptions.width="400" marker2.fieldOptions.columns="4"
+    //% marker2.fieldOptions.itemColour="black" marker2.fieldOptions.tooltips="true"    
     export function getDistance(marker1: Marker, marker2: Marker) : number {
         const dist = board().getDistanceBetweenMarkers(marker1, marker2);
         return dist;

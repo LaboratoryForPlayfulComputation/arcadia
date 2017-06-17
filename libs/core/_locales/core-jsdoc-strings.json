@@ -55,5 +55,6 @@
   "markers.onMoved": "Allows use to define callbacks for a marker moved event",
   "markers.setNumberAndColor": "Sets the number and color that displays when the marker is detected",
   "markers.setShapeAndColor": "Sets the shape and color that displays when the marker is detected",
-  "markers.setStringAndColor": "Sets the string and color that displays when the marker is detected"
+  "markers.setStringAndColor": "Sets the string and color that displays when the marker is detected",
+  "markers.setTextAndColor": "Sets the text and color that displays when the marker is detected"
 }

@@ -30,6 +30,16 @@ declare namespace console {
 }
 declare namespace markers {
     /**
+     * Sets the text and color that displays when the marker is detected
+     */
+    //% blockId=ar_set_text block="%marker|set text %text| text %textColor| background %bgColor"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    //% shim=markers::setTextAndColor
+    function setTextAndColor(marker: Marker, text: string | number, textColor: number, bgColor: number): void;
+
+    /**
      * Sets the string and color that displays when the marker is detected
      */
     //% blockId=ar_set_string block="%marker|set string %text| set color %colors_named"
@@ -76,10 +86,13 @@ declare namespace markers {
     /**
      * Gets the distance between the centers of 2 markers
      */
-    //% blockId=ar_get_dist block="get distance from %marker| to %marker"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    //% blockId=ar_get_dist block="get distance from %marker1| to %marker2"
+    //% marker1.fieldEditor="gridpicker"
+    //% marker1.fieldOptions.width="400" marker1.fieldOptions.columns="4"
+    //% marker1.fieldOptions.itemColour="black" marker1.fieldOptions.tooltips="true"
+    //% marker2.fieldEditor="gridpicker"
+    //% marker2.fieldOptions.width="400" marker2.fieldOptions.columns="4"
+    //% marker2.fieldOptions.itemColour="black" marker2.fieldOptions.tooltips="true"
     //% shim=markers::getDistance
     function getDistance(marker1: Marker, marker2: Marker): number;
 
