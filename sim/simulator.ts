@@ -108,10 +108,15 @@ namespace pxsim {
          * Initializes the ArToolkit Source and Context callbacks
          */
         initArToolkitCallbacks(){
-            this.arToolkitSource.init(function onReady(){
-                onResize();
-            });  
             let self = this;
+            this.arToolkitSource.init(function onReady(){
+                self.arToolkitContext.init(function onCompleted(){
+                    if (self.camera){
+                        self.camera.projectionMatrix.copy(self.arToolkitContext.getProjectionMatrix());
+                    }
+                    onResize();
+                });
+            });  
             function onResize(){
                 self.arToolkitSource.onResize();
                 self.arToolkitSource.copySizeTo(self.renderer.domElement);	
@@ -119,11 +124,9 @@ namespace pxsim {
                     self.arToolkitSource.copySizeTo(self.arToolkitContext.arController.canvas);	
                 }	
             }
-            this.arToolkitContext.init(function onCompleted(){
-                if (self.camera){
-                    self.camera.projectionMatrix.copy(self.arToolkitContext.getProjectionMatrix());
-                }
-            });                        
+            window.addEventListener('resize', function(){
+                onResize()
+            })                        
         }
 
         initRenderFunctions(){
