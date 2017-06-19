@@ -71,8 +71,11 @@
   "markers": "Augment Reality markers",
   "markers.distance": "Gets the distance between the centers of 2 markers",
   "markers.onEvent": "Allows use to define callbacks for a marker event",
-  "markers.position": "Gets the coordinates of a marker",
-  "markers.setNumberAndColor": "Sets the number and color that displays when the marker is detected",
-  "markers.setShapeAndColor": "Sets the shape and color that displays when the marker is detected",
-  "markers.setStringAndColor": "Sets the string and color that displays when the marker is detected"
+  "markers.position": "Gets the x, y, z positional coordinates of a marker",
+  "markers.rotation": "Gets the rotational values of a marker",
+  "markers.setColor": "Sets the color that displays when the marker is detected",
+  "markers.setNumber": "Sets the number that displays when the marker is detected",
+  "markers.setShape": "Sets the shape that displays when the marker is detected",
+  "markers.setText": "Sets the text  that displays when the marker is detected",
+  "markers.setTextColor": "Sets the text color that displays when the marker is detected"
 }

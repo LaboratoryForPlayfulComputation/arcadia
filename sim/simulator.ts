@@ -92,7 +92,7 @@ namespace pxsim {
                 if(self.arToolkitSource.ready === false) return
                 self.arToolkitContext.update(self.arToolkitSource.domElement)
                 if (self.scene && self.camera){
-                    self.scene.visible = self.camera.visible
+                    self.scene.visible = self.camera.visible;
                 }
             })
             this.onRenderFcts.push(function(){ 	// render the scene
@@ -105,13 +105,17 @@ namespace pxsim {
                 for (var key in self.markers){
                     let markerState = self.markers[key];
                     const distance = markerState['prevPos'].distanceTo(markerState['currentPos']);
-                    if (distance >= 0.1){
+                    if (distance >= 0.05){
                         board().bus.queue(markerState['marker'], MarkerEvent.Moved);
                     }
                     markerState['prevPos'] = new THREE.Vector3(markerState['currentPos'].x,
                                                                 markerState['currentPos'].y,
                                                                  markerState['currentPos'].z);
                     markerState['currentPos'] = self.scene.getObjectByName('markerroot' + key).position;
+                    markerState['prevRot'] = new THREE.Euler(markerState['currentRot'].x,
+                                                                markerState['currentRot'].y,
+                                                                 markerState['currentRot'].z);
+                    markerState['currentRot'] = self.scene.getObjectByName('markerroot' + key).rotation;                    
                 }
             })
             self = this; // now that we've added some functions to this.onRenderFcts, we need to update "self"          
@@ -169,6 +173,8 @@ namespace pxsim {
                     group: markerRoot,
                     currentPos: new THREE.Vector3(0, 0, 0),
                     prevPos: new THREE.Vector3(0, 0, 0),
+                    currentRot: new THREE.Euler(0, 0, 0),
+                    prevRot: new THREE.Euler(0, 0, 0),
                     scripts: {}
                 };
         }

@@ -30,39 +30,59 @@ declare namespace console {
 }
 declare namespace markers {
     /**
-     * Sets the string and color that displays when the marker is detected
+     * Sets the text  that displays when the marker is detected
      */
-    //% blockId=ar_set_string block="%marker|set string %text| font color %textColor| background %bgColor"
+    //% blockId=ar_set_text block="%marker|set text %text"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     //% async
-    //% shim=markers::setStringAndColorAsync promise
-    function setStringAndColor(marker: Marker, text: string, textColor: number, bgColor: number): void;
+    //% shim=markers::setTextAsync promise
+    function setText(marker: Marker, text: string): void;
 
     /**
-     * Sets the number and color that displays when the marker is detected
+     * Sets the number that displays when the marker is detected
      */
-    //% blockId=ar_set_number block="%marker|set number %number| font color %textColor| background %bgColor"
+    //% blockId=ar_set_number block="%marker|set number %number"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     //% async
-    //% shim=markers::setNumberAndColorAsync promise
-    function setNumberAndColor(marker: Marker, number: number, textColor: number, bgColor: number): void;
+    //% shim=markers::setNumberAsync promise
+    function setNumber(marker: Marker, number: number): void;
 
     /**
-     * Sets the shape and color that displays when the marker is detected
+     * Sets the shape that displays when the marker is detected
      */
-    //% blockId=ar_set_shape block="%marker|set shape %shape|set color %colors_named"
+    //% blockId=ar_set_shape block="%marker|set shape %shape"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     //% shape.fieldEditor="gridpicker"
     //% shape.fieldOptions.width="200" shape.fieldOptions.columns="2"
     //% shape.fieldOptions.itemColour="black" shape.fieldOptions.tooltips="true"
-    //% shim=markers::setShapeAndColor
-    function setShapeAndColor(marker: Marker, shape: Shape, color: number): void;
+    //% shim=markers::setShape
+    function setShape(marker: Marker, shape: Shape): void;
+
+    /**
+     * Sets the color that displays when the marker is detected
+     */
+    //% blockId=ar_set_color block="%marker|set color %color"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    //% shim=markers::setColor
+    function setColor(marker: Marker, color: number): void;
+
+    /**
+     * Sets the text color that displays when the marker is detected
+     */
+    //% blockId=ar_set_text_color block="%marker|set text color %color"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    //% shim=markers::setTextColor
+    function setTextColor(marker: Marker, color: number): void;
 
     /**
      * Allows use to define callbacks for a marker event
@@ -92,7 +112,7 @@ declare namespace markers {
     function distance(marker1: Marker, marker2: Marker): number;
 
     /**
-     * Gets the coordinates of a marker
+     * Gets the x, y, z positional coordinates of a marker
      */
     //% blockId=ar_get_pos block="%marker|position %axis"
     //% marker.fieldEditor="gridpicker"
@@ -100,6 +120,16 @@ declare namespace markers {
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     //% shim=markers::position
     function position(marker: Marker, axis: Axes): number;
+
+    /**
+     * Gets the rotational values of a marker
+     */
+    //% blockId=ar_get_rot block="%marker|rotation %axis"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    //% shim=markers::rotation
+    function rotation(marker: Marker, axis: Axes): number;
 
 }
 declare namespace colors {

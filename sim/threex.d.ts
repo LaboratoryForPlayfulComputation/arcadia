@@ -65,6 +65,8 @@ declare namespace THREEx {
         group: THREE.Group;
         currentPos: THREE.Vector3,
         prevPos: THREE.Vector3,
+        currentRot: THREE.Euler,
+        prevRot: THREE.Euler,
         scripts: pxsim.Map<() => void>;
     }
 }
