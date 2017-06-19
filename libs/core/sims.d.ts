@@ -48,8 +48,8 @@ declare namespace markers {
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     //% async
-    //% shim=markers::setNumberAndColoAsync promise
-    function setNumberAndColo(marker: Marker, number: number, textColor: number, bgColor: number): void;
+    //% shim=markers::setNumberAndColorAsync promise
+    function setNumberAndColor(marker: Marker, number: number, textColor: number, bgColor: number): void;
 
     /**
      * Sets the shape and color that displays when the marker is detected
@@ -94,11 +94,7 @@ declare namespace markers {
     /**
      * Gets the coordinates of a marker
      */
-<<<<<<< HEAD
-    //% blockId=ar_get_pos block="%marker|get position %axis=axes.named"
-=======
     //% blockId=ar_get_pos block="%marker|position %axis"
->>>>>>> c57506bfe878590b83670cab1e0fa9a1774eb656
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"

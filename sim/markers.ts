@@ -9,14 +9,14 @@ namespace pxsim.markers {
     //% async
     export function setStringAndColorAsync(marker: Marker, text: string, textColor: number, bgColor: number): Promise<void> {
         const m = board().marker(marker);
-        let billboardMesh = createBillboard(marker, bgColor);
+        let billboardMesh = three.createBillboard(marker, bgColor);
         return createTextAsync(text, textColor, marker)
             .then(textMesh => {
                 billboardMesh.rotation.x = Math.PI / 2;
                 let group = board().markerStates[marker.toString()]['group'];
                 let object = group.getObjectByName(marker.toString() + '-shape');
                 if (object) {
-                    removeObjectFromGroup(group, object);
+                    three.removeObjectFromGroup(group, object);
                 }
                 billboardMesh.name = marker.toString() + '-shape';
                 group.add(billboardMesh);
@@ -31,15 +31,15 @@ namespace pxsim.markers {
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     //% async
-    export function setNumberAndColoAsync(marker: Marker, number: number, textColor: number, bgColor: number) {
+    export function setNumberAndColorAsync(marker: Marker, number: number, textColor: number, bgColor: number) {
         const m = board().marker(marker);
-        let billboardMesh = createBillboard(marker, bgColor);
+        let billboardMesh = three.createBillboard(marker, bgColor);
         return createTextAsync(number.toString(), textColor, marker)
             .then(textMesh => {
                 let group = board().markerStates[marker.toString()]['group'];
                 let object = group.getObjectByName(marker.toString() + '-shape');
                 if (object) {
-                    removeObjectFromGroup(group, object);
+                    three.removeObjectFromGroup(group, object);
                 }
                 billboardMesh.name = marker.toString() + '-shape';
                 billboardMesh.rotation.x = Math.PI / 2;
@@ -60,13 +60,7 @@ namespace pxsim.markers {
     export function setShapeAndColor(marker: Marker, shape: Shape, color: number) {
         const m = board().marker(marker);
 
-        let geometry = createGeometry(shape);
-        /*let material	= new THREE.MeshBasicMaterial({
-            transparent : true,
-            opacity: 0.5,
-            color: color,
-            side: THREE.DoubleSide
-        }); */
+        let geometry = three.createGeometry(shape);
         let material = new THREE.MeshPhongMaterial({
             transparent: true,
             opacity: 0.9,
@@ -76,53 +70,12 @@ namespace pxsim.markers {
         let group = board().markerStates[marker.toString()]['group'];
         let object = group.getObjectByName(marker.toString() + '-shape');
         if (object) {
-            removeObjectFromGroup(group, object);
+            three.removeObjectFromGroup(group, object);
         }
         let mesh = new THREE.Mesh(geometry, material);
         mesh.name = marker.toString() + '-shape';
         mesh.position.y += 0.5;
         group.add(mesh);
-    }
-
-    function createGeometry(shape: Shape): THREE.Geometry {
-        let cmds = [createBox, createSphere, createCone, createCylinder, createTetrahedron, createIcosahedron];
-        return cmds[shape]();
-    }
-
-    function createBox(): THREE.Geometry {
-        return new THREE.BoxGeometry(1, 1, 1);
-    }
-
-    function createSphere(): THREE.Geometry {
-        return new THREE.SphereGeometry(1, 32, 32);
-    }
-
-    function createCone(): THREE.Geometry {
-        return new THREE.ConeGeometry(0.5, 1, 32);
-    }
-
-    function createCylinder(): THREE.Geometry {
-        return new THREE.CylinderGeometry(0.5, 0.5, 1, 32);
-    }
-
-    function createTetrahedron(): THREE.Geometry {
-        return new THREE.TetrahedronGeometry(1, 0);
-    }
-
-    function createIcosahedron(): THREE.Geometry {
-        return new THREE.IcosahedronGeometry(1, 0);
-    }
-
-    function createPlane(): THREE.Geometry {
-        return new THREE.PlaneGeometry(1, 1, 32);
-    }
-
-    function createBillboard(marker: Marker, color: number): THREE.Mesh {
-        const m = board().marker(marker);
-        var geometry = createPlane();
-        var material = new THREE.MeshBasicMaterial({ color: color, side: THREE.DoubleSide });
-        var billboard = new THREE.Mesh(geometry, material);
-        return billboard;
     }
 
     function loadFontAsync(): Promise<THREE.Font> {
@@ -155,7 +108,7 @@ namespace pxsim.markers {
                 let group = board().markerStates[marker.toString()]['group'];
                 let object = group.getObjectByName(marker.toString() + '-text');
                 if (object) {
-                    removeObjectFromGroup(group, object);
+                    three.removeObjectFromGroup(group, object);
                 }
                 let textMesh = new THREE.Mesh(text3d, material);
                 textMesh.name = marker.toString() + '-text';
@@ -214,9 +167,7 @@ namespace pxsim.markers {
         }
     }
 
-    function removeObjectFromGroup(group: THREE.Group, obj: THREE.Object3D) {
-        group.remove(obj);
-    }
+
 
 }
 

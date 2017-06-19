@@ -72,7 +72,7 @@
   "markers.distance": "Gets the distance between the centers of 2 markers",
   "markers.onEvent": "Allows use to define callbacks for a marker event",
   "markers.position": "Gets the coordinates of a marker",
-  "markers.setNumberAndColo": "Sets the number and color that displays when the marker is detected",
+  "markers.setNumberAndColor": "Sets the number and color that displays when the marker is detected",
   "markers.setShapeAndColor": "Sets the shape and color that displays when the marker is detected",
   "markers.setStringAndColor": "Sets the string and color that displays when the marker is detected"
 }

@@ -7,13 +7,10 @@ declare const enum Direction {
 
 declare const enum Coordinate {
     //% block='x' blockIdentity=axes.named
-    //% enumval='x'
     x,
     //% block='y' blockIdentity=axes.named
-    //% enumval='y'
     y,
     //% block='z' blockIdentity=axes.named
-    //% enumval='z'
     z
 }
 
