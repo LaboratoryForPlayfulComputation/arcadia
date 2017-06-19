@@ -61,7 +61,10 @@ declare namespace THREEx {
     }
     type Coordinate = { x: number, y: number, z: number };
     interface ArMarkerState {
+        marker: Marker,
         group: THREE.Group;
+        currentPos: THREE.Vector3,
+        prevPos: THREE.Vector3,
         scripts: pxsim.Map<() => void>;
     }
 }

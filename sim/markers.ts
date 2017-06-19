@@ -13,7 +13,7 @@ namespace pxsim.markers {
         return createTextAsync(text, textColor, marker)
             .then(textMesh => {
                 billboardMesh.rotation.x = Math.PI / 2;
-                let group = board().markerStates[marker.toString()]['group'];
+                let group = board().markers[marker.toString()]['group'];
                 let object = group.getObjectByName(marker.toString() + '-shape');
                 if (object) {
                     three.removeObjectFromGroup(group, object);
@@ -36,7 +36,7 @@ namespace pxsim.markers {
         let billboardMesh = three.createBillboard(marker, bgColor);
         return createTextAsync(number.toString(), textColor, marker)
             .then(textMesh => {
-                let group = board().markerStates[marker.toString()]['group'];
+                let group = board().markers[marker.toString()]['group'];
                 let object = group.getObjectByName(marker.toString() + '-shape');
                 if (object) {
                     three.removeObjectFromGroup(group, object);
@@ -67,7 +67,7 @@ namespace pxsim.markers {
             color: color,
             side: THREE.FrontSide
         });
-        let group = board().markerStates[marker.toString()]['group'];
+        let group = board().markers[marker.toString()]['group'];
         let object = group.getObjectByName(marker.toString() + '-shape');
         if (object) {
             three.removeObjectFromGroup(group, object);
@@ -105,7 +105,7 @@ namespace pxsim.markers {
                     color: color,
                     side: THREE.DoubleSide
                 });
-                let group = board().markerStates[marker.toString()]['group'];
+                let group = board().markers[marker.toString()]['group'];
                 let object = group.getObjectByName(marker.toString() + '-text');
                 if (object) {
                     three.removeObjectFromGroup(group, object);
@@ -115,7 +115,7 @@ namespace pxsim.markers {
                 textMesh.rotation.x = -Math.PI / 2;
                 textMesh.position.z += 0.25;
                 textMesh.position.x -= 0.5;
-                board().markerStates[marker.toString()]['group'].add(textMesh);
+                board().markers[marker.toString()]['group'].add(textMesh);
             })
     }
 
@@ -131,6 +131,7 @@ namespace pxsim.markers {
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"    
     export function onEvent(marker: Marker, event: MarkerEvent, handler: RefAction) {
+        board().marker(marker);
         board().bus.listen(marker, event, handler);
         // to trigger this...
         // board().bus.queue(marker, MarkerMoved);
@@ -166,8 +167,6 @@ namespace pxsim.markers {
             default: return pos.z;
         }
     }
-
-
 
 }
 

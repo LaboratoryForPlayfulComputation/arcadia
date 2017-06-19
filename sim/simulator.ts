@@ -29,8 +29,7 @@ namespace pxsim {
         public bus: pxsim.EventBus;
         public scene :  THREE.Scene;
         public camera: THREE.Camera;
-        public markers: pxsim.Map<THREE.Group>;
-        public markerStates: pxsim.Map<THREEx.ArMarkerState>;
+        public markers: pxsim.Map<THREEx.ArMarkerState>;
         public arToolkitContext: THREEx.ArToolkitContext;
         public arToolkitSource: THREEx.ArToolkitSource;
         public renderer: THREE.WebGLRenderer;
@@ -44,7 +43,6 @@ namespace pxsim {
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
             this.bus = new pxsim.EventBus(runtime);
             this.markers = {};
-            this.markerStates = {};
             this.baseURL = '/sim/AR.js/three.js/';
             this.renderer = getWebGlContext(); // singleton
             this.camera = three.createCamera();
@@ -102,6 +100,20 @@ namespace pxsim {
                     self.renderer.render(self.scene, self.camera);
                 }
             })
+            this.onRenderFcts.push(function (){
+                /* updates marker state and triggers events if position or rotation changes */
+                for (var key in self.markers){
+                    let markerState = self.markers[key];
+                    const distance = markerState['prevPos'].distanceTo(markerState['currentPos']);
+                    if (distance >= 0.1){
+                        board().bus.queue(markerState['marker'], MarkerEvent.Moved);
+                    }
+                    markerState['prevPos'] = new THREE.Vector3(markerState['currentPos'].x,
+                                                                markerState['currentPos'].y,
+                                                                 markerState['currentPos'].z);
+                    markerState['currentPos'] = self.scene.getObjectByName('markerroot' + key).position;
+                }
+            })
             self = this; // now that we've added some functions to this.onRenderFcts, we need to update "self"          
         }
 
@@ -121,10 +133,8 @@ namespace pxsim {
 
         kill() {
             if (this.scene) three.removeSceneChildren(this.scene);
-            //if (this.renderer) this.removeRendererChildren();
             this.onRenderFcts = [];
             this.markers = {};
-            this.markerStates = {};
             this.arToolkitContext = null;
             this.arToolkitSource = null;
             this.camera = null;            
@@ -135,14 +145,14 @@ namespace pxsim {
          * Gets or creates a new marker
          * @param marker 
          */
-        marker(marker: Marker) : THREE.Group {
+        marker(marker: Marker) : THREEx.ArMarkerState {
             let m = this.markers[marker.toString()];
             if (!m) 
                 m = this.markers[marker.toString()] = this.createMarker(marker);
             return m;
         }
 
-        createMarker(marker: Marker): THREE.Group {
+        createMarker(marker: Marker): THREEx.ArMarkerState {
             let markerRoot = new THREE.Group;
             markerRoot.name = 'markerroot' + marker.toString();
             this.scene.add(markerRoot);
@@ -154,22 +164,24 @@ namespace pxsim {
                 patternUrl: null,
             })
             this.scene.visible = false;
-            this.markerStates[marker.toString()] = {
-                group: markerRoot,
-                scripts: {}
-            }
-            return markerRoot;
+            return {
+                    marker: marker,
+                    group: markerRoot,
+                    currentPos: new THREE.Vector3(0, 0, 0),
+                    prevPos: new THREE.Vector3(0, 0, 0),
+                    scripts: {}
+                };
         }
 
         /**
          *  Gets the world x, y, and z coordinates of a marker
          */
-        getMarkerPosition(marker: Marker): THREEx.Coordinate {
+        getMarkerPosition(marker: Marker): THREE.Vector3 {
             let markerObj = this.scene.getObjectByName('markerroot' + marker.toString());
             if (markerObj){
               return markerObj.position;
             } else{
-                return {x: -9999, y: -9999, z: -9999};
+                return new THREE.Vector3(-9999,-9999,-9999);
             }
         }
 
