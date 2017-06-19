@@ -66,23 +66,25 @@ namespace pxsim {
         initArToolkitCallbacks(){
             let self = this;
             this.arToolkitSource.init(function onReady(){
-                self.arToolkitContext.init(function onCompleted(){
-                    if (self.camera){
-                        self.camera.projectionMatrix.copy(self.arToolkitContext.getProjectionMatrix());
-                    }
-                    onResize();
-                });
-            });  
-            function onResize(){
-                self.arToolkitSource.onResize();
-                self.arToolkitSource.copySizeTo(self.renderer.domElement);	
-                if(self.arToolkitContext.arController !== null){
-                    self.arToolkitSource.copySizeTo(self.arToolkitContext.arController.canvas);	
-                }	
-            }
+                onResize();
+            })    
             window.addEventListener('resize', function(){
                 onResize();
-            })                        
+            })           
+            function onResize(){
+                if (self.arToolkitSource){
+                    self.arToolkitSource.onResize();
+                    self.arToolkitSource.copySizeTo(self.renderer.domElement);
+                    if (self.arToolkitContext && (self.arToolkitContext.arController !== null)){
+                        self.arToolkitSource.copySizeTo(self.arToolkitContext.arController.canvas);
+                    }
+                }
+            }
+            this.arToolkitContext.init(function onCompleted(){
+                if (self.camera){
+                    self.camera.projectionMatrix.copy(self.arToolkitContext.getProjectionMatrix());
+                }
+            })
         }
 
         initRenderFunctions(){
@@ -129,13 +131,10 @@ namespace pxsim {
             this.scene = null;
         }
 
-        /*removeRendererChildren(){
-            while (this.renderer.domElement.lastChild){
-                this.renderer.domElement.removeChild(this.renderer.domElement.lastChild);
-            }
-        }*/
-
-        // gets or creates a new marker
+        /**
+         * Gets or creates a new marker
+         * @param marker 
+         */
         marker(marker: Marker) : THREE.Group {
             let m = this.markers[marker.toString()];
             if (!m) 
