@@ -125,7 +125,7 @@ namespace pxsim {
                 }	
             }
             window.addEventListener('resize', function(){
-                onResize()
+                onResize();
             })                        
         }
 

@@ -145,7 +145,7 @@ namespace pxsim.markers {
             textMesh.position.z += 0.25; 
             textMesh.position.x -= 0.5; 
             board().markerStates[marker.toString()]['group'].add(textMesh);                                  
-        } );        
+        } );   
     }
 
     /**
@@ -179,7 +179,7 @@ namespace pxsim.markers {
     /**
      * Gets the coordinates of a marker
      */
-    //% blockId=ar_get_pos block="%marker|get position %axis"
+    //% blockId=ar_get_pos block="%marker|get position %axis=axes.named"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"

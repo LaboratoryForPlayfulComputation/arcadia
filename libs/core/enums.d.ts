@@ -5,12 +5,15 @@ declare const enum Direction {
     Right
 }
 
-declare const enum Coordinate {
-    //% block=x
+declare const enum Axes {
+    //% block='x' blockIdentity=axes.named
+    //% enumval='x'
     x,
-    //% block=y
+    //% block='y' blockIdentity=axes.named
+    //% enumval='y'
     y,
-    //% block=z
+    //% block='z' blockIdentity=axes.named
+    //% enumval='z'
     z
 }
 
