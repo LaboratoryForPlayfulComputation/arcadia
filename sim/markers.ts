@@ -160,6 +160,8 @@ namespace pxsim.markers {
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"    
     export function onMoved(marker: Marker, handler: RefAction){
         board().bus.listen(marker, MarkerMoved, handler);
+        // to trigger this...
+        // board().bus.queue(marker, MarkerMoved);
     }
 
     /**
