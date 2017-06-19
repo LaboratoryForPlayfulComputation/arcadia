@@ -32,6 +32,6 @@
   },
   "dependencies": {
     "@types/three": "^0.84.11",
-    "pxt-core": "1.5.26"
+    "pxt-core": "1.6.3"
   }
 }
