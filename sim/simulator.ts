@@ -26,6 +26,7 @@ namespace pxsim {
      * Do not store state anywhere else!
      */
     export class Board extends pxsim.BaseBoard {
+        public bus: pxsim.EventBus;
         public scene :  THREE.Scene;
         public camera: THREE.Camera;
         public markers: pxsim.Map<THREE.Group>;
@@ -41,6 +42,7 @@ namespace pxsim {
         }
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
+            this.bus = new pxsim.EventBus(runtime);
             this.markers = {};
             this.markerStates = {};
             this.baseURL = '/sim/AR.js/three.js/';

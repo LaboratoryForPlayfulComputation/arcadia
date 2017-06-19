@@ -5,7 +5,7 @@ declare const enum Direction {
     Right
 }
 
-declare const enum Axes {
+declare const enum Coordinate {
     //% block='x' blockIdentity=axes.named
     //% enumval='x'
     x,
@@ -69,6 +69,15 @@ declare const enum Marker {
     //% block=15 enumval=15
     //% blockImage=1
     Marker15 = 15
+}
+
+declare const enum MarkerEvent {
+    //% block="moved"
+    //% enumval=0x01
+    Moved = 0x01,
+    //% block="hidden"
+    //% enumval=0x02
+    Hidden = 0x02,
 }
 
 /**

@@ -11,12 +11,15 @@
         "libs/core"
     ],
     "runtime": {
-      "mathBlocks": true,
-      "loopsBlocks": true,
-      "logicBlocks": true,
-      "variablesBlocks": true,
-      "textBlocks": true,
-      "listsBlocks": true 
+        "mathBlocks": true,
+        "loopsBlocks": true,
+        "logicBlocks": true,
+        "variablesBlocks": true,
+        "textBlocks": true,
+        "listsBlocks": true,
+        "functionBlocks": true,
+        "onStartNamespace": "loops",
+        "onStartColor": "#40bf4a"
     },
     "simulator": {
         "autoRun": true
@@ -40,7 +43,7 @@
         "coloredToolbox": true,
         "monacoToolbox": true,
         "invertedMenu": true,
-        "blocklyOptions": { 
+        "blocklyOptions": {
             "grid": {
                 "spacing": 45,
                 "length": 7,

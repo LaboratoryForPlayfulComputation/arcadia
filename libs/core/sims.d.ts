@@ -36,7 +36,8 @@ declare namespace markers {
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    //% shim=markers::setStringAndColor
+    //% async
+    //% shim=markers::setStringAndColorAsync promise
     function setStringAndColor(marker: Marker, text: string, textColor: number, bgColor: number): void;
 
     /**
@@ -46,8 +47,9 @@ declare namespace markers {
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    //% shim=markers::setNumberAndColor
-    function setNumberAndColor(marker: Marker, number: number, textColor: number, bgColor: number): void;
+    //% async
+    //% shim=markers::setNumberAndColoAsync promise
+    function setNumberAndColo(marker: Marker, number: number, textColor: number, bgColor: number): void;
 
     /**
      * Sets the shape and color that displays when the marker is detected
@@ -63,38 +65,45 @@ declare namespace markers {
     function setShapeAndColor(marker: Marker, shape: Shape, color: number): void;
 
     /**
-     * Allows use to define callbacks for a marker moved event
+     * Allows use to define callbacks for a marker event
      * @param marker 
      */
-    //% blockId=ar_on_move block="%marker| on move"
+    //% blockId=ar_on_move block="on %marker| %event"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    //% shim=markers::onMoved
-    function onMoved(marker: Marker, handler: () => void): void;
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"    
+    //% event.fieldEditor="gridpicker"
+    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
+    //% event.fieldOptions.tooltips="true"
+    //% shim=markers::onEvent
+    function onEvent(marker: Marker, event: MarkerEvent, handler: () => void): void;
 
     /**
      * Gets the distance between the centers of 2 markers
      */
-    //% blockId=ar_get_dist block="get distance from %marker1| to %marker2"
+    //% blockId=ar_get_dist block="distance from %marker1| to %marker2"
     //% marker1.fieldEditor="gridpicker"
     //% marker1.fieldOptions.width="400" marker1.fieldOptions.columns="4"
     //% marker1.fieldOptions.itemColour="black" marker1.fieldOptions.tooltips="true"
     //% marker2.fieldEditor="gridpicker"
     //% marker2.fieldOptions.width="400" marker2.fieldOptions.columns="4"
     //% marker2.fieldOptions.itemColour="black" marker2.fieldOptions.tooltips="true"
-    //% shim=markers::getDistance
-    function getDistance(marker1: Marker, marker2: Marker): number;
+    //% shim=markers::distance
+    function distance(marker1: Marker, marker2: Marker): number;
 
     /**
      * Gets the coordinates of a marker
      */
+<<<<<<< HEAD
     //% blockId=ar_get_pos block="%marker|get position %axis=axes.named"
+=======
+    //% blockId=ar_get_pos block="%marker|position %axis"
+>>>>>>> c57506bfe878590b83670cab1e0fa9a1774eb656
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    //% shim=markers::getPosition
-    function getPosition(marker: Marker, axis: string): number;
+    //% shim=markers::position
+    function position(marker: Marker, axis: Coordinate): number;
 
 }
 declare namespace colors {

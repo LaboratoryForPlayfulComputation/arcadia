@@ -6,18 +6,21 @@ namespace pxsim.markers {
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function setStringAndColor(marker: Marker, text: string, textColor: number, bgColor: number){
+    //% async
+    export function setStringAndColorAsync(marker: Marker, text: string, textColor: number, bgColor: number): Promise<void> {
         const m = board().marker(marker);
         let billboardMesh = createBillboard(marker, bgColor);
-        let textMesh = createText(text, textColor, marker);
-        billboardMesh.rotation.x = Math.PI / 2;
-        let group = board().markerStates[marker.toString()]['group'];
-        let object = group.getObjectByName(marker.toString() + '-shape');
-        if (object){
-            removeObjectFromGroup(group, object);
-        }   
-        billboardMesh.name = marker.toString() + '-shape';
-        group.add(billboardMesh);
+        return createTextAsync(text, textColor, marker)
+            .then(textMesh => {
+                billboardMesh.rotation.x = Math.PI / 2;
+                let group = board().markerStates[marker.toString()]['group'];
+                let object = group.getObjectByName(marker.toString() + '-shape');
+                if (object) {
+                    removeObjectFromGroup(group, object);
+                }
+                billboardMesh.name = marker.toString() + '-shape';
+                group.add(billboardMesh);
+            });
     }
 
     /**
@@ -27,18 +30,21 @@ namespace pxsim.markers {
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function setNumberAndColor(marker: Marker, number: number, textColor: number, bgColor: number){  
+    //% async
+    export function setNumberAndColoAsync(marker: Marker, number: number, textColor: number, bgColor: number) {
         const m = board().marker(marker);
         let billboardMesh = createBillboard(marker, bgColor);
-        let textMesh = createText(number.toString(), textColor, marker);
-        let group = board().markerStates[marker.toString()]['group'];
-        let object = group.getObjectByName(marker.toString() + '-shape');
-        if (object){
-            removeObjectFromGroup(group, object);
-        }   
-        billboardMesh.name = marker.toString() + '-shape';
-        billboardMesh.rotation.x = Math.PI / 2;
-        group.add(billboardMesh);
+        return createTextAsync(number.toString(), textColor, marker)
+            .then(textMesh => {
+                let group = board().markerStates[marker.toString()]['group'];
+                let object = group.getObjectByName(marker.toString() + '-shape');
+                if (object) {
+                    removeObjectFromGroup(group, object);
+                }
+                billboardMesh.name = marker.toString() + '-shape';
+                billboardMesh.rotation.x = Math.PI / 2;
+                group.add(billboardMesh);
+            });
     }
 
     /**
@@ -51,10 +57,10 @@ namespace pxsim.markers {
     //% shape.fieldEditor="gridpicker"
     //% shape.fieldOptions.width="200" shape.fieldOptions.columns="2"
     //% shape.fieldOptions.itemColour="black" shape.fieldOptions.tooltips="true"
-    export function setShapeAndColor(marker: Marker, shape: Shape, color: number){
+    export function setShapeAndColor(marker: Marker, shape: Shape, color: number) {
         const m = board().marker(marker);
 
-        let geometry	= createGeometry(shape);
+        let geometry = createGeometry(shape);
         /*let material	= new THREE.MeshBasicMaterial({
             transparent : true,
             opacity: 0.5,
@@ -62,116 +68,132 @@ namespace pxsim.markers {
             side: THREE.DoubleSide
         }); */
         let material = new THREE.MeshPhongMaterial({
-            transparent : true,
+            transparent: true,
             opacity: 0.9,
             color: color,
             side: THREE.FrontSide
         });
         let group = board().markerStates[marker.toString()]['group'];
         let object = group.getObjectByName(marker.toString() + '-shape');
-        if (object){
+        if (object) {
             removeObjectFromGroup(group, object);
-        }        
-        let mesh	= new THREE.Mesh(geometry, material);
+        }
+        let mesh = new THREE.Mesh(geometry, material);
         mesh.name = marker.toString() + '-shape';
         mesh.position.y += 0.5;
         group.add(mesh);
-    }    
+    }
 
-    function createGeometry(shape: Shape) : THREE.Geometry {
+    function createGeometry(shape: Shape): THREE.Geometry {
         let cmds = [createBox, createSphere, createCone, createCylinder, createTetrahedron, createIcosahedron];
         return cmds[shape]();
-    } 
+    }
 
-    function createBox() : THREE.Geometry{
+    function createBox(): THREE.Geometry {
         return new THREE.BoxGeometry(1, 1, 1);
     }
 
-    function createSphere() : THREE.Geometry {
+    function createSphere(): THREE.Geometry {
         return new THREE.SphereGeometry(1, 32, 32);
     }
 
-    function createCone() : THREE.Geometry {
+    function createCone(): THREE.Geometry {
         return new THREE.ConeGeometry(0.5, 1, 32);
     }
 
-    function createCylinder() : THREE.Geometry {
+    function createCylinder(): THREE.Geometry {
         return new THREE.CylinderGeometry(0.5, 0.5, 1, 32);
     }
 
-    function createTetrahedron() : THREE.Geometry {
+    function createTetrahedron(): THREE.Geometry {
         return new THREE.TetrahedronGeometry(1, 0);
     }
 
-    function createIcosahedron() : THREE.Geometry {
+    function createIcosahedron(): THREE.Geometry {
         return new THREE.IcosahedronGeometry(1, 0);
     }
 
-    function createPlane() : THREE.Geometry {
-        return new THREE.PlaneGeometry(1, 1, 32);        
+    function createPlane(): THREE.Geometry {
+        return new THREE.PlaneGeometry(1, 1, 32);
     }
 
-    function createBillboard(marker: Marker, color: number) : THREE.Mesh {
+    function createBillboard(marker: Marker, color: number): THREE.Mesh {
         const m = board().marker(marker);
         var geometry = createPlane();
-        var material = new THREE.MeshBasicMaterial( {color: color, side: THREE.DoubleSide} );
-        var billboard = new THREE.Mesh( geometry, material );        
+        var material = new THREE.MeshBasicMaterial({ color: color, side: THREE.DoubleSide });
+        var billboard = new THREE.Mesh(geometry, material);
         return billboard;
     }
 
-    function createText(text: string, color: number, marker: Marker) {
-        var loader = new THREE.FontLoader();
-        loader.load('fonts/helvetiker_regular.typeface.json', function (font) {
-            var text3d = new THREE.TextGeometry(text, {
-                size: 0.25,
-                height: 0.025,
-                curveSegments: 2,
-                font: font 
-            });   
-            let material	= new THREE.MeshBasicMaterial({
-                transparent : true,
-                opacity: 5,
-                color: color,
-                side: THREE.DoubleSide
-            }); 
-            let group = board().markerStates[marker.toString()]['group'];
-            let object = group.getObjectByName(marker.toString() + '-text');
-            if (object){
-                removeObjectFromGroup(group, object);
-            }
-            let textMesh = new THREE.Mesh(text3d, material); 
-            textMesh.name = marker.toString() + '-text';        
-            textMesh.rotation.x = -Math.PI / 2;
-            textMesh.position.z += 0.25; 
-            textMesh.position.x -= 0.5; 
-            board().markerStates[marker.toString()]['group'].add(textMesh);                                  
-        } );   
+    function loadFontAsync(): Promise<THREE.Font> {
+        let loader = new THREE.FontLoader();
+        return new Promise<THREE.Font>((resolve, reject) => {
+            loader.load('fonts/helvetiker_regular.typeface.json', (font) => {
+                resolve(loader.parse(font));
+            }, null, e => reject(e));
+        });
+    }
+
+    function createTextAsync(text: string, color: number, marker: Marker): Promise<void> {
+        return loadFontAsync()
+            .then(font => {
+                var text3d = new THREE.TextGeometry(text, {
+                    size: 0.25,
+                    bevelEnabled: false,
+                    bevelThickness: 3,
+                    bevelSize: 1,
+                    height: 0.025,
+                    curveSegments: 2,
+                    font: font
+                });
+                let material = new THREE.MeshBasicMaterial({
+                    transparent: true,
+                    opacity: 5,
+                    color: color,
+                    side: THREE.DoubleSide
+                });
+                let group = board().markerStates[marker.toString()]['group'];
+                let object = group.getObjectByName(marker.toString() + '-text');
+                if (object) {
+                    removeObjectFromGroup(group, object);
+                }
+                let textMesh = new THREE.Mesh(text3d, material);
+                textMesh.name = marker.toString() + '-text';
+                textMesh.rotation.x = -Math.PI / 2;
+                textMesh.position.z += 0.25;
+                textMesh.position.x -= 0.5;
+                board().markerStates[marker.toString()]['group'].add(textMesh);
+            })
     }
 
     /**
-     * Allows use to define callbacks for a marker moved event
+     * Allows use to define callbacks for a marker event
      * @param marker 
      */
-    //% blockId=ar_on_move block="%marker| on move"
+    //% blockId=ar_on_move block="on %marker| %event"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"    
-    export function onMoved(marker: Marker, handler: RefAction){
-        // TO DO: map functions to the actual marker moved event
-
+    //% event.fieldEditor="gridpicker"
+    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
+    //% event.fieldOptions.tooltips="true"    
+    export function onEvent(marker: Marker, event: MarkerEvent, handler: RefAction) {
+        board().bus.listen(marker, event, handler);
+        // to trigger this...
+        // board().bus.queue(marker, MarkerMoved);
     }
 
     /**
      * Gets the distance between the centers of 2 markers
      */
-    //% blockId=ar_get_dist block="get distance from %marker1| to %marker2"
+    //% blockId=ar_get_dist block="distance from %marker1| to %marker2"
     //% marker1.fieldEditor="gridpicker"
     //% marker1.fieldOptions.width="400" marker1.fieldOptions.columns="4"
     //% marker1.fieldOptions.itemColour="black" marker1.fieldOptions.tooltips="true"
     //% marker2.fieldEditor="gridpicker"
     //% marker2.fieldOptions.width="400" marker2.fieldOptions.columns="4"
     //% marker2.fieldOptions.itemColour="black" marker2.fieldOptions.tooltips="true"    
-    export function getDistance(marker1: Marker, marker2: Marker) : number {
+    export function distance(marker1: Marker, marker2: Marker): number {
         const dist = board().getDistanceBetweenMarkers(marker1, marker2);
         return dist;
     }
@@ -179,18 +201,20 @@ namespace pxsim.markers {
     /**
      * Gets the coordinates of a marker
      */
-    //% blockId=ar_get_pos block="%marker|get position %axis=axes.named"
+    //% blockId=ar_get_pos block="%marker|position %axis"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function getPosition(marker: Marker, axis: string) : number {
+    export function position(marker: Marker, axis: Coordinate): number {
         const pos = board().getMarkerPosition(marker);
-        if (axis == 'x') return pos.x;
-        else if (axis == 'y') return pos.y;
-        else return pos.z;
+        switch(axis) {
+            case Coordinate.x: return pos.x;
+            case Coordinate.y: return pos.y;
+            default: return pos.z;
+        }
     }
 
-    function removeObjectFromGroup(group: THREE.Group, obj: THREE.Object3D){
+    function removeObjectFromGroup(group: THREE.Group, obj: THREE.Object3D) {
         group.remove(obj);
     }
 
@@ -236,5 +260,5 @@ namespace pxsim.colors {
     function unpackB(rgb: number): number {
         let b = (rgb >> 0) & 0xFF;
         return b;
-    }    
+    }
 }
