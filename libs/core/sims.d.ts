@@ -89,12 +89,12 @@ declare namespace markers {
     /**
      * Gets the coordinates of a marker
      */
-    //% blockId=ar_get_pos block="%marker|get position %coordinate"
+    //% blockId=ar_get_pos block="%marker|get position %axis"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     //% shim=markers::getPosition
-    function getPosition(marker: Marker, coordinate: Coordinate): void;
+    function getPosition(marker: Marker, axis: string): number;
 
 }
 declare namespace colors {

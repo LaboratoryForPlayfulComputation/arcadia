@@ -6,11 +6,11 @@ declare const enum Direction {
 }
 
 declare const enum Coordinate {
-    //% block = x
+    //% block=x
     x,
-    //% block = y
+    //% block=y
     y,
-    //% block = z
+    //% block=z
     z
 }
 

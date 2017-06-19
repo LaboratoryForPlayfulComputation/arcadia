@@ -179,12 +179,15 @@ namespace pxsim.markers {
     /**
      * Gets the coordinates of a marker
      */
-    //% blockId=ar_get_pos block="%marker|get position %coordinate"
+    //% blockId=ar_get_pos block="%marker|get position %axis"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function getPosition(marker: Marker, coordinate: Coordinate) {
+    export function getPosition(marker: Marker, axis: string) : number {
         const pos = board().getMarkerPosition(marker);
+        if (axis == 'x') return pos.x;
+        else if (axis == 'y') return pos.y;
+        else return pos.z;
     }
 
     function removeObjectFromGroup(group: THREE.Group, obj: THREE.Object3D){
