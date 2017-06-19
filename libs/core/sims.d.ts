@@ -30,34 +30,24 @@ declare namespace console {
 }
 declare namespace markers {
     /**
-     * Sets the text and color that displays when the marker is detected
-     */
-    //% blockId=ar_set_text block="%marker|set text %text| text %textColor| background %bgColor"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    //% shim=markers::setTextAndColor
-    function setTextAndColor(marker: Marker, text: string | number, textColor: number, bgColor: number): void;
-
-    /**
      * Sets the string and color that displays when the marker is detected
      */
-    //% blockId=ar_set_string block="%marker|set string %text| set color %colors_named"
+    //% blockId=ar_set_string block="%marker|set string %text| font color %textColor| background %bgColor"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     //% shim=markers::setStringAndColor
-    function setStringAndColor(marker: Marker, text: string, bgColor: number): void;
+    function setStringAndColor(marker: Marker, text: string, textColor: number, bgColor: number): void;
 
     /**
      * Sets the number and color that displays when the marker is detected
      */
-    //% blockId=ar_set_number block="%marker|set number %number| set color %colors_named"
+    //% blockId=ar_set_number block="%marker|set number %number| font color %textColor| background %bgColor"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     //% shim=markers::setNumberAndColor
-    function setNumberAndColor(marker: Marker, number: number, bgColor: number): void;
+    function setNumberAndColor(marker: Marker, number: number, textColor: number, bgColor: number): void;
 
     /**
      * Sets the shape and color that displays when the marker is detected

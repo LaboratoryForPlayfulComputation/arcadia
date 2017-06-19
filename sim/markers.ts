@@ -1,36 +1,15 @@
 namespace pxsim.markers {
     /**
-     * Sets the text and color that displays when the marker is detected
-     */
-    //% blockId=ar_set_text block="%marker|set text %text| text %textColor| background %bgColor"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function setTextAndColor(marker: Marker, text: string | number, textColor: number, bgColor: number){
-        const m = board().marker(marker);
-        let billboardMesh = createBillboard(marker, bgColor);
-        let textMesh = createText(text.toString(), textColor, marker);
-        billboardMesh.rotation.x = Math.PI / 2;
-        let group = board().markerStates[marker.toString()]['group'];
-        let object = group.getObjectByName(marker.toString() + '-shape');
-        if (object){
-            removeObjectFromGroup(group, object);
-        }   
-        billboardMesh.name = marker.toString() + '-shape';
-        group.add(billboardMesh);
-    }
-
-    /**
      * Sets the string and color that displays when the marker is detected
      */
-    //% blockId=ar_set_string block="%marker|set string %text| set color %colors_named"
+    //% blockId=ar_set_string block="%marker|set string %text| font color %textColor| background %bgColor"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function setStringAndColor(marker: Marker, text: string, bgColor: number){
+    export function setStringAndColor(marker: Marker, text: string, textColor: number, bgColor: number){
         const m = board().marker(marker);
         let billboardMesh = createBillboard(marker, bgColor);
-        let textMesh = createText(text, 0xffffff, marker);
+        let textMesh = createText(text, textColor, marker);
         billboardMesh.rotation.x = Math.PI / 2;
         let group = board().markerStates[marker.toString()]['group'];
         let object = group.getObjectByName(marker.toString() + '-shape');
@@ -44,14 +23,14 @@ namespace pxsim.markers {
     /**
      * Sets the number and color that displays when the marker is detected
      */
-    //% blockId=ar_set_number block="%marker|set number %number| set color %colors_named"
+    //% blockId=ar_set_number block="%marker|set number %number| font color %textColor| background %bgColor"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function setNumberAndColor(marker: Marker, number: number, bgColor: number){ //textColor: number, 
+    export function setNumberAndColor(marker: Marker, number: number, textColor: number, bgColor: number){  
         const m = board().marker(marker);
         let billboardMesh = createBillboard(marker, bgColor);
-        let textMesh = createText(number.toString(), 0xffffff, marker);
+        let textMesh = createText(number.toString(), textColor, marker);
         let group = board().markerStates[marker.toString()]['group'];
         let object = group.getObjectByName(marker.toString() + '-shape');
         if (object){
