@@ -121,6 +121,7 @@ namespace pxsim.markers {
 
     function createText(text: string, color: number, marker: Marker) {
         var loader = new THREE.FontLoader();
+        // use promises
         loader.load('fonts/helvetiker_regular.typeface.json', function (font) {
             var text3d = new THREE.TextGeometry(text, {
                 size: 0.25,
@@ -148,6 +149,7 @@ namespace pxsim.markers {
         } );        
     }
 
+    const MarkerMoved = 0x1;
     /**
      * Allows use to define callbacks for a marker moved event
      * @param marker 
@@ -157,8 +159,7 @@ namespace pxsim.markers {
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"    
     export function onMoved(marker: Marker, handler: RefAction){
-        // TO DO: map functions to the actual marker moved event
-
+        board().bus.listen(marker, MarkerMoved, handler);
     }
 
     /**
