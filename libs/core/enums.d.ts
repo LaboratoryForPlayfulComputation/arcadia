@@ -5,7 +5,7 @@ declare const enum Direction {
     Right
 }
 
-declare const enum Coordinate {
+declare const enum Axes {
     //% block='x' blockIdentity=axes.named
     x,
     //% block='y' blockIdentity=axes.named
@@ -120,22 +120,22 @@ declare const enum Colors {
  * 3D Shape Primitives supported by THREE.js
  */
 declare const enum Shape {
-    //% block=box
+    //% block='box'
     //% blockImage=1
     Box,
-    //% block=sphere
+    //% block='sphere'
     //% blockImage=1
     Sphere,    
-    //% block=cone
+    //% block='cone'
     //% blockImage=1
     Cone, 
-    //% block=cylinder
+    //% block='cylinder'
     //% blockImage=1
     Cylinder,    
-    //% block=tetrahedron
+    //% block='tetrahedron'
     //% blockImage=1
     Tetrahedron,
-    //% block=icosahedron
+    //% block='icosahedron'
     //% blockImage=1    
     Icosahedron,
 }

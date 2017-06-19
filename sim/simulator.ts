@@ -47,65 +47,19 @@ namespace pxsim {
             this.markerStates = {};
             this.baseURL = '/sim/AR.js/three.js/';
             this.renderer = getWebGlContext(); // singleton
-            this.camera = this.initCamera();
-            this.scene = this.initScene();
+            this.camera = three.createCamera();
+            this.scene = three.createScene();
             this.scene.add(this.camera);      
-            this.initLight();       
-            this.arToolkitSource = this.initArToolkitSource();
-            this.arToolkitContext = this.initArToolkitContext();
+            this.scene.add(three.createDirectionalLight());
+            this.scene.add(three.createAmbientLight());
+            this.arToolkitSource = three.createArToolkitSource();
+            this.arToolkitContext = three.createArToolkitContext(this.baseURL);
             this.initArToolkitCallbacks();
             this.initRenderFunctions();
             this.runRenderingLoop();
             return Promise.resolve();
         }       
         
-        /**
-         * Initializes the THREE.js scene
-         */
-        initScene() : THREE.Scene{
-            return new THREE.Scene();
-        }
-        /**
-         * Initializes the THREE.js camera
-         */
-        initCamera() : THREE.Camera{
-            return new THREE.Camera();
-        }
-
-        /**
-         * Init light sourcees for THREE.js scene
-         */
-        initLight(){
-            let directionalLight = new THREE.DirectionalLight(0xffffff);
-            directionalLight.position.set(0, 1, 0.9).normalize();
-            directionalLight.name = 'directionallight';
-            this.scene.add(directionalLight);
-            let ambientLight = new THREE.AmbientLight(0xcccccc);
-            ambientLight.name = 'ambientlight';
-            this.scene.add(ambientLight);            
-        }
-
-        /**
-         * Init ArToolkit Source
-         */
-        initArToolkitSource() : THREEx.ArToolkitSource {
-            let arToolkitSource = new THREEx.ArToolkitSource({
-                sourceType : 'webcam',
-                sourceURL : null,
-            });            
-            return arToolkitSource;          
-        }
-        /**
-         * Initializes ArToolkit Context
-         */
-        initArToolkitContext() : THREEx.ArToolkitContext {
-            let arToolkitContext = new THREEx.ArToolkitContext({
-                cameraParametersUrl: this.baseURL + '../data/data/camera_para.dat',
-                detectionMode: 'mono_and_matrix',
-                matrixCodeType: '3x3'
-            });
-            return arToolkitContext;
-        }
         /**
          * Initializes the ArToolkit Source and Context callbacks
          */
@@ -164,8 +118,8 @@ namespace pxsim {
         }
 
         kill() {
-            if (this.scene) this.removeSceneChildren();
-            if (this.renderer) this.removeRendererChildren();
+            if (this.scene) three.removeSceneChildren(this.scene);
+            //if (this.renderer) this.removeRendererChildren();
             this.onRenderFcts = [];
             this.markers = {};
             this.markerStates = {};
@@ -175,17 +129,11 @@ namespace pxsim {
             this.scene = null;
         }
 
-        removeSceneChildren(){
-            while (this.scene.children.length){
-                this.scene.remove(this.scene.children[0]);
-            }      
-        }
-
-        removeRendererChildren(){
+        /*removeRendererChildren(){
             while (this.renderer.domElement.lastChild){
                 this.renderer.domElement.removeChild(this.renderer.domElement.lastChild);
             }
-        }
+        }*/
 
         // gets or creates a new marker
         marker(marker: Marker) : THREE.Group {

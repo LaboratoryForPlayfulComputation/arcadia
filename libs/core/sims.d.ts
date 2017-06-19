@@ -99,7 +99,7 @@ declare namespace markers {
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     //% shim=markers::position
-    function position(marker: Marker, axis: Coordinate): number;
+    function position(marker: Marker, axis: Axes): number;
 
 }
 declare namespace colors {

@@ -158,11 +158,11 @@ namespace pxsim.markers {
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function position(marker: Marker, axis: Coordinate): number {
+    export function position(marker: Marker, axis: Axes): number {
         const pos = board().getMarkerPosition(marker);
         switch(axis) {
-            case Coordinate.x: return pos.x;
-            case Coordinate.y: return pos.y;
+            case Axes.x: return pos.x;
+            case Axes.y: return pos.y;
             default: return pos.z;
         }
     }
