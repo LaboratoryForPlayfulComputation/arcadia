@@ -90,7 +90,7 @@ namespace pxsim.markers {
     function createTextAsync(text: string, color: number, marker: Marker): Promise<void> {
         return loadFontAsync()
             .then(font => {
-                var text3d = new THREE.TextGeometry(text, {
+                let text3d = new THREE.TextGeometry(text, {
                     size: 0.25,
                     bevelEnabled: false,
                     bevelThickness: 3,
