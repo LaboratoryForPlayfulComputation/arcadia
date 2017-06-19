@@ -69,10 +69,10 @@
   "loops.pause": "Pause for the specified time in milliseconds",
   "loops.pause|param|ms": "how long to pause for, eg: 100, 200, 500, 1000, 2000",
   "markers": "Augment Reality markers",
-  "markers.getDistance": "Gets the distance between the centers of 2 markers",
-  "markers.getPosition": "Gets the coordinates of a marker",
-  "markers.onMoved": "Allows use to define callbacks for a marker moved event",
-  "markers.setNumberAndColor": "Sets the number and color that displays when the marker is detected",
+  "markers.distance": "Gets the distance between the centers of 2 markers",
+  "markers.onEvent": "Allows use to define callbacks for a marker event",
+  "markers.position": "Gets the coordinates of a marker",
+  "markers.setNumberAndColo": "Sets the number and color that displays when the marker is detected",
   "markers.setShapeAndColor": "Sets the shape and color that displays when the marker is detected",
   "markers.setStringAndColor": "Sets the string and color that displays when the marker is detected"
 }

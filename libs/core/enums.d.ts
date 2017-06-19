@@ -68,6 +68,15 @@ declare const enum Marker {
     Marker15 = 15
 }
 
+declare const enum MarkerEvent {
+    //% block="moved"
+    //% enumval=0x01
+    Moved = 0x01,
+    //% block="hidden"
+    //% enumval=0x02
+    Hidden = 0x02,
+}
+
 /**
  * Well known colors for a NeoPixel strip
  */
