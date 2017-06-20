@@ -89,10 +89,39 @@ namespace pxsim.three {
     export function createBillboard(marker: Marker, color: number): THREE.Mesh {
         const m = board().marker(marker);
         var geometry = createPlane();
-        var material = new THREE.MeshBasicMaterial({ color: color, side: THREE.DoubleSide });
+        var material = new THREE.MeshPhongMaterial({transparent: true,
+                                                    opacity: 1.0,
+                                                    color: color,
+                                                    side: THREE.DoubleSide});
         var billboard = new THREE.Mesh(geometry, material);
         return billboard;
     }    
+
+    export function createText(text: string, color: number, marker: Marker) : THREE.Mesh {
+        let text3d = new THREE.TextGeometry(text, {
+            size: 0.25,
+            bevelEnabled: false,
+            bevelThickness: 3,
+            bevelSize: 1,
+            height: 0.025,
+            curveSegments: 2,
+            font: board().font as any
+        });
+        let material = new THREE.MeshBasicMaterial({
+            transparent: true,
+            opacity: 5,
+            color: color,
+            side: THREE.DoubleSide
+        });
+        let group = board().markers[marker.toString()]['group'];
+        let object = group.getObjectByName(marker.toString() + '-text');
+        if (object) {
+            three.removeObjectFromGroup(group, object);
+        }
+        let textMesh = new THREE.Mesh(text3d, material);
+        return textMesh;
+
+    }
 
     /**
      * Creates the AR Toolkit Source which defines

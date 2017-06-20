@@ -36,8 +36,7 @@ declare namespace markers {
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    //% async
-    //% shim=markers::setTextAsync promise
+    //% shim=markers::setText
     function setText(marker: Marker, text: string): void;
 
     /**
@@ -47,8 +46,7 @@ declare namespace markers {
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    //% async
-    //% shim=markers::setNumberAsync promise
+    //% shim=markers::setNumber
     function setNumber(marker: Marker, number: number): void;
 
     /**

@@ -6,21 +6,27 @@ namespace pxsim.markers {
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    //% async
-    export function setTextAsync(marker: Marker, text: string) {
+    export function setText(marker: Marker, text: string) {
         const m = board().marker(marker);
         let billboardMesh = three.createBillboard(marker, 0x000000);
-        return createTextAsync(text, 0xffffff, marker)
-            .then(textMesh => {
-                let group = board().markers[marker.toString()]['group'];
-                let object = group.getObjectByName(marker.toString() + '-shape');
-                if (object) {
-                    three.removeObjectFromGroup(group, object);
-                }
-                billboardMesh.name = marker.toString() + '-shape';
-                billboardMesh.rotation.x = Math.PI / 2;
-                group.add(billboardMesh);
-            });
+        let textMesh = three.createText(text, 0xffffff, marker);
+        let group = board().markers[marker.toString()]['group'];
+        let object = group.getObjectByName(marker.toString() + '-shape');
+        if (object) {
+            three.removeObjectFromGroup(group, object);
+        }
+        let textObject = group.getObjectByName(marker.toString() + '-text');
+        if (textObject) {
+            three.removeObjectFromGroup(group, textObject);
+        }        
+        billboardMesh.name = marker.toString() + '-shape';
+        billboardMesh.rotation.x = Math.PI / 2;
+        textMesh.name = marker.toString() + '-text';
+        textMesh.rotation.x = -Math.PI / 2;
+        textMesh.position.z += 0.25;
+        textMesh.position.x -= 0.5;        
+        group.add(billboardMesh);
+        group.add(textMesh);
     }
 
     /**
@@ -30,21 +36,28 @@ namespace pxsim.markers {
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    //% async
-    export function setNumberAsync(marker: Marker, number: number) {
+    export function setNumber(marker: Marker, number: number) {
         const m = board().marker(marker);
-        let billboardMesh = three.createBillboard(marker, 0x000000);
-        return createTextAsync(number.toString(), 0xffffff, marker)
-            .then(textMesh => {
-                let group = board().markers[marker.toString()]['group'];
-                let object = group.getObjectByName(marker.toString() + '-shape');
-                if (object) {
-                    three.removeObjectFromGroup(group, object);
-                }
-                billboardMesh.name = marker.toString() + '-shape';
-                billboardMesh.rotation.x = Math.PI / 2;
-                group.add(billboardMesh);
-            });
+        let markerState = board().markers[marker.toString()];   
+        let billboardMesh = three.createBillboard(marker, markerState['color']);
+        let textMesh = three.createText(number.toString(), markerState['fontColor'], marker);
+        let group = board().markers[marker.toString()]['group'];
+        let object = group.getObjectByName(marker.toString() + '-shape');
+        if (object) {
+            three.removeObjectFromGroup(group, object);
+        }
+        let textObject = group.getObjectByName(marker.toString() + '-text');
+        if (textObject) {
+            three.removeObjectFromGroup(group, textObject);
+        }        
+        billboardMesh.name = marker.toString() + '-shape';
+        billboardMesh.rotation.x = Math.PI / 2;
+        textMesh.name = marker.toString() + '-text';
+        textMesh.rotation.x = -Math.PI / 2;
+        textMesh.position.z += 0.25;
+        textMesh.position.x -= 0.5;        
+        group.add(billboardMesh);
+        group.add(textMesh);
     }
 
     /**
@@ -59,12 +72,13 @@ namespace pxsim.markers {
     //% shape.fieldOptions.itemColour="black" shape.fieldOptions.tooltips="true"
     export function setShape(marker: Marker, shape: Shape) {
         const m = board().marker(marker);
+        let markerState = board().markers[marker.toString()];        
         let geometry = three.createGeometry(shape);
         let material = new THREE.MeshPhongMaterial({
             transparent: true,
             opacity: 0.9,
-            color: 0x000000,
-            side: THREE.FrontSide
+            color: markerState['color'],
+            side: THREE.DoubleSide
         });
         let group = board().markers[marker.toString()]['group'];
         let object = group.getObjectByName(marker.toString() + '-shape');
@@ -85,13 +99,16 @@ namespace pxsim.markers {
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     export function setColor(marker: Marker, color: number) {
+        const m = board().marker(marker);
+        let markerState = board().markers[marker.toString()];
+        markerState['color'] = color;
         let group = board().markers[marker.toString()]['group'];
         let object = group.getObjectByName(marker.toString() + '-shape');
         if (object){
             (object as any).material = new THREE.MeshPhongMaterial({transparent: true,
                                                                     opacity: 0.9,
                                                                     color: color,
-                                                                    side: THREE.FrontSide});
+                                                                    side: THREE.DoubleSide});
         }
     }   
 
@@ -103,7 +120,10 @@ namespace pxsim.markers {
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     export function setTextColor(marker: Marker, color: number) {
+        const m = board().marker(marker);
         let group = board().markers[marker.toString()]['group'];
+        let markerState = board().markers[marker.toString()];
+        markerState['fontColor'] = color;        
         let object = group.getObjectByName(marker.toString() + '-text');
         if (object){
             (object as any).material = new THREE.MeshBasicMaterial({transparent: true,
@@ -112,47 +132,6 @@ namespace pxsim.markers {
                                                                     side: THREE.DoubleSide});
         }
     }  
-
-    function loadFontAsync(): Promise<THREE.Font> {
-        let loader = new THREE.FontLoader();
-        return new Promise<THREE.Font>((resolve, reject) => {
-            loader.load('fonts/helvetiker_regular.typeface.json', (font) => {
-                resolve(loader.parse(font));
-            }, null, e => reject(e));
-        });
-    }
-
-    function createTextAsync(text: string, color: number, marker: Marker): Promise<void> {
-        return loadFontAsync()
-            .then(font => {
-                let text3d = new THREE.TextGeometry(text, {
-                    size: 0.25,
-                    bevelEnabled: false,
-                    bevelThickness: 3,
-                    bevelSize: 1,
-                    height: 0.025,
-                    curveSegments: 2,
-                    font: font
-                });
-                let material = new THREE.MeshBasicMaterial({
-                    transparent: true,
-                    opacity: 5,
-                    color: color,
-                    side: THREE.DoubleSide
-                });
-                let group = board().markers[marker.toString()]['group'];
-                let object = group.getObjectByName(marker.toString() + '-text');
-                if (object) {
-                    three.removeObjectFromGroup(group, object);
-                }
-                let textMesh = new THREE.Mesh(text3d, material);
-                textMesh.name = marker.toString() + '-text';
-                textMesh.rotation.x = -Math.PI / 2;
-                textMesh.position.z += 0.25;
-                textMesh.position.x -= 0.5;
-                board().markers[marker.toString()]['group'].add(textMesh);
-            })
-    }
 
     /**
      * Allows use to define callbacks for a marker event

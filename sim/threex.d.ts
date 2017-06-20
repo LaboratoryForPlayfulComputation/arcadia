@@ -67,6 +67,8 @@ declare namespace THREEx {
         prevPos: THREE.Vector3,
         currentRot: THREE.Euler,
         prevRot: THREE.Euler,
+        color: number,
+        fontColor: number,
         scripts: pxsim.Map<() => void>;
     }
 }

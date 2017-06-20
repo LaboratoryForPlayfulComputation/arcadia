@@ -27,6 +27,7 @@ namespace pxsim {
      */
     export class Board extends pxsim.BaseBoard {
         public bus: pxsim.EventBus;
+        public font: String;
         public scene :  THREE.Scene;
         public camera: THREE.Camera;
         public markers: pxsim.Map<THREEx.ArMarkerState>;
@@ -41,23 +42,38 @@ namespace pxsim {
         }
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
-            this.bus = new pxsim.EventBus(runtime);
-            this.markers = {};
-            this.baseURL = '/sim/AR.js/three.js/';
-            this.renderer = getWebGlContext(); // singleton
-            this.camera = three.createCamera();
-            this.scene = three.createScene();
-            this.scene.add(this.camera);      
-            this.scene.add(three.createDirectionalLight());
-            this.scene.add(three.createAmbientLight());
-            this.arToolkitSource = three.createArToolkitSource();
-            this.arToolkitContext = three.createArToolkitContext(this.baseURL);
-            this.initArToolkitCallbacks();
-            this.initRenderFunctions();
-            this.runRenderingLoop();
-            return Promise.resolve();
+            return this.loadFontAsync()
+                .then(font => {
+                    this.bus = new pxsim.EventBus(runtime);
+                    this.font = font;
+                    this.markers = {};
+                    this.baseURL = '/sim/AR.js/three.js/';
+                    this.renderer = getWebGlContext(); // singleton
+                    this.camera = three.createCamera();
+                    this.scene = three.createScene();
+                    this.scene.add(this.camera);      
+                    this.scene.add(three.createDirectionalLight());
+                    this.scene.add(three.createAmbientLight());
+                    this.arToolkitSource = three.createArToolkitSource();
+                    this.arToolkitContext = three.createArToolkitContext(this.baseURL);
+                    this.initArToolkitCallbacks();
+                    this.initRenderFunctions();
+                    this.runRenderingLoop();
+                    return Promise.resolve();
+                });
+
+            
         }       
-        
+
+        loadFontAsync() : Promise<String> {
+            let loader = new THREE.FontLoader();
+            return new Promise<String>((resolve, reject) => {
+                loader.load('fonts/helvetiker_regular.typeface.json', (font) => {
+                    resolve(font);
+                }, null, e => reject(e));
+            });            
+        }
+
         /**
          * Initializes the ArToolkit Source and Context callbacks
          */
@@ -175,6 +191,8 @@ namespace pxsim {
                     prevPos: new THREE.Vector3(0, 0, 0),
                     currentRot: new THREE.Euler(0, 0, 0),
                     prevRot: new THREE.Euler(0, 0, 0),
+                    color: 0x000000,
+                    fontColor: 0xffffff,
                     scripts: {}
                 };
         }
