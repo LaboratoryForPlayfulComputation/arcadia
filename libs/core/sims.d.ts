@@ -97,6 +97,20 @@ declare namespace markers {
     function onEvent(marker: Marker, event: MarkerEvent, handler: () => void): void;
 
     /**
+     * Allows use to define callbacks for a marker event
+     * @param marker 
+     */
+    //% blockId=ar_while_event block="while %marker| %event"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"    
+    //% event.fieldEditor="gridpicker"
+    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
+    //% event.fieldOptions.tooltips="true"
+    //% shim=markers::whileEvent
+    function whileEvent(marker: Marker, event: any, handler: () => void): void;
+
+    /**
      * Allows use to define callbacks for multi marker event
      * @param marker 
      */

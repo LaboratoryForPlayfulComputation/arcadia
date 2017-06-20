@@ -72,8 +72,6 @@ namespace pxsim {
             });            
         }
 
-
-
         /**
          * Define functions that we want to run on every render loop
          */
@@ -134,8 +132,20 @@ namespace pxsim {
             if (Math.abs(angleX) >= 0.05 || Math.abs(angleY) >= 0.05 || Math.abs(angleZ) >= 0.05) this.bus.queue(marker, MarkerEvent.Rotated);
             if (angleX >= 0.05) this.bus.queue(marker, MarkerEvent.RotatedClockwise);
             else if (angleX <= -0.05) this.bus.queue(marker, MarkerEvent.RotatedCounterClockwise);
-            if (markerPrevVisible == false && markerVisible == true) this.bus.queue(marker, MarkerEvent.Visible);                                       
-            if (markerPrevVisible == true && markerVisible == false) this.bus.queue(marker, MarkerEvent.Hidden); 
+            //if (markerPrevVisible == false && markerVisible == true) this.bus.queue(marker, MarkerEvent.Visible);                                       
+            //if (markerPrevVisible == true && markerVisible == false) this.bus.queue(marker, MarkerEvent.Hidden); 
+
+            if (markerVisible == true){
+                this.bus.queue(marker, MarkerEvent.WhileVisible);
+                if (markerPrevVisible == false){
+                    this.bus.queue(marker, MarkerEvent.Visible);
+                }
+            } else { // marker not visible
+                this.bus.queue(marker, MarkerEvent.WhileHidden);
+                if (markerPrevVisible == true){
+                    this.bus.queue(marker, MarkerEvent.Hidden);
+                }
+            }            
         }
 
         /**
