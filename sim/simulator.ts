@@ -54,15 +54,13 @@ namespace pxsim {
                     this.scene.add(this.camera);      
                     this.scene.add(three.createDirectionalLight());
                     this.scene.add(three.createAmbientLight());
-                    this.arToolkitSource = three.createArToolkitSource();
-                    this.arToolkitContext = three.createArToolkitContext(this.baseURL);
-                    this.initArToolkitCallbacks();
+                    this.arToolkitSource = threex.createArToolkitSource();
+                    this.arToolkitContext = threex.createArToolkitContext(this.baseURL);
+                    threex.initArToolkitCallbacks();
                     this.initRenderFunctions();
                     this.runRenderingLoop();
                     return Promise.resolve();
                 });
-
-            
         }       
 
         loadFontAsync() : Promise<String> {
@@ -74,85 +72,94 @@ namespace pxsim {
             });            
         }
 
-        /**
-         * Initializes the ArToolkit Source and Context callbacks
-         */
-        initArToolkitCallbacks(){
-            let self = this;
-            this.arToolkitSource.init(function onReady(){
-                onResize();
-            })    
-            window.addEventListener('resize', function(){
-                onResize();
-            })           
-            function onResize(){
-                if (self.arToolkitSource){
-                    self.arToolkitSource.onResize();
-                    self.arToolkitSource.copySizeTo(self.renderer.domElement);
-                    if (self.arToolkitContext && (self.arToolkitContext.arController !== null)){
-                        self.arToolkitSource.copySizeTo(self.arToolkitContext.arController.canvas);
-                    }
-                }
-            }
-            this.arToolkitContext.init(function onCompleted(){
-                if (self.camera){
-                    self.camera.projectionMatrix.copy(self.arToolkitContext.getProjectionMatrix());
-                }
-            })
-        }
 
+
+        /**
+         * Define functions that we want to run on every render loop
+         */
         initRenderFunctions(){
             this.onRenderFcts= [];
-            let self = this; // the "this" keyword gets lost in the request animation frame callback
-            this.onRenderFcts.push(function(){
-                if(self.arToolkitSource.ready === false) return
-                self.arToolkitContext.update(self.arToolkitSource.domElement)
-                if (self.scene && self.camera){
-                    self.scene.visible = self.camera.visible;
+            /* update the AR toolkit source and context */
+            this.onRenderFcts.push(() => {
+                if(this.arToolkitSource.ready === false) return
+                this.arToolkitContext.update(this.arToolkitSource.domElement)
+                if (this.scene && this.camera){
+                    this.scene.visible = this.camera.visible;
                 }
-            })
-            this.onRenderFcts.push(function(){ 	// render the scene
-                if (self.renderer && self.scene && self.camera){
-                    self.renderer.render(self.scene, self.camera);
+            });
+            /* render the THREE.js scene */
+            this.onRenderFcts.push(() => {
+                if (this.renderer && this.scene && this.camera){
+                    this.renderer.render(this.scene, this.camera);
                 }
-            })
-            this.onRenderFcts.push(function (){
-                /* updates marker state and triggers events if position or rotation changes */
-                for (var key in self.markers){
-                    let markerState = self.markers[key];
-                    let marker = markerState['marker'];
-                    let markerCurrentPos = markerState['currentPos'];
-                    let markerPrevPos = markerState['prevPos'];
-                    let markerCurrentRot = markerState['currentRot'];
-                    let markerPrevRot = markerState['prevRot'];       
-                    let markerPrevVisible = markerState['prevVisible'];             
-                    let markerVisible = markerState['visible'];             
-                    const distance = markerPrevPos.distanceTo(markerCurrentPos); //overall distance vector
-                    const distanceX = markerCurrentPos.x - markerPrevPos.x; //distance x
-                    const distanceY = markerCurrentPos.y - markerPrevPos.y; //distance y
-                    const distanceZ = markerCurrentPos.z - markerPrevPos.z; //distance z
-                    if (distance >= 0.05) self.bus.queue(marker, MarkerEvent.Moved);
-                    if (distanceX >= 0.05) self.bus.queue(marker, MarkerEvent.MovedRight);
-                    else if (distanceX <= -0.05) self.bus.queue(marker, MarkerEvent.MovedLeft);
-                    if (distanceY >= 0.05) self.bus.queue(marker, MarkerEvent.MovedUp);
-                    else if (distanceY <= -0.05) self.bus.queue(marker, MarkerEvent.MovedDown);
-                    if (distanceZ >= 0.05) self.bus.queue(marker, MarkerEvent.MovedForward);
-                    else if (distanceZ <= -0.05) self.bus.queue(marker, MarkerEvent.MovedBackward); 
-                    if (markerPrevVisible == false && markerVisible == true) self.bus.queue(marker, MarkerEvent.Visible);                                       
-                    if (markerPrevVisible == true && markerVisible == false) self.bus.queue(marker, MarkerEvent.Hidden);                                       
-                    markerState['prevPos'] = new THREE.Vector3(markerCurrentPos.x,
-                                                                markerCurrentPos.y,
-                                                                 markerCurrentPos.z);
-                    markerState['currentPos'] = self.scene.getObjectByName('markerroot' + key).position;
-                    markerState['prevRot'] = new THREE.Euler(markerCurrentRot.x,
-                                                              markerCurrentRot.y,
-                                                               markerCurrentRot.z);
-                    markerState['currentRot'] = self.scene.getObjectByName('markerroot' + key).rotation;      
-                    markerState['prevVisible'] = markerVisible;
-                    markerState['visible'] = self.scene.getObjectByName('markerroot' + key).visible;           
+            });
+            /* updates marker state and triggers events if position or rotation changes */
+            this.onRenderFcts.push(() => {
+                for (var key in this.markers){
+                    let markerState = this.markers[key];
+                    this.triggerMarkerEvents(markerState);
+                    this.updateMarkerState(markerState);      
                 }
-            })
-            self = this; // now that we've added some functions to this.onRenderFcts, we need to update "self"          
+            });
+        }
+
+        /**
+         * Checks for changed AR marker states and triggers marker events
+         * @param markerState 
+         */
+        triggerMarkerEvents(markerState : THREEx.ArMarkerState){
+            const marker = markerState['marker'];
+            let markerCurrentPos = markerState['currentPos'];
+            let markerPrevPos = markerState['prevPos'];
+            let markerCurrentRot = markerState['currentRot'];
+            let markerPrevRot = markerState['prevRot'];       
+            let markerPrevVisible = markerState['prevVisible'];             
+            let markerVisible = markerState['visible'];   
+            // calculate differences in previous and current positions/rotations          
+            const distance = markerPrevPos.distanceTo(markerCurrentPos);
+            const distanceX = markerCurrentPos.x - markerPrevPos.x; 
+            const distanceY = markerCurrentPos.y - markerPrevPos.y; 
+            const distanceZ = markerCurrentPos.z - markerPrevPos.z; 
+            const angleX = markerCurrentRot.x - markerPrevRot.x;
+            const angleY = markerCurrentRot.y - markerPrevRot.x;
+            const angleZ = markerCurrentRot.z - markerPrevRot.z;
+            // trigger events depending on the changed state
+            if (distance >= 0.05) this.bus.queue(marker, MarkerEvent.Moved);
+            if (distanceX >= 0.05) this.bus.queue(marker, MarkerEvent.MovedRight);
+            else if (distanceX <= -0.05) this.bus.queue(marker, MarkerEvent.MovedLeft);
+            if (distanceY >= 0.05) this.bus.queue(marker, MarkerEvent.MovedUp);
+            else if (distanceY <= -0.05) this.bus.queue(marker, MarkerEvent.MovedDown);
+            if (distanceZ >= 0.05) this.bus.queue(marker, MarkerEvent.MovedForward);
+            else if (distanceZ <= -0.05) this.bus.queue(marker, MarkerEvent.MovedBackward); 
+            if (Math.abs(angleX) >= 0.05 || Math.abs(angleY) >= 0.05 || Math.abs(angleZ) >= 0.05) this.bus.queue(marker, MarkerEvent.Rotated);
+            if (angleX >= 0.05) this.bus.queue(marker, MarkerEvent.RotatedClockwise);
+            else if (angleX <= -0.05) this.bus.queue(marker, MarkerEvent.RotatedCounterClockwise);
+            if (markerPrevVisible == false && markerVisible == true) this.bus.queue(marker, MarkerEvent.Visible);                                       
+            if (markerPrevVisible == true && markerVisible == false) this.bus.queue(marker, MarkerEvent.Hidden); 
+        }
+
+        /**
+         * Update previous and current AR marker state values
+         * @param markerState 
+         */
+        updateMarkerState(markerState : THREEx.ArMarkerState){
+            let key = markerState['marker'].toString();
+            let markerCurrentPos = markerState['currentPos'];
+            let markerPrevPos = markerState['prevPos'];
+            let markerCurrentRot = markerState['currentRot'];
+            let markerPrevRot = markerState['prevRot'];       
+            let markerPrevVisible = markerState['prevVisible'];             
+            let markerVisible = markerState['visible'];               
+            markerState['prevPos'] = new THREE.Vector3(markerCurrentPos.x,
+                                                        markerCurrentPos.y,
+                                                            markerCurrentPos.z);
+            markerState['currentPos'] = this.scene.getObjectByName('markerroot' + key).position;
+            markerState['prevRot'] = new THREE.Euler(markerCurrentRot.x,
+                                                        markerCurrentRot.y,
+                                                        markerCurrentRot.z);
+            markerState['currentRot'] = this.scene.getObjectByName('markerroot' + key).rotation;      
+            markerState['prevVisible'] = markerVisible;
+            markerState['visible'] = this.scene.getObjectByName('markerroot' + key).visible;             
         }
 
         runRenderingLoop(){
@@ -193,15 +200,8 @@ namespace pxsim {
         createMarker(marker: Marker): THREEx.ArMarkerState {
             let markerRoot = new THREE.Group;
             markerRoot.name = 'markerroot' + marker.toString();
-            //markerRoot.rotation.onChangeCallback = () => this.bus.queue(marker, MarkerEvent.Rotated);
             this.scene.add(markerRoot);
-            let markerControls = new THREEx.ArMarkerControls(this.arToolkitContext, markerRoot, {
-                type : 'barcode',
-                barcodeValue : marker,
-                changeMatrixMode: 'modelViewMatrix',
-                size: 1,
-                patternUrl: null,
-            })
+            let markerControls = threex.createMarkerControls(marker, markerRoot);
             this.scene.visible = false;
             return {
                     marker: marker,

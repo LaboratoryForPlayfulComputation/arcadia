@@ -124,34 +124,6 @@ namespace pxsim.three {
     }
 
     /**
-     * Creates the AR Toolkit Source which defines
-     * where our imagery is coming from -- in this case
-     * we are using the webcam as our source
-     */
-    export function createArToolkitSource() : THREEx.ArToolkitSource {
-        let arToolkitSource = new THREEx.ArToolkitSource({
-            sourceType : 'webcam',
-            sourceURL : null,
-        });            
-        return arToolkitSource;          
-    }
-
-    /**
-     * Creates the AR Toolkit Context which defines
-     * the detection mode we will be using for discovering
-     * matrix markers
-     * @param baseURL 
-     */
-    export function createArToolkitContext(baseURL : String) : THREEx.ArToolkitContext {
-        let arToolkitContext = new THREEx.ArToolkitContext({
-            cameraParametersUrl: baseURL + '../data/data/camera_para.dat',
-            detectionMode: 'mono_and_matrix',
-            matrixCodeType: '3x3'
-        });
-        return arToolkitContext;
-    }
-
-    /**
      * Remove a particular object by name from a group
      * @param group 
      * @param obj 

@@ -95,10 +95,10 @@ declare const enum MarkerEvent {
     Rotated = 0x08,
     //% block="rotated clockwise"
     //% enumval=0x09
-    RotatedX = 0x09,
+    RotatedClockwise = 0x09,
     //% block="rotated counterclockwise"
     //% enumval=0x10
-    RotatedY = 0x10,  
+    RotatedCounterClockwise = 0x10,  
     //% block="hidden"
     //% enumval=0x11
     Hidden = 0x11,     
