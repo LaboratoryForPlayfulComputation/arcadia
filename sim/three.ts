@@ -4,15 +4,23 @@ namespace pxsim.three {
      * Creates our scene, this will store our 
      * camera, lights, shapes, etc.
      */
+    let scene : any = null;
     export function createScene() : THREE.Scene{
-        return new THREE.Scene();
+        if (scene == null){
+            scene = new THREE.Scene();
+        }
+        return scene;        
     }
 
     /**
      * Creates a camera for our scene
      */
+    let camera : any = null;
     export function createCamera() : THREE.Camera{
-        return new THREE.Camera();
+        if (camera == null){
+            camera = new THREE.Camera();
+        }
+        return camera;
     }
 
     /**
@@ -140,5 +148,15 @@ namespace pxsim.three {
         while (scene.children.length){
             scene.remove(scene.children[0]);
         }      
-    }     
+    }  
+
+    export function loadFontAsync() : Promise<String> {
+        let loader = new THREE.FontLoader();
+        return new Promise<String>((resolve, reject) => {
+            loader.load('fonts/helvetiker_regular.typeface.json', (font) => {
+                resolve(font);
+            }, null, e => reject(e));
+        });            
+    }
+
 }

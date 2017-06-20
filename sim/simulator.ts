@@ -26,51 +26,42 @@ namespace pxsim {
      * Do not store state anywhere else!
      */
     export class Board extends pxsim.BaseBoard {
-        public bus: pxsim.EventBus;
-        public font: String;
-        public scene :  THREE.Scene;
-        public camera: THREE.Camera;
-        public markers: pxsim.Map<THREEx.ArMarkerState>;
-        public arToolkitContext: THREEx.ArToolkitContext;
-        public arToolkitSource: THREEx.ArToolkitSource;
-        public renderer: THREE.WebGLRenderer;
-        public baseURL: String;
-        public onRenderFcts: Array<any>;
+        public bus              : pxsim.EventBus;
+        public font             : String;
+        public scene            : THREE.Scene;
+        public camera           : THREE.Camera;
+        public markers          : pxsim.Map<THREEx.ArMarkerState>;
+        public arToolkitContext : THREEx.ArToolkitContext;
+        public arToolkitSource  : THREEx.ArToolkitSource;
+        public renderer         : THREE.WebGLRenderer;
+        public baseURL          : String;
+        public onRenderFcts     : Array<any>;
         
         constructor() {
             super();
         }
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
-            return this.loadFontAsync()
+            return three.loadFontAsync()
                 .then(font => {
-                    this.bus = new pxsim.EventBus(runtime);
-                    this.font = font;
-                    this.markers = {};
-                    this.baseURL = '/sim/AR.js/three.js/';
-                    this.renderer = getWebGlContext(); // singleton
-                    this.camera = three.createCamera();
-                    this.scene = three.createScene();
+                    this.bus              = new pxsim.EventBus(runtime);
+                    this.font             = font;
+                    this.markers          = {};
+                    this.baseURL          = '/sim/AR.js/three.js/';
+                    this.renderer         = getWebGlContext(); // singleton
+                    this.camera           = three.createCamera();
+                    this.scene            = three.createScene();
+                    this.arToolkitSource  = threex.createArToolkitSource();
+                    this.arToolkitContext = threex.createArToolkitContext();
                     this.scene.add(this.camera);      
                     this.scene.add(three.createDirectionalLight());
-                    this.scene.add(three.createAmbientLight());
-                    this.arToolkitSource = threex.createArToolkitSource();
-                    this.arToolkitContext = threex.createArToolkitContext(this.baseURL);
+                    this.scene.add(three.createAmbientLight());                    
                     threex.initArToolkitCallbacks();
                     this.initRenderFunctions();
                     this.runRenderingLoop();
                     return Promise.resolve();
                 });
         }       
-
-        loadFontAsync() : Promise<String> {
-            let loader = new THREE.FontLoader();
-            return new Promise<String>((resolve, reject) => {
-                loader.load('fonts/helvetiker_regular.typeface.json', (font) => {
-                    resolve(font);
-                }, null, e => reject(e));
-            });            
-        }
 
         /**
          * Define functions that we want to run on every render loop
@@ -81,15 +72,13 @@ namespace pxsim {
             this.onRenderFcts.push(() => {
                 if(this.arToolkitSource.ready === false) return
                 this.arToolkitContext.update(this.arToolkitSource.domElement)
-                if (this.scene && this.camera){
+                if (this.scene && this.camera)
                     this.scene.visible = this.camera.visible;
-                }
             });
             /* render the THREE.js scene */
             this.onRenderFcts.push(() => {
-                if (this.renderer && this.scene && this.camera){
+                if (this.renderer && this.scene && this.camera)
                     this.renderer.render(this.scene, this.camera);
-                }
             });
             /* updates marker state and triggers events if position or rotation changes */
             this.onRenderFcts.push(() => {
@@ -106,45 +95,40 @@ namespace pxsim {
          * @param markerState 
          */
         triggerMarkerEvents(markerState : THREEx.ArMarkerState){
-            const marker = markerState['marker'];
-            let markerCurrentPos = markerState['currentPos'];
-            let markerPrevPos = markerState['prevPos'];
-            let markerCurrentRot = markerState['currentRot'];
-            let markerPrevRot = markerState['prevRot'];       
+            const marker          = markerState['marker'];
+            let markerCurrentPos  = markerState['currentPos'];
+            let markerPrevPos     = markerState['prevPos'];
+            let markerCurrentRot  = markerState['currentRot'];
+            let markerPrevRot     = markerState['prevRot'];       
             let markerPrevVisible = markerState['prevVisible'];             
-            let markerVisible = markerState['visible'];   
+            let markerVisible     = markerState['visible'];   
             // calculate differences in previous and current positions/rotations          
-            const distance = markerPrevPos.distanceTo(markerCurrentPos);
+            const distance  = markerPrevPos.distanceTo(markerCurrentPos);
             const distanceX = markerCurrentPos.x - markerPrevPos.x; 
             const distanceY = markerCurrentPos.y - markerPrevPos.y; 
             const distanceZ = markerCurrentPos.z - markerPrevPos.z; 
-            const angleX = markerCurrentRot.x - markerPrevRot.x;
-            const angleY = markerCurrentRot.y - markerPrevRot.x;
-            const angleZ = markerCurrentRot.z - markerPrevRot.z;
+            const angleX    = markerCurrentRot.x - markerPrevRot.x;
+            const angleY    = markerCurrentRot.y - markerPrevRot.x;
+            const angleZ    = markerCurrentRot.z - markerPrevRot.z;
             // trigger events depending on the changed state
-            if (distance >= 0.05) this.bus.queue(marker, MarkerEvent.Moved);
-            if (distanceX >= 0.05) this.bus.queue(marker, MarkerEvent.MovedRight);
+            if      (distance >= 0.05)   this.bus.queue(marker, MarkerEvent.Moved);
+            if      (distanceX >= 0.05)  this.bus.queue(marker, MarkerEvent.MovedRight);
             else if (distanceX <= -0.05) this.bus.queue(marker, MarkerEvent.MovedLeft);
-            if (distanceY >= 0.05) this.bus.queue(marker, MarkerEvent.MovedUp);
+            if      (distanceY >= 0.05)  this.bus.queue(marker, MarkerEvent.MovedUp);
             else if (distanceY <= -0.05) this.bus.queue(marker, MarkerEvent.MovedDown);
-            if (distanceZ >= 0.05) this.bus.queue(marker, MarkerEvent.MovedForward);
+            if      (distanceZ >= 0.05)  this.bus.queue(marker, MarkerEvent.MovedForward);
             else if (distanceZ <= -0.05) this.bus.queue(marker, MarkerEvent.MovedBackward); 
-            if (Math.abs(angleX) >= 0.05 || Math.abs(angleY) >= 0.05 || Math.abs(angleZ) >= 0.05) this.bus.queue(marker, MarkerEvent.Rotated);
-            if (angleX >= 0.05) this.bus.queue(marker, MarkerEvent.RotatedClockwise);
-            else if (angleX <= -0.05) this.bus.queue(marker, MarkerEvent.RotatedCounterClockwise);
-            //if (markerPrevVisible == false && markerVisible == true) this.bus.queue(marker, MarkerEvent.Visible);                                       
-            //if (markerPrevVisible == true && markerVisible == false) this.bus.queue(marker, MarkerEvent.Hidden); 
-
+            if      (angleX >= 0.05)     this.bus.queue(marker, MarkerEvent.RotatedClockwise);
+            else if (angleX <= -0.05)    this.bus.queue(marker, MarkerEvent.RotatedCounterClockwise);
+            if (Math.abs(angleX) >= 0.05 || Math.abs(angleY) >= 0.05 || Math.abs(angleZ) >= 0.05){
+                this.bus.queue(marker, MarkerEvent.Rotated);
+            }
             if (markerVisible == true){
-                this.bus.queue(marker, MarkerEvent.WhileVisible);
-                if (markerPrevVisible == false){
-                    this.bus.queue(marker, MarkerEvent.Visible);
-                }
+                this.bus.queue(marker, MarkerLoopEvent.WhileVisible);
+                if (markerPrevVisible == false) this.bus.queue(marker, MarkerEvent.Visible);
             } else { // marker not visible
-                this.bus.queue(marker, MarkerEvent.WhileHidden);
-                if (markerPrevVisible == true){
-                    this.bus.queue(marker, MarkerEvent.Hidden);
-                }
+                this.bus.queue(marker, MarkerLoopEvent.WhileHidden);
+                if (markerPrevVisible == true) this.bus.queue(marker, MarkerEvent.Hidden);
             }            
         }
 
@@ -153,28 +137,28 @@ namespace pxsim {
          * @param markerState 
          */
         updateMarkerState(markerState : THREEx.ArMarkerState){
-            let key = markerState['marker'].toString();
-            let markerCurrentPos = markerState['currentPos'];
-            let markerPrevPos = markerState['prevPos'];
-            let markerCurrentRot = markerState['currentRot'];
-            let markerPrevRot = markerState['prevRot'];       
-            let markerPrevVisible = markerState['prevVisible'];             
-            let markerVisible = markerState['visible'];               
-            markerState['prevPos'] = new THREE.Vector3(markerCurrentPos.x,
-                                                        markerCurrentPos.y,
-                                                            markerCurrentPos.z);
-            markerState['currentPos'] = this.scene.getObjectByName('markerroot' + key).position;
-            markerState['prevRot'] = new THREE.Euler(markerCurrentRot.x,
-                                                        markerCurrentRot.y,
-                                                        markerCurrentRot.z);
-            markerState['currentRot'] = this.scene.getObjectByName('markerroot' + key).rotation;      
+            let marker                 = markerState['marker'];
+            let markerCurrentPos       = markerState['currentPos'];
+            let markerPrevPos          = markerState['prevPos'];
+            let markerCurrentRot       = markerState['currentRot'];
+            let markerPrevRot          = markerState['prevRot'];       
+            let markerPrevVisible      = markerState['prevVisible'];             
+            let markerVisible          = markerState['visible'];               
+            markerState['prevPos']     = new THREE.Vector3(markerCurrentPos.x,
+                                                            markerCurrentPos.y,
+                                                             markerCurrentPos.z);
+            markerState['prevRot']     = new THREE.Euler(markerCurrentRot.x,
+                                                          markerCurrentRot.y,
+                                                           markerCurrentRot.z);                                                         
             markerState['prevVisible'] = markerVisible;
-            markerState['visible'] = this.scene.getObjectByName('markerroot' + key).visible;             
+            markerState['currentPos']  = this.getMarkerPosition(marker);
+            markerState['currentRot']  = this.getMarkerRotation(marker);      
+            markerState['visible']     = this.getMarkerVisibility(marker);             
         }
 
         runRenderingLoop(){
+            let self         = this;
             let lastTimeMsec = 0;
-            let self = this; // the "this" keyword gets lost in the request animation frame callback
             requestAnimationFrame(function animate(nowMsec){
                 requestAnimationFrame(animate);
                 lastTimeMsec	= lastTimeMsec || nowMsec-1000/60;
@@ -182,18 +166,14 @@ namespace pxsim {
                 lastTimeMsec	= nowMsec;
                 self.onRenderFcts.forEach(function(onRenderFct){
                     onRenderFct(deltaMsec/1000, nowMsec/1000);
-                })
-            })
+                });
+            });
         }
 
         kill() {
             if (this.scene) three.removeSceneChildren(this.scene);
-            this.onRenderFcts = [];
-            this.markers = {};
-            this.arToolkitContext = null;
-            this.arToolkitSource = null;
-            this.camera = null;            
-            this.scene = null;
+            this.onRenderFcts     = [];
+            this.markers          = {};
         }
 
         /**
@@ -213,43 +193,35 @@ namespace pxsim {
             this.scene.add(markerRoot);
             let markerControls = threex.createMarkerControls(marker, markerRoot);
             this.scene.visible = false;
-            return {
-                    marker: marker,
-                    group: markerRoot,
-                    currentPos: new THREE.Vector3(0, 0, 0),
-                    prevPos: new THREE.Vector3(0, 0, 0),
-                    currentRot: new THREE.Euler(0, 0, 0),
-                    prevRot: new THREE.Euler(0, 0, 0),
-                    visible: false,
-                    prevVisible: false,
-                    color: 0x000000,
-                    fontColor: 0xffffff,
-                    scripts: {}
-                };
+            return threex.createMarkerStateEnum(marker, markerRoot);
         }
 
         /**
          *  Gets the world x, y, and z coordinates of a marker
          */
         getMarkerPosition(marker: Marker): THREE.Vector3 {
-            let markerObj = this.scene.getObjectByName('markerroot' + marker.toString());
-            if (markerObj){
-              return markerObj.position;
-            } else{
-                return new THREE.Vector3(-9999,-9999,-9999);
-            }
+            let markerObj = threex.getMarkerGroup(marker);
+            if (markerObj) return markerObj.position;
+            else return new THREE.Vector3(-9999,-9999,-9999);
         }
 
         /**
          *  Gets the world x, y, and z rotations of a marker
          */
-        getMarkerRotation(marker: Marker): THREEx.Coordinate {
-            let markerObj = this.scene.getObjectByName('markerroot' + marker.toString());
-            if (markerObj){
-              return markerObj.rotation;
-            }
-            return {x: -9999, y: -9999, z: -9999};
+        getMarkerRotation(marker: Marker): THREE.Euler {
+            let markerObj = threex.getMarkerGroup(marker);
+            if (markerObj) return markerObj.rotation;
+            else return new THREE.Euler(-9999, -9999, -9999);
         }      
+
+        /**
+         *  Gets the world x, y, and z rotations of a marker
+         */
+        getMarkerVisibility(marker: Marker): boolean {
+            let markerObj = threex.getMarkerGroup(marker);
+            if (markerObj) return markerObj.visible;
+            else return false;
+        } 
 
         /**
          * Gets distance between two markers
@@ -257,12 +229,10 @@ namespace pxsim {
          * @param marker2 
          */
         getDistanceBetweenMarkers(marker1: Marker, marker2: Marker): number {
-            let markerObj1 = this.scene.getObjectByName('markerroot' + marker1.toString());
-            let markerObj2 = this.scene.getObjectByName('markerroot' + marker2.toString());
-            if (markerObj1 && markerObj2){
-                return markerObj1.position.distanceTo(markerObj2.position);  
-            }
-            return -9999;
+            let markerObj1 = threex.getMarkerGroup(marker1);
+            let markerObj2 = threex.getMarkerGroup(marker2);
+            if (markerObj1 && markerObj2) return markerObj1.position.distanceTo(markerObj2.position);  
+            else return -9999;
         }  
     }
 

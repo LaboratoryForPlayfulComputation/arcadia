@@ -108,7 +108,7 @@ declare namespace markers {
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"
     //% shim=markers::whileEvent
-    function whileEvent(marker: Marker, event: any, handler: () => void): void;
+    function whileEvent(marker: Marker, event: MarkerLoopEvent, handler: () => void): void;
 
     /**
      * Allows use to define callbacks for multi marker event

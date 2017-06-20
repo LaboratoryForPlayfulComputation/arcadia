@@ -17,9 +17,7 @@
         "variablesBlocks": true,
         "textBlocks": true,
         "listsBlocks": true,
-        "functionBlocks": true,
-        "onStartNamespace": "loops",
-        "onStartColor": "#40bf4a"
+        "functionBlocks": true
     },
     "simulator": {
         "autoRun": true

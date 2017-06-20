@@ -130,7 +130,7 @@
 --------------------*/
 
 @sideBarWidth: 22rem;
-@simulatorWidth: 27rem;
+@simulatorWidth: 30rem;
 @simulatorWidthSmall: 20rem;
 
 /*-------------------

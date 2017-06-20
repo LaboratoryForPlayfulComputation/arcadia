@@ -7,24 +7,20 @@ namespace pxsim.markers {
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     export function setText(marker: Marker, text: string) {
-        const m = board().marker(marker);
+        board().marker(marker);
         let billboardMesh = three.createBillboard(marker, 0x000000);
-        let textMesh = three.createText(text, 0xffffff, marker);
-        let group = board().markers[marker.toString()]['group'];
-        let object = group.getObjectByName(marker.toString() + '-shape');
-        if (object) {
-            three.removeObjectFromGroup(group, object);
-        }
-        let textObject = group.getObjectByName(marker.toString() + '-text');
-        if (textObject) {
-            three.removeObjectFromGroup(group, textObject);
-        }        
-        billboardMesh.name = marker.toString() + '-shape';
+        let textMesh      = three.createText(text, 0xffffff, marker);
+        let group         = threex.getMarkerGroup(marker);
+        let object        = group.getObjectByName(marker.toString() + '-shape');
+        let textObject    = group.getObjectByName(marker.toString() + '-text');
+        if (object) three.removeObjectFromGroup(group, object);
+        if (textObject) three.removeObjectFromGroup(group, textObject);
+        billboardMesh.name       = marker.toString() + '-shape';
         billboardMesh.rotation.x = Math.PI / 2;
-        textMesh.name = marker.toString() + '-text';
-        textMesh.rotation.x = -Math.PI / 2;
-        textMesh.position.z += 0.25;
-        textMesh.position.x -= 0.5;        
+        textMesh.name            = marker.toString() + '-text';
+        textMesh.rotation.x      = -Math.PI / 2;
+        textMesh.position.z      += 0.25;
+        textMesh.position.x      -= 0.5;        
         group.add(billboardMesh);
         group.add(textMesh);
     }
@@ -37,25 +33,21 @@ namespace pxsim.markers {
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     export function setNumber(marker: Marker, number: number) {
-        const m = board().marker(marker);
-        let markerState = board().markers[marker.toString()];   
+        board().marker(marker);
+        let markerState   = board().markers[marker.toString()];   
         let billboardMesh = three.createBillboard(marker, markerState['color']);
-        let textMesh = three.createText(number.toString(), markerState['fontColor'], marker);
-        let group = board().markers[marker.toString()]['group'];
-        let object = group.getObjectByName(marker.toString() + '-shape');
-        if (object) {
-            three.removeObjectFromGroup(group, object);
-        }
-        let textObject = group.getObjectByName(marker.toString() + '-text');
-        if (textObject) {
-            three.removeObjectFromGroup(group, textObject);
-        }        
-        billboardMesh.name = marker.toString() + '-shape';
+        let textMesh      = three.createText(number.toString(), markerState['fontColor'], marker);
+        let group         = threex.getMarkerGroup(marker);
+        let object        = group.getObjectByName(marker.toString() + '-shape');
+        let textObject    = group.getObjectByName(marker.toString() + '-text');
+        if (object) three.removeObjectFromGroup(group, object);
+        if (textObject) three.removeObjectFromGroup(group, textObject);
+        billboardMesh.name       = marker.toString() + '-shape';
         billboardMesh.rotation.x = Math.PI / 2;
-        textMesh.name = marker.toString() + '-text';
-        textMesh.rotation.x = -Math.PI / 2;
-        textMesh.position.z += 0.25;
-        textMesh.position.x -= 0.5;        
+        textMesh.name            = marker.toString() + '-text';
+        textMesh.rotation.x      = -Math.PI / 2;
+        textMesh.position.z      += 0.25;
+        textMesh.position.x      -= 0.5;        
         group.add(billboardMesh);
         group.add(textMesh);
     }
@@ -71,22 +63,18 @@ namespace pxsim.markers {
     //% shape.fieldOptions.width="200" shape.fieldOptions.columns="2"
     //% shape.fieldOptions.itemColour="black" shape.fieldOptions.tooltips="true"
     export function setShape(marker: Marker, shape: Shape) {
-        const m = board().marker(marker);
+        board().marker(marker);
         let markerState = board().markers[marker.toString()];        
-        let geometry = three.createGeometry(shape);
-        let material = new THREE.MeshPhongMaterial({
-            transparent: true,
-            opacity: 0.9,
-            color: markerState['color'],
-            side: THREE.DoubleSide
-        });
-        let group = board().markers[marker.toString()]['group'];
-        let object = group.getObjectByName(marker.toString() + '-shape');
-        if (object) {
-            three.removeObjectFromGroup(group, object);
-        }
-        let mesh = new THREE.Mesh(geometry, material);
-        mesh.name = marker.toString() + '-shape';
+        let geometry    = three.createGeometry(shape);
+        let material    = new THREE.MeshPhongMaterial({transparent: true,
+                                                        opacity: 0.9,
+                                                         color: markerState['color'],
+                                                          side: THREE.DoubleSide});
+        let group       = threex.getMarkerGroup(marker);
+        let object      = group.getObjectByName(marker.toString() + '-shape');
+        if (object) three.removeObjectFromGroup(group, object);
+        let mesh        = new THREE.Mesh(geometry, material);
+        mesh.name       = marker.toString() + '-shape';
         mesh.position.y += 0.5;
         group.add(mesh);
     }
@@ -99,17 +87,16 @@ namespace pxsim.markers {
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     export function setColor(marker: Marker, color: number) {
-        const m = board().marker(marker);
-        let markerState = board().markers[marker.toString()];
+        board().marker(marker);
+        let markerState      = board().markers[marker.toString()];
         markerState['color'] = color;
-        let group = board().markers[marker.toString()]['group'];
-        let object = group.getObjectByName(marker.toString() + '-shape');
-        if (object){
+        let group            = threex.getMarkerGroup(marker);
+        let object           = group.getObjectByName(marker.toString() + '-shape');
+        if (object)
             (object as any).material = new THREE.MeshPhongMaterial({transparent: true,
-                                                                    opacity: 0.9,
-                                                                    color: color,
-                                                                    side: THREE.DoubleSide});
-        }
+                                                                     opacity: 0.9,
+                                                                      color: color,
+                                                                       side: THREE.DoubleSide});
     }   
 
     /**
@@ -120,17 +107,16 @@ namespace pxsim.markers {
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     export function setTextColor(marker: Marker, color: number) {
-        const m = board().marker(marker);
-        let group = board().markers[marker.toString()]['group'];
-        let markerState = board().markers[marker.toString()];
+        board().marker(marker);
+        let group                = threex.getMarkerGroup(marker);
+        let markerState          = board().markers[marker.toString()];
         markerState['fontColor'] = color;        
-        let object = group.getObjectByName(marker.toString() + '-text');
-        if (object){
+        let object               = group.getObjectByName(marker.toString() + '-text');
+        if (object)
             (object as any).material = new THREE.MeshBasicMaterial({transparent: true,
-                                                                    opacity: 5,
-                                                                    color: color,
-                                                                    side: THREE.DoubleSide});
-        }
+                                                                     opacity: 5,
+                                                                      color: color,
+                                                                       side: THREE.DoubleSide});
     }  
 
     /**
@@ -197,8 +183,9 @@ namespace pxsim.markers {
     //% marker2.fieldOptions.width="400" marker2.fieldOptions.columns="4"
     //% marker2.fieldOptions.itemColour="black" marker2.fieldOptions.tooltips="true"    
     export function distance(marker1: Marker, marker2: Marker): number {
-        const dist = board().getDistanceBetweenMarkers(marker1, marker2);
-        return dist;
+        board().marker(marker1);
+        board().marker(marker2);        
+        return board().getDistanceBetweenMarkers(marker1, marker2);
     }
 
     /**
@@ -209,11 +196,12 @@ namespace pxsim.markers {
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     export function position(marker: Marker, axis: Axes): number {
+        board().marker(marker);
         const pos = board().getMarkerPosition(marker);
         switch(axis) {
             case Axes.x: return pos.x;
             case Axes.y: return pos.y;
-            default: return pos.z;
+            default:     return pos.z;
         }
     }
 
@@ -225,11 +213,12 @@ namespace pxsim.markers {
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     export function rotation(marker: Marker, axis: Axes): number {
+        board().marker(marker);
         const rot = board().getMarkerRotation(marker);
         switch(axis) {
             case Axes.x: return rot.x;
             case Axes.y: return rot.y;
-            default: return rot.z;
+            default:     return rot.z;
         }
     }    
 
