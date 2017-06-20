@@ -11,16 +11,14 @@ namespace pxsim.markers {
         let billboardMesh = three.createBillboard(marker, 0x000000);
         let textMesh      = three.createText(text, 0xffffff, marker);
         let group         = threex.getMarkerGroup(marker);
-        let object        = group.getObjectByName(marker.toString() + '-shape');
-        let textObject    = group.getObjectByName(marker.toString() + '-text');
-        if (object) three.removeObjectFromGroup(group, object);
-        if (textObject) three.removeObjectFromGroup(group, textObject);
         billboardMesh.name       = marker.toString() + '-shape';
         billboardMesh.rotation.x = Math.PI / 2;
         textMesh.name            = marker.toString() + '-text';
         textMesh.rotation.x      = -Math.PI / 2;
         textMesh.position.z      += 0.25;
-        textMesh.position.x      -= 0.5;        
+        textMesh.position.x      -= 0.5; 
+        three.removeShapeFromMarker(marker);
+        three.removeTextFromMarker(marker);                 
         group.add(billboardMesh);
         group.add(textMesh);
     }
@@ -38,16 +36,14 @@ namespace pxsim.markers {
         let billboardMesh = three.createBillboard(marker, markerState['color']);
         let textMesh      = three.createText(number.toString(), markerState['fontColor'], marker);
         let group         = threex.getMarkerGroup(marker);
-        let object        = group.getObjectByName(marker.toString() + '-shape');
-        let textObject    = group.getObjectByName(marker.toString() + '-text');
-        if (object) three.removeObjectFromGroup(group, object);
-        if (textObject) three.removeObjectFromGroup(group, textObject);
         billboardMesh.name       = marker.toString() + '-shape';
         billboardMesh.rotation.x = Math.PI / 2;
         textMesh.name            = marker.toString() + '-text';
         textMesh.rotation.x      = -Math.PI / 2;
         textMesh.position.z      += 0.25;
-        textMesh.position.x      -= 0.5;        
+        textMesh.position.x      -= 0.5;  
+        three.removeShapeFromMarker(marker);
+        three.removeTextFromMarker(marker);              
         group.add(billboardMesh);
         group.add(textMesh);
     }
@@ -71,11 +67,10 @@ namespace pxsim.markers {
                                                          color: markerState['color'],
                                                           side: THREE.DoubleSide});
         let group       = threex.getMarkerGroup(marker);
-        let object      = group.getObjectByName(marker.toString() + '-shape');
-        if (object) three.removeObjectFromGroup(group, object);
         let mesh        = new THREE.Mesh(geometry, material);
         mesh.name       = marker.toString() + '-shape';
         mesh.position.y += 0.5;
+        three.removeShapeFromMarker(marker);
         group.add(mesh);
     }
 

@@ -6,9 +6,8 @@ namespace pxsim.three {
      */
     let scene : any = null;
     export function createScene() : THREE.Scene{
-        if (scene == null){
+        if (scene == null)
             scene = new THREE.Scene();
-        }
         return scene;        
     }
 
@@ -17,9 +16,8 @@ namespace pxsim.three {
      */
     let camera : any = null;
     export function createCamera() : THREE.Camera{
-        if (camera == null){
+        if (camera == null)
             camera = new THREE.Camera();
-        }
         return camera;
     }
 
@@ -95,7 +93,6 @@ namespace pxsim.three {
      * @param color 
      */
     export function createBillboard(marker: Marker, color: number): THREE.Mesh {
-        const m = board().marker(marker);
         var geometry = createPlane();
         var material = new THREE.MeshPhongMaterial({transparent: true,
                                                     opacity: 1.0,
@@ -121,14 +118,22 @@ namespace pxsim.three {
             color: color,
             side: THREE.DoubleSide
         });
-        let group = board().markers[marker.toString()]['group'];
-        let object = group.getObjectByName(marker.toString() + '-text');
-        if (object) {
-            three.removeObjectFromGroup(group, object);
-        }
+        let group    = threex.getMarkerGroup(marker);
+        let object   = group.getObjectByName(marker.toString() + '-text');
         let textMesh = new THREE.Mesh(text3d, material);
         return textMesh;
+    }
 
+    export function removeTextFromMarker(marker: Marker){
+        let group      = threex.getMarkerGroup(marker);
+        let textObject = group.getObjectByName(marker.toString() + '-text');
+        if (textObject) three.removeObjectFromGroup(group, textObject);        
+    }
+
+    export function removeShapeFromMarker(marker: Marker){
+        let group       = threex.getMarkerGroup(marker);
+        let shapeObject = group.getObjectByName(marker.toString() + '-shape');
+        if (shapeObject) three.removeObjectFromGroup(group, shapeObject);        
     }
 
     /**

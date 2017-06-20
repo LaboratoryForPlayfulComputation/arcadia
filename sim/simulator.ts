@@ -172,8 +172,8 @@ namespace pxsim {
 
         kill() {
             if (this.scene) three.removeSceneChildren(this.scene);
-            this.onRenderFcts     = [];
-            this.markers          = {};
+            this.onRenderFcts = [];
+            this.markers      = {};
         }
 
         /**
@@ -188,7 +188,7 @@ namespace pxsim {
         }
 
         createMarker(marker: Marker): THREEx.ArMarkerState {
-            let markerRoot = new THREE.Group;
+            let markerRoot  = new THREE.Group;
             markerRoot.name = 'markerroot' + marker.toString();
             this.scene.add(markerRoot);
             let markerControls = threex.createMarkerControls(marker, markerRoot);
@@ -244,7 +244,7 @@ namespace pxsim {
     let renderer : any = null;
     function getWebGlContext() : THREE.WebGLRenderer{
         if (renderer == null){
-            renderer	= new THREE.WebGLRenderer({
+            renderer = new THREE.WebGLRenderer({
                 antialias: true,
                 alpha: true
             });

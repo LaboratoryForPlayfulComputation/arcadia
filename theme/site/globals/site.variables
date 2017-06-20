@@ -129,7 +129,7 @@
    Layout
 --------------------*/
 
-@sideBarWidth: 22rem;
+@sideBarWidth: 20rem;
 @simulatorWidth: 30rem;
 @simulatorWidthSmall: 20rem;
 
