@@ -86,7 +86,7 @@ declare namespace markers {
      * Allows use to define callbacks for a marker event
      * @param marker 
      */
-    //% blockId=ar_on_move block="on %marker| %event"
+    //% blockId=ar_on_event block="on %marker| %event"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"    
@@ -95,6 +95,23 @@ declare namespace markers {
     //% event.fieldOptions.tooltips="true"
     //% shim=markers::onEvent
     function onEvent(marker: Marker, event: MarkerEvent, handler: () => void): void;
+
+    /**
+     * Allows use to define callbacks for multi marker event
+     * @param marker 
+     */
+    //% blockId=ar_on_multi_event block="on %marker1| %event| %marker2"
+    //% marker1.fieldEditor="gridpicker"
+    //% marker1.fieldOptions.width="400" marker1.fieldOptions.columns="4"
+    //% marker1.fieldOptions.itemColour="black" marker1.fieldOptions.tooltips="true" 
+    //% marker2.fieldEditor="gridpicker"
+    //% marker2.fieldOptions.width="400" marker2.fieldOptions.columns="4"
+    //% marker2.fieldOptions.itemColour="black" marker2.fieldOptions.tooltips="true"          
+    //% event.fieldEditor="gridpicker"
+    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
+    //% event.fieldOptions.tooltips="true"
+    //% shim=markers::onMultiEvent
+    function onMultiEvent(marker1: Marker, marker2: Marker, event: MultiMarkerEvent, handler: () => void): void;
 
     /**
      * Gets the distance between the centers of 2 markers

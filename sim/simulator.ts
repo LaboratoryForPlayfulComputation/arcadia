@@ -120,18 +120,36 @@ namespace pxsim {
                 /* updates marker state and triggers events if position or rotation changes */
                 for (var key in self.markers){
                     let markerState = self.markers[key];
-                    const distance = markerState['prevPos'].distanceTo(markerState['currentPos']);
-                    if (distance >= 0.05){
-                        board().bus.queue(markerState['marker'], MarkerEvent.Moved);
-                    }
-                    markerState['prevPos'] = new THREE.Vector3(markerState['currentPos'].x,
-                                                                markerState['currentPos'].y,
-                                                                 markerState['currentPos'].z);
+                    let marker = markerState['marker'];
+                    let markerCurrentPos = markerState['currentPos'];
+                    let markerPrevPos = markerState['prevPos'];
+                    let markerCurrentRot = markerState['currentRot'];
+                    let markerPrevRot = markerState['prevRot'];       
+                    let markerPrevVisible = markerState['prevVisible'];             
+                    let markerVisible = markerState['visible'];             
+                    const distance = markerPrevPos.distanceTo(markerCurrentPos); //overall distance vector
+                    const distanceX = markerCurrentPos.x - markerPrevPos.x; //distance x
+                    const distanceY = markerCurrentPos.y - markerPrevPos.y; //distance y
+                    const distanceZ = markerCurrentPos.z - markerPrevPos.z; //distance z
+                    if (distance >= 0.05) self.bus.queue(marker, MarkerEvent.Moved);
+                    if (distanceX >= 0.05) self.bus.queue(marker, MarkerEvent.MovedRight);
+                    else if (distanceX <= -0.05) self.bus.queue(marker, MarkerEvent.MovedLeft);
+                    if (distanceY >= 0.05) self.bus.queue(marker, MarkerEvent.MovedUp);
+                    else if (distanceY <= -0.05) self.bus.queue(marker, MarkerEvent.MovedDown);
+                    if (distanceZ >= 0.05) self.bus.queue(marker, MarkerEvent.MovedForward);
+                    else if (distanceZ <= -0.05) self.bus.queue(marker, MarkerEvent.MovedBackward); 
+                    if (markerPrevVisible == false && markerVisible == true) self.bus.queue(marker, MarkerEvent.Visible);                                       
+                    if (markerPrevVisible == true && markerVisible == false) self.bus.queue(marker, MarkerEvent.Hidden);                                       
+                    markerState['prevPos'] = new THREE.Vector3(markerCurrentPos.x,
+                                                                markerCurrentPos.y,
+                                                                 markerCurrentPos.z);
                     markerState['currentPos'] = self.scene.getObjectByName('markerroot' + key).position;
-                    markerState['prevRot'] = new THREE.Euler(markerState['currentRot'].x,
-                                                                markerState['currentRot'].y,
-                                                                 markerState['currentRot'].z);
-                    markerState['currentRot'] = self.scene.getObjectByName('markerroot' + key).rotation;                    
+                    markerState['prevRot'] = new THREE.Euler(markerCurrentRot.x,
+                                                              markerCurrentRot.y,
+                                                               markerCurrentRot.z);
+                    markerState['currentRot'] = self.scene.getObjectByName('markerroot' + key).rotation;      
+                    markerState['prevVisible'] = markerVisible;
+                    markerState['visible'] = self.scene.getObjectByName('markerroot' + key).visible;           
                 }
             })
             self = this; // now that we've added some functions to this.onRenderFcts, we need to update "self"          
@@ -175,6 +193,7 @@ namespace pxsim {
         createMarker(marker: Marker): THREEx.ArMarkerState {
             let markerRoot = new THREE.Group;
             markerRoot.name = 'markerroot' + marker.toString();
+            //markerRoot.rotation.onChangeCallback = () => this.bus.queue(marker, MarkerEvent.Rotated);
             this.scene.add(markerRoot);
             let markerControls = new THREEx.ArMarkerControls(this.arToolkitContext, markerRoot, {
                 type : 'barcode',
@@ -191,6 +210,8 @@ namespace pxsim {
                     prevPos: new THREE.Vector3(0, 0, 0),
                     currentRot: new THREE.Euler(0, 0, 0),
                     prevRot: new THREE.Euler(0, 0, 0),
+                    visible: false,
+                    prevVisible: false,
                     color: 0x000000,
                     fontColor: 0xffffff,
                     scripts: {}

@@ -71,6 +71,7 @@
   "markers": "Augment Reality markers",
   "markers.distance": "Gets the distance between the centers of 2 markers",
   "markers.onEvent": "Allows use to define callbacks for a marker event",
+  "markers.onMultiEvent": "Allows use to define callbacks for multi marker event",
   "markers.position": "Gets the x, y, z positional coordinates of a marker",
   "markers.rotation": "Gets the rotational values of a marker",
   "markers.setColor": "Sets the color that displays when the marker is detected",
