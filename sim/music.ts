@@ -131,7 +131,8 @@ namespace pxsim.music {
 
     /**
     * Play a tone.
-    * @param frequency pitch of the tone to play in Hertz (Hz)
+    * @param marker marker
+    * @param note pitch of the tone to play in Hertz (Hz)
     */
     //% blockId=music_play_tone block="%marker=marker_block| play tone %note=device_note" blockGap=8
     //% blockNamespace=music inBasicCategory=true
@@ -139,6 +140,19 @@ namespace pxsim.music {
         timbre.playTone(note);
     }
 
+    /**
+    * Play a drum beat.
+    * @param marker marker
+    * @param drum which drum sound to use
+    */
+    //% blockId=music_play_drum_beat block="%marker=marker_block| play %drum" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% drum.fieldEditor="gridpicker"
+    //% drum.fieldOptions.width="200" drum.fieldOptions.columns="1"
+    //% drum.fieldOptions.tooltips="true"        
+    export function drumBeat(marker: number, drum: Drum) {
+        timbre.playDrumBeat(drum);
+    }
 
     function init() {
         if (!beatsPerMinute) beatsPerMinute = 120;

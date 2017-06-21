@@ -55,6 +55,20 @@ declare namespace colors {
     //% shim=colors::named
     function named(color: Colors): number;
 
+    /**
+     * Sets the color that displays when the marker is detected
+     */
+    //% blockId=ar_set_color block="%marker=marker_block|set color %color" blockGap=8
+    //% shim=colors::setColor
+    function setColor(marker: number, color: number): void;
+
+    /**
+     * Sets the text color that displays when the marker is detected
+     */
+    //% blockId=ar_set_text_color block="%marker=marker_block|set text color %color" blockGap=8
+    //% shim=colors::setTextColor
+    function setTextColor(marker: number, color: number): void;
+
 }
 declare namespace decorations {
     /**
@@ -80,20 +94,6 @@ declare namespace decorations {
     //% shape.fieldOptions.itemColour="black" shape.fieldOptions.tooltips="true"
     //% shim=decorations::setShape
     function setShape(marker: number, shape: Shape): void;
-
-    /**
-     * Sets the color that displays when the marker is detected
-     */
-    //% blockId=ar_set_color block="%marker=marker_block|set color %color" blockGap=8
-    //% shim=decorations::setColor
-    function setColor(marker: number, color: number): void;
-
-    /**
-     * Sets the text color that displays when the marker is detected
-     */
-    //% blockId=ar_set_text_color block="%marker=marker_block|set text color %color" blockGap=8
-    //% shim=decorations::setTextColor
-    function setTextColor(marker: number, color: number): void;
 
 }
 declare namespace events {
@@ -167,12 +167,26 @@ declare namespace markers {
 declare namespace music {
     /**
      * Play a tone.
-     * @param frequency pitch of the tone to play in Hertz (Hz)
+     * @param marker marker
+     * @param note pitch of the tone to play in Hertz (Hz)
      */
     //% blockId=music_play_tone block="%marker=marker_block| play tone %note=device_note" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% shim=music::ringTone
     function ringTone(marker: number, note: number): void;
+
+    /**
+     * Play a drum beat.
+     * @param marker marker
+     * @param drum which drum sound to use
+     */
+    //% blockId=music_play_drum_beat block="%marker=marker_block| play %drum" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% drum.fieldEditor="gridpicker"
+    //% drum.fieldOptions.width="200" drum.fieldOptions.columns="1"
+    //% drum.fieldOptions.tooltips="true"
+    //% shim=music::drumBeat
+    function drumBeat(marker: number, drum: Drum): void;
 
 }
 

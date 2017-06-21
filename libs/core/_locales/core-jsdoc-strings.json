@@ -63,12 +63,12 @@
   "colors.rgb|param|blue": "value of the blue channel between 0 and 255. eg: 255",
   "colors.rgb|param|green": "value of the green channel between 0 and 255. eg: 255",
   "colors.rgb|param|red": "value of the red channel between 0 and 255. eg: 255",
+  "colors.setColor": "Sets the color that displays when the marker is detected",
+  "colors.setTextColor": "Sets the text color that displays when the marker is detected",
   "console.log": "Print out message",
-  "decorations.setColor": "Sets the color that displays when the marker is detected",
   "decorations.setNumber": "Sets the number that displays when the marker is detected",
   "decorations.setShape": "Sets the shape that displays when the marker is detected",
   "decorations.setText": "Sets the text  that displays when the marker is detected",
-  "decorations.setTextColor": "Sets the text color that displays when the marker is detected",
   "events.onEvent": "Allows use to define callbacks for a marker event",
   "events.onMultiEvent": "Allows use to define callbacks for multi marker event",
   "events.whileEvent": "Allows use to define callbacks for a marker event",
@@ -80,5 +80,10 @@
   "markers.distance": "Gets the distance between the centers of 2 markers",
   "markers.position": "Gets the x, y, z positional coordinates of a marker",
   "markers.rotation": "Gets the rotational values of a marker",
-  "music.ringTone": "Play a tone."
+  "music.drumBeat": "Play a drum beat.",
+  "music.drumBeat|param|drum": "which drum sound to use",
+  "music.drumBeat|param|marker": "marker",
+  "music.ringTone": "Play a tone.",
+  "music.ringTone|param|marker": "marker",
+  "music.ringTone|param|note": "pitch of the tone to play in Hertz (Hz)"
 }

@@ -187,3 +187,21 @@ declare const enum Shape {
     //% blockImage=1    
     Icosahedron,
 }
+
+declare const enum Drum {
+    //% block="kick"
+    //% enumval=0
+    Kick = 1,
+    //% block="snare"
+    //% enumval=1
+    Snare = 2,
+    //% block="hihat closed"
+    //% enumval=2
+    HiHatClosed = 3,
+    //% block="hihat open"
+    //% enumval=3
+    HiHatOpen = 4,
+    //% block="cymbal"
+    //% enumval=4
+    Cymbal = 5
+}
