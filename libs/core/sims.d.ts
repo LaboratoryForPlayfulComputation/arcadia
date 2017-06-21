@@ -56,29 +56,19 @@ declare namespace colors {
     function named(color: Colors): number;
 
 }
-declare namespace markers {
-    //% blockId=marker_block block="%marker"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"    
-    //% marker.fieldOptions.decompileLiterals=true
-    //% shim=TD_ID
-    //% useEnumVal=1
-    //% shim=markers::marker
-    function marker(marker: Marker): number;
-
+declare namespace decorations {
     /**
      * Sets the text  that displays when the marker is detected
      */
     //% blockId=ar_set_text block="%marker=marker_block|set text %text" blockGap=8
-    //% shim=markers::setText
+    //% shim=decorations::setText
     function setText(marker: number, text: string): void;
 
     /**
      * Sets the number that displays when the marker is detected
      */
     //% blockId=ar_set_number block="%marker=marker_block|set number %number" blockGap=8
-    //% shim=markers::setNumber
+    //% shim=decorations::setNumber
     function setNumber(marker: number, number: number): void;
 
     /**
@@ -88,23 +78,25 @@ declare namespace markers {
     //% shape.fieldEditor="gridpicker"
     //% shape.fieldOptions.width="200" shape.fieldOptions.columns="2"
     //% shape.fieldOptions.itemColour="black" shape.fieldOptions.tooltips="true"
-    //% shim=markers::setShape
+    //% shim=decorations::setShape
     function setShape(marker: number, shape: Shape): void;
 
     /**
      * Sets the color that displays when the marker is detected
      */
     //% blockId=ar_set_color block="%marker=marker_block|set color %color" blockGap=8
-    //% shim=markers::setColor
+    //% shim=decorations::setColor
     function setColor(marker: number, color: number): void;
 
     /**
      * Sets the text color that displays when the marker is detected
      */
     //% blockId=ar_set_text_color block="%marker=marker_block|set text color %color" blockGap=8
-    //% shim=markers::setTextColor
+    //% shim=decorations::setTextColor
     function setTextColor(marker: number, color: number): void;
 
+}
+declare namespace events {
     /**
      * Allows use to define callbacks for a marker event
      * @param marker 
@@ -113,7 +105,7 @@ declare namespace markers {
     //% event.fieldEditor="gridpicker"
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"
-    //% shim=markers::onEvent
+    //% shim=events::onEvent
     function onEvent(marker: number, event: MarkerEvent, handler: () => void): void;
 
     /**
@@ -124,7 +116,7 @@ declare namespace markers {
     //% event.fieldEditor="gridpicker"
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"
-    //% shim=markers::whileEvent
+    //% shim=events::whileEvent
     function whileEvent(marker: number, event: MarkerLoopEvent, handler: () => void): void;
 
     /**
@@ -135,8 +127,20 @@ declare namespace markers {
     //% event.fieldEditor="gridpicker"
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"
-    //% shim=markers::onMultiEvent
+    //% shim=events::onMultiEvent
     function onMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: () => void): void;
+
+}
+declare namespace markers {
+    //% blockId=marker_block block="%marker"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"    
+    //% marker.fieldOptions.decompileLiterals=true
+    //% shim=TD_ID
+    //% useEnumVal=1
+    //% shim=markers::marker
+    function marker(marker: Marker): number;
 
     /**
      * Gets the distance between the centers of 2 markers
