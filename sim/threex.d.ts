@@ -69,6 +69,8 @@ declare namespace THREEx {
         prevRot: THREE.Euler,
         visible: boolean,
         prevVisible: boolean,
+        prevVisibleTime: number,
+        prevHiddenTime: number,
         color: number,
         fontColor: number,
         scripts: pxsim.Map<() => void>;

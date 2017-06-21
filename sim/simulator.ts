@@ -130,7 +130,9 @@ namespace pxsim {
                 if (markerPrevVisible == false) this.bus.queue(marker, MarkerEvent.Visible);
             } else { // marker not visible
                 this.bus.queue(marker, MarkerLoopEvent.WhileHidden);
-                if (markerPrevVisible == true) this.bus.queue(marker, MarkerEvent.Hidden);
+                if (markerPrevVisible == true){
+                    this.bus.queue(marker, MarkerEvent.Hidden);
+                }
             }            
         }
 
@@ -145,17 +147,18 @@ namespace pxsim {
             let markerCurrentRot       = markerState['currentRot'];
             let markerPrevRot          = markerState['prevRot'];       
             let markerPrevVisible      = markerState['prevVisible'];             
-            let markerVisible          = markerState['visible'];               
+            let markerVisible          = markerState['visible'];    
+            let markerPrevVisibleTime  = markerState['prevVisibleTime'];
             markerState['prevPos']     = new THREE.Vector3(markerCurrentPos.x,
                                                             markerCurrentPos.y,
                                                              markerCurrentPos.z);
             markerState['prevRot']     = new THREE.Euler(markerCurrentRot.x,
                                                           markerCurrentRot.y,
-                                                           markerCurrentRot.z);                                                         
+                                                           markerCurrentRot.z);                                              
             markerState['prevVisible'] = markerVisible;
             markerState['currentPos']  = this.getMarkerPosition(marker);
             markerState['currentRot']  = this.getMarkerRotation(marker);      
-            markerState['visible']     = this.getMarkerVisibility(marker);             
+            markerState['visible']     = this.getMarkerVisibility(marker);
         }
 
         runRenderingLoop(){
@@ -220,9 +223,21 @@ namespace pxsim {
          *  Gets the world x, y, and z rotations of a marker
          */
         getMarkerVisibility(marker: Marker): boolean {
-            let markerObj = threex.getMarkerGroup(marker);
-            if (markerObj) return markerObj.visible;
-            else return false;
+            let markerState  = this.markers[marker.toString()];
+            let prevTimeSeen = markerState['prevVisibleTime'];
+            let markerObj    = threex.getMarkerGroup(marker);
+            let date         = new Date();
+            let time         = date.getTime();
+            if (markerObj) {
+                if (markerObj.visible ){ // marker visible to artoolkit
+                    markerState['prevVisibleTime'] = time;
+                    return true;
+                } else { // marker not visible to artoolkit
+                    if (time - prevTimeSeen >= 250) return false
+                    else return true
+                }
+            }
+            return false;
         } 
 
         /**

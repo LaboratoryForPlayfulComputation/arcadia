@@ -80,6 +80,8 @@ namespace pxsim.threex {
                 prevRot: new THREE.Euler(0, 0, 0),
                 visible: false,
                 prevVisible: false,
+                prevVisibleTime: 0,
+                prevHiddenTime: 0,
                 color: 0x000000,
                 fontColor: 0xffffff,
                 scripts: {}};

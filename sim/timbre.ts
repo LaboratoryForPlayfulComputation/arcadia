@@ -8,7 +8,6 @@ namespace pxsim.timbre {
         T("perc", {r: 500}, sine1).on("ended", function() {
             this.pause();
         }).bang().play();
-        console.log("tone");
     }
 
     export function playDrumBeat(drum: Drum) {
@@ -19,7 +18,7 @@ namespace pxsim.timbre {
             var HH2 = this.slice(1500, 2000).set({bang:false, mul:0.2});
             var CYM = this.slice(2000).set({bang:false, mul:0.2});    
 
-            var drumSounds = T("lowshelf", {freq:110, gain:8, mul:0.6}, BD, SD, HH1, HH2, CYM).play();  
+            var drumSounds = T("lowshelf", {freq:110, gain:6, mul:0.6}, BD, SD, HH1, HH2, CYM).play();  
 
             switch(drum){
                 case Drum.Kick: BD.bang();
