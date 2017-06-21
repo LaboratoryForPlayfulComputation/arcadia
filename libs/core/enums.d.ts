@@ -108,10 +108,10 @@ declare const enum MarkerEvent {
 }
 
 declare const enum MarkerLoopEvent {
-    //% block="whilehidden"
+    //% block="hidden"
     //% enumval=0x13    
     WhileHidden = 0x13,
-    //% block="whilevisible"
+    //% block="visible"
     //% enumval=0x14    
     WhileVisible = 0x14
 }

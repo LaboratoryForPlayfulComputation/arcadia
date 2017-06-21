@@ -1,5 +1,7 @@
 namespace pxsim.timbre {
 
+    declare var T: any;
+
     export function playTone(frequency: number) {
         var sine1 = T("sin", {freq: frequency, mul: 0.5});
 
@@ -8,5 +10,9 @@ namespace pxsim.timbre {
         }).bang().play();
         console.log("tone");
     }
+
+    export function playChord(){}
+
+    export function playArpeggio(){}
 
 }

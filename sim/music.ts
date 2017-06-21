@@ -133,13 +133,15 @@ namespace pxsim.music {
     * Play a tone.
     * @param frequency pitch of the tone to play in Hertz (Hz)
     */
-    //% blockId=music_play_tone block="%marker| play tone %frequency" 
+    //% blockId=music_play_tone block="%marker=marker_block| play tone %note=device_note" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"    
-    export function ringTone(marker: Marker, frequency: number) {
-        timbre.playTone(frequency);
+    export function ringTone(marker: number, note: number) {
+        timbre.playTone(note);
+    }
+
+
+    function init() {
+        if (!beatsPerMinute) beatsPerMinute = 120;
     }
 
 }

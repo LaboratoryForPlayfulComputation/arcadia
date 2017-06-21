@@ -1,13 +1,22 @@
 namespace pxsim.markers {
+
+    //% blockId=marker_block block="%marker"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"    
+    //% marker.fieldOptions.decompileLiterals=true
+    //% shim=TD_ID
+    //% useEnumVal=1
+    export function marker(marker: Marker) : number {
+        board().marker(marker);
+        return marker;
+    }
+
     /**
      * Sets the text  that displays when the marker is detected
      */
-    //% blockId=ar_set_text block="%marker|set text %text"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function setText(marker: Marker, text: string) {
-        board().marker(marker);
+    //% blockId=ar_set_text block="%marker=marker_block|set text %text" blockGap=8
+    export function setText(marker: number, text: string) {
         let billboardMesh = three.createBillboard(marker, 0x000000);
         let textMesh      = three.createText(text, 0xffffff, marker);
         let group         = threex.getMarkerGroup(marker);
@@ -26,12 +35,8 @@ namespace pxsim.markers {
     /**
      * Sets the number that displays when the marker is detected
      */
-    //% blockId=ar_set_number block="%marker|set number %number"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function setNumber(marker: Marker, number: number) {
-        board().marker(marker);
+    //% blockId=ar_set_number block="%marker=marker_block|set number %number" blockGap=8
+    export function setNumber(marker: number, number: number) {
         let markerState   = board().markers[marker.toString()];   
         let billboardMesh = three.createBillboard(marker, markerState['color']);
         let textMesh      = three.createText(number.toString(), markerState['fontColor'], marker);
@@ -51,15 +56,11 @@ namespace pxsim.markers {
     /**
      * Sets the shape that displays when the marker is detected
      */
-    //% blockId=ar_set_shape block="%marker|set shape %shape"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    //% blockId=ar_set_shape block="%marker=marker_block|set shape %shape" blockGap=8
     //% shape.fieldEditor="gridpicker"
     //% shape.fieldOptions.width="200" shape.fieldOptions.columns="2"
     //% shape.fieldOptions.itemColour="black" shape.fieldOptions.tooltips="true"
-    export function setShape(marker: Marker, shape: Shape) {
-        board().marker(marker);
+    export function setShape(marker: number, shape: Shape) {
         let markerState = board().markers[marker.toString()];        
         let geometry    = three.createGeometry(shape);
         let material    = new THREE.MeshPhongMaterial({transparent: true,
@@ -77,12 +78,8 @@ namespace pxsim.markers {
     /**
      * Sets the color that displays when the marker is detected
      */
-    //% blockId=ar_set_color block="%marker|set color %color"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function setColor(marker: Marker, color: number) {
-        board().marker(marker);
+    //% blockId=ar_set_color block="%marker=marker_block|set color %color" blockGap=8
+    export function setColor(marker: number, color: number) {
         let markerState      = board().markers[marker.toString()];
         markerState['color'] = color;
         let group            = threex.getMarkerGroup(marker);
@@ -97,11 +94,8 @@ namespace pxsim.markers {
     /**
      * Sets the text color that displays when the marker is detected
      */
-    //% blockId=ar_set_text_color block="%marker|set text color %color"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function setTextColor(marker: Marker, color: number) {
+    //% blockId=ar_set_text_color block="%marker=marker_block|set text color %color" blockGap=8
+    export function setTextColor(marker: number, color: number) {
         board().marker(marker);
         let group                = threex.getMarkerGroup(marker);
         let markerState          = board().markers[marker.toString()];
@@ -118,15 +112,11 @@ namespace pxsim.markers {
      * Allows use to define callbacks for a marker event
      * @param marker 
      */
-    //% blockId=ar_on_event block="on %marker| %event"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"    
+    //% blockId=ar_on_event block="on %marker=marker_block| %event" blockGap=8
     //% event.fieldEditor="gridpicker"
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"    
-    export function onEvent(marker: Marker, event: MarkerEvent, handler: RefAction) {
-        board().marker(marker);
+    export function onEvent(marker: number, event: MarkerEvent, handler: RefAction) {
         board().bus.listen(marker, event, handler);
     }
 
@@ -134,15 +124,11 @@ namespace pxsim.markers {
      * Allows use to define callbacks for a marker event
      * @param marker 
      */
-    //% blockId=ar_while_event block="while %marker| %event"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"    
+    //% blockId=ar_while_event block="while %marker=marker_block| %event" blockGap=8
     //% event.fieldEditor="gridpicker"
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"    
-    export function whileEvent(marker: Marker, event: MarkerLoopEvent, handler: RefAction) {
-        board().marker(marker);
+    export function whileEvent(marker: number, event: MarkerLoopEvent, handler: RefAction) {
         board().bus.listen(marker, event, handler);
     }
 
@@ -150,19 +136,11 @@ namespace pxsim.markers {
      * Allows use to define callbacks for multi marker event
      * @param marker 
      */
-    //% blockId=ar_on_multi_event block="on %marker1| %event| %marker2"
-    //% marker1.fieldEditor="gridpicker"
-    //% marker1.fieldOptions.width="400" marker1.fieldOptions.columns="4"
-    //% marker1.fieldOptions.itemColour="black" marker1.fieldOptions.tooltips="true" 
-    //% marker2.fieldEditor="gridpicker"
-    //% marker2.fieldOptions.width="400" marker2.fieldOptions.columns="4"
-    //% marker2.fieldOptions.itemColour="black" marker2.fieldOptions.tooltips="true"          
+    //% blockId=ar_on_multi_event block="on %marker1=marker_block| %event| %marker2=marker_block" blockGap=8
     //% event.fieldEditor="gridpicker"
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"    
-    export function onMultiEvent(marker1: Marker, event: MultiMarkerEvent, marker2: Marker, handler: RefAction) {
-        board().marker(marker1);
-        board().marker(marker2);
+    export function onMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: RefAction) {
         board().bus.listen(marker1, event, handler);
         board().bus.listen(marker2, event, handler);
     }
@@ -170,28 +148,16 @@ namespace pxsim.markers {
     /**
      * Gets the distance between the centers of 2 markers
      */
-    //% blockId=ar_get_dist block="distance from %marker1| to %marker2"
-    //% marker1.fieldEditor="gridpicker"
-    //% marker1.fieldOptions.width="400" marker1.fieldOptions.columns="4"
-    //% marker1.fieldOptions.itemColour="black" marker1.fieldOptions.tooltips="true"
-    //% marker2.fieldEditor="gridpicker"
-    //% marker2.fieldOptions.width="400" marker2.fieldOptions.columns="4"
-    //% marker2.fieldOptions.itemColour="black" marker2.fieldOptions.tooltips="true"    
-    export function distance(marker1: Marker, marker2: Marker): number {
-        board().marker(marker1);
-        board().marker(marker2);        
+    //% blockId=ar_get_dist block="distance from %marker1=marker_block| to %marker2=marker_block" blockGap=8
+    export function distance(marker1: number, marker2: number): number {     
         return board().getDistanceBetweenMarkers(marker1, marker2);
     }
 
     /**
      * Gets the x, y, z positional coordinates of a marker
      */
-    //% blockId=ar_get_pos block="%marker|position %axis"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function position(marker: Marker, axis: Axes): number {
-        board().marker(marker);
+    //% blockId=ar_get_pos block="%marker=marker_block|position %axis" blockGap=8
+    export function position(marker: number, axis: Axes): number {
         const pos = board().getMarkerPosition(marker);
         switch(axis) {
             case Axes.x: return pos.x;
@@ -203,12 +169,8 @@ namespace pxsim.markers {
     /**
      * Gets the rotational values of a marker
      */
-    //% blockId=ar_get_rot block="%marker|rotation %axis"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    export function rotation(marker: Marker, axis: Axes): number {
-        board().marker(marker);
+    //% blockId=ar_get_rot block="%marker=marker_block|rotation %axis" blockGap=8
+    export function rotation(marker: number, axis: Axes): number {
         const rot = board().getMarkerRotation(marker);
         switch(axis) {
             case Axes.x: return rot.x;
@@ -217,47 +179,4 @@ namespace pxsim.markers {
         }
     }    
 
-}
-
-namespace pxsim.colors {
-    /**
-     * Converts red, green, blue channels into a RGB color
-     * @param red value of the red channel between 0 and 255. eg: 255
-     * @param green value of the green channel between 0 and 255. eg: 255
-     * @param blue value of the blue channel between 0 and 255. eg: 255
-     */
-    //% blockId="colors_rgb" block="red %red|green %green|blue %blue"
-    //% red.min=0 red.max=255 green.min=0 green.max=255 blue.min=0 blue.max=255
-    //% advanced=true    
-    //% weight=19
-    //% blockGap=8
-    export function rgb(red: number, green: number, blue: number): number {
-        return ((red & 0xFF) << 16) | ((green & 0xFF) << 8) | (blue & 0xFF);
-    }
-
-    /**
-     * Get the RGB value of a known color
-    */
-    //% blockId=colors_named block="%color"
-    //% advanced=true    
-    //% weight=20
-    //% blockGap=8
-    //% help="colors/named"
-    //% shim=TD_ID
-    export function named(color: Colors): number {
-        return color;
-    }
-
-    function unpackR(rgb: number): number {
-        let r = (rgb >> 16) & 0xFF;
-        return r;
-    }
-    function unpackG(rgb: number): number {
-        let g = (rgb >> 8) & 0xFF;
-        return g;
-    }
-    function unpackB(rgb: number): number {
-        let b = (rgb >> 0) & 0xFF;
-        return b;
-    }
 }

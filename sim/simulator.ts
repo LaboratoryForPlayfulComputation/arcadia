@@ -103,7 +103,7 @@ namespace pxsim {
             let markerPrevVisible = markerState['prevVisible'];             
             let markerVisible     = markerState['visible'];   
             // calculate differences in previous and current positions/rotations
-            const distThreshold  = 0.05;
+            const distThreshold  = 0.07;
             const angleThreshold = Math.PI/16;          
             const distance       = markerPrevPos.distanceTo(markerCurrentPos);
             const distanceX      = markerCurrentPos.x - markerPrevPos.x; 
