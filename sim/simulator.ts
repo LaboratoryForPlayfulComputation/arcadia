@@ -102,25 +102,27 @@ namespace pxsim {
             let markerPrevRot     = markerState['prevRot'];       
             let markerPrevVisible = markerState['prevVisible'];             
             let markerVisible     = markerState['visible'];   
-            // calculate differences in previous and current positions/rotations          
-            const distance  = markerPrevPos.distanceTo(markerCurrentPos);
-            const distanceX = markerCurrentPos.x - markerPrevPos.x; 
-            const distanceY = markerCurrentPos.y - markerPrevPos.y; 
-            const distanceZ = markerCurrentPos.z - markerPrevPos.z; 
-            const angleX    = markerCurrentRot.x - markerPrevRot.x;
-            const angleY    = markerCurrentRot.y - markerPrevRot.x;
-            const angleZ    = markerCurrentRot.z - markerPrevRot.z;
+            // calculate differences in previous and current positions/rotations
+            const distThreshold  = 0.05;
+            const angleThreshold = Math.PI/16;          
+            const distance       = markerPrevPos.distanceTo(markerCurrentPos);
+            const distanceX      = markerCurrentPos.x - markerPrevPos.x; 
+            const distanceY      = markerCurrentPos.y - markerPrevPos.y; 
+            const distanceZ      = markerCurrentPos.z - markerPrevPos.z; 
+            const angleX         = markerCurrentRot.x - markerPrevRot.x;
+            const angleY         = markerCurrentRot.y - markerPrevRot.y;
+            const angleZ         = markerCurrentRot.z - markerPrevRot.z;
             // trigger events depending on the changed state
-            if      (distance >= 0.05)   this.bus.queue(marker, MarkerEvent.Moved);
-            if      (distanceX >= 0.05)  this.bus.queue(marker, MarkerEvent.MovedRight);
-            else if (distanceX <= -0.05) this.bus.queue(marker, MarkerEvent.MovedLeft);
-            if      (distanceY >= 0.05)  this.bus.queue(marker, MarkerEvent.MovedUp);
-            else if (distanceY <= -0.05) this.bus.queue(marker, MarkerEvent.MovedDown);
-            if      (distanceZ >= 0.05)  this.bus.queue(marker, MarkerEvent.MovedForward);
-            else if (distanceZ <= -0.05) this.bus.queue(marker, MarkerEvent.MovedBackward); 
-            if      (angleX >= 0.05)     this.bus.queue(marker, MarkerEvent.RotatedClockwise);
-            else if (angleX <= -0.05)    this.bus.queue(marker, MarkerEvent.RotatedCounterClockwise);
-            if (Math.abs(angleX) >= 0.05 || Math.abs(angleY) >= 0.05 || Math.abs(angleZ) >= 0.05){
+            if      (distance >= distThreshold)   this.bus.queue(marker, MarkerEvent.Moved);
+            if      (distanceX >= distThreshold)  this.bus.queue(marker, MarkerEvent.MovedRight);
+            else if (distanceX <= -distThreshold) this.bus.queue(marker, MarkerEvent.MovedLeft);
+            if      (distanceY >= distThreshold)  this.bus.queue(marker, MarkerEvent.MovedUp);
+            else if (distanceY <= -distThreshold) this.bus.queue(marker, MarkerEvent.MovedDown);
+            if      (distanceZ >= distThreshold)  this.bus.queue(marker, MarkerEvent.MovedForward);
+            else if (distanceZ <= -distThreshold) this.bus.queue(marker, MarkerEvent.MovedBackward); 
+            if      (angleX >= distThreshold)     this.bus.queue(marker, MarkerEvent.RotatedClockwise);
+            else if (angleX <= -distThreshold)    this.bus.queue(marker, MarkerEvent.RotatedCounterClockwise);
+            if (Math.abs(angleX) >= angleThreshold || Math.abs(angleY) >= angleThreshold || Math.abs(angleZ) >= angleThreshold){
                 this.bus.queue(marker, MarkerEvent.Rotated);
             }
             if (markerVisible == true){
