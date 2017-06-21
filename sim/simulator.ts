@@ -48,7 +48,7 @@ namespace pxsim {
                     this.font             = font;
                     this.markers          = {};
                     this.baseURL          = '/sim/AR.js/three.js/';
-                    this.renderer         = getWebGlContext(); // singleton
+                    this.renderer         = getWebGlContext();
                     this.camera           = three.createCamera();
                     this.scene            = three.createScene();
                     this.arToolkitSource  = threex.createArToolkitSource();

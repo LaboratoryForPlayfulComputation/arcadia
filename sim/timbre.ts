@@ -30,7 +30,6 @@ namespace pxsim.timbre {
                 default: BD.bang();
             }  
         });
-
     }
 
     export function playChord(){}
