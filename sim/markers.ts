@@ -160,7 +160,7 @@ namespace pxsim.markers {
     //% event.fieldEditor="gridpicker"
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"    
-    export function onMultiEvent(marker1: Marker, marker2: Marker, event: MultiMarkerEvent, handler: RefAction) {
+    export function onMultiEvent(marker1: Marker, event: MultiMarkerEvent, marker2: Marker, handler: RefAction) {
         board().marker(marker1);
         board().marker(marker2);
         board().bus.listen(marker1, event, handler);

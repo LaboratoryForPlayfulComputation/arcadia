@@ -125,7 +125,7 @@ declare namespace markers {
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"
     //% shim=markers::onMultiEvent
-    function onMultiEvent(marker1: Marker, marker2: Marker, event: MultiMarkerEvent, handler: () => void): void;
+    function onMultiEvent(marker1: Marker, event: MultiMarkerEvent, marker2: Marker, handler: () => void): void;
 
     /**
      * Gets the distance between the centers of 2 markers
@@ -187,6 +187,20 @@ declare namespace colors {
     //% shim=TD_ID
     //% shim=colors::named
     function named(color: Colors): number;
+
+}
+declare namespace music {
+    /**
+     * Play a tone.
+     * @param frequency pitch of the tone to play in Hertz (Hz)
+     */
+    //% blockId=music_play_tone block="%marker| play tone %frequency" 
+    //% blockNamespace=music inBasicCategory=true
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    //% shim=music::ringTone
+    function ringTone(marker: Marker, frequency: number): void;
 
 }
 

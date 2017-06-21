@@ -17,7 +17,8 @@
         "variablesBlocks": true,
         "textBlocks": true,
         "listsBlocks": true,
-        "functionBlocks": true
+        "functionBlocks": true,
+        "musicBlocks": true
     },
     "simulator": {
         "autoRun": true
