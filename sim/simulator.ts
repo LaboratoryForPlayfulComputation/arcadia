@@ -36,7 +36,7 @@ namespace pxsim {
         public renderer         : THREE.WebGLRenderer;
         public baseURL          : String;
         public onRenderFcts     : Array<any>;
-        public drumkit          : timbre.Drumkit;
+        public toneSynth        : Tone.Synth;
         
         constructor() {
             super();
@@ -47,7 +47,17 @@ namespace pxsim {
                 .then(font => {
                     this.bus              = new pxsim.EventBus(runtime);
                     this.font             = font;
-                    this.drumkit          = new timbre.Drumkit();
+                    this.toneSynth        = new Tone.Synth({
+                                                            oscillator: {
+                                                                type: "triangle"
+                                                            },
+                                                            envelope: {
+                                                                attack: 0.005,
+                                                                decay: 0.1,
+                                                                sustain: 0.3,
+                                                                release: 1
+                                                            }});
+                    this.toneSynth.toMaster();
                     this.markers          = {};
                     this.baseURL          = '/sim/AR.js/three.js/';
                     this.renderer         = getWebGlContext();
@@ -105,15 +115,15 @@ namespace pxsim {
             let markerPrevVisible = markerState['prevVisible'];             
             let markerVisible     = markerState['visible'];   
             // calculate differences in previous and current positions/rotations
-            const distThreshold  = 0.07;
-            const angleThreshold = Math.PI/16;          
-            const distance       = markerPrevPos.distanceTo(markerCurrentPos);
-            const distanceX      = markerCurrentPos.x - markerPrevPos.x; 
-            const distanceY      = markerCurrentPos.y - markerPrevPos.y; 
-            const distanceZ      = markerCurrentPos.z - markerPrevPos.z; 
-            const angleX         = markerCurrentRot.x - markerPrevRot.x;
-            const angleY         = markerCurrentRot.y - markerPrevRot.y;
-            const angleZ         = markerCurrentRot.z - markerPrevRot.z;
+            const distThreshold   = 0.07;
+            const angleThreshold  = Math.PI/16;          
+            const distance        = markerPrevPos.distanceTo(markerCurrentPos);
+            const distanceX       = markerCurrentPos.x - markerPrevPos.x; 
+            const distanceY       = markerCurrentPos.y - markerPrevPos.y; 
+            const distanceZ       = markerCurrentPos.z - markerPrevPos.z; 
+            const angleX          = markerCurrentRot.x - markerPrevRot.x;
+            const angleY          = markerCurrentRot.y - markerPrevRot.y;
+            const angleZ          = markerCurrentRot.z - markerPrevRot.z;
             // trigger events depending on the changed state
             if      (distance >= distThreshold)   this.bus.queue(marker, MarkerEvent.Moved);
             if      (distanceX >= distThreshold)  this.bus.queue(marker, MarkerEvent.MovedRight);

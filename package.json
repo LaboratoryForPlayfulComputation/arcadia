@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@types/three": "^0.84.11",
+    "@types/webaudioapi": "0.0.27",
     "pxt-core": "1.6.3"
   }
 }

@@ -137,7 +137,7 @@ namespace pxsim.music {
     //% blockId=music_play_tone block="%marker=marker_block| play tone %note=device_note" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     export function ringTone(marker: number, note: number) {
-        timbre.playTone(note);
+        board().toneSynth.triggerAttackRelease("C4", "8n", 1);
     }
 
     /**
@@ -151,7 +151,8 @@ namespace pxsim.music {
     //% drum.fieldOptions.width="200" drum.fieldOptions.columns="1"
     //% drum.fieldOptions.tooltips="true"        
     export function drumBeat(marker: number, drum: Drum) {
-        board().drumkit.playDrumBeat(drum);
+        console.log("drum");
+        //board().drumkit.playDrumBeat(drum);
     }
 
     function init() {
