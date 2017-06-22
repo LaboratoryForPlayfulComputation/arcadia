@@ -151,7 +151,7 @@ namespace pxsim.music {
     //% drum.fieldOptions.width="200" drum.fieldOptions.columns="1"
     //% drum.fieldOptions.tooltips="true"        
     export function drumBeat(marker: number, drum: Drum) {
-        timbre.playDrumBeat(drum);
+        board().drumkit.playDrumBeat(drum);
     }
 
     function init() {

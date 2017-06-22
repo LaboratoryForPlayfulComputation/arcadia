@@ -36,6 +36,7 @@ namespace pxsim {
         public renderer         : THREE.WebGLRenderer;
         public baseURL          : String;
         public onRenderFcts     : Array<any>;
+        public drumkit          : timbre.Drumkit;
         
         constructor() {
             super();
@@ -46,6 +47,7 @@ namespace pxsim {
                 .then(font => {
                     this.bus              = new pxsim.EventBus(runtime);
                     this.font             = font;
+                    this.drumkit          = new timbre.Drumkit();
                     this.markers          = {};
                     this.baseURL          = '/sim/AR.js/three.js/';
                     this.renderer         = getWebGlContext();
@@ -220,7 +222,9 @@ namespace pxsim {
         }      
 
         /**
-         *  Gets the world x, y, and z rotations of a marker
+         *  Returns the visibility of the marker and does
+         *  some additional checking to filter out flicker
+         *  events
          */
         getMarkerVisibility(marker: Marker): boolean {
             let markerState  = this.markers[marker.toString()];
@@ -233,7 +237,7 @@ namespace pxsim {
                     markerState['prevVisibleTime'] = time;
                     return true;
                 } else { // marker not visible to artoolkit
-                    if (time - prevTimeSeen >= 250) return false
+                    if (time - prevTimeSeen >= 175) return false
                     else return true
                 }
             }
