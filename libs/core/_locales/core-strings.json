@@ -112,6 +112,7 @@
   "markers|block": "markers",
   "music.addEffect|block": "%marker=marker_block| add effect %effect",
   "music.beat|block": "%fraction|beat",
+  "music.bend|block": "%marker=marker_block| bend by %pitch| semitones",
   "music.drumBeat|block": "%marker=marker_block| play %drum",
   "music.playChord|block": "%marker=marker_block| play chord %notes| for %duration=device_beat",
   "music.playTone|block": "%marker=marker_block| play tone %note| for %duration=device_beat",

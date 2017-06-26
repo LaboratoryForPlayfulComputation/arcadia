@@ -95,6 +95,20 @@ namespace pxsim.music {
         m['polySynth'].connect(fx);
     }
 
+    /**
+    * Add an effect to an audio context.
+    * @param marker marker
+    * @param pitch amount in semitones to shift the pitch by
+    */
+    //% blockId=music_bend block="%marker=marker_block| bend by %pitch| semitones" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    export function bend(marker: Marker, pitch: number) {
+        let m = board().marker(marker);
+        let shift = new Tone.PitchShift(pitch);
+        m['monoSynth'].connect(shift);
+        m['polySynth'].connect(shift);       
+    }
+
     /*
     export function loadDrumSamplesAsync() : Promise<Tone.Sampler> {
         return new Promise<Tone.Sampler>((resolve, reject) => {

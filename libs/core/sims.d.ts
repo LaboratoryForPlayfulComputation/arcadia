@@ -213,6 +213,16 @@ declare namespace music {
     //% shim=music::addEffect
     function addEffect(marker: Marker, effect: Effect): void;
 
+    /**
+     * Add an effect to an audio context.
+     * @param marker marker
+     * @param pitch amount in semitones to shift the pitch by
+     */
+    //% blockId=music_bend block="%marker=marker_block| bend by %pitch| semitones" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% shim=music::bend
+    function bend(marker: Marker, pitch: number): void;
+
     /*
     export function loadDrumSamplesAsync() : Promise<Tone.Sampler> {
     return new Promise<Tone.Sampler>((resolve, reject) => {
