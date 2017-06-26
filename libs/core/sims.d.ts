@@ -171,10 +171,20 @@ declare namespace music {
      * @param note pitch of the tone to play in Hertz (Hz)
      * @param duration number of beats to play tone for
      */
-    //% blockId=music_play_tone block="%marker=marker_block| play tone %note| for %duration=device_beat" blockGap=8
+    //% blockId=music_play_tone block="%marker=marker_block| play tone %note=device_note| for %duration=device_beat" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% shim=music::playTone
     function playTone(marker: number, note: number, duration: string): void;
+
+    /**
+     * Rest.
+     * @param marker marker
+     * @param duration number of beats to rest for
+     */
+    //% blockId=music_rest block="%marker=marker_block| rest for %duration=device_beat" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% shim=music::rest
+    function rest(marker: number, duration: string): void;
 
     /**
      * Play a chord.
@@ -223,15 +233,6 @@ declare namespace music {
     //% shim=music::bend
     function bend(marker: Marker, pitch: number): void;
 
-    /*
-    export function loadDrumSamplesAsync() : Promise<Tone.Sampler> {
-    return new Promise<Tone.Sampler>((resolve, reject) => {
-    let sampler = new Tone.Sampler("./audio/casio/A1.mp3", () => {
-    resolve(sampler);
-    }, null, e => reject(e));
-    });  
-    }
-     */
     /**
      * Return the duration of a beat in milliseconds (the beat fraction).
      * @param fraction the fraction of the current whole note, eg: BeatFraction.Half
@@ -241,6 +242,27 @@ declare namespace music {
     //% blockNamespace=music inBasicCategory=true
     //% shim=music::beat
     function beat(fraction?: BeatFraction): string;
+
+    /**
+     * Get the frequency of a note.
+     * @param name the note name, eg: Note.C
+     */
+    //% weight=1 help=music/note-frequency
+    //% blockId=device_note block="%note"
+    //% shim=TD_ID
+    //% note.fieldEditor="note" note.defl="262" note.fieldOptions.decompileLiterals=true
+    //% useEnumVal=1 blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% shim=music::noteFrequency
+    function noteFrequency(name: Note): number;
+
+    /**
+     * Defines a musical phrase
+     * @param name 
+     */
+    //% blockId=music_create_phrase block="create phrase called %name" blockGap=8
+    //% shim=music::createPhrase
+    function createPhrase(name: string, handler: () => void): void;
 
 }
 

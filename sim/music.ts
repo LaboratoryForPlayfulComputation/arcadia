@@ -6,11 +6,22 @@ namespace pxsim.music {
     * @param note pitch of the tone to play in Hertz (Hz)
     * @param duration number of beats to play tone for
     */
-    //% blockId=music_play_tone block="%marker=marker_block| play tone %note| for %duration=device_beat" blockGap=8
+    //% blockId=music_play_tone block="%marker=marker_block| play tone %note=device_note| for %duration=device_beat" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     export function playTone(marker: number, note: number, duration: string) { 
         let m = board().marker(marker);
         m['monoSynth'].triggerAttackRelease(note, duration); 
+    }
+
+    /**
+    * Rest.
+    * @param marker marker
+    * @param duration number of beats to rest for
+    */
+    //% blockId=music_rest block="%marker=marker_block| rest for %duration=device_beat" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    export function rest(marker: number, duration: string) { 
+        let m = board().marker(marker);
     }
 
     /**
@@ -126,16 +137,6 @@ namespace pxsim.music {
         m['monoSynth'].connect(shift);
         m['polySynth'].connect(shift);       
     }
-
-    /*
-    export function loadDrumSamplesAsync() : Promise<Tone.Sampler> {
-        return new Promise<Tone.Sampler>((resolve, reject) => {
-            let sampler = new Tone.Sampler("./audio/casio/A1.mp3", () => {
-                resolve(sampler);
-            }, null, e => reject(e));
-        });  
-    }
-    */
     
     /**
      * Return the duration of a beat in milliseconds (the beat fraction).
@@ -154,6 +155,41 @@ namespace pxsim.music {
             case BeatFraction.Breve: return "64n";
             default: return "8n";
         }
-    }    
+    }  
+
+    
+
+    /**
+     * Get the frequency of a note.
+     * @param name the note name, eg: Note.C
+     */
+    //% weight=1 help=music/note-frequency
+    //% blockId=device_note block="%note"
+    //% shim=TD_ID
+    //% note.fieldEditor="note" note.defl="262" note.fieldOptions.decompileLiterals=true
+    //% useEnumVal=1 blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    export function noteFrequency(name: Note): number {
+        return name;
+    }      
+
+    /**
+     * Defines a musical phrase
+     * @param name 
+     */
+    //% blockId=music_create_phrase block="create phrase called %name" blockGap=8
+    export function createPhrase(name: string, handler: RefAction) {
+        /* TO DO: fix from "RefAction" to something that will just give me a list.
+        This will allow us to create nicely timed musical patterns that can be triggered by a 
+        "play phrase" or "loop phrase" call
+        */
+
+        /* new Tone.Part(function(time, note){
+            //the notes given as the second element in the array
+            //will be passed in as the second argument
+            synth.triggerAttackRelease(note, "8n", time);
+        }, [[0, "C2"], ["0:2", "C3"], ["0:3:2", "G2"]]);)
+        */     
+    }
 
 }
