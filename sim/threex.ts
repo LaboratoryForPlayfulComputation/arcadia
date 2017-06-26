@@ -86,6 +86,7 @@ namespace pxsim.threex {
                 fontColor: 0xffffff,
                 monoSynth: music.createMonoSynth(),
                 polySynth: music.createPolySynth(),
+                kickDrum: music.createKickDrum(),
                 scripts: {}};
     }
 

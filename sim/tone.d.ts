@@ -711,6 +711,21 @@ declare module Tone {
         triggerRelease(time?: Tone.Time): Tone.NoiseSynth;
     }
 
+    var MembraneSynth: {
+        new(options?: Object): Tone.MembraneSynth;
+    };
+
+    interface MembraneSynth extends Tone.Instrument {
+        envelope: Tone.Envelope;
+        filter: Tone.Filter;
+        filterEnvelope: Tone.Envelope;
+        noise: Tone.Noise;
+        dispose(): Tone.MembraneSynth;
+        triggerAttack(time?: Tone.Time, velocity?: number): Tone.MembraneSynth;
+        triggerAttackRelease(duration: Tone.Time, time?: Tone.Time, velocity?: number): Tone.MembraneSynth;
+        triggerRelease(time?: Tone.Time): Tone.MembraneSynth;
+    }
+
     var Normalize: {
         new(min?: number, max?: number): Tone.Normalize;
     };

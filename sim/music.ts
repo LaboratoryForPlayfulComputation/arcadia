@@ -37,7 +37,15 @@ namespace pxsim.music {
     //% drum.fieldOptions.width="200" drum.fieldOptions.columns="1"
     //% drum.fieldOptions.tooltips="true"        
     export function drumBeat(marker: number, drum: Drum) {
-        //board().drumkit.playDrumBeat(drum);
+        let m = board().marker(marker);
+        switch (drum) {
+            case Drum.Kick:
+               m['kickDrum'].triggerAttackRelease("C3", "8n");
+               break;
+            default:
+               m['kickDrum'].triggerAttackRelease("C3", "8n");
+               break;            
+        }
     }
 
     export function createMonoSynth() : Tone {
@@ -54,6 +62,16 @@ namespace pxsim.music {
 
     export function createPolySynth() : Tone {
         return new Tone.PolySynth().toMaster();        
+    }
+
+    export function createKickDrum() : Tone {
+        return new Tone.MembraneSynth({"envelope" : {
+                                            "sustain" : 0,
+                                            "attack" : 0.02,
+                                            "decay" : 0.8
+                                        },
+                                        "octaves" : 10
+                                    }).toMaster();
     }
 
     /**
