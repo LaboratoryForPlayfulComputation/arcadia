@@ -37,6 +37,7 @@ namespace pxsim {
         public renderer         : THREE.WebGLRenderer;
         public baseURL          : String;
         public onRenderFcts     : Array<any>;
+        //public phrases          : pxsim.Map<Tone.Part>;
         
         constructor() {
             super();
