@@ -5,6 +5,7 @@
 /// <reference path="aframe.d.ts" />
 /// <reference path="aframe-ar.d.ts" />
 /// <reference path="threex.d.ts" />
+/// <reference path="tone.d.ts" />
 
 namespace pxsim {
     /**
@@ -36,7 +37,7 @@ namespace pxsim {
         public renderer         : THREE.WebGLRenderer;
         public baseURL          : String;
         public onRenderFcts     : Array<any>;
-        public toneSynth        : Tone.Synth;
+        public toneSynth        : Tone.MonoSynth;
         
         constructor() {
             super();
@@ -47,17 +48,6 @@ namespace pxsim {
                 .then(font => {
                     this.bus              = new pxsim.EventBus(runtime);
                     this.font             = font;
-                    this.toneSynth        = new Tone.Synth({
-                                                            oscillator: {
-                                                                type: "triangle"
-                                                            },
-                                                            envelope: {
-                                                                attack: 0.005,
-                                                                decay: 0.1,
-                                                                sustain: 0.3,
-                                                                release: 1
-                                                            }});
-                    this.toneSynth.toMaster();
                     this.markers          = {};
                     this.baseURL          = '/sim/AR.js/three.js/';
                     this.renderer         = getWebGlContext();

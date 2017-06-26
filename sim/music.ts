@@ -137,7 +137,18 @@ namespace pxsim.music {
     //% blockId=music_play_tone block="%marker=marker_block| play tone %note=device_note" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     export function ringTone(marker: number, note: number) {
-        board().toneSynth.triggerAttackRelease("C4", "8n", 1);
+        let synth        = new Tone.MonoSynth({
+                                                oscillator: {
+                                                    type: "sine"
+                                                },
+                                                envelope: {
+                                                    attack: 0.005,
+                                                    decay: 0.1,
+                                                    sustain: 0.3,
+                                                    release: 1
+                                                }});
+        synth.toMaster();        
+        synth.triggerAttackRelease(note, "8n", 1);
     }
 
     /**
