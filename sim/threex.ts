@@ -84,6 +84,8 @@ namespace pxsim.threex {
                 prevHiddenTime: 0,
                 color: 0x000000,
                 fontColor: 0xffffff,
+                monoSynth: music.createMonoSynth(),
+                polySynth: music.createPolySynth(),
                 scripts: {}};
     }
 

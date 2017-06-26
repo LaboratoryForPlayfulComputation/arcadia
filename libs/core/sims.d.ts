@@ -169,11 +169,23 @@ declare namespace music {
      * Play a tone.
      * @param marker marker
      * @param note pitch of the tone to play in Hertz (Hz)
+     * @param duration number of beats to play tone for
      */
-    //% blockId=music_play_tone block="%marker=marker_block| play tone %note" blockGap=8
+    //% blockId=music_play_tone block="%marker=marker_block| play tone %note| for %duration=device_beat" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-    //% shim=music::ringTone
-    function ringTone(marker: number, note: number): void;
+    //% shim=music::playTone
+    function playTone(marker: number, note: number, duration: string): void;
+
+    /**
+     * Play a chord.
+     * @param marker marker
+     * @param notes pitches of the tones to play in Hertz (Hz)
+     * @param duration number of beats to play tone for
+     */
+    //% blockId=music_play_chord block="%marker=marker_block| play chord %notes| for %duration=device_beat" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% shim=music::playChord
+    function playChord(marker: number, notes: [number], duration: string): void;
 
     /**
      * Play a drum beat.
@@ -187,6 +199,38 @@ declare namespace music {
     //% drum.fieldOptions.tooltips="true"
     //% shim=music::drumBeat
     function drumBeat(marker: number, drum: Drum): void;
+
+    /**
+     * Add an effect to an audio context.
+     * @param marker marker
+     * @param effect which drum sound to use
+     */
+    //% blockId=music_add_effect block="%marker=marker_block| add effect %effect" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% effect.fieldEditor="gridpicker"
+    //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
+    //% effect.fieldOptions.tooltips="true"
+    //% shim=music::addEffect
+    function addEffect(marker: Marker, effect: Effect): void;
+
+    /*
+    export function loadDrumSamplesAsync() : Promise<Tone.Sampler> {
+    return new Promise<Tone.Sampler>((resolve, reject) => {
+    let sampler = new Tone.Sampler("./audio/casio/A1.mp3", () => {
+    resolve(sampler);
+    }, null, e => reject(e));
+    });  
+    }
+     */
+    /**
+     * Return the duration of a beat in milliseconds (the beat fraction).
+     * @param fraction the fraction of the current whole note, eg: BeatFraction.Half
+     */
+    //% help=music/beat weight=49 blockGap=8
+    //% blockId=device_beat block="%fraction|beat" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% shim=music::beat
+    function beat(fraction?: BeatFraction): string;
 
 }
 
