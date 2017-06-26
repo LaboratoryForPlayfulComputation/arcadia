@@ -47,6 +47,7 @@ declare class Tone {
     toMaster(): Tone;
     toSamples(time: Tone.Time): number;
     toSeconds(time?: Tone.Time, now?: number): number;
+    triggerAttackRelease(note: string | number, duration: Tone.Time, time?: Tone.Time, velocity?: number): Tone;
 }
 
 declare module Tone {

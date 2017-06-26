@@ -87,7 +87,7 @@
   "markers.rotation|block": "%marker=marker_block|rotation %axis",
   "markers|block": "markers",
   "music.drumBeat|block": "%marker=marker_block| play %drum",
-  "music.ringTone|block": "%marker=marker_block| play tone %note=device_note",
+  "music.ringTone|block": "%marker=marker_block| play tone %note",
   "music|block": "music",
   "{id:category}Colors": "Colors",
   "{id:category}Console": "Console",

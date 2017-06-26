@@ -134,21 +134,10 @@ namespace pxsim.music {
     * @param marker marker
     * @param note pitch of the tone to play in Hertz (Hz)
     */
-    //% blockId=music_play_tone block="%marker=marker_block| play tone %note=device_note" blockGap=8
+    //% blockId=music_play_tone block="%marker=marker_block| play tone %note" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     export function ringTone(marker: number, note: number) {
-        let synth        = new Tone.MonoSynth({
-                                                oscillator: {
-                                                    type: "sine"
-                                                },
-                                                envelope: {
-                                                    attack: 0.005,
-                                                    decay: 0.1,
-                                                    sustain: 0.3,
-                                                    release: 1
-                                                }});
-        synth.toMaster();        
-        synth.triggerAttackRelease(note, "8n", 1);
+        board().synth.triggerAttackRelease("C4", "8n", 0); // does not work
     }
 
     /**
@@ -164,6 +153,18 @@ namespace pxsim.music {
     export function drumBeat(marker: number, drum: Drum) {
         console.log("drum");
         //board().drumkit.playDrumBeat(drum);
+    }
+
+    export function createSynth() : Tone.MonoSynth {
+        return new Tone.MonoSynth({oscillator: {
+                                            type: "sine"
+                                        },
+                                        envelope: {
+                                            attack: 0.005,
+                                            decay: 0.1,
+                                            sustain: 0.3,
+                                            release: 1
+                                        }});        
     }
 
     function init() {

@@ -170,7 +170,7 @@ declare namespace music {
      * @param marker marker
      * @param note pitch of the tone to play in Hertz (Hz)
      */
-    //% blockId=music_play_tone block="%marker=marker_block| play tone %note=device_note" blockGap=8
+    //% blockId=music_play_tone block="%marker=marker_block| play tone %note" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% shim=music::ringTone
     function ringTone(marker: number, note: number): void;

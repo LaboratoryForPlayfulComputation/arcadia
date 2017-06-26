@@ -37,7 +37,7 @@ namespace pxsim {
         public renderer         : THREE.WebGLRenderer;
         public baseURL          : String;
         public onRenderFcts     : Array<any>;
-        public toneSynth        : Tone.MonoSynth;
+        public synth            : Tone.MonoSynth;
         
         constructor() {
             super();
@@ -55,9 +55,12 @@ namespace pxsim {
                     this.scene            = three.createScene();
                     this.arToolkitSource  = threex.createArToolkitSource();
                     this.arToolkitContext = threex.createArToolkitContext();
+                    this.synth            = music.createSynth();
                     this.scene.add(this.camera);      
                     this.scene.add(three.createDirectionalLight());
-                    this.scene.add(three.createAmbientLight());                    
+                    this.scene.add(three.createAmbientLight());      
+                    this.synth.connect(Tone.Master);
+                    this.synth.triggerAttackRelease("C4", "8n", 1); // test. this works.                                  
                     threex.initArToolkitCallbacks();
                     this.initRenderFunctions();
                     this.runRenderingLoop();
