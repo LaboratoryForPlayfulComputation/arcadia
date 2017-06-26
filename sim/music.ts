@@ -69,15 +69,27 @@ namespace pxsim.music {
     export function addEffect(marker: Marker, effect: Effect) {
         let m = board().marker(marker);
         switch (effect) {
-            case Effect.Distortion: var fx = new Tone.Distortion(0.8).toMaster();
-            case Effect.Delay: var fx = new Tone.FeedbackDelay("8n").toMaster();
-            case Effect.Chorus: var fx = new Tone.Chorus(4, 2.5, 0.5).toMaster();
-            case Effect.Phaser: var fx = new Tone.Phaser({"frequency" : 15, 
-                                                            "octaves" : 5, 
-                                                            "baseFrequency" : 1000
-                                                        }).toMaster();
-            case Effect.Reverb: var fx = new Tone.Freeverb().toMaster();
-            default: var fx = new Tone.Distortion(0.8).toMaster();
+            case Effect.Distortion:
+                var fx = new Tone.Distortion(0.8).toMaster();
+                break;
+            case Effect.Delay:
+                var fx = new Tone.FeedbackDelay("8n").toMaster();
+                break;
+            case Effect.Chorus:
+                var fx = new Tone.Chorus(4, 2.5, 0.5).toMaster();
+                break;
+            case Effect.Phaser:
+                var fx = new Tone.Phaser({"frequency" : 15, 
+                                            "octaves" : 5, 
+                                            "baseFrequency" : 1000
+                                        }).toMaster();
+                break;
+            case Effect.Reverb:
+                var fx = new Tone.Freeverb().toMaster();
+                break;
+            default:
+                var fx = new Tone.Distortion(0.8).toMaster();
+                break;
         }
         m['monoSynth'].connect(fx);
         m['polySynth'].connect(fx);

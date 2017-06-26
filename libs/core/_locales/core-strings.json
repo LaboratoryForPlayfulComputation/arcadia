@@ -110,7 +110,7 @@
   "markers.position|block": "%marker=marker_block|position %axis",
   "markers.rotation|block": "%marker=marker_block|rotation %axis",
   "markers|block": "markers",
-  "music.addEffect|block": "%marker=marker_block| add %effect",
+  "music.addEffect|block": "%marker=marker_block| add effect %effect",
   "music.beat|block": "%fraction|beat",
   "music.drumBeat|block": "%marker=marker_block| play %drum",
   "music.playChord|block": "%marker=marker_block| play chord %notes| for %duration=device_beat",
