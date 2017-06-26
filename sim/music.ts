@@ -137,7 +137,7 @@ namespace pxsim.music {
     //% blockId=music_play_tone block="%marker=marker_block| play tone %note" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     export function ringTone(marker: number, note: number) {
-        board().synth.triggerAttackRelease("C4", "8n", 0); // does not work
+        board().synth.triggerAttackRelease(note, "8n"); // does not work
     }
 
     /**

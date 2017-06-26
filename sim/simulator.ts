@@ -60,7 +60,6 @@ namespace pxsim {
                     this.scene.add(three.createDirectionalLight());
                     this.scene.add(three.createAmbientLight());      
                     this.synth.connect(Tone.Master);
-                    this.synth.triggerAttackRelease("C4", "8n", 1); // test. this works.                                  
                     threex.initArToolkitCallbacks();
                     this.initRenderFunctions();
                     this.runRenderingLoop();
