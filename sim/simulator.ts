@@ -40,7 +40,7 @@ namespace pxsim {
         public monosynth        : Tone.MonoSynth;
         public polysynth        : Tone.PolySynth;
         public kickdrum         : Tone.MembraneSynth;
-        //public phrases        : pxsim.Map<Tone.Part>;
+        public phrases          : pxsim.Map<any>;
         
         constructor() {
             super();
@@ -52,6 +52,7 @@ namespace pxsim {
                     this.bus              = new pxsim.EventBus(runtime);
                     this.font             = font;
                     this.markers          = {};
+                    this.phrases          = {};
                     this.baseURL          = '/sim/AR.js/three.js/';
                     this.renderer         = getWebGlContext();
                     this.camera           = three.createCamera();
@@ -210,6 +211,17 @@ namespace pxsim {
             let markerControls = threex.createMarkerControls(marker, markerRoot);
             this.scene.visible = false;
             return threex.createMarkerStateEnum(marker, markerRoot);
+        }
+
+        phrase(name: string, content: any) : any {
+            let p = this.phrases[name];
+            if (!p)
+                p = this.phrases[name] = this.createPhase(content);
+            return p;
+        }
+
+        createPhase(content: any){
+            return content;
         }
 
         /**

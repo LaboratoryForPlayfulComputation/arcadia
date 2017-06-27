@@ -52,6 +52,7 @@
         },
         "simAnimationEnter": "rotate in",
         "simAnimationExit": "rotate out",
+        "extendEditor": true,
         "disableBlockIcons": true
     }
 }

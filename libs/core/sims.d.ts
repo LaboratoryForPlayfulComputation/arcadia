@@ -251,14 +251,6 @@ declare namespace music {
     function noteFrequency(name: Note): number;
 
     /**
-     * Defines a musical phrase
-     * @param name 
-     */
-    //% blockId=music_create_phrase block="create phrase %name" blockGap=8
-    //% shim=music::createPhrase
-    function createPhrase(name: string, handler: () => void): void;
-
-    /**
      * Plays a musical phrase once
      * @param name 
      */
@@ -275,19 +267,19 @@ declare namespace music {
     function loopPhrase(name: string): void;
 
     /**
-     * Shows a pattern of colors on the pixel ring
-     * @param colors a string describing the colors
-     * @param interval the duration in milliseconds between frames, eg: 400
+     * Create a drum pattern
+     * @param name
+     * @param beat a string describing the beat
      */
-    //% blockId="neopixel_show_ring_colors" block="show ring |%colors"
+    //% blockId="music_drumbeat" block="create drum beat %name|%beat"
     //% weight=100
-    //% colors.fieldEditor="drums"
-    //% colors.fieldOptions.onParentBlock=true
-    //% colors.fieldOptions.decompileLiterals=true
+    //% beat.fieldEditor="drums"
+    //% beat.fieldOptions.onParentBlock=true
+    //% beat.fieldOptions.decompileLiterals=true
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% shim=music::drumSequencer
-    function drumSequencer(colors: string, interval: number): void;
+    function drumSequencer(name: string, beat: string): void;
 
 }
 

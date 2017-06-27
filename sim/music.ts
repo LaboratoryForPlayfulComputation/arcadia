@@ -161,28 +161,6 @@ namespace pxsim.music {
     }      
 
     /**
-     * Defines a musical phrase
-     * @param name 
-     */
-    //% blockId=music_create_phrase block="create phrase %name" blockGap=8
-    export function createPhrase(name: string, handler: RefAction) {
-        /* TO DO: fix from "RefAction" to something that will just give me a list.
-        This will allow us to create nicely timed musical patterns that can be triggered by a 
-        "play phrase" or "loop phrase" call
-        */
-
-        /* 
-            let phrases = board().phrases()
-            let part = new Tone.Part(function(time, note){
-                board().polysynth.triggerAttackRelease(note, "8n", time);
-            }, [[0, "C2"], ["0:2", "C3"], ["0:3:2", "G2"]]);)
-           phrases['name'] = part;
-
-           https://tonejs.github.io/docs/#Part
-        */     
-    }
-
-    /**
      * Plays a musical phrase once
      * @param name 
      */
@@ -207,19 +185,19 @@ namespace pxsim.music {
     }
 
     /**
-     * Shows a pattern of colors on the pixel ring
-     * @param colors a string describing the colors
-     * @param interval the duration in milliseconds between frames, eg: 400
+     * Create a drum pattern
+     * @param name
+     * @param beat a string describing the beat
      */
-    //% blockId="neopixel_show_ring_colors" block="show ring |%colors"
+    //% blockId="music_drumbeat" block="create drum beat %name|%beat"
     //% weight=100
-    //% colors.fieldEditor="drums"
-    //% colors.fieldOptions.onParentBlock=true
-    //% colors.fieldOptions.decompileLiterals=true
+    //% beat.fieldEditor="drums"
+    //% beat.fieldOptions.onParentBlock=true
+    //% beat.fieldOptions.decompileLiterals=true
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-    export function drumSequencer(colors: string, interval: number = 400){
-        
+    export function drumSequencer(name: string, beat: string){
+        let p = board().phrase(name, beat);
     }
 
 }
