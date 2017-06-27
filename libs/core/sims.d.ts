@@ -219,7 +219,7 @@ declare namespace music {
     function addEffect(effect: Effect): void;
 
     /**
-     * Add an effect to an audio context.
+     * Shift pitch by a certain amount of semitones. For reference, an octave is 12 semitones.
      * @param pitch amount in semitones to shift the pitch by
      */
     //% blockId=music_bend block="bend by %pitch| semitones" blockGap=8
@@ -273,6 +273,21 @@ declare namespace music {
     //% blockId=music_loop_phrase block="loop phrase %name" blockGap=8
     //% shim=music::loopPhrase
     function loopPhrase(name: string): void;
+
+    /**
+     * Shows a pattern of colors on the pixel ring
+     * @param colors a string describing the colors
+     * @param interval the duration in milliseconds between frames, eg: 400
+     */
+    //% blockId="neopixel_show_ring_colors" block="show ring |%colors"
+    //% weight=100
+    //% colors.fieldEditor="drums"
+    //% colors.fieldOptions.onParentBlock=true
+    //% colors.fieldOptions.decompileLiterals=true
+    //% blockExternalInputs="true" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% shim=music::drumSequencer
+    function drumSequencer(colors: string, interval: number): void;
 
 }
 

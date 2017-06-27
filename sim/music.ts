@@ -114,7 +114,7 @@ namespace pxsim.music {
     }
 
     /**
-    * Add an effect to an audio context.
+    * Shift pitch by a certain amount of semitones. For reference, an octave is 12 semitones.
     * @param pitch amount in semitones to shift the pitch by
     */
     //% blockId=music_bend block="bend by %pitch| semitones" blockGap=8
@@ -171,8 +171,6 @@ namespace pxsim.music {
         "play phrase" or "loop phrase" call
         */
 
-        //console.log(handler);
-
         /* 
             let phrases = board().phrases()
             let part = new Tone.Part(function(time, note){
@@ -206,6 +204,22 @@ namespace pxsim.music {
         let phrase = board().phrases()['name'];
         phrase.loop(0);
         */
+    }
+
+    /**
+     * Shows a pattern of colors on the pixel ring
+     * @param colors a string describing the colors
+     * @param interval the duration in milliseconds between frames, eg: 400
+     */
+    //% blockId="neopixel_show_ring_colors" block="show ring |%colors"
+    //% weight=100
+    //% colors.fieldEditor="drums"
+    //% colors.fieldOptions.onParentBlock=true
+    //% colors.fieldOptions.decompileLiterals=true
+    //% blockExternalInputs="true" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    export function drumSequencer(colors: string, interval: number = 400){
+        
     }
 
 }
