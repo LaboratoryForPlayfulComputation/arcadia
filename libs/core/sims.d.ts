@@ -167,71 +167,65 @@ declare namespace markers {
 declare namespace music {
     /**
      * Play a tone.
-     * @param marker marker
      * @param note pitch of the tone to play in Hertz (Hz)
      * @param duration number of beats to play tone for
      */
-    //% blockId=music_play_tone block="%marker=marker_block| play tone %note=device_note| for %duration=device_beat" blockGap=8
+    //% blockId=music_play_tone block="play tone %note=device_note| for %duration=device_beat" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% shim=music::playTone
-    function playTone(marker: number, note: number, duration: string): void;
+    function playTone(note: number, duration: string): void;
 
     /**
      * Rest.
-     * @param marker marker
      * @param duration number of beats to rest for
      */
-    //% blockId=music_rest block="%marker=marker_block| rest for %duration=device_beat" blockGap=8
+    //% blockId=music_rest block="rest for %duration=device_beat" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% shim=music::rest
-    function rest(marker: number, duration: string): void;
+    function rest(duration: string): void;
 
     /**
      * Play a chord.
-     * @param marker marker
      * @param notes pitches of the tones to play in Hertz (Hz)
      * @param duration number of beats to play tone for
      */
-    //% blockId=music_play_chord block="%marker=marker_block| play chord %notes| for %duration=device_beat" blockGap=8
+    //% blockId=music_play_chord block="play chord %notes| for %duration=device_beat" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% shim=music::playChord
-    function playChord(marker: number, notes: [number], duration: string): void;
+    function playChord(notes: [number], duration: string): void;
 
     /**
      * Play a drum beat.
-     * @param marker marker
      * @param drum which drum sound to use
      */
-    //% blockId=music_play_drum_beat block="%marker=marker_block| play %drum" blockGap=8
+    //% blockId=music_play_drum_beat block="play %drum" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% drum.fieldEditor="gridpicker"
     //% drum.fieldOptions.width="200" drum.fieldOptions.columns="1"
     //% drum.fieldOptions.tooltips="true"
     //% shim=music::drumBeat
-    function drumBeat(marker: number, drum: Drum): void;
+    function drumBeat(drum: Drum): void;
 
     /**
      * Add an effect to an audio context.
-     * @param marker marker
      * @param effect which drum sound to use
      */
-    //% blockId=music_add_effect block="%marker=marker_block| add effect %effect" blockGap=8
+    //% blockId=music_add_effect block="add effect %effect" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
     //% effect.fieldOptions.tooltips="true"
     //% shim=music::addEffect
-    function addEffect(marker: Marker, effect: Effect): void;
+    function addEffect(effect: Effect): void;
 
     /**
      * Add an effect to an audio context.
-     * @param marker marker
      * @param pitch amount in semitones to shift the pitch by
      */
-    //% blockId=music_bend block="%marker=marker_block| bend by %pitch| semitones" blockGap=8
+    //% blockId=music_bend block="bend by %pitch| semitones" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% shim=music::bend
-    function bend(marker: Marker, pitch: number): void;
+    function bend(pitch: number): void;
 
     /**
      * Return the duration of a beat in milliseconds (the beat fraction).
@@ -260,9 +254,25 @@ declare namespace music {
      * Defines a musical phrase
      * @param name 
      */
-    //% blockId=music_create_phrase block="create phrase called %name" blockGap=8
+    //% blockId=music_create_phrase block="create phrase %name" blockGap=8
     //% shim=music::createPhrase
     function createPhrase(name: string, handler: () => void): void;
+
+    /**
+     * Plays a musical phrase once
+     * @param name 
+     */
+    //% blockId=music_play_phrase block="play phrase %name" blockGap=8
+    //% shim=music::playPhrase
+    function playPhrase(name: string): void;
+
+    /**
+     * Loops a musical phrase
+     * @param name 
+     */
+    //% blockId=music_loop_phrase block="loop phrase %name" blockGap=8
+    //% shim=music::loopPhrase
+    function loopPhrase(name: string): void;
 
 }
 

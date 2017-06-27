@@ -2,64 +2,55 @@ namespace pxsim.music {
 
     /**
     * Play a tone.
-    * @param marker marker
     * @param note pitch of the tone to play in Hertz (Hz)
     * @param duration number of beats to play tone for
     */
-    //% blockId=music_play_tone block="%marker=marker_block| play tone %note=device_note| for %duration=device_beat" blockGap=8
+    //% blockId=music_play_tone block="play tone %note=device_note| for %duration=device_beat" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-    export function playTone(marker: number, note: number, duration: string) { 
-        let m = board().marker(marker);
-        m['monoSynth'].triggerAttackRelease(note, duration); 
+    export function playTone(note: number, duration: string) { 
+        board().monosynth.triggerAttackRelease(note, duration); 
     }
 
     /**
     * Rest.
-    * @param marker marker
     * @param duration number of beats to rest for
     */
-    //% blockId=music_rest block="%marker=marker_block| rest for %duration=device_beat" blockGap=8
+    //% blockId=music_rest block="rest for %duration=device_beat" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-    export function rest(marker: number, duration: string) { 
-        let m = board().marker(marker);
-    }
+    export function rest(duration: string) {}
 
     /**
     * Play a chord.
-    * @param marker marker
     * @param notes pitches of the tones to play in Hertz (Hz)
     * @param duration number of beats to play tone for
     */
-    //% blockId=music_play_chord block="%marker=marker_block| play chord %notes| for %duration=device_beat" blockGap=8
+    //% blockId=music_play_chord block="play chord %notes| for %duration=device_beat" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-    export function playChord(marker: number, notes: [number], duration: string) {
-        let m = board().marker(marker);
-        //m['polySynth'].triggerAttackRelease(notes, duration);
+    export function playChord(notes: [number], duration: string) {
+        //board().polysynth.triggerAttackRelease(notes, duration);
     }
 
     /**
     * Play a drum beat.
-    * @param marker marker
     * @param drum which drum sound to use
     */
-    //% blockId=music_play_drum_beat block="%marker=marker_block| play %drum" blockGap=8
+    //% blockId=music_play_drum_beat block="play %drum" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% drum.fieldEditor="gridpicker"
     //% drum.fieldOptions.width="200" drum.fieldOptions.columns="1"
     //% drum.fieldOptions.tooltips="true"        
-    export function drumBeat(marker: number, drum: Drum) {
-        let m = board().marker(marker);
+    export function drumBeat(drum: Drum) {
         switch (drum) {
             case Drum.Kick:
-               m['kickDrum'].triggerAttackRelease("C3", "8n");
+               board().kickdrum.triggerAttackRelease("C3", "8n");
                break;
             default:
-               m['kickDrum'].triggerAttackRelease("C3", "8n");
+               board().kickdrum.triggerAttackRelease("C3", "8n");
                break;            
         }
     }
 
-    export function createMonoSynth() : Tone {
+    export function createMonoSynth() : Tone.MonoSynth {
         return new Tone.MonoSynth({oscillator: {
                                             type: "sine"
                                         },
@@ -68,35 +59,33 @@ namespace pxsim.music {
                                             decay: 0.1,
                                             sustain: 0.3,
                                             release: 1
-                                        }}).toMaster();        
+                                        }});        
     }
 
-    export function createPolySynth() : Tone {
-        return new Tone.PolySynth().toMaster();        
+    export function createPolySynth() : Tone.PolySynth {
+        return new Tone.PolySynth();        
     }
 
-    export function createKickDrum() : Tone {
+    export function createKickDrum() : Tone.MembraneSynth {
         return new Tone.MembraneSynth({"envelope" : {
                                             "sustain" : 0,
                                             "attack" : 0.02,
                                             "decay" : 0.8
                                         },
                                         "octaves" : 10
-                                    }).toMaster();
+                                    });
     }
 
     /**
     * Add an effect to an audio context.
-    * @param marker marker
     * @param effect which drum sound to use
     */
-    //% blockId=music_add_effect block="%marker=marker_block| add effect %effect" blockGap=8
+    //% blockId=music_add_effect block="add effect %effect" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
     //% effect.fieldOptions.tooltips="true"  
-    export function addEffect(marker: Marker, effect: Effect) {
-        let m = board().marker(marker);
+    export function addEffect(effect: Effect) {
         switch (effect) {
             case Effect.Distortion:
                 var fx = new Tone.Distortion(0.8).toMaster();
@@ -120,22 +109,20 @@ namespace pxsim.music {
                 var fx = new Tone.Distortion(0.8).toMaster();
                 break;
         }
-        m['monoSynth'].connect(fx);
-        m['polySynth'].connect(fx);
+        board().monosynth.connect(fx);
+        //board().polysynth.connect(fx);
     }
 
     /**
     * Add an effect to an audio context.
-    * @param marker marker
     * @param pitch amount in semitones to shift the pitch by
     */
-    //% blockId=music_bend block="%marker=marker_block| bend by %pitch| semitones" blockGap=8
+    //% blockId=music_bend block="bend by %pitch| semitones" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-    export function bend(marker: Marker, pitch: number) {
-        let m = board().marker(marker);
+    export function bend(pitch: number) {
         let shift = new Tone.PitchShift(pitch);
-        m['monoSynth'].connect(shift);
-        m['polySynth'].connect(shift);       
+        board().monosynth.connect(shift);
+        //board().polysynth.connect(shift);       
     }
     
     /**
@@ -177,27 +164,48 @@ namespace pxsim.music {
      * Defines a musical phrase
      * @param name 
      */
-    //% blockId=music_create_phrase block="create phrase called %name" blockGap=8
+    //% blockId=music_create_phrase block="create phrase %name" blockGap=8
     export function createPhrase(name: string, handler: RefAction) {
         /* TO DO: fix from "RefAction" to something that will just give me a list.
         This will allow us to create nicely timed musical patterns that can be triggered by a 
         "play phrase" or "loop phrase" call
         */
 
-        /* 
+        //console.log(handler);
 
+        /* 
             let phrases = board().phrases()
             let part = new Tone.Part(function(time, note){
-                //the notes given as the second element in the array
-                //will be passed in as the second argument
-                synth.triggerAttackRelease(note, "8n", time);
-            }, [[0, "C2"], ["0:2", "C3"], ["0:3:2", "G2"]]);) // eventually these notes will be filled with whatever time signatures and pitches the user decides
-
+                board().polysynth.triggerAttackRelease(note, "8n", time);
+            }, [[0, "C2"], ["0:2", "C3"], ["0:3:2", "G2"]]);)
            phrases['name'] = part;
-
 
            https://tonejs.github.io/docs/#Part
         */     
+    }
+
+    /**
+     * Plays a musical phrase once
+     * @param name 
+     */
+    //% blockId=music_play_phrase block="play phrase %name" blockGap=8
+    export function playPhrase(name: string) {
+        /* 
+        let phrase = board().phrases()['name'];
+        phrase.start(0);
+        */
+    }
+
+    /**
+     * Loops a musical phrase
+     * @param name 
+     */
+    //% blockId=music_loop_phrase block="loop phrase %name" blockGap=8
+    export function loopPhrase(name: string) {
+        /* 
+        let phrase = board().phrases()['name'];
+        phrase.loop(0);
+        */
     }
 
 }

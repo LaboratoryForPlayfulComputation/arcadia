@@ -73,9 +73,6 @@ declare namespace THREEx {
         prevHiddenTime: number,
         color: number,
         fontColor: number,
-        monoSynth: Tone,
-        polySynth: Tone,
-        kickDrum: Tone,
         scripts: pxsim.Map<() => void>;
     }
 }
