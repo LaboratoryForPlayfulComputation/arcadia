@@ -627,6 +627,8 @@ declare module Tone {
         dispose(): Tone.MonoSynth;
         triggerEnvelopeAttack(time?: Tone.Time, velocity?: number): Tone.MonoSynth;
         triggerEnvelopeRelease(time?: Tone.Time): Tone.MonoSynth;
+        triggerAttackRelease(note: string | number, duration: Tone.Time, time?: Tone.Time, velocity?: number): Tone.Instrument;
+        
     }
 
     var MultibandCompressor: {
@@ -1186,5 +1188,22 @@ declare module Tone {
     interface WaveShaper extends Tone.SignalBase {
         curve: number[];
         oversample: string;
+    }
+
+    var Event: {
+        new() : Tone.Event;
+    }
+
+    interface Event extends Tone {
+        dispose(): Tone.Split;
+    }
+
+    var Part: {
+        new(callback?:(time: number, value: number)=>any, events?: any) : Tone.Part;
+    }
+
+    interface Part extends Tone.Event {
+        loop: boolean | number;
+        start(time: number): void;
     }
 }

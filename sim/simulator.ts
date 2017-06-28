@@ -40,7 +40,7 @@ namespace pxsim {
         public monosynth        : Tone.MonoSynth;
         public polysynth        : Tone.PolySynth;
         public kickdrum         : Tone.MembraneSynth;
-        public phrases          : pxsim.Map<any>;
+        public phrases          : pxsim.Map<Tone.Part>;
         
         constructor() {
             super();
@@ -213,14 +213,14 @@ namespace pxsim {
             return threex.createMarkerStateEnum(marker, markerRoot);
         }
 
-        phrase(name: string, content: any) : any {
+        phrase(name: string, content: Tone.Part) : any {
             let p = this.phrases[name];
             if (!p)
                 p = this.phrases[name] = this.createPhase(content);
             return p;
         }
 
-        createPhase(content: any){
+        createPhase(content: Tone.Part){
             return content;
         }
 

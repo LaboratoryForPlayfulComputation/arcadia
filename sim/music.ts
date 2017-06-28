@@ -166,10 +166,9 @@ namespace pxsim.music {
      */
     //% blockId=music_play_phrase block="play phrase %name" blockGap=8
     export function playPhrase(name: string) {
-        /* 
-        let phrase = board().phrases()['name'];
+        let phrase = board().phrases[name];
+        phrase.loop = false;
         phrase.start(0);
-        */
     }
 
     /**
@@ -178,10 +177,9 @@ namespace pxsim.music {
      */
     //% blockId=music_loop_phrase block="loop phrase %name" blockGap=8
     export function loopPhrase(name: string) {
-        /* 
-        let phrase = board().phrases()['name'];
-        phrase.loop(0);
-        */
+        let phrase = board().phrases[name];
+        phrase.loop = true;
+        phrase.start(0);
     }
 
     /**
@@ -197,7 +195,10 @@ namespace pxsim.music {
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     export function drumSequencer(name: string, beat: string){
-        let p = board().phrase(name, beat);
+        let part = new Tone.Part(function(time, note){
+                    board().monosynth.triggerAttackRelease(note, "8n", time, 1);
+                }, [[0, "C2"], ["0:2", "C3"], ["0:3:2", "G2"]]);
+        let phrase = board().phrase(name, part);
     }
 
 }
