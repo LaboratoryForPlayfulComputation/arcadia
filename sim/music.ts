@@ -195,10 +195,28 @@ namespace pxsim.music {
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     export function drumSequencer(name: string, beat: string){
-        let part = new Tone.Part(function(time, note){
-                    board().monosynth.triggerAttackRelease(note, "8n", time, 1);
-                }, [[0, "C2"], ["0:2", "C3"], ["0:3:2", "G2"]]);
-        let phrase = board().phrase(name, part);
+        //console.log(beat);
+		/*var player = new Tone.MultiPlayer({
+			urls : {
+				"kick" : "./audio/casio/A1.mp3",
+				"snare" : "./audio/casio/Cs2.mp3",
+				"hihatclosed" : "./audio/casio/E2.mp3",
+				"hihatopen" : "./audio/casio/Fs2.mp3",
+				"cymbal" : "./audio/casio/Fs2.mp3"
+			},
+			volume : -10,
+			fadeOut : 0.1,
+		}).toMaster();
+
+		var sequence = new Tone.Sequence(function(time, col){
+			var column = matrix1.matrix[col];
+			for (var i = 0; i < 4; i++){
+				if (column[i] === 1)
+					player.start(noteNames[i], time, 0, "32n", 0, 1);
+			}
+		}, [0, 1, 2, 3, 4, 5, 6, 7], "16n");
+
+        let phrase = board().phrase(name, sequence);*/
     }
 
 }

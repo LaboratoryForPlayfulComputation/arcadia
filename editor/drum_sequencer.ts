@@ -108,11 +108,16 @@ namespace pxt.editor {
             pxsim.svg.addClass(hihatclosedBox, 'hihatclosed');
             pxsim.svg.addClass(hihatopenBox, 'hihatopen');
             pxsim.svg.addClass(cymbalBox, 'cymbal');
+            kickBox.setAttribute("active", "false");
+            snareBox.setAttribute("active", "false");
+            hihatclosedBox.setAttribute("active", "false");
+            hihatopenBox.setAttribute("active", "false");
+            cymbalBox.setAttribute("active", "false");
             pxsim.svg.onClick(kickBox, ev => this.onBoxClicked(ev, kickBox, i));
-            pxsim.svg.onClick(kickBox, ev => this.onBoxClicked(ev, snareBox, i));
-            pxsim.svg.onClick(kickBox, ev => this.onBoxClicked(ev, hihatclosedBox, i));
-            pxsim.svg.onClick(kickBox, ev => this.onBoxClicked(ev, hihatopenBox, i));
-            pxsim.svg.onClick(kickBox, ev => this.onBoxClicked(ev, cymbalBox, i));
+            pxsim.svg.onClick(snareBox, ev => this.onBoxClicked(ev, snareBox, i));
+            pxsim.svg.onClick(hihatclosedBox, ev => this.onBoxClicked(ev, hihatclosedBox, i));
+            pxsim.svg.onClick(hihatopenBox, ev => this.onBoxClicked(ev, hihatopenBox, i));
+            pxsim.svg.onClick(cymbalBox, ev => this.onBoxClicked(ev, cymbalBox, i));
         }
         this.kickbeats_.push(kickBox);
         this.snarebeats_.push(snareBox);
@@ -156,24 +161,47 @@ namespace pxt.editor {
           }
       }
       this.size_.height = Number(DrumSequencer.imageHeight);
-      this.size_.width = Number(DrumSequencer.imageWidth);
+      this.size_.width  = Number(DrumSequencer.imageWidth);
     }
 
+    isActive(beatBox: SVGElement) : boolean {
+        if (beatBox.getAttribute("active") == "true") return true;
+        return false;
+    }
 
     onBoxClicked(e: Event, beatBox: SVGElement, id: number) {
       if (Blockly.utils.isRightButton(e)) return;
-      pxsim.svg.fill(beatBox, '#00ffff');
-      console.log(beatBox);
+      let isActive = beatBox.getAttribute("active");
+      console.log(isActive);
+      if (isActive == "true") {
+          beatBox.setAttribute("active", "false");
+          pxsim.svg.fill(beatBox, 'gray');
+      } else {
+          beatBox.setAttribute("active", "true");
+          pxsim.svg.fill(beatBox, '#00ffff');
+      }
       if (this.sourceBlock_ && this.sourceBlock_.workspace) this.sourceBlock_.workspace.playAudio('click');      
-    };
-
-    getValue() {
-      return this.getText() || '`red red red red red red red red red red`';
     }
 
-    getValueArray(): string {
-      //return '`' + this.boxes_.map(neo => neo.getAttribute("data-color")).join(' ') + '`';
+   getValue() {
       return '';
     }
+
+    getValueArray(): pxsim.Map<[number]> {
+      let instruments = ['kick', 'snare', 'hihatclosed'];
+      let sequence = {} as pxsim.Map<[number]>;
+      for (var instrument in instruments){
+        for (let i = 0; i < DrumSequencer.NUM_BEATS; i++){
+            let svgName = instrument + i;
+            let svgEl = this.boardElement.getElementById(svgName) as SVGGElement;
+            let active = this.isActive(svgEl);
+            if (active) sequence[instrument].push(1);
+            else sequence[instrument].push(0);
+        }
+      }
+      return sequence;
+    }
+
   }
+
 }
