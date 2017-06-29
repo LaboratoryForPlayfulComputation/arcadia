@@ -192,7 +192,7 @@ declare namespace music {
     //% blockId=music_play_chord block="play chord %notes| for %duration=device_beat" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% shim=music::playChord
-    function playChord(notes: [number], duration: string): void;
+    function playChord(notes: number[], duration: string): void;
 
     /**
      * Play a drum beat.
@@ -259,27 +259,35 @@ declare namespace music {
     function playPhrase(name: string): void;
 
     /**
+     * Plays a drumbeat once
+     * @param name 
+     */
+    //% blockId=music_play_sequence block="play sequence %name" blockGap=8
+    //% shim=music::playSequence
+    function playSequence(name: string): void;
+
+    /**
      * Loops a musical phrase
      * @param name 
      */
-    //% blockId=music_loop_phrase block="loop phrase %name" blockGap=8
-    //% shim=music::loopPhrase
-    function loopPhrase(name: string): void;
+    //% blockId=music_loop_sequence block="loop sequence %name" blockGap=8
+    //% shim=music::loopSequence
+    function loopSequence(name: string): void;
 
     /**
      * Create a drum pattern
      * @param name
      * @param beat a string describing the beat
      */
-    //% blockId="music_drumbeat" block="create drum beat %name|%beat"
+    //% blockId="music_drumbeat" block="create drum sequence %name|%beat"
     //% weight=100
     //% beat.fieldEditor="drums"
     //% beat.fieldOptions.onParentBlock=true
-    //% beat.fieldOptions.decompileLiterals=true
+    //% beat.fieldOptions.decompileLiterals=true    
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-    //% shim=music::drumSequencer
-    function drumSequencer(name: string, beat: string): void;
+    //% shim=music::drumSequence
+    function drumSequence(name: string, beat: string): void;
 
 }
 

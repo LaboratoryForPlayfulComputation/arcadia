@@ -26,7 +26,7 @@ namespace pxsim.music {
     */
     //% blockId=music_play_chord block="play chord %notes| for %duration=device_beat" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-    export function playChord(notes: [number], duration: string) {
+    export function playChord(notes: number[], duration: string) {
         //board().polysynth.triggerAttackRelease(notes, duration);
     }
 
@@ -48,32 +48,6 @@ namespace pxsim.music {
                board().kickdrum.triggerAttackRelease("C3", "8n");
                break;            
         }
-    }
-
-    export function createMonoSynth() : Tone.MonoSynth {
-        return new Tone.MonoSynth({oscillator: {
-                                            type: "sine"
-                                        },
-                                        envelope: {
-                                            attack: 0.005,
-                                            decay: 0.1,
-                                            sustain: 0.3,
-                                            release: 1
-                                        }});        
-    }
-
-    export function createPolySynth() : Tone.PolySynth {
-        return new Tone.PolySynth();        
-    }
-
-    export function createKickDrum() : Tone.MembraneSynth {
-        return new Tone.MembraneSynth({"envelope" : {
-                                            "sustain" : 0,
-                                            "attack" : 0.02,
-                                            "decay" : 0.8
-                                        },
-                                        "octaves" : 10
-                                    });
     }
 
     /**
@@ -172,14 +146,31 @@ namespace pxsim.music {
     }
 
     /**
+     * Plays a drumbeat once
+     * @param name 
+     */
+    //% blockId=music_play_sequence block="play sequence %name" blockGap=8
+    export function playSequence(name: string) {
+        let sequence = board().phrases[name];
+        if (sequence){
+            sequence.loop = false;
+            sequence.start(0);
+            tone.startTransport();
+        }
+    }
+
+    /**
      * Loops a musical phrase
      * @param name 
      */
-    //% blockId=music_loop_phrase block="loop phrase %name" blockGap=8
-    export function loopPhrase(name: string) {
-        let phrase = board().phrases[name];
-        phrase.loop = true;
-        phrase.start(0);
+    //% blockId=music_loop_sequence block="loop sequence %name" blockGap=8
+    export function loopSequence(name: string) {
+        let sequence = board().phrases[name];
+        if (sequence){
+            sequence.loop = true;
+            sequence.start(0);
+            tone.startTransport();
+        }
     }
 
     /**
@@ -187,36 +178,40 @@ namespace pxsim.music {
      * @param name
      * @param beat a string describing the beat
      */
-    //% blockId="music_drumbeat" block="create drum beat %name|%beat"
+    //% blockId="music_drumbeat" block="create drum sequence %name|%beat"
     //% weight=100
     //% beat.fieldEditor="drums"
     //% beat.fieldOptions.onParentBlock=true
-    //% beat.fieldOptions.decompileLiterals=true
+    //% beat.fieldOptions.decompileLiterals=true    
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-    export function drumSequencer(name: string, beat: string){
-        //console.log(beat);
-		/*var player = new Tone.MultiPlayer({
-			urls : {
-				"kick" : "./audio/casio/A1.mp3",
-				"snare" : "./audio/casio/Cs2.mp3",
-				"hihatclosed" : "./audio/casio/E2.mp3",
-				"hihatopen" : "./audio/casio/Fs2.mp3",
-				"cymbal" : "./audio/casio/Fs2.mp3"
-			},
-			volume : -10,
-			fadeOut : 0.1,
-		}).toMaster();
+    export function drumSequence(name: string, beat: string){ 
+        let pitches   = ["E4", "G4", "A4", "B4", "D4"]; // TO DO: replace notes with drum samples
+        let notesList = [];
+        let sequence  = JSON.parse(beat);
+        let numBeats  = 8; // better way to keep track of this?
+        for (let i = 0; i < numBeats; i++){
+            let beatNotes = [];
+            let trackindex = 0;
+            for (var track in sequence){
+                if (sequence[track][i] == 1 || sequence[track][i] == "1") beatNotes.push(pitches[trackindex]);
+                trackindex++;
+            }
+            notesList.push(beatNotes);
+        }
 
-		var sequence = new Tone.Sequence(function(time, col){
-			var column = matrix1.matrix[col];
-			for (var i = 0; i < 4; i++){
-				if (column[i] === 1)
-					player.start(noteNames[i], time, 0, "32n", 0, 1);
-			}
-		}, [0, 1, 2, 3, 4, 5, 6, 7], "16n");
+        for (let i = 0; i < notesList.length; i++){
+            console.log(notesList[i]);
+            if (notesList[i] == []){
+                notesList[i] = [null];
+            }
+        }
 
-        let phrase = board().phrase(name, sequence);*/
+        let seq = new Tone.Sequence(function(time, notes){
+            //board().kickdrum.triggerAttackRelease(note, time); // take out eventually
+            board().polysynth.triggerAttackRelease(notes, time); // take out eventually
+        }, notesList, "8n");
+        let phrase = board().phrase(name, seq);
     }
 
 }

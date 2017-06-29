@@ -1196,6 +1196,8 @@ declare module Tone {
 
     interface Event extends Tone {
         dispose(): Tone.Split;
+        start(time: Tone.Time): Tone.Event;
+        value: any;
     }
 
     var Part: {
@@ -1204,6 +1206,32 @@ declare module Tone {
 
     interface Part extends Tone.Event {
         loop: boolean | number;
-        start(time: number): void;
+        start(time: Tone.Time): Tone.Event;
+    }
+
+    var MultiPlayer: {
+        new(buffers: Tone.Buffers, callback: (player: Tone.MultiPlayer) => any) : Tone.MultiPlayer;
+    }
+
+    interface MultiPlayer extends Tone {
+        toMaster(): Tone.MultiPlayer;
+        start(bufferName: string): Tone.MultiPlayer;
+    }
+
+    interface Buffers {
+        urls: pxsim.Map<string>;
+        volume: number;
+        fadeOut: number;
+    }
+
+    var Sequence: {
+        new(callback: (time: Tone.Time, note: string | string[] | string[][]) => any, events: string[], subdivision: string) : Tone.Sequence;
+    }
+
+    interface Sequence extends Tone.Part {
+        start(time: Tone.Time): Tone.Part;
+        loop: boolean | number;
+        at(index: number): Tone.Event | string | Tone.Sequence;
+        at(index: number, note: string): void;
     }
 }

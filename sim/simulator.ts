@@ -40,7 +40,8 @@ namespace pxsim {
         public monosynth        : Tone.MonoSynth;
         public polysynth        : Tone.PolySynth;
         public kickdrum         : Tone.MembraneSynth;
-        public phrases          : pxsim.Map<Tone.Part>;
+        public phrases          : pxsim.Map<Tone.Sequence>;
+        public drumPlayer       : Tone.MultiPlayer;
         
         constructor() {
             super();
@@ -49,8 +50,8 @@ namespace pxsim {
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
             return three.loadFontAsync()
                 .then(font => {
-                    this.bus              = new pxsim.EventBus(runtime);
                     this.font             = font;
+                    this.bus              = new pxsim.EventBus(runtime);
                     this.markers          = {};
                     this.phrases          = {};
                     this.baseURL          = '/sim/AR.js/three.js/';
@@ -59,9 +60,9 @@ namespace pxsim {
                     this.scene            = three.createScene();
                     this.arToolkitSource  = threex.createArToolkitSource();
                     this.arToolkitContext = threex.createArToolkitContext();
-                    this.monosynth        = music.createMonoSynth();
-                    this.polysynth        = music.createPolySynth();
-                    this.kickdrum         = music.createKickDrum(); 
+                    this.monosynth        = tone.createMonoSynth();
+                    this.polysynth        = tone.createPolySynth(5);
+                    this.kickdrum         = tone.createKickDrum(); 
                     this.monosynth.toMaster();                   
                     this.polysynth.toMaster();                   
                     this.kickdrum.toMaster();                   
@@ -70,7 +71,13 @@ namespace pxsim {
                     this.scene.add(three.createAmbientLight());      
                     threex.initArToolkitCallbacks();
                     this.initRenderFunctions();
-                    this.runRenderingLoop();
+                    this.runRenderingLoop();                            
+                    /*return tone.loadDrumSamplesAsync()
+                        .then(drumPlayer => {                        
+                            this.drumPlayer = drumPlayer;
+                            this.drumPlayer.toMaster();
+                            return Promise.resolve();
+                        });*/
                     return Promise.resolve();
                 });
         }       
@@ -213,14 +220,14 @@ namespace pxsim {
             return threex.createMarkerStateEnum(marker, markerRoot);
         }
 
-        phrase(name: string, content: Tone.Part) : any {
+        phrase(name: string, content: any) : any {
             let p = this.phrases[name];
             if (!p)
                 p = this.phrases[name] = this.createPhase(content);
             return p;
         }
 
-        createPhase(content: Tone.Part){
+        createPhase(content: any){
             return content;
         }
 
