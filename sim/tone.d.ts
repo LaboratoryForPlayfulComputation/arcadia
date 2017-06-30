@@ -1255,6 +1255,7 @@ declare module Tone {
 
     interface Sequence extends Tone.Part {
         start(time: Tone.Time): Tone.Part;
+        stop(time: Tone.Time): Tone.Part;
         loop: boolean | number;
         at(index: number): Tone.Event | string | Tone.Sequence;
         at(index: number, note: string): void;

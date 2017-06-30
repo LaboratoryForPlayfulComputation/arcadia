@@ -158,6 +158,19 @@ namespace pxsim.music {
     }
 
     /**
+     * Stop a musical phrase
+     * @param name 
+     */
+    //% blockId=music_stop_phrase block="stop phrase %name" blockGap=8
+    export function stopPhrase(name: string) {
+        let sequence = board().phrases[name];
+        if (sequence){
+            sequence.loop = false;
+            sequence.stop(0);
+        }
+    }    
+
+    /**
      * Create a drum pattern
      * @param name
      * @param beat a string describing the beat

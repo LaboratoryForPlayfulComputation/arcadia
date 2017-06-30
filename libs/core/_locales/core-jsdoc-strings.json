@@ -109,5 +109,6 @@
   "music.playTone|param|note": "pitch of the tone to play in Hertz (Hz)",
   "music.rest": "Rest.",
   "music.rest|param|duration": "number of beats to rest for",
-  "music.setTempo": "Set tempo"
+  "music.setTempo": "Set tempo",
+  "music.stopPhrase": "Stop a musical phrase"
 }

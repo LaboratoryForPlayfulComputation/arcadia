@@ -279,6 +279,14 @@ declare namespace music {
     function loopPhrase(name: string): void;
 
     /**
+     * Stop a musical phrase
+     * @param name 
+     */
+    //% blockId=music_stop_phrase block="stop phrase %name" blockGap=8
+    //% shim=music::stopPhrase
+    function stopPhrase(name: string): void;
+
+    /**
      * Create a drum pattern
      * @param name
      * @param beat a string describing the beat
