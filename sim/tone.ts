@@ -61,9 +61,9 @@ namespace pxsim.tone {
         poly.set("volume", -20);
         poly.set({
             "envelope" : {
-                "attack" : 0.25,
+                "attack" : 0.1,
                 "sustain" : 0,
-                "release": 0.05
+                "release": 0.01
             }}).toMaster();
         board().instruments.push(poly);
         return poly;   
@@ -84,7 +84,7 @@ namespace pxsim.tone {
     }
 
     export function createEffect(fx: Effect) : Tone.Effect {
-        var effect;
+        let effect = null as Tone.Effect;
         switch (fx) {
             case Effect.Distortion:
                 effect = new Tone.Distortion(0.8).toMaster();

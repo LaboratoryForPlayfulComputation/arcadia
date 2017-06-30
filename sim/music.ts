@@ -130,26 +130,15 @@ namespace pxsim.music {
     }      
 
     /**
-     * Plays a musical phrase once
+     * Plays a phrase once
      * @param name 
      */
     //% blockId=music_play_phrase block="play phrase %name" blockGap=8
     export function playPhrase(name: string) {
-        let phrase = board().phrases[name];
-        phrase.loop = false;
-        phrase.start(0);
-    }
-
-    /**
-     * Plays a drumbeat once
-     * @param name 
-     */
-    //% blockId=music_play_sequence block="play sequence %name" blockGap=8
-    export function playSequence(name: string) {
         let sequence = board().phrases[name];
         if (sequence){
             sequence.loop = false;
-            sequence.start(0);
+            sequence.start(4);
             tone.startTransport();
         }
     }
@@ -158,8 +147,8 @@ namespace pxsim.music {
      * Loops a musical phrase
      * @param name 
      */
-    //% blockId=music_loop_sequence block="loop sequence %name" blockGap=8
-    export function loopSequence(name: string) {
+    //% blockId=music_loop_phrase block="loop phrase %name" blockGap=8
+    export function loopPhrase(name: string) {
         let sequence = board().phrases[name];
         if (sequence){
             sequence.loop = true;
@@ -173,7 +162,7 @@ namespace pxsim.music {
      * @param name
      * @param beat a string describing the beat
      */
-    //% blockId="music_drumbeat" block="create drum sequence %name|%beat"
+    //% blockId="music_drumbeat" block="create beat %name|%beat"
     //% weight=100
     //% beat.fieldEditor="drums"
     //% beat.fieldOptions.onParentBlock=true
