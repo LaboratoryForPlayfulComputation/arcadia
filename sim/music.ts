@@ -1,5 +1,7 @@
 namespace pxsim.music {
 
+    let pitches   = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+
     /**
     * Play a tone.
     * @param note pitch of the tone to play in Hertz (Hz)
@@ -61,68 +63,24 @@ namespace pxsim.music {
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
     //% effect.fieldOptions.tooltips="true"  
     export function addEffectSeq(effect: Effect, name: string) {
-        switch (effect) {
-            case Effect.Distortion:
-                var fx = new Tone.Distortion(0.8).toMaster();
-                break;
-            case Effect.Delay:
-                var fx = new Tone.FeedbackDelay("8n").toMaster();
-                break;
-            case Effect.Chorus:
-                var fx = new Tone.Chorus(4, 2.5, 0.5).toMaster();
-                break;
-            case Effect.Phaser:
-                var fx = new Tone.Phaser({"frequency" : 15, 
-                                            "octaves" : 5, 
-                                            "baseFrequency" : 1000
-                                        }).toMaster();
-                break;
-            case Effect.Reverb:
-                var fx = new Tone.Freeverb().toMaster();
-                break;
-            default:
-                var fx = new Tone.Distortion(0.8).toMaster();
-                break;
-        }
+        let fx = tone.createEffect(effect);
         let phrase = board().phrases[name];
         phrase.connect(fx);
     }
 
     /**
-    * Add an effect to an audio context.
-    * @param effect which drum sound to use
+    * Add an effect to every active instrument.
+    * @param effect which effect to use
     */
-    //% blockId=music_add_effect block="add effect %effect" blockGap=8
+    //% blockId=music_add_effect_global block="add global effect %effect" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
     //% effect.fieldOptions.tooltips="true"  
-    export function addEffect(effect: Effect) {
-        switch (effect) {
-            case Effect.Distortion:
-                var fx = new Tone.Distortion(0.8).toMaster();
-                break;
-            case Effect.Delay:
-                var fx = new Tone.FeedbackDelay("8n").toMaster();
-                break;
-            case Effect.Chorus:
-                var fx = new Tone.Chorus(4, 2.5, 0.5).toMaster();
-                break;
-            case Effect.Phaser:
-                var fx = new Tone.Phaser({"frequency" : 15, 
-                                            "octaves" : 5, 
-                                            "baseFrequency" : 1000
-                                        }).toMaster();
-                break;
-            case Effect.Reverb:
-                var fx = new Tone.Freeverb().toMaster();
-                break;
-            default:
-                var fx = new Tone.Distortion(0.8).toMaster();
-                break;
-        }
-        board().monosynth.connect(fx);
-        //board().polysynth.connect(fx);
+    export function addGlobalEffect(effect: Effect) {
+        let fx = tone.createEffect(effect);
+        for (let i = 0; i < board().instruments.length; i++)
+            board().instruments[i].connect(fx);
     }
 
     /**
@@ -133,8 +91,7 @@ namespace pxsim.music {
     //% blockNamespace=music inBasicCategory=true
     export function bend(pitch: number) {
         let shift = new Tone.PitchShift(pitch);
-        board().monosynth.connect(shift);
-        //board().polysynth.connect(shift);       
+        //board().monosynth.connect(shift);       
     }
     
     /**
@@ -224,34 +181,11 @@ namespace pxsim.music {
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     export function drumSequence(name: string, beat: string){ 
-        let pitches   = ["E3", "G3", "A3", "B3", "D3"]; // TO DO: replace notes with drum samples
-        let notesList = [] as string[][];
-        let sequence  = JSON.parse(beat);
-        let numBeats  = 8; // better way to keep track of this?
-        let numTracks = 0;
-        for (let i = 0; i < numBeats; i++){
-            let beatNotes = [] as string[];
-            let trackindex = 0;
-            for (var track in sequence){
-                if (sequence[track][i] == 1 || sequence[track][i] == "1") beatNotes.push(pitches[trackindex]);
-                trackindex++;
-            }
-            notesList.push(beatNotes);
-            numTracks = trackindex;
-        }
-
-        for (let i = 0; i < notesList.length; i++){
-            if (notesList[i] == [])
-                notesList[i] = [null];
-        }
-
-        let instrument = tone.createPolySynth(numTracks);
-        instrument.toMaster();
-        let seq = new Tone.Sequence(function(time, notes){
-            instrument.triggerAttackRelease(notes, time);
-        }, notesList, "8n");
-        board().instruments.push(instrument);
-        let phrase = board().phrase(name, seq);
+        let tempPitches = ["E", "G", "A", "B", "D"]; // TO DO: replace notes with drum samples
+        let notesList   = createNotesArray(JSON.parse(beat), 8, tempPitches);
+        let numTracks   = tempPitches.length;
+        let seq         = tone.createMelodySequence("8n", notesList, numTracks);
+        let phrase      = board().phrase(name, seq);
     }
 
     /**
@@ -270,52 +204,47 @@ namespace pxsim.music {
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     export function phrase(name: string, octave: Octave, melody: string){ 
-        let oct = "4";
-        switch(octave){
-            case Octave.Lowest:
-                oct = "2";
-                break;
-            case Octave.Low:
-                oct = "3";
-                break;
-            case Octave.Middle:
-                oct = "4";
-                break;
-            case Octave.High:
-                oct = "5";
-                break;
-            default:
-                oct = "4";
-                break;
-        }
-        let pitches   = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+        let oct       = getOctave(octave);
+        let notesList = createNotesArray(JSON.parse(melody), 8, pitches, oct);
+        let numTracks = pitches.length;
+        let seq       = tone.createMelodySequence("8n", notesList, numTracks);
+        let phrase    = board().phrase(name, seq);
+    }
+
+    export function createNotesArray(sequence: pxsim.Map<string[]>, numBeats: number, sounds: string[], octave?: string) : string[][] {
         let notesList = [] as string[][];
-        let sequence  = JSON.parse(melody);
-        let numBeats  = 8; 
-        let numTracks = 0;
         for (let i = 0; i < numBeats; i++){
             let beatNotes = [] as string[];
             let trackindex = 0;
             for (var track in sequence){
-                if (sequence[track][i] == 1 || sequence[track][i] == "1") beatNotes.push(pitches[trackindex] + oct);
+                if (sequence[track][i] == "1") {
+                    if (octave) beatNotes.push(pitches[trackindex] + octave);
+                    else beatNotes.push(pitches[trackindex]);
+                }
                 trackindex++;
             }
             notesList.push(beatNotes);
-            numTracks = trackindex;
         }
+        notesList = addRests(notesList);
+        return notesList;
+    }    
 
+    export function getOctave(octave: Octave) : string {
+        switch(octave){
+            case Octave.Lowest: return "2";
+            case Octave.Low: return "3";
+            case Octave.Middle: return "4";
+            case Octave.High: return "5";
+            default: return "4";
+        }
+    }
+
+    export function addRests(notesList: string[][]) : string[][] {
         for (let i = 0; i < notesList.length; i++){
             if (notesList[i] == [])
                 notesList[i] = [null];
         }
-
-        let instrument = tone.createPolySynth(numTracks);
-        instrument.toMaster();
-        let seq = new Tone.Sequence(function(time, notes){
-            instrument.triggerAttackRelease(notes, time);
-        }, notesList, "8n");
-        board().instruments.push(instrument);
-        let phrase = board().phrase(name, seq);
+        return notesList;
     }
 
     /**

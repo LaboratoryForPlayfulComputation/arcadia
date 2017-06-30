@@ -116,7 +116,7 @@
   "markers.rotation|block": "%marker=marker_block|rotation %axis",
   "markers|block": "markers",
   "music.addEffectSeq|block": "add effect %effect|to phrase %name",
-  "music.addEffect|block": "add effect %effect",
+  "music.addGlobalEffect|block": "add global effect %effect",
   "music.beat|block": "%fraction|beat",
   "music.bend|block": "bend by %pitch| semitones",
   "music.drumBeat|block": "play %drum",

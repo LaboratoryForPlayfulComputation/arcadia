@@ -197,6 +197,14 @@ declare module Tone {
         dispose(): Tone.Clip;
     }
 
+    var Context: {
+        new(): Tone.Context;
+    };
+
+    interface Context extends Tone.Emitter {
+        dispose(): Tone.Emitter;
+    }
+
     var Compressor: {
         new(threshold?: any, ratio?: number): Tone.Compressor;
     };
@@ -264,6 +272,7 @@ declare module Tone {
         wet: Tone.Signal;
         bypass(): Tone.Effect;
         dispose(): Tone.Effect;
+        toMaster(): Tone.Effect;
     }
 
     var Envelope: {
@@ -279,6 +288,14 @@ declare module Tone {
         triggerAttack(time?: Tone.Time, velocity?: number): Tone.Envelope;
         triggerAttackRelease(duration: Tone.Time, time?: Tone.Time, velocity?: number): Tone.Envelope;
         triggerRelease(time?: Tone.Time): Tone.Envelope;
+    }
+
+    var Emitter: {
+        new(): Tone.Emitter;
+    };
+
+    interface Emitter extends Tone {
+        dispose(): Tone.Emitter;
     }
 
     var EQ3: {
@@ -630,7 +647,7 @@ declare module Tone {
         triggerEnvelopeAttack(time?: Tone.Time, velocity?: number): Tone.MonoSynth;
         triggerEnvelopeRelease(time?: Tone.Time): Tone.MonoSynth;
         triggerAttackRelease(note: string | number, duration: Tone.Time, time?: Tone.Time, velocity?: number): Tone.Instrument;
-        
+        toMaster(): Tone.MonoSynth;
     }
 
     var MultibandCompressor: {
@@ -728,6 +745,7 @@ declare module Tone {
         triggerAttack(time?: Tone.Time, velocity?: number): Tone.MembraneSynth;
         triggerAttackRelease(duration: Tone.Time, time?: Tone.Time, velocity?: number): Tone.MembraneSynth;
         triggerRelease(time?: Tone.Time): Tone.MembraneSynth;
+        toMaster(): Tone.MembraneSynth;
     }
 
     var Normalize: {

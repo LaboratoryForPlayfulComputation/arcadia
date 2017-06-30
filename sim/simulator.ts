@@ -38,6 +38,7 @@ namespace pxsim {
         public baseURL          : String;
         public onRenderFcts     : Array<any>;
         public instruments      : Array<Tone.Instrument>;
+        public fx               : Array<Tone.Effect>;
         public monosynth        : Tone.MonoSynth;
         public polysynth        : Tone.PolySynth;
         public kickdrum         : Tone.MembraneSynth;
@@ -53,30 +54,31 @@ namespace pxsim {
                 .then(font => {
                     this.font             = font;
                     this.bus              = new pxsim.EventBus(runtime);
+                    /* AR */
                     this.markers          = {};
-                    this.phrases          = {};
                     this.baseURL          = '/sim/AR.js/three.js/';
                     this.renderer         = getWebGlContext();
                     this.camera           = three.createCamera();
                     this.scene            = three.createScene();
                     this.arToolkitSource  = threex.createArToolkitSource();
                     this.arToolkitContext = threex.createArToolkitContext();
-                    this.instruments      = [];            
-                    this.monosynth        = tone.createMonoSynth(); // for play tone blocks
-                    this.polysynth        = tone.createPolySynth(5); // for basic play chord blocks
-                    this.kickdrum         = tone.createKickDrum(); // for "one-off" drum sample triggers
-                    this.monosynth.toMaster();                   
-                    this.polysynth.toMaster();                   
-                    this.kickdrum.toMaster();  
-                    this.instruments.push(this.monosynth); 
-                    this.instruments.push(this.polysynth); 
-                    this.instruments.push(this.kickdrum); 
-                    tone.bpm(100);
                     this.scene.add(this.camera);      
                     this.scene.add(three.createDirectionalLight());
                     this.scene.add(three.createAmbientLight());      
                     threex.initArToolkitCallbacks();
                     this.initRenderFunctions();
+                    /* music */
+                    this.phrases          = {};
+                    this.instruments      = [];
+                    this.fx               = [];            
+                    this.monosynth        = tone.createMonoSynth();  // for play tone blocks
+                    this.polysynth        = tone.createPolySynth(5); // for play chord blocks
+                    this.kickdrum         = tone.createKickDrum();   // for "one-off" drum sample triggers
+                    this.monosynth.toMaster();                   
+                    this.polysynth.toMaster();                   
+                    this.kickdrum.toMaster();  
+                    tone.bpm(120);
+                    /* start rendering */                    
                     this.runRenderingLoop();                            
                     return Promise.resolve();
                 });
@@ -196,6 +198,7 @@ namespace pxsim {
 
         kill() {
             if (this.scene) three.removeSceneChildren(this.scene);
+            if (this.fx)          this.killFX();
             if (this.phrases)     this.killPhrases();
             if (this.instruments) this.killInstruments();
             this.onRenderFcts = [];
@@ -227,6 +230,12 @@ namespace pxsim {
             if (!p)
                 p = this.phrases[name] = sequence;
             return p;
+        }
+
+        killFX(){
+            for (let i = 0; i < this.fx.length; i++)
+                this.fx[i].dispose();
+            this.fx = [];            
         }
 
         killPhrases(){

@@ -219,16 +219,16 @@ declare namespace music {
     function addEffectSeq(effect: Effect, name: string): void;
 
     /**
-     * Add an effect to an audio context.
-     * @param effect which drum sound to use
+     * Add an effect to every active instrument.
+     * @param effect which effect to use
      */
-    //% blockId=music_add_effect block="add effect %effect" blockGap=8
+    //% blockId=music_add_effect_global block="add global effect %effect" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
     //% effect.fieldOptions.tooltips="true"
-    //% shim=music::addEffect
-    function addEffect(effect: Effect): void;
+    //% shim=music::addGlobalEffect
+    function addGlobalEffect(effect: Effect): void;
 
     /**
      * Shift pitch by a certain amount of semitones. For reference, an octave is 12 semitones.
