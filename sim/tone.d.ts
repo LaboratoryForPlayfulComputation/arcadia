@@ -144,6 +144,8 @@ declare module Tone {
         dispose(): Tone.BitCrusher;
     }
 
+    interface BPM{}
+
     var Buffer: {
         new(url?: AudioBuffer | string, callback?:(e: any) => any): Tone.Buffer;
     };
@@ -868,7 +870,7 @@ declare module Tone {
     }
 
     var PolySynth : {
-        new(voicesAmount?: any, voice?: ()=>any): Tone.PolySynth;
+        new(voicesAmount?: any, voice?: any): Tone.PolySynth;
     };
 
     interface PolySynth extends Tone.Instrument {
@@ -876,10 +878,12 @@ declare module Tone {
         dispose(): Tone.PolySynth;
         get(params?: any[]) : any;
         set(params: Object) : any;
+        set(params: string, value: number) : any;
         setPreset(presetName: string): Tone.PolySynth;
         triggerAttack(value: any, time?: Tone.Time, velocity?: number): Tone.PolySynth;
         triggerAttackRelease(value: any, duration: Tone.Time, time?: Tone.Time, velocity?: number): Tone.PolySynth;
         triggerRelease(value: any, time?: Tone.Time): Tone.PolySynth;
+        toMaster(): Tone.PolySynth;
     }
 
     var Pow: {
@@ -1130,6 +1134,9 @@ declare module Tone {
 
     var Transport:  {
         new(): Tone.Transport;
+        bpm: Tone.Signal;
+        start(time: Tone.Time): Tone.Transport;
+        stop(): Tone.Transport;
     };
 
     interface Transport extends Tone {
@@ -1225,7 +1232,7 @@ declare module Tone {
     }
 
     var Sequence: {
-        new(callback: (time: Tone.Time, note: string | string[] | string[][]) => any, events: string[], subdivision: string) : Tone.Sequence;
+        new(callback: (time: Tone.Time, note: string | string[]) => any, events: string[] | string[][], subdivision: string) : Tone.Sequence;
     }
 
     interface Sequence extends Tone.Part {

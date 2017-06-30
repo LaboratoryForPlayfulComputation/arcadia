@@ -5,6 +5,14 @@ namespace pxsim.tone {
         Tone.Transport.start(0); // this is the current usage, not sure how to fix this in typings
     }
 
+    export function stopTransport() {
+        Tone.Transport.stop();
+    }
+
+    /*export function createContext() : Tone.Context {
+        return new Tone.Context();
+    }*/
+
     // Not currently used. Event callback never fires, but no 404 errors...
     export function loadDrumSamplesAsync() : Promise<Tone.MultiPlayer> {
         return new Promise<Tone.MultiPlayer>((resolve, reject) => {
@@ -32,14 +40,20 @@ namespace pxsim.tone {
                                             attack: 0.005,
                                             decay: 0.1,
                                             sustain: 0.3,
-                                            release: 1
+                                            release: 0.25
                                         }});        
     }
 
     export function createPolySynth(voices: number) : Tone.PolySynth {
-        let psynth = new Tone.PolySynth(voices, Tone.MonoSynth);     
-        psynth.set("volume", -20);
-        return psynth;   
+        let poly = new Tone.PolySynth(voices, Tone.MonoSynth);     
+        poly.set("volume", -20);
+        poly.set({
+            "envelope" : {
+                "attack" : 0.25,
+                "sustain" : 0,
+                "release": 0.05
+            }});
+        return poly;   
     }
 
     export function createKickDrum() : Tone.MembraneSynth {
@@ -51,5 +65,9 @@ namespace pxsim.tone {
                                         "octaves" : 10
                                     });
     }     
+
+    export function bpm(val: Tone.BPM){
+        Tone.Transport.bpm.value = val;        
+    }
 
 }

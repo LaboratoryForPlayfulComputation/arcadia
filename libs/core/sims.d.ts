@@ -207,6 +207,18 @@ declare namespace music {
     function drumBeat(drum: Drum): void;
 
     /**
+     * Add an effect to a sequence.
+     * @param effect which drum sound to use
+     */
+    //% blockId=music_add_effect_seq block="add effect %effect|to phrase %name" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% effect.fieldEditor="gridpicker"
+    //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
+    //% effect.fieldOptions.tooltips="true"
+    //% shim=music::addEffectSeq
+    function addEffectSeq(effect: Effect, name: string): void;
+
+    /**
      * Add an effect to an audio context.
      * @param effect which drum sound to use
      */
@@ -288,6 +300,35 @@ declare namespace music {
     //% blockNamespace=music inBasicCategory=true
     //% shim=music::drumSequence
     function drumSequence(name: string, beat: string): void;
+
+    /**
+     * Create a melody pattern
+     * @param name
+     * @param beat a string describing the beat
+     */
+    //% blockId="music_phrase" block="create phrase %name|octave %octave|%melody"
+    //% weight=100
+    //% octave.fieldEditor="gridpicker"
+    //% octave.fieldOptions.width="200" octave.fieldOptions.columns="1"
+    //% octave.fieldOptions.tooltips="true"      
+    //% melody.fieldEditor="melody"
+    //% melody.fieldOptions.onParentBlock=true
+    //% melody.fieldOptions.decompileLiterals=true    
+    //% blockExternalInputs="true" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% shim=music::phrase
+    function phrase(name: string, octave: Octave, melody: string): void;
+
+    /**
+     * Set tempo
+     * @param bpm
+     */
+    //% blockId="music_tempo" block="set tempo %bpm"
+    //% weight=100
+    //% blockExternalInputs="true" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% shim=music::setTempo
+    function setTempo(bpm: number): void;
 
 }
 

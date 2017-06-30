@@ -37,6 +37,7 @@ namespace pxsim {
         public renderer         : THREE.WebGLRenderer;
         public baseURL          : String;
         public onRenderFcts     : Array<any>;
+        public instruments      : Array<Tone.Instrument>;
         public monosynth        : Tone.MonoSynth;
         public polysynth        : Tone.PolySynth;
         public kickdrum         : Tone.MembraneSynth;
@@ -60,24 +61,23 @@ namespace pxsim {
                     this.scene            = three.createScene();
                     this.arToolkitSource  = threex.createArToolkitSource();
                     this.arToolkitContext = threex.createArToolkitContext();
-                    this.monosynth        = tone.createMonoSynth();
-                    this.polysynth        = tone.createPolySynth(5);
-                    this.kickdrum         = tone.createKickDrum(); 
+                    this.instruments      = [];            
+                    this.monosynth        = tone.createMonoSynth(); // for play tone blocks
+                    this.polysynth        = tone.createPolySynth(5); // for basic play chord blocks
+                    this.kickdrum         = tone.createKickDrum(); // for "one-off" drum sample triggers
                     this.monosynth.toMaster();                   
                     this.polysynth.toMaster();                   
-                    this.kickdrum.toMaster();                   
+                    this.kickdrum.toMaster();  
+                    this.instruments.push(this.monosynth); 
+                    this.instruments.push(this.polysynth); 
+                    this.instruments.push(this.kickdrum); 
+                    tone.bpm(100);
                     this.scene.add(this.camera);      
                     this.scene.add(three.createDirectionalLight());
                     this.scene.add(three.createAmbientLight());      
                     threex.initArToolkitCallbacks();
                     this.initRenderFunctions();
                     this.runRenderingLoop();                            
-                    /*return tone.loadDrumSamplesAsync()
-                        .then(drumPlayer => {                        
-                            this.drumPlayer = drumPlayer;
-                            this.drumPlayer.toMaster();
-                            return Promise.resolve();
-                        });*/
                     return Promise.resolve();
                 });
         }       
@@ -196,6 +196,8 @@ namespace pxsim {
 
         kill() {
             if (this.scene) three.removeSceneChildren(this.scene);
+            if (this.phrases)     this.killPhrases();
+            if (this.instruments) this.killInstruments();
             this.onRenderFcts = [];
             this.markers      = {};
         }
@@ -220,15 +222,23 @@ namespace pxsim {
             return threex.createMarkerStateEnum(marker, markerRoot);
         }
 
-        phrase(name: string, content: any) : any {
+        phrase(name: string, sequence: Tone.Sequence) : any {
             let p = this.phrases[name];
             if (!p)
-                p = this.phrases[name] = this.createPhase(content);
+                p = this.phrases[name] = sequence;
             return p;
         }
 
-        createPhase(content: any){
-            return content;
+        killPhrases(){
+            for (var phrase in this.phrases)
+                this.phrases[phrase].dispose();
+            this.phrases = {};
+        }
+
+        killInstruments(){
+            for (let i = 0; i < this.instruments.length; i++)
+                this.instruments[i].dispose();
+            this.instruments = [];
         }
 
         /**

@@ -7,6 +7,10 @@ namespace pxt.editor {
             fieldEditors: [{
                 selector: "drums",
                 editor: DrumSequencer
+            },
+            {
+               selector: "melody",
+               editor: MelodySequencer 
             }]
         };
         return Promise.resolve<pxt.editor.ExtensionResult>(res);

@@ -347,3 +347,14 @@ declare const enum Effect {
     Reverb = 5
 }
 
+declare const enum Octave {
+    //% block='middle'
+    Middle = 4,
+    //% block='low'
+    Low = 3,
+    //% block='lowest'
+    Lowest = 2,
+    //% block='high'
+    High = 5
+}
+

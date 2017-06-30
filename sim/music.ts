@@ -50,6 +50,44 @@ namespace pxsim.music {
         }
     }
 
+
+    /**
+    * Add an effect to a sequence.
+    * @param effect which drum sound to use
+    */
+    //% blockId=music_add_effect_seq block="add effect %effect|to phrase %name" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% effect.fieldEditor="gridpicker"
+    //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
+    //% effect.fieldOptions.tooltips="true"  
+    export function addEffectSeq(effect: Effect, name: string) {
+        switch (effect) {
+            case Effect.Distortion:
+                var fx = new Tone.Distortion(0.8).toMaster();
+                break;
+            case Effect.Delay:
+                var fx = new Tone.FeedbackDelay("8n").toMaster();
+                break;
+            case Effect.Chorus:
+                var fx = new Tone.Chorus(4, 2.5, 0.5).toMaster();
+                break;
+            case Effect.Phaser:
+                var fx = new Tone.Phaser({"frequency" : 15, 
+                                            "octaves" : 5, 
+                                            "baseFrequency" : 1000
+                                        }).toMaster();
+                break;
+            case Effect.Reverb:
+                var fx = new Tone.Freeverb().toMaster();
+                break;
+            default:
+                var fx = new Tone.Distortion(0.8).toMaster();
+                break;
+        }
+        let phrase = board().phrases[name];
+        phrase.connect(fx);
+    }
+
     /**
     * Add an effect to an audio context.
     * @param effect which drum sound to use
@@ -186,32 +224,110 @@ namespace pxsim.music {
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     export function drumSequence(name: string, beat: string){ 
-        let pitches   = ["E4", "G4", "A4", "B4", "D4"]; // TO DO: replace notes with drum samples
-        let notesList = [];
+        let pitches   = ["E3", "G3", "A3", "B3", "D3"]; // TO DO: replace notes with drum samples
+        let notesList = [] as string[][];
         let sequence  = JSON.parse(beat);
         let numBeats  = 8; // better way to keep track of this?
+        let numTracks = 0;
         for (let i = 0; i < numBeats; i++){
-            let beatNotes = [];
+            let beatNotes = [] as string[];
             let trackindex = 0;
             for (var track in sequence){
                 if (sequence[track][i] == 1 || sequence[track][i] == "1") beatNotes.push(pitches[trackindex]);
                 trackindex++;
             }
             notesList.push(beatNotes);
+            numTracks = trackindex;
         }
 
         for (let i = 0; i < notesList.length; i++){
-            console.log(notesList[i]);
-            if (notesList[i] == []){
+            if (notesList[i] == [])
                 notesList[i] = [null];
-            }
         }
 
+        let instrument = tone.createPolySynth(numTracks);
+        instrument.toMaster();
         let seq = new Tone.Sequence(function(time, notes){
-            //board().kickdrum.triggerAttackRelease(note, time); // take out eventually
-            board().polysynth.triggerAttackRelease(notes, time); // take out eventually
+            instrument.triggerAttackRelease(notes, time);
         }, notesList, "8n");
+        board().instruments.push(instrument);
         let phrase = board().phrase(name, seq);
+    }
+
+    /**
+     * Create a melody pattern
+     * @param name
+     * @param beat a string describing the beat
+     */
+    //% blockId="music_phrase" block="create phrase %name|octave %octave|%melody"
+    //% weight=100
+    //% octave.fieldEditor="gridpicker"
+    //% octave.fieldOptions.width="200" octave.fieldOptions.columns="1"
+    //% octave.fieldOptions.tooltips="true"      
+    //% melody.fieldEditor="melody"
+    //% melody.fieldOptions.onParentBlock=true
+    //% melody.fieldOptions.decompileLiterals=true    
+    //% blockExternalInputs="true" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    export function phrase(name: string, octave: Octave, melody: string){ 
+        let oct = "4";
+        switch(octave){
+            case Octave.Lowest:
+                oct = "2";
+                break;
+            case Octave.Low:
+                oct = "3";
+                break;
+            case Octave.Middle:
+                oct = "4";
+                break;
+            case Octave.High:
+                oct = "5";
+                break;
+            default:
+                oct = "4";
+                break;
+        }
+        let pitches   = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+        let notesList = [] as string[][];
+        let sequence  = JSON.parse(melody);
+        let numBeats  = 8; 
+        let numTracks = 0;
+        for (let i = 0; i < numBeats; i++){
+            let beatNotes = [] as string[];
+            let trackindex = 0;
+            for (var track in sequence){
+                if (sequence[track][i] == 1 || sequence[track][i] == "1") beatNotes.push(pitches[trackindex] + oct);
+                trackindex++;
+            }
+            notesList.push(beatNotes);
+            numTracks = trackindex;
+        }
+
+        for (let i = 0; i < notesList.length; i++){
+            if (notesList[i] == [])
+                notesList[i] = [null];
+        }
+
+        let instrument = tone.createPolySynth(numTracks);
+        instrument.toMaster();
+        let seq = new Tone.Sequence(function(time, notes){
+            instrument.triggerAttackRelease(notes, time);
+        }, notesList, "8n");
+        board().instruments.push(instrument);
+        let phrase = board().phrase(name, seq);
+    }
+
+    /**
+     * Set tempo
+     * @param bpm
+     */
+    //% blockId="music_tempo" block="set tempo %bpm"
+    //% weight=100
+    //% blockExternalInputs="true" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    export function setTempo(bpm: number){
+        tone.bpm(bpm);
     }
 
 }
