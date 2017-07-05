@@ -56,8 +56,8 @@ namespace pxsim.tone {
                                             type: "sine"
                                         },
                                         envelope: {
-                                            attack : 0.005,
-                                            decay  : 0.1,
+                                            attack:  0.005,
+                                            decay:   0.1,
                                             sustain: 0.3,
                                             release: 0.25
                                         }}).toMaster();  
@@ -70,8 +70,8 @@ namespace pxsim.tone {
         poly.set("volume", -20);
         poly.set({
             "envelope" : {
-                "attack" : 0.1,
-                "sustain" : 0,
+                "attack":  0.1,
+                "sustain": 0,
                 "release": 0.01
             }}).toMaster();
         board().instruments.push(poly);
@@ -79,11 +79,11 @@ namespace pxsim.tone {
     }
 
     export function createKickDrum() : Tone.MembraneSynth {
-        let kick = new Tone.MembraneSynth({"envelope" : {
-                                              "sustain" : 0,
-                                              "attack"  : 0.02,
-                                              "decay"   : 0.8},
-                                           "octaves"  : 10
+        let kick = new Tone.MembraneSynth({"envelope": {
+                                              "sustain": 0,
+                                              "attack":  0.02,
+                                              "decay":   0.8},
+                                           "octaves": 10
                                          }).toMaster();
         board().instruments.push(kick);
         return kick;                                    
@@ -106,9 +106,9 @@ namespace pxsim.tone {
                 effect = new Tone.Chorus(4, 2.5, 0.5).toMaster();
                 break;
             case Effect.Phaser:
-                effect = new Tone.Phaser({"frequency" : 15, 
-                                            "octaves" : 5, 
-                                            "baseFrequency" : 1000
+                effect = new Tone.Phaser({"frequency": 15, 
+                                            "octaves": 5, 
+                                            "baseFrequency": 1000
                                         }).toMaster();
                 break;
             case Effect.Reverb:

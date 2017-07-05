@@ -1155,6 +1155,7 @@ declare module Tone {
         bpm: Tone.Signal;
         start(time: Tone.Time): Tone.Transport;
         stop(): Tone.Transport;
+        schedule(callback: (t: any) => any, time: Tone.Time): number;
     };
 
     interface Transport extends Tone {

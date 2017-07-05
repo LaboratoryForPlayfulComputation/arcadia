@@ -8,6 +8,7 @@
 /// <reference path="tone.d.ts" />
 
 namespace pxsim {
+    
     /**
      * This function gets called each time the program restarts
      */
@@ -52,8 +53,8 @@ namespace pxsim {
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
             return three.loadFontAsync()
                 .then(font => {
-                    this.font             = font;
-                    this.bus              = new pxsim.EventBus(runtime);
+                    this.font = font;
+                    this.bus  = new pxsim.EventBus(runtime);
                     /* AR */
                     this.markers          = {};
                     this.baseURL          = '/sim/AR.js/three.js/';
@@ -68,15 +69,12 @@ namespace pxsim {
                     threex.initArToolkitCallbacks();
                     this.initRenderFunctions();
                     /* music */
-                    this.phrases          = {};
-                    this.instruments      = [];
-                    this.fx               = [];            
-                    this.monosynth        = tone.createMonoSynth();  // for play tone blocks
-                    this.polysynth        = tone.createPolySynth(5); // for play chord blocks
-                    this.kickdrum         = tone.createKickDrum();   // for "one-off" drum sample triggers
-                    this.monosynth.toMaster();                   
-                    this.polysynth.toMaster();                   
-                    this.kickdrum.toMaster();  
+                    this.phrases     = {};
+                    this.instruments = [];
+                    this.fx          = [];            
+                    this.monosynth   = tone.createMonoSynth().toMaster();  // for play tone blocks
+                    this.polysynth   = tone.createPolySynth(5).toMaster(); // for play chord blocks
+                    this.kickdrum    = tone.createKickDrum().toMaster();   // for "one-off" drum sample triggers
                     tone.bpm(120);
                     /* start rendering */                    
                     this.runRenderingLoop();                            
@@ -88,7 +86,7 @@ namespace pxsim {
          * Define functions that we want to run on every render loop
          */
         initRenderFunctions(){
-            this.onRenderFcts= [];
+            this.onRenderFcts = [];
             /* update the AR toolkit source and context */
             this.onRenderFcts.push(() => {
                 if(this.arToolkitSource.ready === false) return
@@ -116,9 +114,9 @@ namespace pxsim {
             let lastTimeMsec = 0;
             requestAnimationFrame(function animate(nowMsec){
                 requestAnimationFrame(animate);
-                lastTimeMsec	= lastTimeMsec || nowMsec-1000/60;
-                let deltaMsec	= Math.min(200, nowMsec - lastTimeMsec);
-                lastTimeMsec	= nowMsec;
+                lastTimeMsec  = lastTimeMsec || nowMsec-1000/60;
+                let deltaMsec = Math.min(200, nowMsec - lastTimeMsec);
+                lastTimeMsec  = nowMsec;
                 self.onRenderFcts.forEach(function(onRenderFct){
                     onRenderFct(deltaMsec/1000, nowMsec/1000);
                 });
@@ -145,12 +143,10 @@ namespace pxsim {
             return m;
         }
 
-        phrase(name: string, phrase?: pxsim.music.Phrase) : any {
-            let p = this.phrases[name];
-            if (!p)
-                p = this.phrases[name] = phrase;
-            return p;
+        phrase(name: string) : pxsim.music.Phrase {
+            return this.phrases[name];
         } 
+
     }
 
     /**
@@ -165,11 +161,11 @@ namespace pxsim {
                 antialias: true,
                 alpha: true
             });
-            renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+            renderer.setClearColor(new THREE.Color('lightgrey'), 0);
             renderer.setSize( 640, 480 );
-            renderer.domElement.style.position = 'absolute'
-            renderer.domElement.style.top = '0px'
-            renderer.domElement.style.left = '0px'
+            renderer.domElement.style.position = 'absolute';
+            renderer.domElement.style.top = '0px';
+            renderer.domElement.style.left = '0px';
             document.body.appendChild(renderer.domElement);
         }
         return renderer;        

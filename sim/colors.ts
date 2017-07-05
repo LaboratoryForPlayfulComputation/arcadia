@@ -50,9 +50,9 @@ namespace pxsim.colors {
         let object = m.shapeObject();
         if (object)
             (object as any).material = new THREE.MeshPhongMaterial({transparent: true,
-                                                                     opacity: 0.9,
-                                                                      color: color,
-                                                                       side: THREE.DoubleSide});
+                                                                    opacity: 0.9,
+                                                                    color: color,
+                                                                    side: THREE.DoubleSide});
     }   
 
     /**
@@ -65,9 +65,9 @@ namespace pxsim.colors {
         let object = m.textObject();
         if (object)
             (object as any).material = new THREE.MeshBasicMaterial({transparent: true,
-                                                                     opacity: 5,
-                                                                      color: color,
-                                                                       side: THREE.DoubleSide});
+                                                                    opacity: 5,
+                                                                    color: color,
+                                                                    side: THREE.DoubleSide});
     } 
 
 }

@@ -65,9 +65,9 @@ namespace pxsim.music {
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
     //% effect.fieldOptions.tooltips="true"  
     export function addEffectSeq(effect: Effect, name: string) {
-        let phrase = board().phrases[name];
+        let phrase = board().phrase(name);
         let fx     = tone.createEffect(effect);
-        if (phrase) phrase.setEffect(fx);
+        if (phrase) phrase.addEffect(fx);
     }
 
     /**
@@ -136,8 +136,8 @@ namespace pxsim.music {
      */
     //% blockId=music_play_phrase block="play phrase %name" blockGap=8
     export function playPhrase(name: string) {
-        let phrase = board().phrases[name];
-        if (phrase) phrase.start(4);
+        let phrase = board().phrase(name);
+        if (phrase) phrase.start(0);
     }
 
     /**
@@ -146,7 +146,7 @@ namespace pxsim.music {
      */
     //% blockId=music_loop_phrase block="loop phrase %name" blockGap=8
     export function loopPhrase(name: string) {
-        let phrase = board().phrases[name];
+        let phrase = board().phrase(name);
         if (phrase) phrase.loop(0);
     }
 
@@ -156,7 +156,7 @@ namespace pxsim.music {
      */
     //% blockId=music_stop_phrase block="stop phrase %name" blockGap=8
     export function stopPhrase(name: string) {
-        let phrase = board().phrases[name];
+        let phrase = board().phrase(name);
         if (phrase) phrase.stop(0);
     }    
 
@@ -177,7 +177,7 @@ namespace pxsim.music {
         let notesList   = createNotesArray(JSON.parse(beat), 8, tempPitches);
         let numTracks   = tempPitches.length;
         let phrase      = tone.createMelodySequence("8n", notesList, numTracks);
-        board().phrase(name, phrase);
+        board().phrases[name] = phrase;
     }
 
     /**
@@ -200,7 +200,7 @@ namespace pxsim.music {
         let notesList = createNotesArray(JSON.parse(melody), 8, pitches, oct);
         let numTracks = pitches.length;
         let phrase    = tone.createMelodySequence("8n", notesList, numTracks);
-        board().phrase(name, phrase);
+        board().phrases[name] = phrase;
     }
 
     /**
@@ -257,36 +257,43 @@ namespace pxsim.music {
         public instrument : Tone.Instrument;
         public fx         : Tone.Effect[] | any;
 
-        constructor(seq: Tone.Sequence, instr: Tone.Instrument, effects?: Tone.Effect[] | any) {
+        constructor(seq: Tone.Sequence, instr: Tone.Instrument, effects?: Tone.Effect[]) {
             this.sequence   = seq;
             this.instrument = instr;
-            this.fx         = effects;
+            this.fx         = [];
+            if (effects)
+                this.fx = effects;
         }
 
         discard(){
             if (this.sequence) this.sequence.dispose();
         }
-
-        setEffect(fx: Tone.Effect){
-            if (this.instrument) this.instrument.connect(fx);
+        addEffect(fx: Tone.Effect){
+            if (this.instrument){
+                this.fx.push(fx);
+                this.instrument.connect(fx);
+            }
         }
-
         start(time: Tone.Time){
             if (this.sequence){
                 this.sequence.loop = false;
+                /*Tone.Transport.schedule((t) => {
+                    this.sequence.start(t);
+                }, time);  */             
                 this.sequence.start(time);
                 tone.startTransport();
             }
         }  
-
         loop(time: Tone.Time){
             if (this.sequence){            
                 this.sequence.loop = true;
+                /*Tone.Transport.schedule((t) => {
+                    this.sequence.start(t);
+                }, time);         */        
                 this.sequence.start(time);
                 tone.startTransport();  
             }          
         }
-
         stop(time: Tone.Time){
             if (this.sequence) this.sequence.stop(time);
         }             
