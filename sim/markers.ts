@@ -75,17 +75,17 @@ namespace pxsim.markers {
 
         triggerEvents(){
             /* calculate differences in previous and current positions/rotations */
-            const distThreshold   = 0.07;
-            const angleThreshold  = Math.PI/16;
-            const currentPos      = this.position();          
-            const currentRot      = this.rotation();          
-            const distance        = this.prevPos_.distanceTo(currentPos);
-            const distanceX       = currentPos.x - this.prevPos_.x; 
-            const distanceY       = currentPos.y - this.prevPos_.y; 
-            const distanceZ       = currentPos.z - this.prevPos_.z; 
-            const angleX          = currentRot.x - this.prevRot_.x;
-            const angleY          = currentRot.y - this.prevRot_.y;
-            const angleZ          = currentRot.z - this.prevRot_.z;
+            const distThreshold  = 0.07;
+            const angleThreshold = Math.PI/16;
+            const currentPos     = this.position();          
+            const currentRot     = this.rotation();          
+            const distance       = this.prevPos_.distanceTo(currentPos);
+            const distanceX      = currentPos.x - this.prevPos_.x; 
+            const distanceY      = currentPos.y - this.prevPos_.y; 
+            const distanceZ      = currentPos.z - this.prevPos_.z; 
+            const angleX         = currentRot.x - this.prevRot_.x;
+            const angleY         = currentRot.y - this.prevRot_.y;
+            const angleZ         = currentRot.z - this.prevRot_.z;
             /* trigger events depending on the changed state */
             if      (distance >= distThreshold)   board().bus.queue(this.code_, MarkerEvent.Moved);
             if      (distanceX >= distThreshold)  board().bus.queue(this.code_, MarkerEvent.MovedRight);
@@ -96,6 +96,8 @@ namespace pxsim.markers {
             else if (distanceZ <= -distThreshold) board().bus.queue(this.code_, MarkerEvent.MovedBackward); 
             if      (angleX >= distThreshold)     board().bus.queue(this.code_, MarkerEvent.RotatedClockwise);
             else if (angleX <= -distThreshold)    board().bus.queue(this.code_, MarkerEvent.RotatedCounterClockwise);
+            if      (angleX >= angleThreshold)    board().bus.queue(this.code_, MarkerEvent.RotatedClockwise);
+            else if (angleX <= -angleThreshold)   board().bus.queue(this.code_, MarkerEvent.RotatedCounterClockwise);            
             if (Math.abs(angleX) >= angleThreshold || Math.abs(angleY) >= angleThreshold || Math.abs(angleZ) >= angleThreshold)
                 board().bus.queue(this.code_, MarkerEvent.Rotated);
             if (this.visible() == true){
