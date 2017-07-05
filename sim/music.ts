@@ -19,7 +19,9 @@ namespace pxsim.music {
     */
     //% blockId=music_rest block="rest for %duration=device_beat" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-    export function rest(duration: string) {}
+    export function rest(duration: string) {
+        // maybe have a pause here?
+    }
 
     /**
     * Play a chord.
@@ -52,9 +54,9 @@ namespace pxsim.music {
         }
     }
 
-
     /**
     * Add an effect to a sequence.
+    * @param name name of the phrase
     * @param effect which drum sound to use
     */
     //% blockId=music_add_effect_seq block="add effect %effect|to phrase %name" blockGap=8
@@ -63,9 +65,9 @@ namespace pxsim.music {
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
     //% effect.fieldOptions.tooltips="true"  
     export function addEffectSeq(effect: Effect, name: string) {
-        let fx = tone.createEffect(effect);
         let phrase = board().phrases[name];
-        phrase.connect(fx);
+        let fx     = tone.createEffect(effect);
+        if (phrase) phrase.setEffect(fx);
     }
 
     /**
@@ -91,7 +93,8 @@ namespace pxsim.music {
     //% blockNamespace=music inBasicCategory=true
     export function bend(pitch: number) {
         let shift = new Tone.PitchShift(pitch);
-        //board().monosynth.connect(shift);       
+        for (let i = 0; i < board().instruments.length; i++)
+            board().instruments[i].connect(shift);       
     }
     
     /**
@@ -113,8 +116,6 @@ namespace pxsim.music {
         }
     }  
 
-    
-
     /**
      * Get the frequency of a note.
      * @param name the note name, eg: Note.C
@@ -135,12 +136,8 @@ namespace pxsim.music {
      */
     //% blockId=music_play_phrase block="play phrase %name" blockGap=8
     export function playPhrase(name: string) {
-        let sequence = board().phrases[name];
-        if (sequence){
-            sequence.loop = false;
-            sequence.start(4);
-            tone.startTransport();
-        }
+        let phrase = board().phrases[name];
+        if (phrase) phrase.start(4);
     }
 
     /**
@@ -149,12 +146,8 @@ namespace pxsim.music {
      */
     //% blockId=music_loop_phrase block="loop phrase %name" blockGap=8
     export function loopPhrase(name: string) {
-        let sequence = board().phrases[name];
-        if (sequence){
-            sequence.loop = true;
-            sequence.start(0);
-            tone.startTransport();
-        }
+        let phrase = board().phrases[name];
+        if (phrase) phrase.loop(0);
     }
 
     /**
@@ -163,11 +156,8 @@ namespace pxsim.music {
      */
     //% blockId=music_stop_phrase block="stop phrase %name" blockGap=8
     export function stopPhrase(name: string) {
-        let sequence = board().phrases[name];
-        if (sequence){
-            sequence.loop = false;
-            sequence.stop(0);
-        }
+        let phrase = board().phrases[name];
+        if (phrase) phrase.stop(0);
     }    
 
     /**
@@ -182,12 +172,12 @@ namespace pxsim.music {
     //% beat.fieldOptions.decompileLiterals=true    
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-    export function drumSequence(name: string, beat: string){ 
+    export function drumPhrase(name: string, beat: string){ 
         let tempPitches = ["E", "G", "A", "B", "D"]; // TO DO: replace notes with drum samples
         let notesList   = createNotesArray(JSON.parse(beat), 8, tempPitches);
         let numTracks   = tempPitches.length;
-        let seq         = tone.createMelodySequence("8n", notesList, numTracks);
-        let phrase      = board().phrase(name, seq);
+        let phrase      = tone.createMelodySequence("8n", notesList, numTracks);
+        board().phrase(name, phrase);
     }
 
     /**
@@ -205,12 +195,24 @@ namespace pxsim.music {
     //% melody.fieldOptions.decompileLiterals=true    
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-    export function phrase(name: string, octave: Octave, melody: string){ 
+    export function notesPhrase(name: string, octave: Octave, melody: string){ 
         let oct       = getOctave(octave);
         let notesList = createNotesArray(JSON.parse(melody), 8, pitches, oct);
         let numTracks = pitches.length;
-        let seq       = tone.createMelodySequence("8n", notesList, numTracks);
-        let phrase    = board().phrase(name, seq);
+        let phrase    = tone.createMelodySequence("8n", notesList, numTracks);
+        board().phrase(name, phrase);
+    }
+
+    /**
+     * Set tempo
+     * @param bpm
+     */
+    //% blockId="music_tempo" block="set tempo %bpm"
+    //% weight=100
+    //% blockExternalInputs="true" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    export function setTempo(bpm: number){
+        tone.bpm(bpm);
     }
 
     export function createNotesArray(sequence: pxsim.Map<string[]>, numBeats: number, sounds: string[], octave?: string) : string[][] {
@@ -249,16 +251,45 @@ namespace pxsim.music {
         return notesList;
     }
 
-    /**
-     * Set tempo
-     * @param bpm
-     */
-    //% blockId="music_tempo" block="set tempo %bpm"
-    //% weight=100
-    //% blockExternalInputs="true" blockGap=8
-    //% blockNamespace=music inBasicCategory=true
-    export function setTempo(bpm: number){
-        tone.bpm(bpm);
+    /* Class to store all of the details of a user created musical phrase */
+    export class Phrase {
+        public sequence   : Tone.Sequence;
+        public instrument : Tone.Instrument;
+        public fx         : Tone.Effect[] | any;
+
+        constructor(seq: Tone.Sequence, instr: Tone.Instrument, effects: Tone.Effect[] | any) {
+            this.sequence   = seq;
+            this.instrument = instr;
+            this.fx         = effects;
+        }
+
+        discard(){
+            if (this.sequence) this.sequence.dispose();
+        }
+
+        setEffect(fx: Tone.Effect){
+            if (this.instrument) this.instrument.connect(fx);
+        }
+
+        start(time: Tone.Time){
+            if (this.sequence){
+                this.sequence.loop = false;
+                this.sequence.start(time);
+                tone.startTransport();
+            }
+        }  
+
+        loop(time: Tone.Time){
+            if (this.sequence){            
+                this.sequence.loop = true;
+                this.sequence.start(time);
+                tone.startTransport();  
+            }          
+        }
+
+        stop(time: Tone.Time){
+            if (this.sequence) this.sequence.stop(time);
+        }             
     }
 
 }

@@ -42,7 +42,7 @@ namespace pxsim {
         public monosynth        : Tone.MonoSynth;
         public polysynth        : Tone.PolySynth;
         public kickdrum         : Tone.MembraneSynth;
-        public phrases          : pxsim.Map<Tone.Sequence>;
+        public phrases          : pxsim.Map<pxsim.music.Phrase>;
         public drumPlayer       : Tone.MultiPlayer;
         
         constructor() {
@@ -105,56 +105,10 @@ namespace pxsim {
             this.onRenderFcts.push(() => {
                 for (var key in this.markers){
                     let markerState = this.markers[key];
-                    this.triggerMarkerEvents(markerState);
+                    markers.triggerMarkerEvents(markerState);
                     this.updateMarkerState(markerState);      
                 }
             });
-        }
-
-        /**
-         * Checks for changed AR marker states and triggers marker events
-         * @param markerState 
-         */
-        triggerMarkerEvents(markerState : THREEx.ArMarkerState){
-            const marker          = markerState['marker'];
-            let markerCurrentPos  = markerState['currentPos'];
-            let markerPrevPos     = markerState['prevPos'];
-            let markerCurrentRot  = markerState['currentRot'];
-            let markerPrevRot     = markerState['prevRot'];       
-            let markerPrevVisible = markerState['prevVisible'];             
-            let markerVisible     = markerState['visible'];   
-            // calculate differences in previous and current positions/rotations
-            const distThreshold   = 0.07;
-            const angleThreshold  = Math.PI/16;          
-            const distance        = markerPrevPos.distanceTo(markerCurrentPos);
-            const distanceX       = markerCurrentPos.x - markerPrevPos.x; 
-            const distanceY       = markerCurrentPos.y - markerPrevPos.y; 
-            const distanceZ       = markerCurrentPos.z - markerPrevPos.z; 
-            const angleX          = markerCurrentRot.x - markerPrevRot.x;
-            const angleY          = markerCurrentRot.y - markerPrevRot.y;
-            const angleZ          = markerCurrentRot.z - markerPrevRot.z;
-            // trigger events depending on the changed state
-            if      (distance >= distThreshold)   this.bus.queue(marker, MarkerEvent.Moved);
-            if      (distanceX >= distThreshold)  this.bus.queue(marker, MarkerEvent.MovedRight);
-            else if (distanceX <= -distThreshold) this.bus.queue(marker, MarkerEvent.MovedLeft);
-            if      (distanceY >= distThreshold)  this.bus.queue(marker, MarkerEvent.MovedUp);
-            else if (distanceY <= -distThreshold) this.bus.queue(marker, MarkerEvent.MovedDown);
-            if      (distanceZ >= distThreshold)  this.bus.queue(marker, MarkerEvent.MovedForward);
-            else if (distanceZ <= -distThreshold) this.bus.queue(marker, MarkerEvent.MovedBackward); 
-            if      (angleX >= distThreshold)     this.bus.queue(marker, MarkerEvent.RotatedClockwise);
-            else if (angleX <= -distThreshold)    this.bus.queue(marker, MarkerEvent.RotatedCounterClockwise);
-            if (Math.abs(angleX) >= angleThreshold || Math.abs(angleY) >= angleThreshold || Math.abs(angleZ) >= angleThreshold){
-                this.bus.queue(marker, MarkerEvent.Rotated);
-            }
-            if (markerVisible == true){
-                this.bus.queue(marker, MarkerLoopEvent.WhileVisible);
-                if (markerPrevVisible == false) this.bus.queue(marker, MarkerEvent.Visible);
-            } else { // marker not visible
-                this.bus.queue(marker, MarkerLoopEvent.WhileHidden);
-                if (markerPrevVisible == true){
-                    this.bus.queue(marker, MarkerEvent.Hidden);
-                }
-            }            
         }
 
         /**
@@ -162,24 +116,24 @@ namespace pxsim {
          * @param markerState 
          */
         updateMarkerState(markerState : THREEx.ArMarkerState){
-            let marker                 = markerState['marker'];
-            let markerCurrentPos       = markerState['currentPos'];
-            let markerPrevPos          = markerState['prevPos'];
-            let markerCurrentRot       = markerState['currentRot'];
-            let markerPrevRot          = markerState['prevRot'];       
-            let markerPrevVisible      = markerState['prevVisible'];             
-            let markerVisible          = markerState['visible'];    
-            let markerPrevVisibleTime  = markerState['prevVisibleTime'];
-            markerState['prevPos']     = new THREE.Vector3(markerCurrentPos.x,
+            let marker                 = markerState.marker;
+            let markerCurrentPos       = markerState.currentPos;
+            let markerPrevPos          = markerState.prevPos;
+            let markerCurrentRot       = markerState.currentRot;
+            let markerPrevRot          = markerState.prevRot;       
+            let markerPrevVisible      = markerState.prevVisible;             
+            let markerVisible          = markerState.visible;    
+            let markerPrevVisibleTime  = markerState.prevVisibleTime;
+            markerState.prevPos     = new THREE.Vector3(markerCurrentPos.x,
                                                             markerCurrentPos.y,
                                                              markerCurrentPos.z);
-            markerState['prevRot']     = new THREE.Euler(markerCurrentRot.x,
+            markerState.prevRot     = new THREE.Euler(markerCurrentRot.x,
                                                           markerCurrentRot.y,
                                                            markerCurrentRot.z);                                              
-            markerState['prevVisible'] = markerVisible;
-            markerState['currentPos']  = this.getMarkerPosition(marker);
-            markerState['currentRot']  = this.getMarkerRotation(marker);      
-            markerState['visible']     = this.getMarkerVisibility(marker);
+            markerState.prevVisible = markerVisible;
+            markerState.currentPos  = this.getMarkerPosition(marker);
+            markerState.currentRot  = this.getMarkerRotation(marker);      
+            markerState.visible     = this.getMarkerVisibility(marker);
         }
 
         runRenderingLoop(){
@@ -197,10 +151,10 @@ namespace pxsim {
         }
 
         kill() {
-            if (this.scene) three.removeSceneChildren(this.scene);
-            if (this.fx)          this.killFX();
-            if (this.phrases)     this.killPhrases();
-            if (this.instruments) this.killInstruments();
+            if (this.scene)       three.removeSceneChildren(this.scene);
+            if (this.fx)          tone.killFX();
+            if (this.phrases)     tone.killPhrases();
+            if (this.instruments) tone.killInstruments();
             this.onRenderFcts = [];
             this.markers      = {};
         }
@@ -225,29 +179,11 @@ namespace pxsim {
             return threex.createMarkerStateEnum(marker, markerRoot);
         }
 
-        phrase(name: string, sequence: Tone.Sequence) : any {
+        phrase(name: string, sequence?: pxsim.music.Phrase) : any {
             let p = this.phrases[name];
             if (!p)
                 p = this.phrases[name] = sequence;
             return p;
-        }
-
-        killFX(){
-            for (let i = 0; i < this.fx.length; i++)
-                this.fx[i].dispose();
-            this.fx = [];            
-        }
-
-        killPhrases(){
-            for (var phrase in this.phrases)
-                this.phrases[phrase].dispose();
-            this.phrases = {};
-        }
-
-        killInstruments(){
-            for (let i = 0; i < this.instruments.length; i++)
-                this.instruments[i].dispose();
-            this.instruments = [];
         }
 
         /**
@@ -280,10 +216,10 @@ namespace pxsim {
             let date         = new Date();
             let time         = date.getTime();
             if (markerObj) {
-                if (markerObj.visible ){ // marker visible to artoolkit
+                if (markerObj.visible ){
                     markerState['prevVisibleTime'] = time;
                     return true;
-                } else { // marker not visible to artoolkit
+                } else {
                     if (time - prevTimeSeen >= 175) return false
                     else return true
                 }

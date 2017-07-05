@@ -1,19 +1,32 @@
 namespace pxsim.tone {
 
-
     export function startTransport() {
-        Tone.Transport.start(0); // this is the current usage, not sure how to fix this in typings
+        Tone.Transport.start(0);
     }
 
     export function stopTransport() {
         Tone.Transport.stop();
     }
 
-    /*export function createAudioContext() : Tone.Context {
-        return new Tone.Context();
-    }*/
+    export function killFX(){
+        for (let i = 0; i < board().fx.length; i++)
+            board().fx[i].dispose();
+        board().fx = [];            
+    }
 
-    // Not currently used. Event callback never fires, but no 404 errors...
+    export function killPhrases(){
+        for (var phrase in board().phrases)
+            board().phrases[phrase].discard();
+        board().phrases = {};
+    }
+
+    export function killInstruments(){
+        for (let i = 0; i < board().instruments.length; i++)
+            board().instruments[i].dispose();
+        board().instruments = [];
+    }
+
+    /* Not currently used. Event callback never fires, but no 404 errors... */
     export function loadDrumSamplesAsync() : Promise<Tone.MultiPlayer> {
         return new Promise<Tone.MultiPlayer>((resolve, reject) => {
             var percussion = new Tone.MultiPlayer({
@@ -32,13 +45,10 @@ namespace pxsim.tone {
         });            
     }   
 
-    export function createMelodySequence(time: Tone.Time, notesArray: string[][], numTracks: number) : Tone.Sequence {
+    export function createMelodySequence(time: Tone.Time, notesArray: string[][], numTracks: number) : pxsim.music.Phrase {
         let instrument = tone.createPolySynth(numTracks);
-        //instrument.toMaster();
-        let seq = new Tone.Sequence(function(time, notes){
-            instrument.triggerAttackRelease(notes, time);
-        }, notesArray, "8n");
-        return seq;     
+        let seq =  new Tone.Sequence(function(time, notes){instrument.triggerAttackRelease(notes, time);}, notesArray, "8n");
+        return new pxsim.music.Phrase(seq, instrument, []);
     }
 
     export function createMonoSynth() : Tone.MonoSynth {
@@ -46,14 +56,13 @@ namespace pxsim.tone {
                                             type: "sine"
                                         },
                                         envelope: {
-                                            attack: 0.005,
-                                            decay: 0.1,
+                                            attack : 0.005,
+                                            decay  : 0.1,
                                             sustain: 0.3,
                                             release: 0.25
                                         }}).toMaster();  
         board().instruments.push(mono);
         return mono;
-              
     }
 
     export function createPolySynth(voices: number) : Tone.PolySynth {
@@ -72,9 +81,10 @@ namespace pxsim.tone {
     export function createKickDrum() : Tone.MembraneSynth {
         let kick = new Tone.MembraneSynth({"envelope" : {
                                               "sustain" : 0,
-                                              "attack" : 0.02,
-                                              "decay" : 0.8},
-                                           "octaves" : 10}).toMaster();
+                                              "attack"  : 0.02,
+                                              "decay"   : 0.8},
+                                           "octaves"  : 10
+                                         }).toMaster();
         board().instruments.push(kick);
         return kick;                                    
     }     

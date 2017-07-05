@@ -44,6 +44,49 @@ namespace pxsim.markers {
             case Axes.y: return rot.y;
             default:     return rot.z;
         }
-    }    
+    }
+
+        /**
+         * Checks for changed AR marker states and triggers marker events
+         * @param markerState 
+         */
+        export function triggerMarkerEvents(markerState : THREEx.ArMarkerState){
+            const marker          = markerState.marker;
+            let markerCurrentPos  = markerState.currentPos;
+            let markerPrevPos     = markerState.prevPos;
+            let markerCurrentRot  = markerState.currentRot;
+            let markerPrevRot     = markerState.prevRot;       
+            let markerPrevVisible = markerState.prevVisible;             
+            let markerVisible     = markerState.visible;   
+            /* calculate differences in previous and current positions/rotations */
+            const distThreshold   = 0.07;
+            const angleThreshold  = Math.PI/16;          
+            const distance        = markerPrevPos.distanceTo(markerCurrentPos);
+            const distanceX       = markerCurrentPos.x - markerPrevPos.x; 
+            const distanceY       = markerCurrentPos.y - markerPrevPos.y; 
+            const distanceZ       = markerCurrentPos.z - markerPrevPos.z; 
+            const angleX          = markerCurrentRot.x - markerPrevRot.x;
+            const angleY          = markerCurrentRot.y - markerPrevRot.y;
+            const angleZ          = markerCurrentRot.z - markerPrevRot.z;
+            /* trigger events depending on the changed state */
+            if      (distance >= distThreshold)   board().bus.queue(marker, MarkerEvent.Moved);
+            if      (distanceX >= distThreshold)  board().bus.queue(marker, MarkerEvent.MovedRight);
+            else if (distanceX <= -distThreshold) board().bus.queue(marker, MarkerEvent.MovedLeft);
+            if      (distanceY >= distThreshold)  board().bus.queue(marker, MarkerEvent.MovedUp);
+            else if (distanceY <= -distThreshold) board().bus.queue(marker, MarkerEvent.MovedDown);
+            if      (distanceZ >= distThreshold)  board().bus.queue(marker, MarkerEvent.MovedForward);
+            else if (distanceZ <= -distThreshold) board().bus.queue(marker, MarkerEvent.MovedBackward); 
+            if      (angleX >= distThreshold)     board().bus.queue(marker, MarkerEvent.RotatedClockwise);
+            else if (angleX <= -distThreshold)    board().bus.queue(marker, MarkerEvent.RotatedCounterClockwise);
+            if (Math.abs(angleX) >= angleThreshold || Math.abs(angleY) >= angleThreshold || Math.abs(angleZ) >= angleThreshold)
+                board().bus.queue(marker, MarkerEvent.Rotated);
+            if (markerVisible == true){
+                board().bus.queue(marker, MarkerLoopEvent.WhileVisible);
+                if (markerPrevVisible == false) board().bus.queue(marker, MarkerEvent.Visible);
+            } else { // marker not visible
+                board().bus.queue(marker, MarkerLoopEvent.WhileHidden);
+                if (markerPrevVisible == true) board().bus.queue(marker, MarkerEvent.Hidden);
+            }            
+        }    
 
 }

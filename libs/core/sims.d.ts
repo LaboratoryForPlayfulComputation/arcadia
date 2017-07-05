@@ -208,6 +208,7 @@ declare namespace music {
 
     /**
      * Add an effect to a sequence.
+     * @param name name of the phrase
      * @param effect which drum sound to use
      */
     //% blockId=music_add_effect_seq block="add effect %effect|to phrase %name" blockGap=8
@@ -298,8 +299,8 @@ declare namespace music {
     //% beat.fieldOptions.decompileLiterals=true    
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-    //% shim=music::drumSequence
-    function drumSequence(name: string, beat: string): void;
+    //% shim=music::drumPhrase
+    function drumPhrase(name: string, beat: string): void;
 
     /**
      * Create a melody pattern
@@ -316,8 +317,8 @@ declare namespace music {
     //% melody.fieldOptions.decompileLiterals=true    
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-    //% shim=music::phrase
-    function phrase(name: string, octave: Octave, melody: string): void;
+    //% shim=music::notesPhrase
+    function notesPhrase(name: string, octave: Octave, melody: string): void;
 
     /**
      * Set tempo
