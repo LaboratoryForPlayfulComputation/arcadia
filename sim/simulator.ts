@@ -8,7 +8,7 @@
 /// <reference path="tone.d.ts" />
 
 namespace pxsim {
-    
+
     /**
      * This function gets called each time the program restarts
      */
@@ -77,7 +77,8 @@ namespace pxsim {
                     this.kickdrum    = tone.createKickDrum().toMaster();   // for "one-off" drum sample triggers
                     tone.bpm(120);
                     /* start rendering */                    
-                    this.runRenderingLoop();                            
+                    this.runRenderingLoop();   
+                    tone.startTransport();                         
                     return Promise.resolve();
                 });
         }       

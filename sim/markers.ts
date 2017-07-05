@@ -51,15 +51,15 @@ namespace pxsim.markers {
 
     /* Class to store all of the details of a user created musical phrase */
     export class Marker {
-        private code_: MarkerCode;
-        private group_: THREE.Group;
-        private prevPos_: THREE.Vector3;
-        private prevRot_: THREE.Euler;
-        private prevVisible_: boolean;
-        private prevVisibleTime_: number;
-        private prevHiddenTime_: number;
-        private color_: number;
-        private fontColor_: number;
+        private code_            : MarkerCode;
+        private group_           : THREE.Group;
+        private prevPos_         : THREE.Vector3;
+        private prevRot_         : THREE.Euler;
+        private prevVisible_     : boolean;
+        private prevVisibleTime_ : number;
+        private prevHiddenTime_  : number;
+        private color_           : number;
+        private fontColor_       : number;
 
         constructor(code: MarkerCode) {
             this.code_            = code;
@@ -113,13 +113,13 @@ namespace pxsim.markers {
          * Update previous and current AR marker state values
          */
         updateState(){
-            this.prevPos_     = new THREE.Vector3(this.position().x,
-                                                            this.position().y,
-                                                             this.position().z);
-            this.prevRot_     = new THREE.Euler(this.rotation().x,
-                                                          this.rotation().y,
-                                                           this.rotation().z);                                              
             this.prevVisible_ = this.visible();
+            this.prevPos_     = new THREE.Vector3(this.position().x,
+                                                  this.position().y,
+                                                  this.position().z);
+            this.prevRot_     = new THREE.Euler(this.rotation().x,
+                                                this.rotation().y,
+                                                this.rotation().z);                                              
         }  
 
         initControls() : THREE.Group {

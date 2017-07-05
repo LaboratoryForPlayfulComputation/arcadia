@@ -266,36 +266,22 @@ namespace pxsim.music {
         }
 
         discard(){
-            if (this.sequence) this.sequence.dispose();
+            this.sequence.dispose();
         }
         addEffect(fx: Tone.Effect){
-            if (this.instrument){
-                this.fx.push(fx);
-                this.instrument.connect(fx);
-            }
+            this.fx.push(fx);
+            this.instrument.connect(fx);
         }
         start(time: Tone.Time){
-            if (this.sequence){
-                this.sequence.loop = false;
-                /*Tone.Transport.schedule((t) => {
-                    this.sequence.start(t);
-                }, time);  */             
-                this.sequence.start(time);
-                tone.startTransport();
-            }
+            this.sequence.loop = false;           
+            this.sequence.start(time);
         }  
         loop(time: Tone.Time){
-            if (this.sequence){            
-                this.sequence.loop = true;
-                /*Tone.Transport.schedule((t) => {
-                    this.sequence.start(t);
-                }, time);         */        
-                this.sequence.start(time);
-                tone.startTransport();  
-            }          
+            this.sequence.loop = true;      
+            this.sequence.start(time);
         }
         stop(time: Tone.Time){
-            if (this.sequence) this.sequence.stop(time);
+            this.sequence.stop(time);
         }             
     }
 
