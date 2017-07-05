@@ -45,10 +45,9 @@ namespace pxsim.colors {
      */
     //% blockId=ar_set_color block="%marker=marker_block|set color %color" blockGap=8
     export function setColor(marker: number, color: number) {
-        let markerState      = board().markers[marker.toString()];
-        markerState['color'] = color;
-        let group            = threex.getMarkerGroup(marker);
-        let object           = group.getObjectByName(marker.toString() + '-shape');
+        let m = board().markers[marker.toString()];
+        m.setColor(color);
+        let object = m.shapeObject();
         if (object)
             (object as any).material = new THREE.MeshPhongMaterial({transparent: true,
                                                                      opacity: 0.9,
@@ -61,11 +60,9 @@ namespace pxsim.colors {
      */
     //% blockId=ar_set_text_color block="%marker=marker_block|set text color %color" blockGap=8
     export function setTextColor(marker: number, color: number) {
-        board().marker(marker);
-        let group                = threex.getMarkerGroup(marker);
-        let markerState          = board().markers[marker.toString()];
-        markerState['fontColor'] = color;        
-        let object               = group.getObjectByName(marker.toString() + '-text');
+        let m = board().marker(marker);
+        m.setFontColor(color);        
+        let object = m.textObject();
         if (object)
             (object as any).material = new THREE.MeshBasicMaterial({transparent: true,
                                                                      opacity: 5,

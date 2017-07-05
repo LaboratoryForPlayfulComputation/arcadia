@@ -17,7 +17,7 @@ declare const enum Axes {
 /**
  * An augmented reality marker
  */
-declare const enum Marker {
+declare const enum MarkerCode {
     //% block=0 enumval=0
     //% blockImage=1
     Marker0 = 0,

@@ -92,7 +92,7 @@ namespace pxsim.three {
      * @param marker 
      * @param color 
      */
-    export function createBillboard(marker: Marker, color: number): THREE.Mesh {
+    export function createBillboard(marker: MarkerCode, color: number): THREE.Mesh {
         var geometry = createPlane();
         var material = new THREE.MeshPhongMaterial({transparent: true,
                                                     opacity: 1.0,
@@ -102,7 +102,7 @@ namespace pxsim.three {
         return billboard;
     }    
 
-    export function createText(text: string, color: number, marker: Marker) : THREE.Mesh {
+    export function createText(text: string, color: number, marker: MarkerCode) : THREE.Mesh {
         let text3d = new THREE.TextGeometry(text, {
             size: 0.25,
             bevelEnabled: false,
@@ -118,22 +118,22 @@ namespace pxsim.three {
             color: color,
             side: THREE.DoubleSide
         });
-        let group    = threex.getMarkerGroup(marker);
-        let object   = group.getObjectByName(marker.toString() + '-text');
+        let m = board().marker(marker);
+        //let object   = m.group.getObjectByName(marker.toString() + '-text');
         let textMesh = new THREE.Mesh(text3d, material);
         return textMesh;
     }
 
-    export function removeTextFromMarker(marker: Marker){
-        let group      = threex.getMarkerGroup(marker);
-        let textObject = group.getObjectByName(marker.toString() + '-text');
-        if (textObject) three.removeObjectFromGroup(group, textObject);        
+    export function removeTextFromMarker(marker: MarkerCode){
+        let m = board().marker(marker);
+        let textObject = m.textObject();
+        if (textObject) three.removeObjectFromGroup(m.group(), textObject);        
     }
 
-    export function removeShapeFromMarker(marker: Marker){
-        let group       = threex.getMarkerGroup(marker);
-        let shapeObject = group.getObjectByName(marker.toString() + '-shape');
-        if (shapeObject) three.removeObjectFromGroup(group, shapeObject);        
+    export function removeShapeFromMarker(marker: MarkerCode){
+        let m = board().marker(marker);
+        let shapeObject = m.shapeObject();
+        if (shapeObject) three.removeObjectFromGroup(m.group(), shapeObject);        
     }
 
     /**

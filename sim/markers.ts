@@ -7,7 +7,7 @@ namespace pxsim.markers {
     //% marker.fieldOptions.decompileLiterals=true
     //% shim=TD_ID
     //% useEnumVal=1
-    export function marker(marker: Marker) : number {
+    export function marker(marker: MarkerCode) : number {
         board().marker(marker);
         return marker;
     } 
@@ -17,7 +17,10 @@ namespace pxsim.markers {
      */
     //% blockId=ar_get_dist block="distance from %marker1=marker_block| to %marker2=marker_block" blockGap=8
     export function distance(marker1: number, marker2: number): number {     
-        return board().getDistanceBetweenMarkers(marker1, marker2);
+        let m1 = board().marker(marker1);
+        let m2 = board().marker(marker2);
+        if (m1.group() && m2.group()) return m1.position().distanceTo(m2.position());  
+        else return -9999;
     }
 
     /**
@@ -25,11 +28,11 @@ namespace pxsim.markers {
      */
     //% blockId=ar_get_pos block="%marker=marker_block|position %axis" blockGap=8
     export function position(marker: number, axis: Axes): number {
-        const pos = board().getMarkerPosition(marker);
+        let m = board().marker(marker);
         switch(axis) {
-            case Axes.x: return pos.x;
-            case Axes.y: return pos.y;
-            default:     return pos.z;
+            case Axes.x: return m.position().x;
+            case Axes.y: return m.position().y;
+            default:     return m.position().z;
         }
     }
 
@@ -38,55 +41,134 @@ namespace pxsim.markers {
      */
     //% blockId=ar_get_rot block="%marker=marker_block|rotation %axis" blockGap=8
     export function rotation(marker: number, axis: Axes): number {
-        const rot = board().getMarkerRotation(marker);
+        let m = board().marker(marker);
         switch(axis) {
-            case Axes.x: return rot.x;
-            case Axes.y: return rot.y;
-            default:     return rot.z;
+            case Axes.x: return m.rotation().x;
+            case Axes.y: return m.rotation().y;
+            default:     return m.rotation().z;
         }
     }
 
-        /**
-         * Checks for changed AR marker states and triggers marker events
-         * @param markerState 
-         */
-        export function triggerMarkerEvents(markerState : THREEx.ArMarkerState){
-            const marker          = markerState.marker;
-            let markerCurrentPos  = markerState.currentPos;
-            let markerPrevPos     = markerState.prevPos;
-            let markerCurrentRot  = markerState.currentRot;
-            let markerPrevRot     = markerState.prevRot;       
-            let markerPrevVisible = markerState.prevVisible;             
-            let markerVisible     = markerState.visible;   
+    /* Class to store all of the details of a user created musical phrase */
+    export class Marker {
+        private code_: MarkerCode;
+        private group_: THREE.Group;
+        private prevPos_: THREE.Vector3;
+        private prevRot_: THREE.Euler;
+        private prevVisible_: boolean;
+        private prevVisibleTime_: number;
+        private prevHiddenTime_: number;
+        private color_: number;
+        private fontColor_: number;
+
+        constructor(code: MarkerCode) {
+            this.code_            = code;
+            this.group_           = this.initControls();
+            this.prevPos_         = new THREE.Vector3(0, 0, 0);
+            this.prevRot_         = new THREE.Euler(0, 0, 0);
+            this.prevVisible_     = false;
+            this.prevVisibleTime_ = 0;
+            this.prevHiddenTime_  = 0;
+            this.color_           = 0x000000;
+            this.fontColor_       = 0xffffff;
+        }
+
+        triggerEvents(){
             /* calculate differences in previous and current positions/rotations */
             const distThreshold   = 0.07;
-            const angleThreshold  = Math.PI/16;          
-            const distance        = markerPrevPos.distanceTo(markerCurrentPos);
-            const distanceX       = markerCurrentPos.x - markerPrevPos.x; 
-            const distanceY       = markerCurrentPos.y - markerPrevPos.y; 
-            const distanceZ       = markerCurrentPos.z - markerPrevPos.z; 
-            const angleX          = markerCurrentRot.x - markerPrevRot.x;
-            const angleY          = markerCurrentRot.y - markerPrevRot.y;
-            const angleZ          = markerCurrentRot.z - markerPrevRot.z;
+            const angleThreshold  = Math.PI/16;
+            const currentPos      = this.position();          
+            const currentRot      = this.rotation();          
+            const distance        = this.prevPos_.distanceTo(currentPos);
+            const distanceX       = currentPos.x - this.prevPos_.x; 
+            const distanceY       = currentPos.y - this.prevPos_.y; 
+            const distanceZ       = currentPos.z - this.prevPos_.z; 
+            const angleX          = currentRot.x - this.prevRot_.x;
+            const angleY          = currentRot.y - this.prevRot_.y;
+            const angleZ          = currentRot.z - this.prevRot_.z;
             /* trigger events depending on the changed state */
-            if      (distance >= distThreshold)   board().bus.queue(marker, MarkerEvent.Moved);
-            if      (distanceX >= distThreshold)  board().bus.queue(marker, MarkerEvent.MovedRight);
-            else if (distanceX <= -distThreshold) board().bus.queue(marker, MarkerEvent.MovedLeft);
-            if      (distanceY >= distThreshold)  board().bus.queue(marker, MarkerEvent.MovedUp);
-            else if (distanceY <= -distThreshold) board().bus.queue(marker, MarkerEvent.MovedDown);
-            if      (distanceZ >= distThreshold)  board().bus.queue(marker, MarkerEvent.MovedForward);
-            else if (distanceZ <= -distThreshold) board().bus.queue(marker, MarkerEvent.MovedBackward); 
-            if      (angleX >= distThreshold)     board().bus.queue(marker, MarkerEvent.RotatedClockwise);
-            else if (angleX <= -distThreshold)    board().bus.queue(marker, MarkerEvent.RotatedCounterClockwise);
+            if      (distance >= distThreshold)   board().bus.queue(this.code_, MarkerEvent.Moved);
+            if      (distanceX >= distThreshold)  board().bus.queue(this.code_, MarkerEvent.MovedRight);
+            else if (distanceX <= -distThreshold) board().bus.queue(this.code_, MarkerEvent.MovedLeft);
+            if      (distanceY >= distThreshold)  board().bus.queue(this.code_, MarkerEvent.MovedUp);
+            else if (distanceY <= -distThreshold) board().bus.queue(this.code_, MarkerEvent.MovedDown);
+            if      (distanceZ >= distThreshold)  board().bus.queue(this.code_, MarkerEvent.MovedForward);
+            else if (distanceZ <= -distThreshold) board().bus.queue(this.code_, MarkerEvent.MovedBackward); 
+            if      (angleX >= distThreshold)     board().bus.queue(this.code_, MarkerEvent.RotatedClockwise);
+            else if (angleX <= -distThreshold)    board().bus.queue(this.code_, MarkerEvent.RotatedCounterClockwise);
             if (Math.abs(angleX) >= angleThreshold || Math.abs(angleY) >= angleThreshold || Math.abs(angleZ) >= angleThreshold)
-                board().bus.queue(marker, MarkerEvent.Rotated);
-            if (markerVisible == true){
-                board().bus.queue(marker, MarkerLoopEvent.WhileVisible);
-                if (markerPrevVisible == false) board().bus.queue(marker, MarkerEvent.Visible);
+                board().bus.queue(this.code_, MarkerEvent.Rotated);
+            if (this.visible() == true){
+                board().bus.queue(this.code_, MarkerLoopEvent.WhileVisible);
+                if (this.prevVisible_ == false) board().bus.queue(this.code_, MarkerEvent.Visible);
             } else { // marker not visible
-                board().bus.queue(marker, MarkerLoopEvent.WhileHidden);
-                if (markerPrevVisible == true) board().bus.queue(marker, MarkerEvent.Hidden);
-            }            
-        }    
+                board().bus.queue(this.code_, MarkerLoopEvent.WhileHidden);
+                if (this.prevVisible_ == true) board().bus.queue(this.code_, MarkerEvent.Hidden);
+            }  
+        }   
+
+        /**
+         * Update previous and current AR marker state values
+         */
+        updateState(){
+            this.prevPos_     = new THREE.Vector3(this.position().x,
+                                                            this.position().y,
+                                                             this.position().z);
+            this.prevRot_     = new THREE.Euler(this.rotation().x,
+                                                          this.rotation().y,
+                                                           this.rotation().z);                                              
+            this.prevVisible_ = this.visible();
+        }  
+
+        initControls() : THREE.Group {
+            let group = new THREE.Group;
+            group.name = 'markerroot' + this.code_.toString();
+            board().scene.add(group);
+            board().scene.visible = false;
+            let markerControls = threex.createMarkerControls(this.code_, group);
+            return group;
+        }
+
+        /* Getter methods */
+        textObject(){ return this.group_.getObjectByName(this.code_.toString() + '-text'); }    
+        shapeObject(){ return this.group_.getObjectByName(this.code_.toString() + '-shape'); }
+        code(){ return this.code_; }
+        group(){ return this.group_; }
+        position(){ return this.group_.position; }
+        prevPosition(){ return this.prevPos_; }
+        rotation(){ return this.group_.rotation; }
+        prevRotation(){ return this.prevRot_; }
+        prevVisible(){ return this.prevVisible_; }
+        prevVisibleTime(){ return this.prevVisibleTime_; }
+        prevHiddenTime(){ return this.prevHiddenTime_; }
+        color(){ return this.color_; }
+        fontColor(){ return this.fontColor_; }
+        visible(): boolean { // Checks if marker is visible but also uses extra logic to prevent flickers
+            let date         = new Date();
+            let time         = date.getTime();
+            if (this.group_) {
+                if (this.group_.visible){
+                    this.setPrevVisibleTime(time);
+                    return true;
+                } else {
+                    if (time - this.prevVisibleTime() >= 175) return false
+                    else return true
+                }
+            }
+            return false;
+        } 
+
+        /* Setter methods */
+        setPrevVisibleTime(time: number){
+            this.prevVisibleTime_ = time;
+        }
+        setColor(color: number){
+            this.color_ = color;
+        }
+        setFontColor(color: number){
+            this.fontColor_ = color;
+        }
+           
+    }           
 
 }

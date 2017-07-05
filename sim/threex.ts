@@ -1,6 +1,6 @@
 namespace pxsim.threex {
 
-    export function createMarkerControls(marker : Marker, markerRoot : THREE.Group) : THREEx.ArMarkerControls {
+    export function createMarkerControls(marker : MarkerCode, markerRoot : THREE.Group) : THREEx.ArMarkerControls {
         return new THREEx.ArMarkerControls(board().arToolkitContext, markerRoot, {
                 type : 'barcode',
                 barcodeValue : marker,
@@ -70,25 +70,5 @@ namespace pxsim.threex {
             initialized = true;
         }
     }    
-
-    export function createMarkerStateEnum(marker: Marker, markerRoot: THREE.Group) : THREEx.ArMarkerState {
-        return {marker: marker,
-                group: markerRoot,
-                currentPos: new THREE.Vector3(0, 0, 0),
-                prevPos: new THREE.Vector3(0, 0, 0),
-                currentRot: new THREE.Euler(0, 0, 0),
-                prevRot: new THREE.Euler(0, 0, 0),
-                visible: false,
-                prevVisible: false,
-                prevVisibleTime: 0,
-                prevHiddenTime: 0,
-                color: 0x000000,
-                fontColor: 0xffffff,
-                scripts: {}};
-    }
-
-    export function getMarkerGroup(marker: Marker) : THREE.Group {
-        return board().scene.getObjectByName('markerroot' + marker.toString());
-    }
 
 }

@@ -257,7 +257,7 @@ namespace pxsim.music {
         public instrument : Tone.Instrument;
         public fx         : Tone.Effect[] | any;
 
-        constructor(seq: Tone.Sequence, instr: Tone.Instrument, effects: Tone.Effect[] | any) {
+        constructor(seq: Tone.Sequence, instr: Tone.Instrument, effects?: Tone.Effect[] | any) {
             this.sequence   = seq;
             this.instrument = instr;
             this.fx         = effects;

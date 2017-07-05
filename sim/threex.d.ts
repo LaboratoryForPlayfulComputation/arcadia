@@ -61,7 +61,7 @@ declare namespace THREEx {
     }
     type Coordinate = { x: number, y: number, z: number };
     interface ArMarkerState {
-        marker: Marker,
+        marker: MarkerCode,
         group: THREE.Group;
         currentPos: THREE.Vector3,
         prevPos: THREE.Vector3,

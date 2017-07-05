@@ -140,7 +140,7 @@ declare namespace markers {
     //% shim=TD_ID
     //% useEnumVal=1
     //% shim=markers::marker
-    function marker(marker: Marker): number;
+    function marker(marker: MarkerCode): number;
 
     /**
      * Gets the distance between the centers of 2 markers
