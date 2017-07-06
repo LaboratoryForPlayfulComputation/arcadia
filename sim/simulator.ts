@@ -3,7 +3,6 @@
 /// <reference path="../typings/globals/three/index.d.ts" />
 /// <reference path="../typings/globals/three-vreffect/index.d.ts" />
 /// <reference path="aframe.d.ts" />
-/// <reference path="aframe-ar.d.ts" />
 /// <reference path="threex.d.ts" />
 /// <reference path="tone.d.ts" />
 

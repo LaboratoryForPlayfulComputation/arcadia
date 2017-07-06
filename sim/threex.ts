@@ -2,8 +2,8 @@ namespace pxsim.threex {
 
     export function createMarkerControls(marker: MarkerCode, markerRoot: THREE.Group): THREEx.ArMarkerControls {
         return new THREEx.ArMarkerControls(board().arToolkitContext, markerRoot, {
-                type : 'barcode',
-                barcodeValue : marker,
+                type: 'barcode',
+                barcodeValue: marker,
                 changeMatrixMode: 'modelViewMatrix',
                 size: 1,
                 patternUrl: null,
@@ -19,8 +19,8 @@ namespace pxsim.threex {
     export function createArToolkitSource(): THREEx.ArToolkitSource {
         if (arToolkitSource == null){
             arToolkitSource = new THREEx.ArToolkitSource({
-                sourceType : 'webcam',
-                sourceURL : null,
+                sourceType: 'webcam',
+                sourceURL: null,
             });   
         }         
         return arToolkitSource;          
