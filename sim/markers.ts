@@ -49,7 +49,7 @@ namespace pxsim.markers {
         }
     }
 
-    /* Class to store all of the details of a user created musical phrase */
+    /* Class to store marker data */
     export class Marker {
         private code_            : MarkerCode;
         private group_           : THREE.Group;
@@ -114,10 +114,10 @@ namespace pxsim.markers {
          */
         updateState(){
             this.prevVisible_ = this.visible();
-            this.prevPos_     = new THREE.Vector3(this.position().x,
+            this.prevPos_ = new THREE.Vector3(this.position().x,
                                                   this.position().y,
                                                   this.position().z);
-            this.prevRot_     = new THREE.Euler(this.rotation().x,
+            this.prevRot_ = new THREE.Euler(this.rotation().x,
                                                 this.rotation().y,
                                                 this.rotation().z);                                              
         }  
@@ -146,8 +146,8 @@ namespace pxsim.markers {
         color(){ return this.color_; }
         fontColor(){ return this.fontColor_; }
         visible(): boolean { // Checks if marker is visible but also uses extra logic to prevent flickers
-            let date         = new Date();
-            let time         = date.getTime();
+            let date = new Date();
+            let time = date.getTime();
             if (this.group_) {
                 if (this.group_.visible){
                     this.setPrevVisibleTime(time);

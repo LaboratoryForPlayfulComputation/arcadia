@@ -6,11 +6,11 @@ namespace pxt.editor {
   export class DrumSequencer extends Blockly.Field implements Blockly.FieldCustom {
     public isFieldCustom_ = true;
 
-    private params: any;
+    private params : any;
 
-    private boardElement      : SVGSVGElement;
-    private gridElement_      : SVGGElement;
-    private allBeats_         : pxsim.Map<SVGElement[]>;
+    private boardElement : SVGSVGElement;
+    private gridElement_ : SVGGElement;
+    private allBeats_    : pxsim.Map<SVGElement[]>;
 
     static NUM_BEATS   = 8;
     static NUM_TRACKS  = 5;
@@ -95,7 +95,7 @@ namespace pxt.editor {
           this.allBeats_[trackname] = [];
           for (let j = 0; j < DrumSequencer.NUM_BEATS; j++){
               let beatname = "beat" + j;
-              let beatbox  = this.boardElement.getElementById(trackname + beatname) as SVGElement;
+              let beatbox = this.boardElement.getElementById(trackname + beatname) as SVGElement;
               if (this.isCurrentlyEditable() && !this.isInFlyout()){
                   pxsim.svg.addClass(beatbox, trackname);
                   beatbox.setAttribute("active", "false");
@@ -129,7 +129,7 @@ namespace pxt.editor {
         }
       }
       this.size_.height = Number(DrumSequencer.imageHeight);
-      this.size_.width  = Number(DrumSequencer.imageWidth);
+      this.size_.width = Number(DrumSequencer.imageWidth);
     }
 
     isActive(beatBox: SVGElement) : boolean {
@@ -173,9 +173,9 @@ namespace pxt.editor {
         let trackbeats  = this.allBeats_[track];
         for (let b = 0; b < trackbeats.length; b++){
             let beatName = 'beat' + b;
-            let svgName  = track + beatName;
-            let svgEl    = this.boardElement.getElementById(svgName) as SVGGElement;
-            let active   = this.isActive(svgEl);
+            let svgName = track + beatName;
+            let svgEl = this.boardElement.getElementById(svgName) as SVGGElement;
+            let active = this.isActive(svgEl);
             if (active) sequence[track].push(1);
             else        sequence[track].push(0);
         }

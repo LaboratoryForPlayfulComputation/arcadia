@@ -30,11 +30,11 @@ namespace pxsim.tone {
     export function loadDrumSamplesAsync(): Promise<Tone.MultiPlayer> {
         return new Promise<Tone.MultiPlayer>((resolve, reject) => {
             let drumMachine = new Tone.MultiPlayer({
-                    "kick"  : "/audio/percussion/kick.ogg",
-                    "snare" : "/audio/percussion/snare.ogg",
-                    "hihat" : "/audio/percussion/hh.ogg",
-                    "click" : "/audio/percussion/click.mp3",
-                    "splat" : "/audio/percussion/splat.mp3"
+                    "kick" : "/audio/percussion/kick.ogg",
+                    "snare": "/audio/percussion/snare.ogg",
+                    "hihat": "/audio/percussion/hh.ogg",
+                    "click": "/audio/percussion/click.mp3",
+                    "splat": "/audio/percussion/splat.mp3"
                 }, () => {
                 resolve(drumMachine);
             }).toMaster();            
@@ -50,7 +50,7 @@ namespace pxsim.tone {
             let notes = pattern[note];
             instrument.triggerAttackRelease(notes, time);
         }, division, "8n");
-        return new pxsim.music.Phrase(seq, instrument, []);        
+        return new pxsim.music.Phrase(seq, instrument);        
     }
 
     export function createDrumSequence(time: Tone.Time, beats: number, pattern: pxsim.Map<string[]>): pxsim.music.Phrase {
@@ -63,7 +63,7 @@ namespace pxsim.tone {
                 if (beat[i]) board().drumMachine.start(beat[i]);
             }
         }, division, "8n");
-        return new pxsim.music.Phrase(seq, board().drumMachine, []);
+        return new pxsim.music.Phrase(seq, board().drumMachine);
     }
 
     export function createMonoSynth(): Tone.MonoSynth {
@@ -84,7 +84,7 @@ namespace pxsim.tone {
         let poly = new Tone.PolySynth(voices, Tone.MonoSynth);     
         poly.set("volume", -20);
         poly.set({
-            "envelope" : {
+            "envelope": {
                 "attack":  0.1,
                 "sustain": 0,
                 "release": 0.01

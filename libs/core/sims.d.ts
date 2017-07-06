@@ -211,13 +211,26 @@ declare namespace music {
      * @param name name of the phrase
      * @param effect which drum sound to use
      */
-    //% blockId=music_add_effect_seq block="add effect %effect|to phrase %name" blockGap=8
+    //% blockId=music_add_effect_seq block="add %effect|to phrase %name" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
     //% effect.fieldOptions.tooltips="true"
     //% shim=music::addEffectSeq
     function addEffectSeq(effect: Effect, name: string): void;
+
+    /**
+     * Remove an effect from a sequence.
+     * @param name name of the phrase
+     * @param effect which drum sound to use
+     */
+    //% blockId=music_rem_effect_seq block="remove %effect|from phrase %name" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% effect.fieldEditor="gridpicker"
+    //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
+    //% effect.fieldOptions.tooltips="true"
+    //% shim=music::removeEffectSeq
+    function removeEffectSeq(effect: Effect, name: string): void;
 
     /**
      * Add an effect to every active instrument.
@@ -230,6 +243,18 @@ declare namespace music {
     //% effect.fieldOptions.tooltips="true"
     //% shim=music::addGlobalEffect
     function addGlobalEffect(effect: Effect): void;
+
+    /**
+     * Remove an effect to every active instrument.
+     * @param effect which effect to use
+     */
+    //% blockId=music_rem_effect_global block="remove global effect %effect" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% effect.fieldEditor="gridpicker"
+    //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
+    //% effect.fieldOptions.tooltips="true"
+    //% shim=music::removeGlobalEffect
+    function removeGlobalEffect(effect: Effect): void;
 
     /**
      * Shift pitch by a certain amount of semitones. For reference, an octave is 12 semitones.

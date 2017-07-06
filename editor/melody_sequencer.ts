@@ -6,11 +6,11 @@ namespace pxt.editor {
   export class MelodySequencer extends Blockly.Field implements Blockly.FieldCustom {
     public isFieldCustom_ = true;
 
-    private params: any;
+    private params : any;
 
-    private boardElement      : SVGSVGElement;
-    private gridElement_      : SVGGElement;
-    private allBeats_         : pxsim.Map<SVGElement[]>;
+    private boardElement : SVGSVGElement;
+    private gridElement_ : SVGGElement;
+    private allBeats_    : pxsim.Map<SVGElement[]>;
 
     static NUM_BEATS   = 8;
     static NUM_TRACKS  = 12;
@@ -192,7 +192,7 @@ namespace pxt.editor {
         }
       }
       this.size_.height = Number(MelodySequencer.imageHeight) + 120;
-      this.size_.width  = Number(MelodySequencer.imageWidth);
+      this.size_.width = Number(MelodySequencer.imageWidth);
     }
 
     isActive(beatBox: SVGElement) : boolean {
@@ -233,12 +233,12 @@ namespace pxt.editor {
       let sequence = {} as pxsim.Map<number[]>;
       for (var track in this.allBeats_){
         sequence[track] = [];
-        let trackbeats  = this.allBeats_[track];
+        let trackbeats = this.allBeats_[track];
         for (let b = 0; b < trackbeats.length; b++){
             let beatName = "beat" + b;
-            let svgName  = "melody-" + track + beatName;
-            let svgEl    = this.boardElement.getElementById(svgName) as SVGGElement;
-            let active   = this.isActive(svgEl);
+            let svgName = "melody-" + track + beatName;
+            let svgEl = this.boardElement.getElementById(svgName) as SVGGElement;
+            let active = this.isActive(svgEl);
             if (active) sequence[track].push(1);
             else        sequence[track].push(0);
         }

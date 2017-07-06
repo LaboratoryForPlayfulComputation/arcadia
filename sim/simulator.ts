@@ -114,13 +114,13 @@ namespace pxsim {
         }
 
         runRenderingLoop(){
-            let self         = this;
+            let self = this;
             let lastTimeMsec = 0;
             requestAnimationFrame(function animate(nowMsec){
                 requestAnimationFrame(animate);
-                lastTimeMsec  = lastTimeMsec || nowMsec-1000/60;
+                lastTimeMsec = lastTimeMsec || nowMsec-1000/60;
                 let deltaMsec = Math.min(200, nowMsec - lastTimeMsec);
-                lastTimeMsec  = nowMsec;
+                lastTimeMsec = nowMsec;
                 self.onRenderFcts.forEach(function(onRenderFct){
                     onRenderFct(deltaMsec/1000, nowMsec/1000);
                 });
@@ -133,7 +133,7 @@ namespace pxsim {
             if (this.phrases)     tone.killPhrases();
             if (this.instruments) tone.killInstruments();
             this.onRenderFcts = [];
-            this.markers      = {};
+            this.markers = {};
         }
 
         /**
@@ -147,6 +147,10 @@ namespace pxsim {
             return m;
         }
 
+        /**
+         * Gets a phrase
+         * @param name 
+         */
         phrase(name: string): pxsim.music.Phrase {
             return this.phrases[name];
         } 

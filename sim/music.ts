@@ -60,15 +60,29 @@ namespace pxsim.music {
     * @param name name of the phrase
     * @param effect which drum sound to use
     */
-    //% blockId=music_add_effect_seq block="add effect %effect|to phrase %name" blockGap=8
+    //% blockId=music_add_effect_seq block="add %effect|to phrase %name" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
     //% effect.fieldOptions.tooltips="true"  
     export function addEffectSeq(effect: Effect, name: string) {
         let phrase = board().phrase(name);
-        let fx     = tone.createEffect(effect);
-        if (phrase) phrase.addEffect(fx);
+        if (phrase) phrase.addEffect(effect);
+    }
+
+    /**
+    * Remove an effect from a sequence.
+    * @param name name of the phrase
+    * @param effect which drum sound to use
+    */
+    //% blockId=music_rem_effect_seq block="remove %effect|from phrase %name" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% effect.fieldEditor="gridpicker"
+    //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
+    //% effect.fieldOptions.tooltips="true"  
+    export function removeEffectSeq(effect: Effect, name: string) {
+        let phrase = board().phrase(name);
+        if (phrase) phrase.removeEffect(effect);
     }
 
     /**
@@ -82,8 +96,33 @@ namespace pxsim.music {
     //% effect.fieldOptions.tooltips="true"  
     export function addGlobalEffect(effect: Effect) {
         let fx = tone.createEffect(effect);
-        for (let i = 0; i < board().instruments.length; i++)
+        let phrases = board().phrases;
+        for (var phrase in phrases){
+            phrases[phrase].addEffect(effect);
+        }
+        for (let i = 0; i < board().instruments.length; i++) // adds fx not only to phrases, but also "play tone" blocks
             board().instruments[i].connect(fx);
+    }
+
+    /**
+    * Remove an effect to every active instrument.
+    * @param effect which effect to use
+    */
+    //% blockId=music_rem_effect_global block="remove global effect %effect" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% effect.fieldEditor="gridpicker"
+    //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
+    //% effect.fieldOptions.tooltips="true"  
+    export function removeGlobalEffect(effect: Effect) {
+        let phrases = board().phrases;
+        for (var phrase in phrases){
+            phrases[phrase].removeEffect(effect);
+        }
+        for (let i = 0; i < board().instruments.length; i++){
+            for (let e = 0; e < board().fx.length; e++){
+                board().instruments[i].disconnect(board().fx[e]);
+            }
+        }
     }
 
     /**
@@ -174,9 +213,9 @@ namespace pxsim.music {
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     export function drumPhrase(name: string, beatString: string){ 
-        let beat        = createNotesMap(JSON.parse(beatString), 8, drumSounds);
-        let numTracks   = drumSounds.length;
-        let phrase      = tone.createDrumSequence("8n", 8, beat);
+        let beat = createNotesMap(JSON.parse(beatString), 8, drumSounds);
+        let numTracks = drumSounds.length;
+        let phrase = tone.createDrumSequence("8n", 8, beat);
         board().phrases[name] = phrase;
     }
 
@@ -196,10 +235,10 @@ namespace pxsim.music {
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     export function notesPhrase(name: string, octave: Octave, melody: string){ 
-        let oct       = getOctave(octave);
+        let oct = getOctave(octave);
         let notesArray = createNotesMap(JSON.parse(melody), 8, pitches, oct);
         let numTracks = pitches.length;
-        let phrase    = tone.createMelodySequence("8n", 8, notesArray, numTracks);
+        let phrase = tone.createMelodySequence("8n", 8, notesArray, numTracks);
         board().phrases[name] = phrase;
     }
 
@@ -260,12 +299,12 @@ namespace pxsim.music {
     export class Phrase {
         public sequence   : Tone.Sequence;
         public instrument : Tone.Instrument | Tone.MultiPlayer;
-        public fx         : Tone.Effect[] | any;
+        public fx         : pxsim.Map<Tone.Effect>;
 
-        constructor(seq: Tone.Sequence, instr: Tone.Instrument | Tone.MultiPlayer, effects?: Tone.Effect[]) {
+        constructor(seq: Tone.Sequence, instr: Tone.Instrument | Tone.MultiPlayer, effects?: pxsim.Map<Tone.Effect>) {
             this.sequence   = seq;
             this.instrument = instr;
-            this.fx         = [];
+            this.fx         = {};
             if (effects)
                 this.fx = effects;
         }
@@ -273,9 +312,52 @@ namespace pxsim.music {
         discard(){
             this.sequence.dispose();
         }
-        addEffect(fx: Tone.Effect){
-            this.fx.push(fx);
+        addEffect(effect: Effect){
+            var fx : Tone.Effect;
+            var type : string;
+            switch(effect){
+                case Effect.Chorus:
+                    fx = new Tone.Chorus(4, 2.5, 0.5).toMaster();
+                    type = "chorus";
+                    break;
+                case Effect.Delay:
+                    fx = new Tone.FeedbackDelay("8n").toMaster();
+                    type = "delay";
+                    break;
+                case Effect.Distortion:
+                    fx = new Tone.Distortion(0.8).toMaster();
+                    type = "distortion";
+                    break;
+                case Effect.Phaser:
+                    fx = new Tone.Phaser({"frequency": 15, 
+                                            "octaves": 5, 
+                                            "baseFrequency": 1000
+                                        }).toMaster();
+                    type = "phaser";
+                    break;
+                default: 
+                    fx = new Tone.Freeverb().toMaster();
+                    type = "reverb";
+                    break;
+            }
+            this.fx[type] = fx;
             this.instrument.connect(fx);
+            //board().fx.push(fx)
+        }
+        removeEffect(effect: Effect){
+            var type : string;
+            switch(effect){
+                case Effect.Chorus: type = "chorus";
+                case Effect.Delay: type = "delay";
+                case Effect.Distortion: type = "distortion";
+                case Effect.Phaser: type = "phaser";
+                default: type = "reverb";
+            }
+            if (this.fx[type]){
+                this.instrument.disconnect(this.fx[type]);
+                this.fx[type].dispose();
+                this.fx[type] = null;
+            } 
         }
         start(time: Tone.Time){
             this.sequence.loop = false;           

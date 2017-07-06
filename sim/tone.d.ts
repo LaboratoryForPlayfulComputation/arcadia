@@ -12,7 +12,7 @@ declare class Tone {
     connectParallel(...args: any[]): Tone;
     dbToGain(db: number): number;
     defaultArg(given: any, fallback: any): any;
-    disconnect(outputNum?:number): Tone;
+    disconnect(output?:number | AudioNode | Tone.Effect): Tone;
     dispose(): Tone;
     equalPowerScale(percent:number): number;
     expScale(gain: number): number;
