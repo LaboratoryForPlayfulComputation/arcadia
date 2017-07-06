@@ -21,7 +21,6 @@ namespace pxsim.music {
     //% blockId=music_rest block="rest for %duration=device_beat" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     export function rest(duration: string) {
-        // maybe have a pause here?
     }
 
     /**
@@ -60,7 +59,7 @@ namespace pxsim.music {
     * @param name name of the phrase
     * @param effect which drum sound to use
     */
-    //% blockId=music_add_effect_seq block="add %effect|to phrase %name" blockGap=8
+    //% blockId=music_add_effect_seq block="add %effect|to %name" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
@@ -75,7 +74,7 @@ namespace pxsim.music {
     * @param name name of the phrase
     * @param effect which drum sound to use
     */
-    //% blockId=music_rem_effect_seq block="remove %effect|from phrase %name" blockGap=8
+    //% blockId=music_rem_effect_seq block="remove %effect|from %name" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
@@ -95,11 +94,11 @@ namespace pxsim.music {
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
     //% effect.fieldOptions.tooltips="true"  
     export function addGlobalEffect(effect: Effect) {
-        let fx = tone.createEffect(effect);
         let phrases = board().phrases;
         for (var phrase in phrases){
             phrases[phrase].addEffect(effect);
         }
+        let fx = tone.createEffect(effect);
         for (let i = 0; i < board().instruments.length; i++) // adds fx not only to phrases, but also "play tone" blocks
             board().instruments[i].connect(fx);
     }
@@ -114,14 +113,33 @@ namespace pxsim.music {
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
     //% effect.fieldOptions.tooltips="true"  
     export function removeGlobalEffect(effect: Effect) {
+        var type: string;
+        switch(effect){
+            case Effect.Chorus: 
+                type = "chorus";
+                break;
+            case Effect.Delay:
+                type = "delay";
+                break;
+            case Effect.Distortion:
+                type = "distortion";
+                break;
+            case Effect.Phaser:
+                type = "phaser";
+                break;
+            default:
+                type = "reverb";
+                break;
+            }
+
+        for (let i = 0; i < board().instruments.length; i++){
+            board().instruments[i].disconnect(board().fx[type]);
+        }
+
         let phrases = board().phrases;
         for (var phrase in phrases){
-            phrases[phrase].removeEffect(effect);
-        }
-        for (let i = 0; i < board().instruments.length; i++){
-            for (let e = 0; e < board().fx.length; e++){
-                board().instruments[i].disconnect(board().fx[e]);
-            }
+            let p = phrases[phrase];
+            if (p) p.removeEffect(effect);
         }
     }
 
@@ -312,6 +330,7 @@ namespace pxsim.music {
         discard(){
             this.sequence.dispose();
         }
+
         addEffect(effect: Effect){
             var fx : Tone.Effect;
             var type : string;
@@ -342,8 +361,8 @@ namespace pxsim.music {
             }
             this.fx[type] = fx;
             this.instrument.connect(fx);
-            //board().fx.push(fx)
         }
+
         removeEffect(effect: Effect){
             var type : string;
             switch(effect){
@@ -359,14 +378,17 @@ namespace pxsim.music {
                 this.fx[type] = null;
             } 
         }
+
         start(time: Tone.Time){
             this.sequence.loop = false;           
             this.sequence.start(time);
         }  
+
         loop(time: Tone.Time){
             this.sequence.loop = true;      
             this.sequence.start(time);
         }
+        
         stop(time: Tone.Time){
             this.sequence.stop(time);
         }             

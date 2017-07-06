@@ -9,9 +9,10 @@ namespace pxsim.tone {
     }
 
     export function killFX(){
-        for (let i = 0; i < board().fx.length; i++)
-            board().fx[i].dispose();
-        board().fx = [];            
+        for (var effect in board().fx){
+            board().fx[effect].dispose();
+        }
+        board().fx = {};            
     }
 
     export function killPhrases(){
@@ -109,31 +110,34 @@ namespace pxsim.tone {
     }
 
     export function createEffect(fx: Effect): Tone.Effect {
-        let effect = null as Tone.Effect;
+        var effect : Tone.Effect;
+        var type : string;
         switch (fx) {
             case Effect.Distortion:
                 effect = new Tone.Distortion(0.8).toMaster();
+                type = "distortion";
                 break;
             case Effect.Delay:
                 effect = new Tone.FeedbackDelay("8n").toMaster();
+                type = "delay";
                 break;
             case Effect.Chorus:
                 effect = new Tone.Chorus(4, 2.5, 0.5).toMaster();
+                type = "chorus";
                 break;
             case Effect.Phaser:
                 effect = new Tone.Phaser({"frequency": 15, 
                                             "octaves": 5, 
                                             "baseFrequency": 1000
                                         }).toMaster();
-                break;
-            case Effect.Reverb:
-                effect = new Tone.Freeverb().toMaster();
+                type = "phaser";
                 break;
             default:
-                effect = new Tone.Distortion(0.8).toMaster();
+                effect = new Tone.Freeverb().toMaster();
+                type = "reverb";
                 break;
         }
-        board().fx.push(effect);
+        board().fx[type] = effect;
         return effect;        
     }
 

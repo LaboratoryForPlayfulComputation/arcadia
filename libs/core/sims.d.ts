@@ -211,7 +211,7 @@ declare namespace music {
      * @param name name of the phrase
      * @param effect which drum sound to use
      */
-    //% blockId=music_add_effect_seq block="add %effect|to phrase %name" blockGap=8
+    //% blockId=music_add_effect_seq block="add %effect|to %name" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
@@ -224,7 +224,7 @@ declare namespace music {
      * @param name name of the phrase
      * @param effect which drum sound to use
      */
-    //% blockId=music_rem_effect_seq block="remove %effect|from phrase %name" blockGap=8
+    //% blockId=music_rem_effect_seq block="remove %effect|from %name" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"

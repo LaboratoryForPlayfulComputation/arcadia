@@ -38,7 +38,7 @@ namespace pxsim {
         public baseURL          : String;
         public onRenderFcts     : Array<any>;
         public instruments      : Array<Tone.Instrument>;
-        public fx               : Array<Tone.Effect>;
+        public fx               : pxsim.Map<Tone.Effect>;
         public monosynth        : Tone.MonoSynth;
         public polysynth        : Tone.PolySynth;
         public kickdrum         : Tone.MembraneSynth;
@@ -73,7 +73,7 @@ namespace pxsim {
                             /* music */
                             this.phrases     = {};
                             this.instruments = [];
-                            this.fx          = [];            
+                            this.fx          = {};            
                             this.monosynth   = tone.createMonoSynth().toMaster();  // for play tone blocks
                             this.polysynth   = tone.createPolySynth(5).toMaster(); // for play chord blocks
                             this.kickdrum    = tone.createKickDrum().toMaster();   // for "one-off" drum sample triggers
