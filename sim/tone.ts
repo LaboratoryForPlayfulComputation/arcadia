@@ -30,9 +30,11 @@ namespace pxsim.tone {
     export function loadDrumSamplesAsync(): Promise<Tone.MultiPlayer> {
         return new Promise<Tone.MultiPlayer>((resolve, reject) => {
             let drumMachine = new Tone.MultiPlayer({
-                    "kick"         : "/audio/percussion/kick.mp3",
-                    "snare"        : "/audio/percussion/snare.mp3",
-                    "hihat-closed" : "/audio/percussion/hh.mp3"
+                    "kick"  : "/audio/percussion/kick.ogg",
+                    "snare" : "/audio/percussion/snare.ogg",
+                    "hihat" : "/audio/percussion/hh.ogg",
+                    "click" : "/audio/percussion/click.mp3",
+                    "splat" : "/audio/percussion/splat.mp3"
                 }, () => {
                 resolve(drumMachine);
             }).toMaster();            
@@ -40,7 +42,7 @@ namespace pxsim.tone {
     }   
 
     export function createMelodySequence(time: Tone.Time, beats: number, pattern: pxsim.Map<string[]>, numTracks: number): pxsim.music.Phrase {
-        let division = [];
+        let division = [] as number[];
         for (let i = 0; i < beats; i++) division.push(i);
 
         let instrument = tone.createPolySynth(numTracks);
@@ -52,7 +54,7 @@ namespace pxsim.tone {
     }
 
     export function createDrumSequence(time: Tone.Time, beats: number, pattern: pxsim.Map<string[]>): pxsim.music.Phrase {
-        let division = [];
+        let division = [] as number[];
         for (let i = 0; i < beats; i++) division.push(i);
 
         let seq = new Tone.Sequence(function(time, note){

@@ -50,8 +50,7 @@ namespace pxt.editor {
   <rect id="track1beat5" width="20" height="20" x="125" y="25" fill="#c8c8c8"/>
   <rect id="track1beat6" width="20" height="20" x="150" y="25" fill="#c8c8c8"/>
   <rect id="track1beat7" width="20" height="20" x="175" y="25" fill="#c8c8c8"/>
-  <text x="-50" y="60">HiHat</text>
-  <text x="-50" y="70">Closed</text>
+  <text x="-50" y="65">HiHat</text>
   <rect id="track2beat0" width="20" height="20" y="50" fill="#c8c8c8"/>
   <rect id="track2beat1" width="20" height="20" y="50" x="25" fill="#c8c8c8"/>
   <rect id="track2beat2" width="20" height="20" y="50" x="50" fill="#c8c8c8"/>
@@ -60,8 +59,7 @@ namespace pxt.editor {
   <rect id="track2beat5" width="20" height="20" y="50" x="125" fill="#c8c8c8"/>
   <rect id="track2beat6" width="20" height="20" y="50" x="150" fill="#c8c8c8"/>
   <rect id="track2beat7" width="20" height="20" y="50" x="175" fill="#c8c8c8"/>
-  <text x="-50" y="85">HiHat</text>
-  <text x="-50" y="95">Open</text>
+  <text x="-50" y="90">Click</text>
   <rect id="track3beat0" width="20" height="20" y="75" fill="#c8c8c8"/>
   <rect id="track3beat1" width="20" height="20" x="25" y="75" fill="#c8c8c8"/>
   <rect id="track3beat2" width="20" height="20" x="50" y="75" fill="#c8c8c8"/>
@@ -70,7 +68,7 @@ namespace pxt.editor {
   <rect id="track3beat5" width="20" height="20" x="125" y="75" fill="#c8c8c8"/>
   <rect id="track3beat6" width="20" height="20" x="150" y="75" fill="#c8c8c8"/>
   <rect id="track3beat7" width="20" height="20" x="175" y="75" fill="#c8c8c8"/>
-  <text x="-50" y="115">Cymbal</text>
+  <text x="-50" y="115">Splat</text>
   <rect id="track4beat0" width="20" height="20" y="100" fill="#c8c8c8"/>
   <rect id="track4beat1" width="20" height="20" x="25" y="100" fill="#c8c8c8"/>
   <rect id="track4beat2" width="20" height="20" x="50" y="100" fill="#c8c8c8"/>

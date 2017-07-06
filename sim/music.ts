@@ -1,7 +1,7 @@
 namespace pxsim.music {
 
     let pitches    = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
-    let drumSounds = ["kick", "snare", "hihat-closed", "hihat-closed", "hihat-closed"];
+    let drumSounds = ["kick", "snare", "hihat", "click", "splat"];
 
     /**
     * Play a tone.
@@ -220,7 +220,7 @@ namespace pxsim.music {
     export function createNotesMap(sequence: pxsim.Map<string[]>, numBeats: number, sounds: string[], octave?: string) : pxsim.Map<string[]> {
         let notesMap = {} as pxsim.Map<string[]>;
         for (let i = 0; i < numBeats; i++){
-            let beatNotes = [];
+            let beatNotes = [] as string[];
             let trackindex = 0;
             for (var track in sequence) {
                 if (parseInt(sequence[track][i])) {
