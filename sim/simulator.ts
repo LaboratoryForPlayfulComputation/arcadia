@@ -19,7 +19,7 @@ namespace pxsim {
     /**
      * Gets the current 'board', eg. program state.
      */
-    export function board() : Board {
+    export function board(): Board {
         return runtime.board as Board;
     }
 
@@ -137,14 +137,14 @@ namespace pxsim {
          * Gets or creates a new marker
          * @param marker 
          */
-        marker(marker: MarkerCode) : pxsim.markers.Marker {
+        marker(marker: MarkerCode): pxsim.markers.Marker {
             let m = this.markers[marker.toString()];
             if (!m) 
                 m = this.markers[marker.toString()] = new pxsim.markers.Marker(marker);
             return m;
         }
 
-        phrase(name: string) : pxsim.music.Phrase {
+        phrase(name: string): pxsim.music.Phrase {
             return this.phrases[name];
         } 
 
@@ -155,8 +155,8 @@ namespace pxsim {
      * WebGL contexts cannot be easily destroyed so it is best to just initialize
      * one renderer and give it to the Board constructor whenever it is initialized
      */
-    let renderer : any = null;
-    function getWebGlContext() : THREE.WebGLRenderer{
+    let renderer: any = null;
+    function getWebGlContext(): THREE.WebGLRenderer{
         if (renderer == null){
             renderer = new THREE.WebGLRenderer({
                 antialias: true,

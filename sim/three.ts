@@ -4,8 +4,8 @@ namespace pxsim.three {
      * Creates our scene, this will store our 
      * camera, lights, shapes, etc.
      */
-    let scene : any = null;
-    export function createScene() : THREE.Scene{
+    let scene: any = null;
+    export function createScene(): THREE.Scene{
         if (scene == null)
             scene = new THREE.Scene();
         return scene;        
@@ -14,8 +14,8 @@ namespace pxsim.three {
     /**
      * Creates a camera for our scene
      */
-    let camera : any = null;
-    export function createCamera() : THREE.Camera{
+    let camera: any = null;
+    export function createCamera(): THREE.Camera{
         if (camera == null)
             camera = new THREE.Camera();
         return camera;
@@ -26,7 +26,7 @@ namespace pxsim.three {
      * and creates highlights and shadows on an object's
      * material depending on the position
      */
-    export function createDirectionalLight() : THREE.DirectionalLight {
+    export function createDirectionalLight(): THREE.DirectionalLight {
         let directionalLight = new THREE.DirectionalLight(0xffffff);
         directionalLight.position.set(0, 1, 0.9).normalize();
         directionalLight.name = 'directionallight';        
@@ -37,7 +37,7 @@ namespace pxsim.three {
      * A light source that comes from all directions, creates
      * an evenly diffused light source for the scene
      */
-    export function createAmbientLight() : THREE.AmbientLight {
+    export function createAmbientLight(): THREE.AmbientLight {
         let ambientLight = new THREE.AmbientLight(0xcccccc);
         ambientLight.name = 'ambientlight';
         return ambientLight;        
@@ -102,7 +102,7 @@ namespace pxsim.three {
         return billboard;
     }    
 
-    export function createText(text: string, color: number, marker: MarkerCode) : THREE.Mesh {
+    export function createText(text: string, color: number, marker: MarkerCode): THREE.Mesh {
         let text3d = new THREE.TextGeometry(text, {
             size: 0.25,
             bevelEnabled: false,
@@ -141,7 +141,7 @@ namespace pxsim.three {
      * @param group 
      * @param obj 
      */
-    export function removeObjectFromGroup(group: THREE.Group, obj: THREE.Object3D) {
+    export function removeObjectFromGroup(group: THREE.Group, obj: THREE.Object3D){
         group.remove(obj);
     }   
 
@@ -149,13 +149,13 @@ namespace pxsim.three {
      * Removes all objects and child objects from scene
      * @param scene 
      */
-    export function removeSceneChildren(scene : THREE.Scene){
+    export function removeSceneChildren(scene: THREE.Scene){
         while (scene.children.length){
             scene.remove(scene.children[0]);
         }      
     }  
 
-    export function loadFontAsync() : Promise<String> {
+    export function loadFontAsync(): Promise<String> {
         let loader = new THREE.FontLoader();
         return new Promise<String>((resolve, reject) => {
             loader.load('fonts/helvetiker_regular.typeface.json', (font) => {

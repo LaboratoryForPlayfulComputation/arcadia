@@ -1,6 +1,6 @@
 namespace pxsim.threex {
 
-    export function createMarkerControls(marker : MarkerCode, markerRoot : THREE.Group) : THREEx.ArMarkerControls {
+    export function createMarkerControls(marker: MarkerCode, markerRoot: THREE.Group): THREEx.ArMarkerControls {
         return new THREEx.ArMarkerControls(board().arToolkitContext, markerRoot, {
                 type : 'barcode',
                 barcodeValue : marker,
@@ -15,8 +15,8 @@ namespace pxsim.threex {
      * where our imagery is coming from -- in this case
      * we are using the webcam as our source
      */
-    let arToolkitSource : any = null
-    export function createArToolkitSource() : THREEx.ArToolkitSource {
+    let arToolkitSource: any = null
+    export function createArToolkitSource(): THREEx.ArToolkitSource {
         if (arToolkitSource == null){
             arToolkitSource = new THREEx.ArToolkitSource({
                 sourceType : 'webcam',
@@ -33,8 +33,8 @@ namespace pxsim.threex {
      * singleton
      * @param baseURL 
      */
-    let arToolkitContext : any = null
-    export function createArToolkitContext() : THREEx.ArToolkitContext {
+    let arToolkitContext: any = null
+    export function createArToolkitContext(): THREEx.ArToolkitContext {
         if (arToolkitContext == null){
             arToolkitContext = new THREEx.ArToolkitContext({
                 cameraParametersUrl: board().baseURL + '../data/data/camera_para.dat',

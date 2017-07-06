@@ -27,7 +27,7 @@ namespace pxsim.tone {
     }
 
     /* Not currently used. Event callback never fires, but no 404 errors... */
-    export function loadDrumSamplesAsync() : Promise<Tone.MultiPlayer> {
+    export function loadDrumSamplesAsync(): Promise<Tone.MultiPlayer> {
         return new Promise<Tone.MultiPlayer>((resolve, reject) => {
             var percussion = new Tone.MultiPlayer({
                 urls : {
@@ -45,13 +45,13 @@ namespace pxsim.tone {
         });            
     }   
 
-    export function createMelodySequence(time: Tone.Time, notesArray: string[][], numTracks: number) : pxsim.music.Phrase {
+    export function createMelodySequence(time: Tone.Time, notesArray: string[][], numTracks: number): pxsim.music.Phrase {
         let instrument = tone.createPolySynth(numTracks);
         let seq =  new Tone.Sequence(function(time, notes){instrument.triggerAttackRelease(notes, time);}, notesArray, "8n");
         return new pxsim.music.Phrase(seq, instrument, []);
     }
 
-    export function createMonoSynth() : Tone.MonoSynth {
+    export function createMonoSynth(): Tone.MonoSynth {
         let mono = new Tone.MonoSynth({oscillator: {
                                             type: "sine"
                                         },
@@ -65,7 +65,7 @@ namespace pxsim.tone {
         return mono;
     }
 
-    export function createPolySynth(voices: number) : Tone.PolySynth {
+    export function createPolySynth(voices: number): Tone.PolySynth {
         let poly = new Tone.PolySynth(voices, Tone.MonoSynth);     
         poly.set("volume", -20);
         poly.set({
@@ -78,7 +78,7 @@ namespace pxsim.tone {
         return poly;   
     }
 
-    export function createKickDrum() : Tone.MembraneSynth {
+    export function createKickDrum(): Tone.MembraneSynth {
         let kick = new Tone.MembraneSynth({"envelope": {
                                               "sustain": 0,
                                               "attack":  0.02,
@@ -93,7 +93,7 @@ namespace pxsim.tone {
         Tone.Transport.bpm.value = val;        
     }
 
-    export function createEffect(fx: Effect) : Tone.Effect {
+    export function createEffect(fx: Effect): Tone.Effect {
         let effect = null as Tone.Effect;
         switch (fx) {
             case Effect.Distortion:

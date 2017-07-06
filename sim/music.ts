@@ -233,7 +233,7 @@ namespace pxsim.music {
         return notesList;
     }    
 
-    export function getOctave(octave: Octave) : string {
+    export function getOctave(octave: Octave): string {
         switch(octave){
             case Octave.Lowest: return "2";
             case Octave.Low: return "3";

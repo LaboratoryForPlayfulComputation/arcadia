@@ -7,7 +7,7 @@ namespace pxsim.markers {
     //% marker.fieldOptions.decompileLiterals=true
     //% shim=TD_ID
     //% useEnumVal=1
-    export function marker(marker: MarkerCode) : number {
+    export function marker(marker: MarkerCode): number {
         board().marker(marker);
         return marker;
     } 
@@ -122,7 +122,7 @@ namespace pxsim.markers {
                                                 this.rotation().z);                                              
         }  
 
-        initControls() : THREE.Group {
+        initControls(): THREE.Group {
             let group = new THREE.Group;
             group.name = 'markerroot' + this.code_.toString();
             board().scene.add(group);
