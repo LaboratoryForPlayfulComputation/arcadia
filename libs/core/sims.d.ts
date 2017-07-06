@@ -300,7 +300,7 @@ declare namespace music {
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% shim=music::drumPhrase
-    function drumPhrase(name: string, beat: string): void;
+    function drumPhrase(name: string, beatString: string): void;
 
     /**
      * Create a melody pattern

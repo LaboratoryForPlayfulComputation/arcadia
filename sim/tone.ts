@@ -29,26 +29,39 @@ namespace pxsim.tone {
     /* Not currently used. Event callback never fires, but no 404 errors... */
     export function loadDrumSamplesAsync(): Promise<Tone.MultiPlayer> {
         return new Promise<Tone.MultiPlayer>((resolve, reject) => {
-            var percussion = new Tone.MultiPlayer({
-                urls : {
+            let drumMachine = new Tone.MultiPlayer({
                     "kick"         : "/audio/percussion/kick.mp3",
                     "snare"        : "/audio/percussion/snare.mp3",
-                    "hihat-closed" : "/audio/percussion/hh.mp3",
-                    "hihat-open"   : "/audio/percussion/hh.mp3",
-                    "cymbal"       : "/audio/percussion/hh.mp3"
-                },
-                volume  : -10,
-                fadeOut : 0.1,
-            }, (percussion) => {
-                resolve(percussion);
-            });            
+                    "hihat-closed" : "/audio/percussion/hh.mp3"
+                }, () => {
+                resolve(drumMachine);
+            }).toMaster();            
         });            
     }   
 
-    export function createMelodySequence(time: Tone.Time, notesArray: string[][], numTracks: number): pxsim.music.Phrase {
+    export function createMelodySequence(time: Tone.Time, beats: number, pattern: pxsim.Map<string[]>, numTracks: number): pxsim.music.Phrase {
+        let division = [];
+        for (let i = 0; i < beats; i++) division.push(i);
+
         let instrument = tone.createPolySynth(numTracks);
-        let seq =  new Tone.Sequence(function(time, notes){instrument.triggerAttackRelease(notes, time);}, notesArray, "8n");
-        return new pxsim.music.Phrase(seq, instrument, []);
+        let seq = new Tone.Sequence(function(time, note){
+            let notes = pattern[note];
+            instrument.triggerAttackRelease(notes, time);
+        }, division, "8n");
+        return new pxsim.music.Phrase(seq, instrument, []);        
+    }
+
+    export function createDrumSequence(time: Tone.Time, beats: number, pattern: pxsim.Map<string[]>): pxsim.music.Phrase {
+        let division = [];
+        for (let i = 0; i < beats; i++) division.push(i);
+
+        let seq = new Tone.Sequence(function(time, note){
+            let beat = pattern[note];
+            for (let i = 0; i < beat.length; i++){
+                if (beat[i]) board().drumMachine.start(beat[i]);
+            }
+        }, division, "8n");
+        return new pxsim.music.Phrase(seq, board().drumMachine, []);
     }
 
     export function createMonoSynth(): Tone.MonoSynth {

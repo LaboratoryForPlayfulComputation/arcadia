@@ -1,6 +1,7 @@
 namespace pxsim.music {
 
-    let pitches   = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+    let pitches    = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+    let drumSounds = ["kick", "snare", "hihat-closed", "hihat-closed", "hihat-closed"];
 
     /**
     * Play a tone.
@@ -172,11 +173,10 @@ namespace pxsim.music {
     //% beat.fieldOptions.decompileLiterals=true    
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-    export function drumPhrase(name: string, beat: string){ 
-        let tempPitches = ["E", "G", "A", "B", "D"]; // TO DO: replace notes with drum samples
-        let notesList   = createNotesArray(JSON.parse(beat), 8, tempPitches);
-        let numTracks   = tempPitches.length;
-        let phrase      = tone.createMelodySequence("8n", notesList, numTracks);
+    export function drumPhrase(name: string, beatString: string){ 
+        let beat        = createNotesMap(JSON.parse(beatString), 8, drumSounds);
+        let numTracks   = drumSounds.length;
+        let phrase      = tone.createDrumSequence("8n", 8, beat);
         board().phrases[name] = phrase;
     }
 
@@ -197,9 +197,9 @@ namespace pxsim.music {
     //% blockNamespace=music inBasicCategory=true
     export function notesPhrase(name: string, octave: Octave, melody: string){ 
         let oct       = getOctave(octave);
-        let notesList = createNotesArray(JSON.parse(melody), 8, pitches, oct);
+        let notesArray = createNotesMap(JSON.parse(melody), 8, pitches, oct);
         let numTracks = pitches.length;
-        let phrase    = tone.createMelodySequence("8n", notesList, numTracks);
+        let phrase    = tone.createMelodySequence("8n", 8, notesArray, numTracks);
         board().phrases[name] = phrase;
     }
 
@@ -215,22 +215,24 @@ namespace pxsim.music {
         tone.bpm(bpm);
     }
 
-    export function createNotesArray(sequence: pxsim.Map<string[]>, numBeats: number, sounds: string[], octave?: string) : string[][] {
-        let notesList = [] as string[][];
+    /* translates what beats are active on each track,
+       to each note that needs to be played on each beat */
+    export function createNotesMap(sequence: pxsim.Map<string[]>, numBeats: number, sounds: string[], octave?: string) : pxsim.Map<string[]> {
+        let notesMap = {} as pxsim.Map<string[]>;
         for (let i = 0; i < numBeats; i++){
-            let beatNotes = [] as string[];
+            let beatNotes = [];
             let trackindex = 0;
-            for (var track in sequence){
-                if (sequence[track][i] == "1") {
-                    if (octave) beatNotes.push(pitches[trackindex] + octave);
-                    else beatNotes.push(pitches[trackindex]);
+            for (var track in sequence) {
+                if (parseInt(sequence[track][i])) {
+                    if (octave) beatNotes.push(sounds[trackindex] + octave);
+                    else beatNotes.push(sounds[trackindex]);
                 }
                 trackindex++;
             }
-            notesList.push(beatNotes);
+            notesMap[i] = beatNotes;
         }
-        notesList = addRests(notesList);
-        return notesList;
+        notesMap = addRests(notesMap);
+        return notesMap;
     }    
 
     export function getOctave(octave: Octave): string {
@@ -243,21 +245,24 @@ namespace pxsim.music {
         }
     }
 
-    export function addRests(notesList: string[][]) : string[][] {
-        for (let i = 0; i < notesList.length; i++){
-            if (notesList[i] == [])
-                notesList[i] = [null];
+    export function addRests(notesMap: pxsim.Map<string[]>) : pxsim.Map<string[]> {
+        for (var beat in notesMap){
+            let seq = notesMap[beat];
+            for (let i = 0; i < seq.length; i++){
+                if (seq[i].length == 0)
+                    seq[i] = null;
+            }
         }
-        return notesList;
+        return notesMap;
     }
 
     /* Class to store all of the details of a user created musical phrase */
     export class Phrase {
         public sequence   : Tone.Sequence;
-        public instrument : Tone.Instrument;
+        public instrument : Tone.Instrument | Tone.MultiPlayer;
         public fx         : Tone.Effect[] | any;
 
-        constructor(seq: Tone.Sequence, instr: Tone.Instrument, effects?: Tone.Effect[]) {
+        constructor(seq: Tone.Sequence, instr: Tone.Instrument | Tone.MultiPlayer, effects?: Tone.Effect[]) {
             this.sequence   = seq;
             this.instrument = instr;
             this.fx         = [];

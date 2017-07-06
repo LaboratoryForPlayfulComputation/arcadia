@@ -1236,7 +1236,7 @@ declare module Tone {
     }
 
     var MultiPlayer: {
-        new(buffers: Tone.Buffers, callback: (player: Tone.MultiPlayer) => any) : Tone.MultiPlayer;
+        new(buffers: Tone.Buffers | string[] | pxsim.Map<string>, callback: (player: Tone.MultiPlayer) => any) : Tone.MultiPlayer;
     }
 
     interface MultiPlayer extends Tone {
@@ -1251,7 +1251,7 @@ declare module Tone {
     }
 
     var Sequence: {
-        new(callback: (time: Tone.Time, note: string | string[]) => any, events: string[] | string[][], subdivision: string) : Tone.Sequence;
+        new(callback: (time: Tone.Time, note: string | number) => any, events: string[] | string[][] | number[], subdivision: string) : Tone.Sequence;
     }
 
     interface Sequence extends Tone.Part {

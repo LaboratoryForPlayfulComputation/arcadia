@@ -43,7 +43,7 @@ namespace pxsim {
         public polysynth        : Tone.PolySynth;
         public kickdrum         : Tone.MembraneSynth;
         public phrases          : pxsim.Map<pxsim.music.Phrase>;
-        public drumPlayer       : Tone.MultiPlayer;
+        public drumMachine      : Tone.MultiPlayer;
         
         constructor() {
             super();
@@ -53,32 +53,36 @@ namespace pxsim {
             return three.loadFontAsync()
                 .then(font => {
                     this.font = font;
-                    this.bus  = new pxsim.EventBus(runtime);
-                    /* AR */
-                    this.markers          = {};
-                    this.baseURL          = '/sim/AR.js/three.js/';
-                    this.renderer         = getWebGlContext();
-                    this.camera           = three.createCamera();
-                    this.scene            = three.createScene();
-                    this.arToolkitSource  = threex.createArToolkitSource();
-                    this.arToolkitContext = threex.createArToolkitContext();
-                    this.scene.add(this.camera);      
-                    this.scene.add(three.createDirectionalLight());
-                    this.scene.add(three.createAmbientLight());      
-                    threex.initArToolkitCallbacks();
-                    this.initRenderFunctions();
-                    /* music */
-                    this.phrases     = {};
-                    this.instruments = [];
-                    this.fx          = [];            
-                    this.monosynth   = tone.createMonoSynth().toMaster();  // for play tone blocks
-                    this.polysynth   = tone.createPolySynth(5).toMaster(); // for play chord blocks
-                    this.kickdrum    = tone.createKickDrum().toMaster();   // for "one-off" drum sample triggers
-                    tone.bpm(120);
-                    /* start rendering */                    
-                    this.runRenderingLoop();   
-                    tone.startTransport();                         
-                    return Promise.resolve();
+                    return tone.loadDrumSamplesAsync()
+                        .then(drumMachine => {
+                            this.drumMachine = drumMachine;
+                            this.bus  = new pxsim.EventBus(runtime);
+                            /* AR */
+                            this.markers          = {};
+                            this.baseURL          = '/sim/AR.js/three.js/';
+                            this.renderer         = getWebGlContext();
+                            this.camera           = three.createCamera();
+                            this.scene            = three.createScene();
+                            this.arToolkitSource  = threex.createArToolkitSource();
+                            this.arToolkitContext = threex.createArToolkitContext();
+                            this.scene.add(this.camera);      
+                            this.scene.add(three.createDirectionalLight());
+                            this.scene.add(three.createAmbientLight());      
+                            threex.initArToolkitCallbacks();
+                            this.initRenderFunctions();
+                            /* music */
+                            this.phrases     = {};
+                            this.instruments = [];
+                            this.fx          = [];            
+                            this.monosynth   = tone.createMonoSynth().toMaster();  // for play tone blocks
+                            this.polysynth   = tone.createPolySynth(5).toMaster(); // for play chord blocks
+                            this.kickdrum    = tone.createKickDrum().toMaster();   // for "one-off" drum sample triggers
+                            tone.bpm(120);
+                            /* start rendering */                    
+                            this.runRenderingLoop();   
+                            tone.startTransport();       
+                            return Promise.resolve();                            
+                        });
                 });
         }       
 
