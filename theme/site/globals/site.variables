@@ -15,7 +15,7 @@
       Page
 ---------------*/
 
-@pageBackground      : #F9F9F9;
+@pageBackground      : #777777;
 @lineHeight          : 1.33;
 @textColor           : #212121;
 
@@ -61,8 +61,9 @@
 
 /*---   Neutrals  ---*/
 @fullBlack        : #000000;
-@darkGrey         : #AAAAAA;
-@lightGrey        : #DCDDDE;
+@darkGrey         : #3d3d3d;
+@darkerGrey       : #282828;
+@lightGrey        : #4f4f4f;
 @offWhite         : #FAFAFA;
 @darkWhite        : #F0F0F0;
 @white            : #FFFFFF;
@@ -129,7 +130,7 @@
    Layout
 --------------------*/
 
-@sideBarWidth: 20rem;
+@sideBarWidth: 15rem;
 @simulatorWidth: 30rem;
 @simulatorWidthSmall: 20rem;
 
@@ -137,8 +138,8 @@
    Background
 --------------------*/
 
-@simulatorBackground: #161416;
-@blocklySvgColor: #fafafa;
+@simulatorBackground: @darkerGrey;
+@blocklySvgColor: @lightGrey;
 
 /*-------------------
    Side Docs
@@ -151,5 +152,5 @@
    Editor
 --------------------*/
 
-@blocklyToolboxColor: white;
+@blocklyToolboxColor: @darkGrey;
 @trashIconColor: @primaryColor;

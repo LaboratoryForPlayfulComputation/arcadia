@@ -4,6 +4,7 @@ namespace pxsim.decorations {
      * Sets the text  that displays when the marker is detected
      */
     //% blockId=ar_set_text block="%marker=marker_block|set text %text" blockGap=8
+    //% blockNamespace=markers advanced=true
     export function setText(marker: number, text: string) {
         let m = board().marker(marker);
         let billboardMesh = three.createBillboard(marker, 0x000000);
@@ -25,6 +26,7 @@ namespace pxsim.decorations {
      * Sets the number that displays when the marker is detected
      */
     //% blockId=ar_set_number block="%marker=marker_block|set number %number" blockGap=8
+    //% blockNamespace=markers advanced=true
     export function setNumber(marker: number, number: number) {
         let m = board().marker(marker);   
         let billboardMesh = three.createBillboard(marker, m.color());
@@ -48,6 +50,7 @@ namespace pxsim.decorations {
     //% shape.fieldEditor="gridpicker"
     //% shape.fieldOptions.width="200" shape.fieldOptions.columns="2"
     //% shape.fieldOptions.itemColour="black" shape.fieldOptions.tooltips="true"
+    //% blockNamespace=markers advanced=true
     export function setShape(marker: number, shape: Shape) {
         let m = board().marker(marker);
         let geometry    = three.createGeometry(shape);

@@ -32,51 +32,51 @@ namespace pxt.editor {
     initGrid() {
       const BOARD_SVG = `
 <svg xmlns="http://www.w3.org/2000/svg" id="field-neopixels" viewBox="0 0 180.09375 179.22874">
-  <text x="-50" y="15">Kick</text>
-  <rect id="track0beat0" width="20" height="20" fill="#c8c8c8"/>
-  <rect id="track0beat1" width="20" height="20" x="25" fill="#c8c8c8"/>
-  <rect id="track0beat2" width="20" height="20" x="50" fill="#c8c8c8"/>
-  <rect id="track0beat3" width="20" height="20" x="75" fill="#c8c8c8"/>
-  <rect id="track0beat4" width="20" height="20" x="100" fill="#c8c8c8"/>
-  <rect id="track0beat5" width="20" height="20" x="125" fill="#c8c8c8"/>
-  <rect id="track0beat6" width="20" height="20" x="150" fill="#c8c8c8"/>
-  <rect id="track0beat7" width="20" height="20" x="175" fill="#c8c8c8"/>
+  <text x="-50" y="15" fill="white">Kick</text>
+  <rect id="track0beat0" width="20" height="20" fill="#000000"/>
+  <rect id="track0beat1" width="20" height="20" x="25" fill="#000000"/>
+  <rect id="track0beat2" width="20" height="20" x="50" fill="#000000"/>
+  <rect id="track0beat3" width="20" height="20" x="75" fill="#000000"/>
+  <rect id="track0beat4" width="20" height="20" x="100" fill="#000000"/>
+  <rect id="track0beat5" width="20" height="20" x="125" fill="#000000"/>
+  <rect id="track0beat6" width="20" height="20" x="150" fill="#000000"/>
+  <rect id="track0beat7" width="20" height="20" x="175" fill="#000000"/>
   <text x="-50" y="40">Snare</text>
-  <rect id="track1beat0" width="20" height="20" y="25" fill="#c8c8c8"/>
-  <rect id="track1beat1" width="20" height="20" x="25" y="25" fill="#c8c8c8"/>
-  <rect id="track1beat2" width="20" height="20" x="50" y="25" fill="#c8c8c8"/>
-  <rect id="track1beat3" width="20" height="20" x="75" y="25" fill="#c8c8c8"/>
-  <rect id="track1beat4" width="20" height="20" x="100" y="25" fill="#c8c8c8"/>
-  <rect id="track1beat5" width="20" height="20" x="125" y="25" fill="#c8c8c8"/>
-  <rect id="track1beat6" width="20" height="20" x="150" y="25" fill="#c8c8c8"/>
-  <rect id="track1beat7" width="20" height="20" x="175" y="25" fill="#c8c8c8"/>
-  <text x="-50" y="65">HiHat</text>
-  <rect id="track2beat0" width="20" height="20" y="50" fill="#c8c8c8"/>
-  <rect id="track2beat1" width="20" height="20" y="50" x="25" fill="#c8c8c8"/>
-  <rect id="track2beat2" width="20" height="20" y="50" x="50" fill="#c8c8c8"/>
-  <rect id="track2beat3" width="20" height="20" y="50" x="75" fill="#c8c8c8"/>
-  <rect id="track2beat4" width="20" height="20" y="50" x="100" fill="#c8c8c8"/>
-  <rect id="track2beat5" width="20" height="20" y="50" x="125" fill="#c8c8c8"/>
-  <rect id="track2beat6" width="20" height="20" y="50" x="150" fill="#c8c8c8"/>
-  <rect id="track2beat7" width="20" height="20" y="50" x="175" fill="#c8c8c8"/>
-  <text x="-50" y="90">Click</text>
-  <rect id="track3beat0" width="20" height="20" y="75" fill="#c8c8c8"/>
-  <rect id="track3beat1" width="20" height="20" x="25" y="75" fill="#c8c8c8"/>
-  <rect id="track3beat2" width="20" height="20" x="50" y="75" fill="#c8c8c8"/>
-  <rect id="track3beat3" width="20" height="20" x="75" y="75" fill="#c8c8c8"/>
-  <rect id="track3beat4" width="20" height="20" x="100" y="75" fill="#c8c8c8"/>
-  <rect id="track3beat5" width="20" height="20" x="125" y="75" fill="#c8c8c8"/>
-  <rect id="track3beat6" width="20" height="20" x="150" y="75" fill="#c8c8c8"/>
-  <rect id="track3beat7" width="20" height="20" x="175" y="75" fill="#c8c8c8"/>
-  <text x="-50" y="115">Splat</text>
-  <rect id="track4beat0" width="20" height="20" y="100" fill="#c8c8c8"/>
-  <rect id="track4beat1" width="20" height="20" x="25" y="100" fill="#c8c8c8"/>
-  <rect id="track4beat2" width="20" height="20" x="50" y="100" fill="#c8c8c8"/>
-  <rect id="track4beat3" width="20" height="20" x="75" y="100" fill="#c8c8c8"/>
-  <rect id="track4beat4" width="20" height="20" x="100" y="100" fill="#c8c8c8"/>
-  <rect id="track4beat5" width="20" height="20" x="125" y="100" fill="#c8c8c8"/>
-  <rect id="track4beat6" width="20" height="20" x="150" y="100" fill="#c8c8c8"/>
-  <rect id="track4beat7" width="20" height="20" x="175" y="100" fill="#c8c8c8"/>        
+  <rect id="track1beat0" width="20" height="20" y="25" fill="#000000"/>
+  <rect id="track1beat1" width="20" height="20" x="25" y="25" fill="#000000"/>
+  <rect id="track1beat2" width="20" height="20" x="50" y="25" fill="#000000"/>
+  <rect id="track1beat3" width="20" height="20" x="75" y="25" fill="#000000"/>
+  <rect id="track1beat4" width="20" height="20" x="100" y="25" fill="#000000"/>
+  <rect id="track1beat5" width="20" height="20" x="125" y="25" fill="#000000"/>
+  <rect id="track1beat6" width="20" height="20" x="150" y="25" fill="#000000"/>
+  <rect id="track1beat7" width="20" height="20" x="175" y="25" fill="#000000"/>
+  <text x="-50" y="65" fill="white">HiHat</text>
+  <rect id="track2beat0" width="20" height="20" y="50" fill="#000000"/>
+  <rect id="track2beat1" width="20" height="20" y="50" x="25" fill="#000000"/>
+  <rect id="track2beat2" width="20" height="20" y="50" x="50" fill="#000000"/>
+  <rect id="track2beat3" width="20" height="20" y="50" x="75" fill="#000000"/>
+  <rect id="track2beat4" width="20" height="20" y="50" x="100" fill="#000000"/>
+  <rect id="track2beat5" width="20" height="20" y="50" x="125" fill="#000000"/>
+  <rect id="track2beat6" width="20" height="20" y="50" x="150" fill="#000000"/>
+  <rect id="track2beat7" width="20" height="20" y="50" x="175" fill="#000000"/>
+  <text x="-50" y="90" fill="white">Click</text>
+  <rect id="track3beat0" width="20" height="20" y="75" fill="#000000"/>
+  <rect id="track3beat1" width="20" height="20" x="25" y="75" fill="#000000"/>
+  <rect id="track3beat2" width="20" height="20" x="50" y="75" fill="#000000"/>
+  <rect id="track3beat3" width="20" height="20" x="75" y="75" fill="#000000"/>
+  <rect id="track3beat4" width="20" height="20" x="100" y="75" fill="#000000"/>
+  <rect id="track3beat5" width="20" height="20" x="125" y="75" fill="#000000"/>
+  <rect id="track3beat6" width="20" height="20" x="150" y="75" fill="#000000"/>
+  <rect id="track3beat7" width="20" height="20" x="175" y="75" fill="#000000"/>
+  <text x="-50" y="115" fill="white">Splat</text>
+  <rect id="track4beat0" width="20" height="20" y="100" fill="#000000"/>
+  <rect id="track4beat1" width="20" height="20" x="25" y="100" fill="#000000"/>
+  <rect id="track4beat2" width="20" height="20" x="50" y="100" fill="#000000"/>
+  <rect id="track4beat3" width="20" height="20" x="75" y="100" fill="#000000"/>
+  <rect id="track4beat4" width="20" height="20" x="100" y="100" fill="#000000"/>
+  <rect id="track4beat5" width="20" height="20" x="125" y="100" fill="#000000"/>
+  <rect id="track4beat6" width="20" height="20" x="150" y="100" fill="#000000"/>
+  <rect id="track4beat7" width="20" height="20" x="175" y="100" fill="#000000"/>        
 </svg>
 `;
 
@@ -125,7 +125,7 @@ namespace pxt.editor {
         let trackbeats = this.allBeats_[track];
         for (let b = 0; b < trackbeats.length; b++){
             const beatbox = trackbeats[b];
-            pxsim.svg.fill(beatbox, "grey");
+            pxsim.svg.fill(beatbox, "black");
         }
       }
       this.size_.height = Number(DrumSequencer.imageHeight);
@@ -142,7 +142,7 @@ namespace pxt.editor {
       let isActive = beatBox.getAttribute("active");
       if (isActive == "true") {
           beatBox.setAttribute("active", "false");
-          pxsim.svg.fill(beatBox, 'gray');
+          pxsim.svg.fill(beatBox, 'black');
       } else {
           beatBox.setAttribute("active", "true");
           pxsim.svg.fill(beatBox, '#00ffff');

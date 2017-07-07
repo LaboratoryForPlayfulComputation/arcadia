@@ -53,6 +53,16 @@
         "simAnimationEnter": "rotate in",
         "simAnimationExit": "rotate out",
         "extendEditor": true,
-        "disableBlockIcons": true
+        "disableBlockIcons": true,
+        "blockColors": {
+            "loops": "#1cdb7e",
+            "logic": "#4cbfe6",
+            "math": "#9966ff",
+            "variables": "#FF6680",
+            "text": "#ffab19",
+            "advanced": "#00272B",
+            "functions": "#005a9e",
+            "arrays": "#8A1C7C"
+        }
     }
 }

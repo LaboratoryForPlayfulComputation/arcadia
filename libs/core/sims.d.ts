@@ -59,6 +59,7 @@ declare namespace colors {
      * Sets the color that displays when the marker is detected
      */
     //% blockId=ar_set_color block="%marker=marker_block|set color %color" blockGap=8
+    //% blockNamespace=markers advanced=true
     //% shim=colors::setColor
     function setColor(marker: number, color: number): void;
 
@@ -66,6 +67,7 @@ declare namespace colors {
      * Sets the text color that displays when the marker is detected
      */
     //% blockId=ar_set_text_color block="%marker=marker_block|set text color %color" blockGap=8
+    //% blockNamespace=markers advanced=true
     //% shim=colors::setTextColor
     function setTextColor(marker: number, color: number): void;
 
@@ -75,6 +77,7 @@ declare namespace decorations {
      * Sets the text  that displays when the marker is detected
      */
     //% blockId=ar_set_text block="%marker=marker_block|set text %text" blockGap=8
+    //% blockNamespace=markers advanced=true
     //% shim=decorations::setText
     function setText(marker: number, text: string): void;
 
@@ -82,6 +85,7 @@ declare namespace decorations {
      * Sets the number that displays when the marker is detected
      */
     //% blockId=ar_set_number block="%marker=marker_block|set number %number" blockGap=8
+    //% blockNamespace=markers advanced=true
     //% shim=decorations::setNumber
     function setNumber(marker: number, number: number): void;
 
@@ -92,6 +96,7 @@ declare namespace decorations {
     //% shape.fieldEditor="gridpicker"
     //% shape.fieldOptions.width="200" shape.fieldOptions.columns="2"
     //% shape.fieldOptions.itemColour="black" shape.fieldOptions.tooltips="true"
+    //% blockNamespace=markers advanced=true
     //% shim=decorations::setShape
     function setShape(marker: number, shape: Shape): void;
 

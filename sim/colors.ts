@@ -44,6 +44,7 @@ namespace pxsim.colors {
      * Sets the color that displays when the marker is detected
      */
     //% blockId=ar_set_color block="%marker=marker_block|set color %color" blockGap=8
+    //% blockNamespace=markers advanced=true
     export function setColor(marker: number, color: number) {
         let m = board().markers[marker.toString()];
         m.setColor(color);
@@ -59,6 +60,7 @@ namespace pxsim.colors {
      * Sets the text color that displays when the marker is detected
      */
     //% blockId=ar_set_text_color block="%marker=marker_block|set text color %color" blockGap=8
+    //% blockNamespace=markers advanced=true
     export function setTextColor(marker: number, color: number) {
         let m = board().marker(marker);
         m.setFontColor(color);        
