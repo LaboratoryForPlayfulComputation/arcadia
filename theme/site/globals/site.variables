@@ -6,10 +6,13 @@
        Fonts
 --------------------*/
 
+@emSize            : 14px;
+@fontSize          : 13px;
 @headerFont        : "Roboto Mono", serif;
 @pageFont          : "Roboto Mono", serif;
 @googleFontName    : 'Roboto Mono';
 @importGoogleFonts : true;
+@fontName          : 'Source Code Pro';
 
 /*--------------
       Page
