@@ -42,7 +42,7 @@ namespace pxsim {
         public monosynth        : Tone.MonoSynth;
         public polysynth        : Tone.PolySynth;
         public drumPlayers      : pxsim.Map<Tone.Player>;
-        public phrases          : pxsim.Map<pxsim.music.Phrase>;
+        public phrases          : pxsim.Map<pxsim.phrases.Phrase>;
         public drumMachine      : Tone.MultiPlayer;
         public drumSamples      : Tone.Buffers;
         public oscillators      : pxsim.Map<Tone.Oscillator>;
@@ -163,7 +163,7 @@ namespace pxsim {
          * Gets a phrase
          * @param name 
          */
-        phrase(name: string): pxsim.music.Phrase {
+        phrase(name: string): pxsim.phrases.Phrase {
             return this.phrases[name];
         } 
 

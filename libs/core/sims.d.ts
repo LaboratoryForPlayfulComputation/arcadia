@@ -136,6 +136,58 @@ declare namespace events {
     function onMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: () => void): void;
 
 }
+declare namespace fx {
+    /**
+     * Add an effect to a sequence.
+     * @param name name of the phrase
+     * @param effect which drum sound to use
+     */
+    //% blockId=music_add_effect_seq block="add %effect|to %name" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% effect.fieldEditor="gridpicker"
+    //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
+    //% effect.fieldOptions.tooltips="true"
+    //% shim=fx::addEffectSeq
+    function addEffectSeq(effect: Effect, name: string): void;
+
+    /**
+     * Remove an effect from a sequence.
+     * @param name name of the phrase
+     * @param effect which drum sound to use
+     */
+    //% blockId=music_rem_effect_seq block="remove %effect|from %name" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% effect.fieldEditor="gridpicker"
+    //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
+    //% effect.fieldOptions.tooltips="true"
+    //% shim=fx::removeEffectSeq
+    function removeEffectSeq(effect: Effect, name: string): void;
+
+    /**
+     * Add an effect to every active instrument.
+     * @param effect which effect to use
+     */
+    //% blockId=music_add_effect_global block="add global effect %effect" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% effect.fieldEditor="gridpicker"
+    //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
+    //% effect.fieldOptions.tooltips="true"
+    //% shim=fx::addGlobalEffect
+    function addGlobalEffect(effect: Effect): void;
+
+    /**
+     * Remove an effect to every active instrument.
+     * @param effect which effect to use
+     */
+    //% blockId=music_rem_effect_global block="remove global effect %effect" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% effect.fieldEditor="gridpicker"
+    //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
+    //% effect.fieldOptions.tooltips="true"
+    //% shim=fx::removeGlobalEffect
+    function removeGlobalEffect(effect: Effect): void;
+
+}
 declare namespace markers {
     //% blockId=marker_block block="%marker"
     //% marker.fieldEditor="gridpicker"
@@ -186,9 +238,10 @@ declare namespace music {
      */
     //% blockId=music_rest block="rest for %duration=device_beat" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-    //% shim=music::rest
-    function rest(duration: string): void;
-
+    /*
+    export function rest(duration: string) {
+    }
+     */
     /**
      * Play a chord.
      * @param notes pitches of the tones to play in Hertz (Hz)
@@ -196,9 +249,11 @@ declare namespace music {
      */
     //% blockId=music_play_chord block="play chord %notes| for %duration=device_beat" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-    //% shim=music::playChord
-    function playChord(notes: number[], duration: string): void;
-
+    /*
+    export function playChord(notes: number[], duration: string) {
+    //board().polysynth.triggerAttackRelease(notes, duration);
+    }
+     */
     /**
      * Play a drum beat.
      * @param drum which drum sound to use
@@ -212,64 +267,18 @@ declare namespace music {
     function drumBeat(drum: Drum): void;
 
     /**
-     * Add an effect to a sequence.
-     * @param name name of the phrase
-     * @param effect which drum sound to use
-     */
-    //% blockId=music_add_effect_seq block="add %effect|to %name" blockGap=8
-    //% blockNamespace=music inBasicCategory=true
-    //% effect.fieldEditor="gridpicker"
-    //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
-    //% effect.fieldOptions.tooltips="true"
-    //% shim=music::addEffectSeq
-    function addEffectSeq(effect: Effect, name: string): void;
-
-    /**
-     * Remove an effect from a sequence.
-     * @param name name of the phrase
-     * @param effect which drum sound to use
-     */
-    //% blockId=music_rem_effect_seq block="remove %effect|from %name" blockGap=8
-    //% blockNamespace=music inBasicCategory=true
-    //% effect.fieldEditor="gridpicker"
-    //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
-    //% effect.fieldOptions.tooltips="true"
-    //% shim=music::removeEffectSeq
-    function removeEffectSeq(effect: Effect, name: string): void;
-
-    /**
-     * Add an effect to every active instrument.
-     * @param effect which effect to use
-     */
-    //% blockId=music_add_effect_global block="add global effect %effect" blockGap=8
-    //% blockNamespace=music inBasicCategory=true
-    //% effect.fieldEditor="gridpicker"
-    //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
-    //% effect.fieldOptions.tooltips="true"
-    //% shim=music::addGlobalEffect
-    function addGlobalEffect(effect: Effect): void;
-
-    /**
-     * Remove an effect to every active instrument.
-     * @param effect which effect to use
-     */
-    //% blockId=music_rem_effect_global block="remove global effect %effect" blockGap=8
-    //% blockNamespace=music inBasicCategory=true
-    //% effect.fieldEditor="gridpicker"
-    //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
-    //% effect.fieldOptions.tooltips="true"
-    //% shim=music::removeGlobalEffect
-    function removeGlobalEffect(effect: Effect): void;
-
-    /**
      * Shift pitch by a certain amount of semitones. For reference, an octave is 12 semitones.
      * @param pitch amount in semitones to shift the pitch by
      */
+    /*
     //% blockId=music_bend block="bend by %pitch| semitones" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-    //% shim=music::bend
-    function bend(pitch: number): void;
-
+    export function bend(pitch: number) {
+    let shift = new Tone.PitchShift(pitch);
+    for (let i = 0; i < board().instruments.length; i++)
+    board().instruments[i].connect(shift);       
+    }
+     */
     /**
      * Return the duration of a beat in milliseconds (the beat fraction).
      * @param fraction the fraction of the current whole note, eg: BeatFraction.Half
@@ -292,76 +301,6 @@ declare namespace music {
     //% blockNamespace=music inBasicCategory=true
     //% shim=music::noteFrequency
     function noteFrequency(name: Note): number;
-
-    /**
-     * Plays a phrase once
-     * @param name 
-     */
-    //% blockId=music_play_phrase block="play phrase %name" blockGap=8
-    //% shim=music::playPhrase
-    function playPhrase(name: string): void;
-
-    /**
-     * Loops a musical phrase
-     * @param name 
-     */
-    //% blockId=music_loop_phrase block="loop phrase %name" blockGap=8
-    //% shim=music::loopPhrase
-    function loopPhrase(name: string): void;
-
-    /**
-     * Stop a musical phrase
-     * @param name 
-     */
-    //% blockId=music_stop_phrase block="stop phrase %name" blockGap=8
-    //% shim=music::stopPhrase
-    function stopPhrase(name: string): void;
-
-    /**
-     * Create a drum pattern
-     * @param name
-     * @param beat a string describing the beat
-     */
-    //% blockId="music_drumbeat" block="create beat %name|%beat"
-    //% weight=100
-    //% beat.fieldEditor="drums"
-    //% beat.fieldOptions.onParentBlock=true
-    //% beat.fieldOptions.decompileLiterals=true    
-    //% blockExternalInputs="true" blockGap=8
-    //% blockNamespace=music inBasicCategory=true
-    //% shim=music::drumPhrase
-    function drumPhrase(name: string, beatString: string): void;
-
-    /**
-     * Create a melody pattern
-     * @param name
-     * @param beat a string describing the beat
-     */
-    //% blockId="music_phrase" block="create phrase %name|octave %octave|%melody"
-    //% weight=100
-    //% octave.fieldEditor="gridpicker"
-    //% octave.fieldOptions.width="200" octave.fieldOptions.columns="1"
-    //% octave.fieldOptions.tooltips="true"      
-    //% melody.fieldEditor="melody"
-    //% melody.fieldOptions.onParentBlock=true
-    //% melody.fieldOptions.decompileLiterals=true    
-    //% blockExternalInputs="true" blockGap=8
-    //% blockNamespace=music inBasicCategory=true
-    //% shim=music::notesPhrase
-    function notesPhrase(name: string, octave: Octave, melody: string): void;
-
-    /**
-     * Play an oscillator type
-     * @param wave type of sound wave
-     */
-    //% blockId="music_play_osc" block="start %wave|wave"
-    //% weight=100
-    //% wave.fieldEditor="gridpicker"
-    //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
-    //% wave.fieldOptions.tooltips="true"      
-    //% blockNamespace=music inBasicCategory=true
-    //% shim=music::playOsc
-    function playOsc(wave: Wave): void;
 
     /**
      * Change freq of an oscillator
@@ -390,6 +329,19 @@ declare namespace music {
     function stopOsc(wave: Wave): void;
 
     /**
+     * Play an oscillator type
+     * @param wave type of sound wave
+     */
+    //% blockId="music_play_osc" block="start %wave|wave"
+    //% weight=100
+    //% wave.fieldEditor="gridpicker"
+    //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
+    //% wave.fieldOptions.tooltips="true"      
+    //% blockNamespace=music inBasicCategory=true
+    //% shim=music::playOsc
+    function playOsc(wave: Wave): void;
+
+    /**
      * Set tempo
      * @param bpm
      */
@@ -399,6 +351,68 @@ declare namespace music {
     //% blockNamespace=music inBasicCategory=true
     //% shim=music::setTempo
     function setTempo(bpm: number): void;
+
+}
+declare namespace phrases {
+    /**
+     * Plays a phrase once
+     * @param name 
+     */
+    //% blockId=music_play_phrase block="play phrase %name" blockGap=8
+    //% blockNamespace=music advanced=true
+    //% shim=phrases::playPhrase
+    function playPhrase(name: string): void;
+
+    /**
+     * Loops a musical phrase
+     * @param name 
+     */
+    //% blockId=music_loop_phrase block="loop phrase %name" blockGap=8
+    //% blockNamespace=music advanced=true
+    //% shim=phrases::loopPhrase
+    function loopPhrase(name: string): void;
+
+    /**
+     * Stop a musical phrase
+     * @param name 
+     */
+    //% blockId=music_stop_phrase block="stop phrase %name" blockGap=8
+    //% blockNamespace=music advanced=true
+    //% shim=phrases::stopPhrase
+    function stopPhrase(name: string): void;
+
+    /**
+     * Create a drum pattern
+     * @param name
+     * @param beat a string describing the beat
+     */
+    //% blockId="music_drumbeat" block="create beat %name|%beat"
+    //% weight=100
+    //% beat.fieldEditor="drums"
+    //% beat.fieldOptions.onParentBlock=true
+    //% beat.fieldOptions.decompileLiterals=true    
+    //% blockExternalInputs="true" blockGap=8
+    //% blockNamespace=music advanced=true
+    //% shim=phrases::drumPhrase
+    function drumPhrase(name: string, beatString: string): void;
+
+    /**
+     * Create a melody pattern
+     * @param name
+     * @param beat a string describing the beat
+     */
+    //% blockId="music_phrase" block="create phrase %name|octave %octave|%melody"
+    //% weight=100
+    //% octave.fieldEditor="gridpicker"
+    //% octave.fieldOptions.width="200" octave.fieldOptions.columns="1"
+    //% octave.fieldOptions.tooltips="true"      
+    //% melody.fieldEditor="melody"
+    //% melody.fieldOptions.onParentBlock=true
+    //% melody.fieldOptions.decompileLiterals=true    
+    //% blockExternalInputs="true" blockGap=8
+    //% blockNamespace=music inBasicCategory=true advanced=true
+    //% shim=phrases::notesPhrase
+    function notesPhrase(name: string, octave: Octave, melody: string): void;
 
 }
 
