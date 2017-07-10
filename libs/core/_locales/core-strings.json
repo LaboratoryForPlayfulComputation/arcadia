@@ -130,7 +130,7 @@
   "music.notesPhrase|block": "create phrase %name|octave %octave|%melody",
   "music.oscFreq|block": "set %wave|wave to %note=device_note",
   "music.playChord|block": "play chord %notes| for %duration=device_beat",
-  "music.playOsc|block": "play %wave|wave",
+  "music.playOsc|block": "start %wave|wave",
   "music.playPhrase|block": "play phrase %name",
   "music.playTone|block": "play tone %note=device_note| for %duration=device_beat",
   "music.removeEffectSeq|block": "remove %effect|from %name",

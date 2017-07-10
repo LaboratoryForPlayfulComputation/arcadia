@@ -97,8 +97,8 @@
   Highlighted Text
 --------------------*/
 
-@highlightBackground : #009FDA;
-@highlightColor      : @white;
+@highlightBackground : @white;
+@highlightColor      : @black;
 
 /*-------------------
        Accents

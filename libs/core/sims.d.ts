@@ -354,7 +354,7 @@ declare namespace music {
      * Play an oscillator type
      * @param wave type of sound wave
      */
-    //% blockId="music_play_osc" block="play %wave|wave"
+    //% blockId="music_play_osc" block="start %wave|wave"
     //% weight=100
     //% wave.fieldEditor="gridpicker"
     //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"

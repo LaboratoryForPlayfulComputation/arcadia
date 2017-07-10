@@ -99,10 +99,12 @@ namespace pxsim.music {
         for (var phrase in phrases){
             phrases[phrase].addEffect(effect);
         }
-        /* Iterate over all of the boards instruments and add fx */
+        /* Add fx to all of the boards instruments and oscillators */
         let fx = tone.createEffect(effect);
         for (let i = 0; i < board().instruments.length; i++)
             board().instruments[i].connect(fx);
+        for (var osc in board().oscillators)
+            board().oscillators[osc].connect(fx);
     }
 
     /**
@@ -134,9 +136,10 @@ namespace pxsim.music {
                 break;
             }
 
-        for (let i = 0; i < board().instruments.length; i++){
+        for (let i = 0; i < board().instruments.length; i++)
             board().instruments[i].disconnect(board().fx[type]);
-        }
+        for (var osc in board().oscillators)
+            board().oscillators[osc].disconnect(board().fx[type]);
 
         let phrases = board().phrases;
         for (var phrase in phrases){
@@ -266,29 +269,35 @@ namespace pxsim.music {
      * Play an oscillator type
      * @param wave type of sound wave
      */
-    //% blockId="music_play_osc" block="play %wave|wave"
+    //% blockId="music_play_osc" block="start %wave|wave"
     //% weight=100
     //% wave.fieldEditor="gridpicker"
     //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
     //% wave.fieldOptions.tooltips="true"      
     //% blockNamespace=music inBasicCategory=true
     export function playOsc(wave: Wave){
-        var type : string;        
+        var type : string;
+        var vol  : number;       
         switch(wave){
             case Wave.Sine:
                 type = "sine";
+                vol = -20;
                 break;
             case Wave.Square:
                 type = "square";
+                vol = -30;
                 break;            
             case Wave.Triangle:
                 type = "triangle";
+                vol = -20;
                 break;            
             default:
                 type = "sawtooth";
+                vol = -30;
                 break;            
         }
         let osc = board().oscillators[type];
+        osc.volume.value = vol;
         osc.stop(0);
         osc.start(0);
     }
