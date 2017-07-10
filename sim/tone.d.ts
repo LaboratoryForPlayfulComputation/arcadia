@@ -163,7 +163,21 @@ declare module Tone {
         buffer: AudioBuffer;
         get(): AudioBuffer;
         set(buffer: AudioBuffer | string ): Tone.Buffer;
+        toMaster(): Tone.Buffer;
     }
+
+    var Buffers: {
+        new(urls?: pxsim.Map<string>, callback?:(e: any) => any): Tone.Buffers;
+    };
+
+    interface Buffers {
+        urls: pxsim.Map<string>;
+        volume: number;
+        fadeOut: number;
+        loaded: boolean;
+        get(name: string | number): AudioBuffer;
+        toMaster(): Tone.Buffers;
+    }    
 
     var Chebyshev: {
         new(order: any): Tone.Chebyshev;
@@ -874,6 +888,7 @@ declare module Tone {
         load(url:string | AudioBuffer, callback?:(e: any)=>any):  Tone.Player;
         setLoopPoints(loopStart:Tone.Time, loopEnd:Tone.Time): Tone.Player;
         start(startTime?: Tone.Time, offset?: Tone.Time, duration?: Tone.Time): Tone.Player;
+        toMaster(): Tone.Player;
     }
 
     var PluckSynth : {
@@ -1243,12 +1258,6 @@ declare module Tone {
     interface MultiPlayer extends Tone {
         toMaster(): Tone.MultiPlayer;
         start(bufferName: string): Tone.MultiPlayer;
-    }
-
-    interface Buffers {
-        urls: pxsim.Map<string>;
-        volume: number;
-        fadeOut: number;
     }
 
     var Sequence: {

@@ -46,10 +46,19 @@ namespace pxsim.music {
     export function drumBeat(drum: Drum) {
         switch (drum) {
             case Drum.Kick:
-               board().kickdrum.triggerAttackRelease("C3", "8n");
+               board().drumPlayers["kick"].start(0);
                break;
+            case Drum.Snare:
+               board().drumPlayers["snare"].start(0);
+               break;
+            case Drum.HiHat:
+               board().drumPlayers["hihat"].start(0);
+               break;   
+            case Drum.Click:
+               board().drumPlayers["click"].start(0);
+               break;                           
             default:
-               board().kickdrum.triggerAttackRelease("C3", "8n");
+               board().drumPlayers["splat"].start(0);
                break;            
         }
     }

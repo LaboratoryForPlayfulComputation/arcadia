@@ -35,6 +35,26 @@ namespace pxsim.tone {
     }
 
     /* Not currently used. Event callback never fires, but no 404 errors... */
+    export function loadDrumSamplesAsync(): Promise<Tone.Buffers> {
+        return new Promise<Tone.Buffers>((resolve, reject) => {
+            let drumSamples = new Tone.Buffers({
+                    "kick" : "/audio/percussion/kick.ogg",
+                    "snare": "/audio/percussion/snare.ogg",
+                    "hihat": "/audio/percussion/hh.ogg",
+                    "click": "/audio/percussion/click.mp3",
+                    "splat": "/audio/percussion/splat.mp3"
+                }, () => {
+                resolve(drumSamples);
+            })           
+        });            
+    }  
+
+    export function createDrumMachine(): Tone.MultiPlayer {
+        return new Tone.MultiPlayer(board().drumSamples, ()=>{});
+    }
+
+    /* Not currently used. Event callback never fires, but no 404 errors... */
+    /*
     export function loadDrumSamplesAsync(): Promise<Tone.MultiPlayer> {
         return new Promise<Tone.MultiPlayer>((resolve, reject) => {
             let drumMachine = new Tone.MultiPlayer({
@@ -47,7 +67,7 @@ namespace pxsim.tone {
                 resolve(drumMachine);
             }).toMaster();            
         });            
-    }   
+    }  */ 
 
     export function createMelodySequence(time: Tone.Time, beats: number, pattern: pxsim.Map<string[]>, numTracks: number): pxsim.music.Phrase {
         let division = [] as number[];
