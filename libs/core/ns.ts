@@ -8,21 +8,21 @@ namespace markers {
 /**
  * Music
  */
-//% weight=90 icon="\uf21d" color=#ff3acd
+//% weight=90 icon="\uf001" color=#ff3acd
 namespace music {
 }
 
 /**
  * Colors
  */
-//% weight=90 icon="\uf21d" color=#4c38ff
+//% weight=90 icon="\uf1fc" color=#4c38ff
 namespace colors {
 }
 
 /**
  * Events
  */
-//% weight=90 icon="\uf21d" color=#FF5722
+//% weight=90 icon="\uf110" color=#FF5722
 namespace events {
 }
 
