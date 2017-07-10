@@ -804,6 +804,7 @@ declare module Tone {
         dispose(): Tone.Oscillator;
         syncFrequency(): Tone.Oscillator;
         unsyncFrequency(): Tone.Oscillator;
+        toMaster(): Tone.Oscillator;
     }
 
     var Panner: {

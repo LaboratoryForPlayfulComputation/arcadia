@@ -358,3 +358,14 @@ declare const enum Octave {
     High = 5
 }
 
+declare const enum Wave {
+    //% block='sine'
+    Sine = 1,
+    //% block='square'
+    Square = 2,
+    //% block='triangle'
+    Triangle = 3,
+    //% block='sawtooth'
+    Sawtooth = 4
+}
+

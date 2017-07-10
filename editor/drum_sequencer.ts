@@ -41,7 +41,7 @@ namespace pxt.editor {
   <rect id="track0beat5" width="20" height="20" x="125" fill="#000000"/>
   <rect id="track0beat6" width="20" height="20" x="150" fill="#000000"/>
   <rect id="track0beat7" width="20" height="20" x="175" fill="#000000"/>
-  <text x="-50" y="40">Snare</text>
+  <text x="-50" y="40" fill="white">Snare</text>
   <rect id="track1beat0" width="20" height="20" y="25" fill="#000000"/>
   <rect id="track1beat1" width="20" height="20" x="25" y="25" fill="#000000"/>
   <rect id="track1beat2" width="20" height="20" x="50" y="25" fill="#000000"/>

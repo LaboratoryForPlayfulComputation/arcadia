@@ -27,6 +27,13 @@ namespace pxsim.tone {
         board().instruments = [];
     }
 
+    export function killOscillators(){
+        for (var osc in board().oscillators){
+            board().oscillators[osc].dispose();
+        }
+        board().oscillators = {};
+    }
+
     /* Not currently used. Event callback never fires, but no 404 errors... */
     export function loadDrumSamplesAsync(): Promise<Tone.MultiPlayer> {
         return new Promise<Tone.MultiPlayer>((resolve, reject) => {
@@ -104,6 +111,15 @@ namespace pxsim.tone {
         board().instruments.push(kick);
         return kick;                                    
     }     
+
+    export function createOsc(wave: Wave, freq: number) : Tone.Oscillator {
+        switch(wave){
+            case Wave.Sine: return new Tone.Oscillator(freq, "sine").toMaster();
+            case Wave.Square: return new Tone.Oscillator(freq, "square").toMaster();
+            case Wave.Triangle: return new Tone.Oscillator(freq, "triangle").toMaster();
+            default: return new Tone.Oscillator(freq, "sawtooth").toMaster();
+        }
+    }
 
     export function bpm(val: Tone.BPM){
         Tone.Transport.bpm.value = val;        

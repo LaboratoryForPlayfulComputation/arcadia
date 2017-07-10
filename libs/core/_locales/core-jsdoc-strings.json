@@ -104,9 +104,13 @@
   "music.noteFrequency|param|name": "the note name, eg: Note.C",
   "music.notesPhrase": "Create a melody pattern",
   "music.notesPhrase|param|name": "@param beat a string describing the beat",
+  "music.oscFreq": "Change freq of an oscillator",
+  "music.oscFreq|param|wave": "type of sound wave",
   "music.playChord": "Play a chord.",
   "music.playChord|param|duration": "number of beats to play tone for",
   "music.playChord|param|notes": "pitches of the tones to play in Hertz (Hz)",
+  "music.playOsc": "Play an oscillator type",
+  "music.playOsc|param|wave": "type of sound wave",
   "music.playPhrase": "Plays a phrase once",
   "music.playTone": "Play a tone.",
   "music.playTone|param|duration": "number of beats to play tone for",
@@ -119,5 +123,7 @@
   "music.rest": "Rest.",
   "music.rest|param|duration": "number of beats to rest for",
   "music.setTempo": "Set tempo",
+  "music.stopOsc": "Stop an oscillator type",
+  "music.stopOsc|param|wave": "type of sound wave",
   "music.stopPhrase": "Stop a musical phrase"
 }

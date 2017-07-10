@@ -263,6 +263,97 @@ namespace pxsim.music {
     }
 
     /**
+     * Play an oscillator type
+     * @param wave type of sound wave
+     */
+    //% blockId="music_play_osc" block="play %wave|wave"
+    //% weight=100
+    //% wave.fieldEditor="gridpicker"
+    //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
+    //% wave.fieldOptions.tooltips="true"      
+    //% blockNamespace=music inBasicCategory=true
+    export function playOsc(wave: Wave){
+        var type : string;        
+        switch(wave){
+            case Wave.Sine:
+                type = "sine";
+                break;
+            case Wave.Square:
+                type = "square";
+                break;            
+            case Wave.Triangle:
+                type = "triangle";
+                break;            
+            default:
+                type = "sawtooth";
+                break;            
+        }
+        let osc = board().oscillators[type];
+        osc.stop(0);
+        osc.start(0);
+    }
+
+    /**
+     * Change freq of an oscillator
+     * @param wave type of sound wave
+     */
+    //% blockId="music_osc_freq" block="set %wave|wave to %note=device_note"
+    //% weight=100
+    //% wave.fieldEditor="gridpicker"
+    //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
+    //% wave.fieldOptions.tooltips="true"      
+    //% blockNamespace=music inBasicCategory=true
+    export function oscFreq(wave: Wave, freq: number){
+        var type : string;        
+        switch(wave){
+            case Wave.Sine:
+                type = "sine";
+                break;
+            case Wave.Square:
+                type = "square";
+                break;            
+            case Wave.Triangle:
+                type = "triangle";
+                break;            
+            default:
+                type = "sawtooth";
+                break;            
+        }
+        let osc = board().oscillators[type];
+        osc.frequency.value = freq;
+    }
+
+    /**
+     * Stop an oscillator type
+     * @param wave type of sound wave
+     */
+    //% blockId="music_stop_osc" block="stop %wave|wave"
+    //% weight=100
+    //% wave.fieldEditor="gridpicker"
+    //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
+    //% wave.fieldOptions.tooltips="true"      
+    //% blockNamespace=music inBasicCategory=true
+    export function stopOsc(wave: Wave){
+        var type : string;        
+        switch(wave){
+            case Wave.Sine:
+                type = "sine";
+                break;
+            case Wave.Square:
+                type = "square";
+                break;            
+            case Wave.Triangle:
+                type = "triangle";
+                break;            
+            default:
+                type = "sawtooth";
+                break;            
+        }
+        let osc = board().oscillators[type];
+        osc.stop(0);
+    }
+
+    /**
      * Set tempo
      * @param bpm
      */

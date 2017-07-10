@@ -1,21 +1,21 @@
 /**
  * Augment Reality markers
  */
-//% weight=90 icon="\uf21d" color=#7158a0
+//% weight=90 icon="\uf21d" color=#9239ff
 namespace markers {
 }
 
 /**
  * Music
  */
-//% weight=90 icon="\uf21d" color=#3c3159
+//% weight=90 icon="\uf21d" color=#ff3acd
 namespace music {
 }
 
 /**
  * Colors
  */
-//% weight=90 icon="\uf21d" color=#2ead88
+//% weight=90 icon="\uf21d" color=#4c38ff
 namespace colors {
 }
 

@@ -44,6 +44,7 @@ namespace pxsim {
         public kickdrum         : Tone.MembraneSynth;
         public phrases          : pxsim.Map<pxsim.music.Phrase>;
         public drumMachine      : Tone.MultiPlayer;
+        public oscillators      : pxsim.Map<Tone.Oscillator>;
         
         constructor() {
             super();
@@ -77,6 +78,10 @@ namespace pxsim {
                             this.monosynth   = tone.createMonoSynth().toMaster();  // for play tone blocks
                             this.polysynth   = tone.createPolySynth(5).toMaster(); // for play chord blocks
                             this.kickdrum    = tone.createKickDrum().toMaster();   // for "one-off" drum sample triggers
+                            this.oscillators = {"sine": tone.createOsc(Wave.Sine, 440),
+                                                "square": tone.createOsc(Wave.Square, 440),
+                                                "triangle": tone.createOsc(Wave.Triangle, 440),
+                                                "sawtooth": tone.createOsc(Wave.Sawtooth, 440)};
                             tone.bpm(120);
                             /* start rendering */                    
                             this.runRenderingLoop();   
@@ -132,6 +137,7 @@ namespace pxsim {
             if (this.fx)          tone.killFX();
             if (this.phrases)     tone.killPhrases();
             if (this.instruments) tone.killInstruments();
+            if (this.oscillators) tone.killOscillators();
             this.onRenderFcts = [];
             this.markers = {};
         }

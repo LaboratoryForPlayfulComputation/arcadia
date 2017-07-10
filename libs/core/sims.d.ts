@@ -351,6 +351,45 @@ declare namespace music {
     function notesPhrase(name: string, octave: Octave, melody: string): void;
 
     /**
+     * Play an oscillator type
+     * @param wave type of sound wave
+     */
+    //% blockId="music_play_osc" block="play %wave|wave"
+    //% weight=100
+    //% wave.fieldEditor="gridpicker"
+    //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
+    //% wave.fieldOptions.tooltips="true"      
+    //% blockNamespace=music inBasicCategory=true
+    //% shim=music::playOsc
+    function playOsc(wave: Wave): void;
+
+    /**
+     * Change freq of an oscillator
+     * @param wave type of sound wave
+     */
+    //% blockId="music_osc_freq" block="set %wave|wave to %note=device_note"
+    //% weight=100
+    //% wave.fieldEditor="gridpicker"
+    //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
+    //% wave.fieldOptions.tooltips="true"      
+    //% blockNamespace=music inBasicCategory=true
+    //% shim=music::oscFreq
+    function oscFreq(wave: Wave, freq: number): void;
+
+    /**
+     * Stop an oscillator type
+     * @param wave type of sound wave
+     */
+    //% blockId="music_stop_osc" block="stop %wave|wave"
+    //% weight=100
+    //% wave.fieldEditor="gridpicker"
+    //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
+    //% wave.fieldOptions.tooltips="true"      
+    //% blockNamespace=music inBasicCategory=true
+    //% shim=music::stopOsc
+    function stopOsc(wave: Wave): void;
+
+    /**
      * Set tempo
      * @param bpm
      */

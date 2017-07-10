@@ -5,7 +5,12 @@
     "corepkg": "core",
     "cloud": {
         "workspace": false,
-        "packages": true
+        "packages": true,
+        "sharing": true,
+        "publishing": true,
+        "importing": false,
+        "preferredPackages": [],
+        "githubPackages": true
     },
     "bundleddirs": [
         "libs/core"
@@ -22,7 +27,7 @@
     },
     "simulator": {
         "autoRun": true
-    },
+    },     
     "appTheme": {
         "logoUrl": "https://microsoft.github.io/pxt-sample/",
         "homeUrl": "https://microsoft.github.io/pxt-sample/",
@@ -39,8 +44,9 @@
                 "path": "/docs"
             }
         ],
-        "coloredToolbox": false,
+        "coloredToolbox": true,
         "monacoToolbox": true,
+        "invertedToolbox": true,
         "invertedMenu": true,
         "blocklyOptions": {
             "grid": {
@@ -55,14 +61,14 @@
         "extendEditor": true,
         "disableBlockIcons": true,
         "blockColors": {
-            "loops": "#1cdb7e",
-            "logic": "#4cbfe6",
-            "math": "#9966ff",
-            "variables": "#FF6680",
+            "loops": "#2dc660",
+            "logic": "#30cbd1",
+            "math": "#d933ff",
+            "variables": "#ff356e",
             "text": "#ffab19",
             "advanced": "#00272B",
-            "functions": "#005a9e",
-            "arrays": "#8A1C7C"
-        }
+            "functions": "#3399ff",
+            "arrays": "#b62fd1"
+        }      
     }
 }

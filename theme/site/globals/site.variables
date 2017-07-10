@@ -116,13 +116,13 @@
    Menu
 --------------------*/
 
-@mainMenuInvertedBackground: #7158a0;
-@mainMenuTutorialBackground: @yellow;
+@mainMenuInvertedBackground: @black;
+@mainMenuTutorialBackground: @black;
 
 @mainMenuHeight: 4.5rem;
 @mobileMenuHeight: 4.0rem;
 
-@mainMenuBlocksJsToggleColor: @primaryColor;
+@mainMenuBlocksJsToggleColor: #7a2fd6;
 
 @tutorialSelectedMenuColor: @primaryColor;
 
@@ -139,7 +139,7 @@
 --------------------*/
 
 @simulatorBackground: @darkerGrey;
-@blocklySvgColor: #DFDFDF;
+@blocklySvgColor: #darkerGrey;
 
 /*-------------------
    Side Docs
