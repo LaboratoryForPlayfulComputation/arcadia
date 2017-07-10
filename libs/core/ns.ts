@@ -6,13 +6,6 @@ namespace markers {
 }
 
 /**
- * Decorations
- */
-//% weight=90 icon="\uf21d" color=#31593d
-namespace decorations {
-}
-
-/**
  * Music
  */
 //% weight=90 icon="\uf21d" color=#3c3159

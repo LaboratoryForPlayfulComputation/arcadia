@@ -95,11 +95,13 @@ namespace pxsim.music {
     //% effect.fieldOptions.tooltips="true"  
     export function addGlobalEffect(effect: Effect) {
         let phrases = board().phrases;
+        /* Iterate over phrases and add fx to them */
         for (var phrase in phrases){
             phrases[phrase].addEffect(effect);
         }
+        /* Iterate over all of the boards instruments and add fx */
         let fx = tone.createEffect(effect);
-        for (let i = 0; i < board().instruments.length; i++) // adds fx not only to phrases, but also "play tone" blocks
+        for (let i = 0; i < board().instruments.length; i++)
             board().instruments[i].connect(fx);
     }
 
@@ -388,7 +390,7 @@ namespace pxsim.music {
             this.sequence.loop = true;      
             this.sequence.start(time);
         }
-        
+
         stop(time: Tone.Time){
             this.sequence.stop(time);
         }             

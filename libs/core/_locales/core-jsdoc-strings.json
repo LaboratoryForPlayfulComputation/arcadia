@@ -70,7 +70,6 @@
   "colors.setColor": "Sets the color that displays when the marker is detected",
   "colors.setTextColor": "Sets the text color that displays when the marker is detected",
   "console.log": "Print out message",
-  "decorations": "Decorations",
   "decorations.setNumber": "Sets the number that displays when the marker is detected",
   "decorations.setShape": "Sets the shape that displays when the marker is detected",
   "decorations.setText": "Sets the text  that displays when the marker is detected",

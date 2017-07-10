@@ -39,7 +39,7 @@
                 "path": "/docs"
             }
         ],
-        "coloredToolbox": true,
+        "coloredToolbox": false,
         "monacoToolbox": true,
         "invertedMenu": true,
         "blocklyOptions": {

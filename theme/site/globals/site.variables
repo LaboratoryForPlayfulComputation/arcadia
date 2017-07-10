@@ -17,7 +17,7 @@
 
 @pageBackground      : #777777;
 @lineHeight          : 1.33;
-@textColor           : #212121;
+@textColor           : #FFFFFF;
 
 /*--------------
   Page Heading
@@ -61,9 +61,9 @@
 
 /*---   Neutrals  ---*/
 @fullBlack        : #000000;
-@darkGrey         : #3d3d3d;
-@darkerGrey       : #282828;
-@lightGrey        : #4f4f4f;
+@darkGrey         : #131313;
+@darkerGrey       : #111111;
+@lightGrey        : #333333;
 @offWhite         : #FAFAFA;
 @darkWhite        : #F0F0F0;
 @white            : #FFFFFF;
@@ -130,7 +130,7 @@
    Layout
 --------------------*/
 
-@sideBarWidth: 15rem;
+@sideBarWidth: 8rem;
 @simulatorWidth: 30rem;
 @simulatorWidthSmall: 20rem;
 
@@ -139,7 +139,7 @@
 --------------------*/
 
 @simulatorBackground: @darkerGrey;
-@blocklySvgColor: @lightGrey;
+@blocklySvgColor: #DFDFDF;
 
 /*-------------------
    Side Docs
