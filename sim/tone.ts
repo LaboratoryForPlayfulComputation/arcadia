@@ -34,14 +34,14 @@ namespace pxsim.tone {
         board().oscillators = {};
     }
 
-    export function loadDrumSamplesAsync(): Promise<Tone.Buffers> {
+    export function loadDrumSamplesAsync(url: string): Promise<Tone.Buffers> {
         return new Promise<Tone.Buffers>((resolve, reject) => {
             let drumSamples = new Tone.Buffers({
-                    "kick" : "/audio/percussion/kick.ogg",
-                    "snare": "/audio/percussion/snare.ogg",
-                    "hihat": "/audio/percussion/hh.ogg",
-                    "click": "/audio/percussion/click.mp3",
-                    "splat": "/audio/percussion/splat.mp3"
+                    "kick" : url + "/audio/percussion/kick.ogg",
+                    "snare": url + "/audio/percussion/snare.ogg",
+                    "hihat": url + "/audio/percussion/hh.ogg",
+                    "click": url + "/audio/percussion/click.mp3",
+                    "splat": url + "/audio/percussion/splat.mp3"
                 }, () => {
                 resolve(drumSamples);
             })           

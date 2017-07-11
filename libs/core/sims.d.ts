@@ -58,7 +58,7 @@ declare namespace colors {
     /**
      * Sets the color that displays when the marker is detected
      */
-    //% blockId=ar_set_color block="%marker=marker_block|set color %color" blockGap=8
+    //% blockId=ar_set_color block="%marker=marker_block|set color %color=colors_named" blockGap=8
     //% blockNamespace=markers advanced=true
     //% shim=colors::setColor
     function setColor(marker: number, color: number): void;
@@ -66,7 +66,7 @@ declare namespace colors {
     /**
      * Sets the text color that displays when the marker is detected
      */
-    //% blockId=ar_set_text_color block="%marker=marker_block|set text color %color" blockGap=8
+    //% blockId=ar_set_text_color block="%marker=marker_block|set text color %color=colors_named" blockGap=8
     //% blockNamespace=markers advanced=true
     //% shim=colors::setTextColor
     function setTextColor(marker: number, color: number): void;

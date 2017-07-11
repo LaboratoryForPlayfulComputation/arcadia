@@ -52,15 +52,15 @@ namespace pxsim {
         }
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
-            return three.loadFontAsync()
+            return three.loadFontAsync(msg.cdnUrl)
                 .then(font => {
                     this.font = font;
-                    return tone.loadDrumSamplesAsync()
+                    return tone.loadDrumSamplesAsync(msg.cdnUrl)
                         .then(drumSamples => {
                             this.bus  = new pxsim.EventBus(runtime);
                             /* AR */
                             this.markers          = {};
-                            this.baseURL          = '/sim/AR.js/three.js/';
+                            this.baseURL          = msg.cdnUrl + "AR.js/three.js/";
                             this.renderer         = getWebGlContext();
                             this.camera           = three.createCamera();
                             this.scene            = three.createScene();
