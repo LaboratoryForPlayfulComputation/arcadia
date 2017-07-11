@@ -93,4 +93,7 @@ var sceneEl = document.querySelector('a-scene');
 sceneEl.appendChild(markerEl);
 ```
 
+### Jenkins private build
+
+https://ci2.dot.net/job/Private/job/pxt_project_purple/job/master/
 
