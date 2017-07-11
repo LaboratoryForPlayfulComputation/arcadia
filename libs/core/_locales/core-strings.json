@@ -62,7 +62,6 @@
   "MarkerEvent.Visible|block": "visible",
   "MarkerLoopEvent.WhileHidden|block": "hidden",
   "MarkerLoopEvent.WhileVisible|block": "visible",
-  "Math.randomRange|block": "pick random %min|to %limit",
   "Math|block": "Math",
   "MultiMarkerEvent.Close|block": "close to",
   "MultiMarkerEvent.Far|block": "far from",
