@@ -66,32 +66,7 @@ Once you have fixed your settings, choose a number between 0 and 63 for the barc
 
 Now that you've generated and have a marker, we need to write some code so that we can track it.
 
-First, create a marker element.  
-
-```
-var markerEl = document.createElement('a-marker');
-```
-
-Then, set the marker element's attributes type and value. Type should be barcode, and value will be 20 for this example. If you used a different value in the previous step when you generated your marker, use that value instead.
-```
-markerEl.setAttribute('type', 'barcode');
-markerEl.setAttribute('value', '20');
-```
-
-Next, we'll add some code for a nice purple box that will show up on top of the marker when it's detected.
-
-```
-var boxEl = document.createElement('a-box');
-boxEl.setAttribute('material', 'opacity: 0.75; side: double; color:purple;');
-markerEl.appendChild(boxEl);
-```
-
-Finally, we need to add our marker to the scene.
-
-```
-var sceneEl = document.querySelector('a-scene');
-sceneEl.appendChild(markerEl);
-```
+![alt text](https://github.com/Microsoft/pxt-ar/blob/master/example1.png)
 
 ### Jenkins private build
 
