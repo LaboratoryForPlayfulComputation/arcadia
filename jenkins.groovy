@@ -24,7 +24,6 @@ def projectName = "pxt-ar"
                 credentialsBinding {
                     string("PXT_ACCESS_TOKEN", "pxt_access_token")
                     string("PXT_RELEASE_REPO", "pxt_release_repo_ar")
-                    string("CROWDIN_KEY", "pxt_crowdin_key")
                 }
             }
         }
@@ -32,6 +31,7 @@ def projectName = "pxt-ar"
 
     Utilities.setMachineAffinity(newJob, "Ubuntu", "20161020")
     InternalUtilities.standardJobSetup(newJob, project, isPR, "*/*")
+    InternalUtilities.addPrivatePermissions(newJob, ["Microsoft", "shadowfax6894"])
 
     if (isPR) {
         Utilities.addGithubPRTrigger(newJob, "Default Testing")
