@@ -66,7 +66,9 @@ Once you have fixed your settings, choose a number between 0 and 63 for the barc
 
 Now that you've generated and have a marker, we need to write some code so that we can track it.
 
-![alt text](https://github.com/Microsoft/pxt-ar/blob/master/example1.png)
+![alt text](https://github.com/Microsoft/pxt-ar/blob/master/examples/example1.png)
+
+![alt text](https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/00.png)
 
 ### Jenkins private build
 
