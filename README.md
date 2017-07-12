@@ -68,7 +68,8 @@ Now that you've generated and have a marker, we need to write some code so that 
 
 ![alt text](https://github.com/Microsoft/pxt-ar/blob/master/examples/example1.png)
 
-![alt text](https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/00.png)
+
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/00.png" width="48">
 
 ### Jenkins private build
 
