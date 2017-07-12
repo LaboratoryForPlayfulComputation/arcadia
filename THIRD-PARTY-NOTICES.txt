@@ -23,4 +23,4 @@ ARToolkit
 THREE.js
 AFRAME-typings
 @types/three
-AFRAME UI Widgets
+Tone.js
