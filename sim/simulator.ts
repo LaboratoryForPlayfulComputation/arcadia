@@ -60,7 +60,7 @@ namespace pxsim {
                             this.bus  = new pxsim.EventBus(runtime);
                             /* AR */
                             this.markers          = {};
-                            this.baseURL          = msg.cdnUrl + "AR.js/three.js/";
+                            this.baseURL          = msg.cdnUrl;
                             this.renderer         = getWebGlContext();
                             this.camera           = three.createCamera();
                             this.scene            = three.createScene();

@@ -37,7 +37,7 @@ namespace pxsim.threex {
     export function createArToolkitContext(): THREEx.ArToolkitContext {
         if (arToolkitContext == null){
             arToolkitContext = new THREEx.ArToolkitContext({
-                cameraParametersUrl: board().baseURL + '../data/data/camera_para.dat',
+                cameraParametersUrl: board().baseURL + 'AR.js/data/data/camera_para.dat',
                 detectionMode: 'mono_and_matrix',
                 matrixCodeType: '3x3'
             });
