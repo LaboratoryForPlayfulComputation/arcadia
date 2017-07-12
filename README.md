@@ -47,28 +47,13 @@ pxt update
 More instructions at https://github.com/Microsoft/pxt#running-a-target-from-localhost 
 
 ## Creating & Initializing an AR marker
-In order to have multiple trackable markers in a single scene, we will want to use barcodes. ARToolkit has support for various other marker systems, but 2D barcodes give us a way to uniquely identify different objects. For now, using a 3x3 matrix for the barcodes seems to give us the best resolution for detecting markers while also giving us up to 64 unique barcode patterns. If you would like to change the marker detection mode, simply change the parameters for when we initialize the a-scene in simulator.html.
+In order to have multiple trackable markers in a single scene, we will want to use barcodes. ARToolkit has support for various other marker systems, but 2D barcodes give us a way to uniquely identify different objects. For now, using a 3x3 matrix for the barcodes seems to give us the best resolution for detecting markers while also giving us up to 64 unique barcode patterns. If you would like to change the marker detection mode, simply change the parameters for when we initialize the a-scene in simulator.html. See below for links to downloadable images of barcodes 0-63. You can either print it out or draw it using a and a black sharpie -- if you are drawing make sure your marker has a black border around that is 25% the width of the square, also you'll want a white border around that. We recommend just printing it out.
 
-```
-<a-scene embedded artoolkit='sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;' id='a-scene'>
-    <a-entity camera></a-entity>
-</a-scene>
-```    
-
-The easiest way to generate a marker is to use ARToolKit's 2D barcode marker generator: http://www.artoolworks.com/support/applications/marker/  
-The most important settings to keep the same are border size, border color, barcode dimensions, and error checking/correction type.  
-Border size: 0.25  
-Border color: "Markers have black borders"  
-Barcode dimensions: 3x3  
-Error checking and correction type: None  
-
-Once you have fixed your settings, choose a number between 0 and 63 for the barcode. For this example, let's do 20. When you've generated your picture you should have a black square with a few white squares inside of it. Either print it out or draw it using a ruler and a black sharpie.
-
-Now that you've generated and have a marker, we need to write some code so that we can track it.
+Now that you have a marker, we need to write some code so that we can track it.
 
 ![alt text](https://github.com/Microsoft/pxt-ar/blob/master/examples/example1.png)
 
-
+## Markers  
 <img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/00.png" width="75"><img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/01.png" width="75">
 <img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/02.png" width="75">
 <img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/03.png" width="75">
