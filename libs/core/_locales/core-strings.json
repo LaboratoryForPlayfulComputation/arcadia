@@ -2,8 +2,6 @@
   "Axes.x|block": "x",
   "Axes.y|block": "y",
   "Axes.z|block": "z",
-  "BeatFraction.Breve|block": "4",
-  "BeatFraction.Double|block": "2",
   "BeatFraction.Eighth|block": "1/8",
   "BeatFraction.Half|block": "1/2",
   "BeatFraction.Quarter|block": "1/4",

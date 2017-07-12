@@ -87,12 +87,11 @@ namespace pxsim.music {
     //% blockNamespace=music inBasicCategory=true
     export function beat(fraction?: BeatFraction): string {
         switch (fraction) {
+            case BeatFraction.Whole: return "1n";
             case BeatFraction.Half: return "2n";
             case BeatFraction.Quarter: return "4n";
             case BeatFraction.Eighth: return "8n";
             case BeatFraction.Sixteenth: return "16n";
-            case BeatFraction.Double: return "32n";
-            case BeatFraction.Breve: return "64n";
             default: return "8n";
         }
     }  

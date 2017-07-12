@@ -309,11 +309,7 @@ declare const enum BeatFraction {
     //% block="1/8"
     Eighth = 8,
     //% block="1/16"
-    Sixteenth = 16,
-    //% block="2"
-    Double = 32,
-    //% block="4",
-    Breve = 64
+    Sixteenth = 16
 }
 
 declare const enum Drum {
