@@ -16,7 +16,7 @@ You may want to glue the marker onto a hard, flat surface such as cardboard. If 
 ### Option 2: Drawing
 TO DO --add better instructions.
 Below is an image of a hand drawn marker. Notice how there is a thick black border around the 3x3 area where the barcode is, and also a white border around the whole thing. This helps provide an extra layer of contrast which helps the image recognition software to pick it up. Also, the marker is glued onto a piece of cardboard to help keep it flat and sturdy.
-![Hand drawn marker](https://github.com/Microsoft/pxt-ar/blob/master/docs/static/drawn_marker.jpg)
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/docs/static/drawn_marker.jpg" width="100">
 
 ### Option 3: Mobile device
 Save the image of your marker onto your mobile phone or other electronic device. Open the image in your photo gallery and use this as your trackable object. Note: the screen’s reflectivity may make your marker undetectable.
