@@ -52,6 +52,7 @@ namespace pxsim {
         }
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
+            if (!msg.cdnUrl) console.log(JSON.stringify(msg));
             return three.loadFontAsync(msg.cdnUrl)
                 .then(font => {
                     this.font = font;
