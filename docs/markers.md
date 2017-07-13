@@ -1,5 +1,14 @@
 # Markers
 
+### Creating & Initializing an AR marker
+In order to have multiple trackable markers in a single scene, we will want to use barcodes. ARToolkit has support for various other marker systems, but 2D barcodes give us a way to uniquely identify different objects. For now, using a 3x3 matrix for the barcodes seems to give us the best resolution for detecting markers while also giving us up to 64 unique barcode patterns. If you would like to change the marker detection mode, simply change the parameters for when we initialize the a-scene in simulator.html. See below for links to downloadable images of barcodes 0-63. You can either print it out or draw it using a and a black sharpie -- if you are drawing make sure your marker has a black border around that is 25% the width of the square, also you'll want a white border around that. We recommend just printing it out.
+
+Now that you have a marker, we need to write some code so that we can track it.
+
+![alt text](https://github.com/Microsoft/pxt-ar/blob/master/examples/example1.png)
+
+
+### Markers for printing
 Click on an image of marker to download and print it.
 
 <img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/00.png" width="75"><img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/01.png" width="75">
