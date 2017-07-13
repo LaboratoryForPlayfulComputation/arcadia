@@ -1,4 +1,7 @@
 # Documentation
 
 * [About](/about)
-* [Marker](/markers)
+* [Materials](/materials)
+* [Hardware](/hardware)
+* [Preparing your markers](/markers)
+* [Writing your first program](/program)
