@@ -35,7 +35,7 @@ namespace pxsim {
         public arToolkitContext : THREEx.ArToolkitContext;
         public arToolkitSource  : THREEx.ArToolkitSource;
         public renderer         : THREE.WebGLRenderer;
-        public baseURL          : String;
+        public baseURL          : string;
         public onRenderFcts     : Array<any>;
         public instruments      : Array<Tone.Instrument>;
         public fx               : pxsim.Map<Tone.Effect>;
@@ -52,16 +52,15 @@ namespace pxsim {
         }
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
-            if (!msg.cdnUrl) console.log(JSON.stringify(msg));
-            return three.loadFontAsync(msg.cdnUrl)
+            this.baseURL = msg.cdnUrl;
+            return three.loadFontAsync(this.baseURL)
                 .then(font => {
                     this.font = font;
-                    return tone.loadDrumSamplesAsync(msg.cdnUrl)
+                    return tone.loadDrumSamplesAsync(this.baseURL)
                         .then(drumSamples => {
                             this.bus  = new pxsim.EventBus(runtime);
                             /* AR */
                             this.markers          = {};
-                            this.baseURL          = msg.cdnUrl;
                             this.renderer         = getWebGlContext();
                             this.camera           = three.createCamera();
                             this.scene            = three.createScene();
