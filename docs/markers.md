@@ -1,35 +1,67 @@
 # Markers
 
-Print this page and use it to build your markers
+Click on an image of marker to download and print it.
 
-![Marker 0](/static/markers/marker0.png)
-
-![Marker 1](/static/markers/marker1.png)
-
-![Marker 2](/static/markers/marker2.png)
-
-![Marker 3](/static/markers/marker3.png)
-
-![Marker 4](/static/markers/marker4.png)
-
-![Marker 5](/static/markers/marker5.png)
-
-![Marker 6](/static/markers/marker6.png)
-
-![Marker 7](/static/markers/marker7.png)
-
-![Marker 8](/static/markers/marker8.png)
-
-![Marker 9](/static/markers/marker9.png)
-
-![Marker 10](/static/markers/marker10.png)
-
-![Marker 11](/static/markers/marker11.png)
-
-![Marker 12](/static/markers/marker12.png)
-
-![Marker 13](/static/markers/marker13.png)
-
-![Marker 14](/static/markers/marker14.png)
-
-![Marker 15](/static/markers/marker15.png)
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/00.png" width="75"><img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/01.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/02.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/03.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/04.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/05.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/06.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/07.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/08.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/09.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/10.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/11.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/12.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/13.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/14.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/15.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/16.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/17.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/18.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/19.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/20.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/21.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/22.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/23.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/24.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/25.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/26.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/27.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/28.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/29.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/30.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/31.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/32.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/33.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/34.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/35.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/36.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/37.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/38.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/39.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/40.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/41.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/42.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/43.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/44.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/45.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/46.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/47.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/48.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/49.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/50.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/51.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/52.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/53.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/54.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/55.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/56.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/57.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/58.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/59.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/60.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/61.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/62.png" width="75">
+<img src="https://github.com/Microsoft/pxt-ar/blob/master/examples/AR_MARKER_CODES/63.png" width="75">
