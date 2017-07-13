@@ -11,7 +11,7 @@ namespace pxsim.phrases {
     //% blockNamespace=music advanced=true
     export function playPhrase(name: string) {
         let phrase = board().phrase(name);
-        if (phrase) phrase.start(0);
+        if (phrase) phrase.play(0);
     }
 
     /**
@@ -185,8 +185,8 @@ namespace pxsim.phrases {
             } 
         }
 
-        start(time: Tone.Time){
-            this.sequence.loop = false;           
+        play(time: Tone.Time){
+            this.sequence.loop = 3;           
             this.sequence.start(time);
         }  
 
