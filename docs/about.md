@@ -7,4 +7,4 @@ Using the markers we can begin to build augmented reality experiences.
 
 For example, see the below gif. You can see in the video that there is a purple cube that is on top of a cellphone, following as it moves. The cube is able to follow the phone because there is a marker that is displayed on the screen. The cellphone is part of the real-world, i.e. reality, and the purple cube is what we would consider a virtual object. The combination of these two gives us _augmented reality_.  
 
-<img src="/static/purple_cube.gif" width="400">  
+![alt text](static/purple_cube.gif)
