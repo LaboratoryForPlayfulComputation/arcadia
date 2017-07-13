@@ -37,9 +37,9 @@ namespace pxsim.tone {
     export function loadDrumSamplesAsync(url: string): Promise<Tone.Buffers> {
         return new Promise<Tone.Buffers>((resolve, reject) => {
             let drumSamples = new Tone.Buffers({
-                    "kick" : url + "/audio/percussion/kick.ogg",
-                    "snare": url + "/audio/percussion/snare.ogg",
-                    "hihat": url + "/audio/percussion/hh.ogg",
+                    "kick" : url + "/audio/percussion/kick.mp3",
+                    "snare": url + "/audio/percussion/snare.mp3",
+                    "hihat": url + "/audio/percussion/hh.mp3",
                     "click": url + "/audio/percussion/click.mp3",
                     "splat": url + "/audio/percussion/splat.mp3"
                 }, () => {
