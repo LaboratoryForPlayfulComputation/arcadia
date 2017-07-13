@@ -64,12 +64,10 @@ namespace pxsim {
                             this.renderer         = getWebGlContext();
                             this.camera           = three.createCamera();
                             this.scene            = three.createScene();
-                            this.arToolkitSource  = threex.createArToolkitSource();
-                            this.arToolkitContext = threex.createArToolkitContext();
+                            threex.initArToolkit();
                             this.scene.add(this.camera);      
                             this.scene.add(three.createDirectionalLight());
                             this.scene.add(three.createAmbientLight());      
-                            threex.initArToolkitCallbacks();
                             this.initRenderFunctions();
                             /* music */
                             this.phrases     = {};
