@@ -1,14 +1,27 @@
-# Markers
-
-### Creating & Initializing an AR marker
-In order to have multiple trackable markers in a single scene, we will want to use barcodes. ARToolkit has support for various other marker systems, but 2D barcodes give us a way to uniquely identify different objects. For now, using a 3x3 matrix for the barcodes seems to give us the best resolution for detecting markers while also giving us up to 64 unique barcode patterns. If you would like to change the marker detection mode, simply change the parameters for when we initialize the a-scene in simulator.html. See below for links to downloadable images of barcodes 0-63. You can either print it out or draw it using a and a black sharpie -- if you are drawing make sure your marker has a black border around that is 25% the width of the square, also you'll want a white border around that. We recommend just printing it out.
-
-Now that you have a marker, we need to write some code so that we can track it.
-
-![alt text](https://github.com/Microsoft/pxt-ar/blob/master/examples/example1.png)
+# Preparing your markers
 
 
-### Markers for printing
+###Materials needed
+*  Option 1: Printer, white printer paper & black ink (recommended)  
+or
+*  Option 2: White paper, a ruler, a black marker & cardboard (recommended if you don’t have a printer)  
+or
+*  Option 3: A cellphone or an electronic device that can display images  
+
+###Option 1: Printing (recommended)
+You can download high quality images of barcodes for printing here, feel free to resize them to be smaller.
+Cut on the grey dashed lines so that there is white space left around the edges.
+You may want to glue the marker onto a hard, flat surface such as cardboard. If the image is bent it may not be detected by the camera.
+
+###Option 2: Drawing
+TO DO --add better instructions.
+Below is an image of a hand drawn marker. Notice how there is a thick black border around the 3x3 area where the barcode is, and also a white border around the whole thing. This helps provide an extra layer of contrast which helps the image recognition software to pick it up. Also, the marker is glued onto a piece of cardboard to help keep it flat and sturdy.
+
+###Option 3: Mobile device
+Save the image of your marker onto your mobile phone or other electronic device. Open the image in your photo gallery and use this as your trackable object. Note: the screen’s reflectivity may make your marker undetectable.
+
+
+### Printable markers
 Click on an image of marker to download and print it.
 
 <img src="https://github.com/Microsoft/pxt-ar/blob/master/docs/static/AR_MARKER_CODES/00.png" width="75"><img src="https://github.com/Microsoft/pxt-ar/blob/master/docs/static/AR_MARKER_CODES/01.png" width="75">
