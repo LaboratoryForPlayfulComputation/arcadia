@@ -24,6 +24,10 @@ Save the image of your marker onto your mobile phone or other electronic device.
 ![alt text](static/phone_marker.jpg)
 
 
+Here are links to some other pages to help you get started!
+* [About](about)
+* [Writing your first program](program)  
+
 ### Printable markers
 Click on the value of the marker you'd like to use to get a high-quality image.
 

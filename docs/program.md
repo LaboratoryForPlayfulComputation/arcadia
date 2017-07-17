@@ -6,3 +6,7 @@ A quick way to test if your marker is working (i.e. recognized by the applicatio
 
 ![alt text](static/testing.gif)
 ![alt text](static/example1.png)
+  
+Here are links to some other pages to help you get started!
+* [About](about)
+* [Preparing your markers](markers)
