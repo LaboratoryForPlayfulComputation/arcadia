@@ -1170,7 +1170,7 @@ declare module Tone {
         new(): Tone.Transport;
         bpm: Tone.Signal;
         start(time: Tone.Time): Tone.Transport;
-        stop(): Tone.Transport;
+        stop(time: Tone.Time): Tone.Transport;
         schedule(callback: (t: any) => any, time: Tone.Time): number;
     };
 

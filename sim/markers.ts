@@ -60,6 +60,7 @@ namespace pxsim.markers {
         private prevHiddenTime_  : number;
         private color_           : number;
         private fontColor_       : number;
+        private neighbors_       : Marker[];
 
         constructor(code: MarkerCode) {
             this.code_            = code;
@@ -71,6 +72,7 @@ namespace pxsim.markers {
             this.prevHiddenTime_  = 0;
             this.color_           = 0x000000;
             this.fontColor_       = 0xffffff;
+            this.neighbors_       = [];
         }
 
         triggerEvents(){
@@ -106,8 +108,22 @@ namespace pxsim.markers {
             } else { // marker not visible
                 board().bus.queue(this.code_, MarkerLoopEvent.WhileHidden);
                 if (this.prevVisible_ == true) board().bus.queue(this.code_, MarkerEvent.Hidden);
-            }  
-        }   
+            }
+            this.checkNeighbors();  
+        }
+
+        checkNeighbors(){
+            for (let i = 0; i < this.neighbors_.length; i++){
+                let marker = this.neighbors_[i];
+                let neighborPos = marker.position();
+                let dist = neighborPos.distanceTo(this.position());
+                let s = 'marker' + this.code_.toString() + 'marker' + marker.code().toString();
+                if (dist <= 2.0) board().bus.queue(MultiMarkerEvent.Close.toString() + s, MultiMarkerEvent.Close);
+                else if (dist >= 3.0) board().bus.queue(MultiMarkerEvent.Far.toString() + s, MultiMarkerEvent.Far);
+            }
+        }
+
+           
 
         /**
          * Update previous and current AR marker state values
@@ -169,6 +185,9 @@ namespace pxsim.markers {
         }
         setFontColor(color: number){
             this.fontColor_ = color;
+        }
+        addNeighbor(marker: Marker){
+            this.neighbors_.push(marker);
         }
            
     }           

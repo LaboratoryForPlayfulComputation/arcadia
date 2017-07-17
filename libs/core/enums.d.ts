@@ -118,11 +118,11 @@ declare const enum MarkerLoopEvent {
 
 declare const enum MultiMarkerEvent {
     //% block="close to"
-    //% enumval=0x01
-    Close = 0x01,
+    //% enumval=0x15
+    Close = 0x15,
     //% block="far from"
-    //% enumval=0x02
-    Far = 0x02,
+    //% enumval=0x16
+    Far = 0x16,
 }
 
 /**

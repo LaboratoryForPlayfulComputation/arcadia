@@ -5,7 +5,7 @@ namespace pxsim.tone {
     }
 
     export function stopTransport() {
-        Tone.Transport.stop();
+        Tone.Transport.stop(0);
     }
 
     export function killFX(){
@@ -16,8 +16,10 @@ namespace pxsim.tone {
     }
 
     export function killPhrases(){
-        for (var phrase in board().phrases)
+        for (var phrase in board().phrases){
+            board().phrases[phrase].stop(0);
             board().phrases[phrase].discard();
+        }
         board().phrases = {};
     }
 

@@ -142,6 +142,7 @@ namespace pxsim {
             if (this.phrases)     tone.killPhrases();
             if (this.instruments) tone.killInstruments();
             if (this.oscillators) tone.killOscillators();
+            //tone.stopTransport();
             this.onRenderFcts = [];
             this.markers = {};
         }
