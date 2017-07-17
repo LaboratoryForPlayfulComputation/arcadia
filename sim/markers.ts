@@ -60,7 +60,7 @@ namespace pxsim.markers {
         private prevHiddenTime_  : number;
         private color_           : number;
         private fontColor_       : number;
-        private neighbors_       : Marker[];
+        private neighbors_       : any[][];
 
         constructor(code: MarkerCode) {
             this.code_            = code;
@@ -114,12 +114,24 @@ namespace pxsim.markers {
 
         checkNeighbors(){
             for (let i = 0; i < this.neighbors_.length; i++){
-                let marker = this.neighbors_[i];
+                let marker = this.neighbors_[i][0];
                 let neighborPos = marker.position();
                 let dist = neighborPos.distanceTo(this.position());
                 let s = 'marker' + this.code_.toString() + 'marker' + marker.code().toString();
-                if (dist <= 2.0) board().bus.queue(MultiMarkerEvent.Close.toString() + s, MultiMarkerEvent.Close);
-                else if (dist >= 3.0) board().bus.queue(MultiMarkerEvent.Far.toString() + s, MultiMarkerEvent.Far);
+                if (dist <= 2.0){
+                    board().bus.queue(MultiMarkerEvent.Close.toString() + s, MultiMarkerEvent.Close);
+                    if (this.neighbors_[i][1] == 'far' || this.neighbors_[i][1] == ''){ // if close now but wasn't before
+                        board().bus.queue('on' + MultiMarkerEvent.Close.toString() + s, MultiMarkerEvent.Close);
+                    }
+                    this.neighbors_[i][1] = 'close';
+                }
+                else{
+                    board().bus.queue(MultiMarkerEvent.Far.toString() + s, MultiMarkerEvent.Far);
+                    if (this.neighbors_[i][1] == 'close' || this.neighbors_[i][1] == ''){ // if far now but wasn't before
+                        board().bus.queue('on' + MultiMarkerEvent.Far.toString() + s, MultiMarkerEvent.Far);
+                    }                    
+                    this.neighbors_[i][1] = 'far';
+                }
             }
         }
 
@@ -186,8 +198,8 @@ namespace pxsim.markers {
         setFontColor(color: number){
             this.fontColor_ = color;
         }
-        addNeighbor(marker: Marker){
-            this.neighbors_.push(marker);
+        addNeighbor(neighbor: any[]){
+            this.neighbors_.push(neighbor);
         }
            
     }           

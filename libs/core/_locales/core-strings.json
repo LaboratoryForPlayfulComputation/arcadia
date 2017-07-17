@@ -109,6 +109,7 @@
   "events.onEvent|block": "on %marker=marker_block|%event |do",
   "events.onMultiEvent|block": "on %marker1=marker_block| %event| %marker2=marker_block| do",
   "events.whileEvent|block": "while %marker=marker_block|%event |do",
+  "events.whileMultiEvent|block": "while %marker1=marker_block| %event| %marker2=marker_block| do",
   "events|block": "events",
   "fx.addEffectSeq|block": "add %effect|to %name",
   "fx.addGlobalEffect|block": "add global effect %effect",

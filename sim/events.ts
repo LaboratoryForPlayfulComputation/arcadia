@@ -25,7 +25,23 @@ namespace pxsim.events {
     }
 
     /**
-     * Allows use to define callbacks for multi marker event
+     * Allows user to define callbacks that fire while the multi marker event is true
+     * @param marker 
+     */
+    //% blockId=ar_while_multi_event block="while %marker1=marker_block| %event| %marker2=marker_block| do" blockGap=8
+    //% event.fieldEditor="gridpicker"
+    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
+    //% event.fieldOptions.tooltips="true"    
+    export function whileMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: RefAction) {
+        let eventString = event.toString() + 'marker' + marker1.toString() + 'marker' + marker2.toString();
+        let m1 = board().marker(marker1);
+        let m2 = board().marker(marker2);
+        m1.addNeighbor([m2, '']);
+        board().bus.listen(eventString, event, handler);
+    }
+
+    /**
+     * Allows user to define callbacks that trigger once when the multi marker event is true
      * @param marker 
      */
     //% blockId=ar_on_multi_event block="on %marker1=marker_block| %event| %marker2=marker_block| do" blockGap=8
@@ -33,10 +49,10 @@ namespace pxsim.events {
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"    
     export function onMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: RefAction) {
-        let eventString = event.toString() + 'marker' + marker1.toString() + 'marker' + marker2.toString();
+        let eventString = 'on' + event.toString() + 'marker' + marker1.toString() + 'marker' + marker2.toString();
         let m1 = board().marker(marker1);
         let m2 = board().marker(marker2);
-        m1.addNeighbor(m2);
+        m1.addNeighbor([m2, '']);
         board().bus.listen(eventString, event, handler);
     }
 
