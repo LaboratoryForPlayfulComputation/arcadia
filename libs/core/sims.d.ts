@@ -132,7 +132,7 @@ declare namespace events {
     //% event.fieldEditor="gridpicker"
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"
-    //% inlineInputMode="internal"
+    //% inlineInputMode="inline"
     //% shim=events::whileMultiEvent
     function whileMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: () => void): void;
 
@@ -144,7 +144,7 @@ declare namespace events {
     //% event.fieldEditor="gridpicker"
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"    
-    //% inlineInputMode="internal"
+    //% inlineInputMode="inline"
     //% shim=events::onMultiEvent
     function onMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: () => void): void;
 
