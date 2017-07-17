@@ -105,7 +105,7 @@ namespace pxsim.markers {
             if (this.visible() == true){
                 board().bus.queue(this.code_, MarkerLoopEvent.WhileVisible);
                 if (this.prevVisible_ == false) board().bus.queue(this.code_, MarkerEvent.Visible);
-            } else { // marker not visible
+            } else{ // marker not visible
                 board().bus.queue(this.code_, MarkerLoopEvent.WhileHidden);
                 if (this.prevVisible_ == true) board().bus.queue(this.code_, MarkerEvent.Hidden);
             }
@@ -118,24 +118,31 @@ namespace pxsim.markers {
                 let neighborPos = marker.position();
                 let dist = neighborPos.distanceTo(this.position());
                 let s = 'marker' + this.code_.toString() + 'marker' + marker.code().toString();
-                if (dist <= 2.0){
-                    board().bus.queue(MultiMarkerEvent.Close.toString() + s, MultiMarkerEvent.Close);
-                    if (this.neighbors_[i][1] == 'far' || this.neighbors_[i][1] == ''){ // if close now but wasn't before
-                        board().bus.queue('on' + MultiMarkerEvent.Close.toString() + s, MultiMarkerEvent.Close);
+                if (dist <= 2.5 && this.visible() && marker.visible()){
+                    if (dist <= 1.5){ // touching
+                        board().bus.queue(MultiMarkerEvent.Touching.toString() + s, MultiMarkerEvent.Touching);
+                        if (this.neighbors_[i][1] != 'touching' || this.neighbors_[i][1] == ''){ // if close now but wasn't before
+                            board().bus.queue('on' + MultiMarkerEvent.Touching.toString() + s, MultiMarkerEvent.Touching);
+                        }
+                        this.neighbors_[i][1] = 'touching';
                     }
-                    this.neighbors_[i][1] = 'close';
+                    else { // close
+                        board().bus.queue(MultiMarkerEvent.Close.toString() + s, MultiMarkerEvent.Close);
+                        if (this.neighbors_[i][1] != 'close' || this.neighbors_[i][1] == ''){ // if close now but wasn't before
+                            board().bus.queue('on' + MultiMarkerEvent.Close.toString() + s, MultiMarkerEvent.Close);
+                        }
+                        this.neighbors_[i][1] = 'close';
+                    }
                 }
-                else{
+                else{ // far
                     board().bus.queue(MultiMarkerEvent.Far.toString() + s, MultiMarkerEvent.Far);
-                    if (this.neighbors_[i][1] == 'close' || this.neighbors_[i][1] == ''){ // if far now but wasn't before
+                    if (this.neighbors_[i][1] != 'far' || this.neighbors_[i][1] == ''){ // if far now but wasn't before
                         board().bus.queue('on' + MultiMarkerEvent.Far.toString() + s, MultiMarkerEvent.Far);
                     }                    
                     this.neighbors_[i][1] = 'far';
                 }
             }
         }
-
-           
 
         /**
          * Update previous and current AR marker state values

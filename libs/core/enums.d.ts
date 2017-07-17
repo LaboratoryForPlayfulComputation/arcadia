@@ -123,6 +123,9 @@ declare const enum MultiMarkerEvent {
     //% block="far from"
     //% enumval=0x16
     Far = 0x16,
+    //% block="touching"
+    //% enumval=0x17
+    Touching = 0x17
 }
 
 /**
