@@ -149,7 +149,7 @@
 --------------------*/
 
 @sidedocsButtonsTop: (@mainMenuHeight + 1rem);
-@sidedocsButtonsRight: 4.25rem;
+@sidedocsButtonsRight: 8rem;
 
 /*-------------------
    Editor
