@@ -202,6 +202,9 @@ declare namespace fx {
 
 }
 declare namespace markers {
+    /**
+     * An augmented reality marker
+     */
     //% blockId=marker_block block="%marker"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
@@ -227,7 +230,7 @@ declare namespace markers {
     function position(marker: number, axis: Axes): number;
 
     /**
-     * Gets the rotational values of a marker
+     * Gets the x, y, z rotational values of a marker
      */
     //% blockId=ar_get_rot block="%marker=marker_block|rotation %axis" blockGap=8
     //% shim=markers::rotation
@@ -236,7 +239,7 @@ declare namespace markers {
 }
 declare namespace music {
     /**
-     * Play a tone.
+     * Play a tone for a duration of time
      * @param note pitch of the tone to play in Hertz (Hz)
      * @param duration number of beats to play tone for
      */
@@ -246,7 +249,7 @@ declare namespace music {
     function playTone(note: number, duration: string): void;
 
     /**
-     * Rest.
+     * Rest for a duration of time
      * @param duration number of beats to rest for
      */
     //% blockId=music_rest block="rest for %duration=device_beat" blockGap=8
@@ -256,7 +259,7 @@ declare namespace music {
     }
      */
     /**
-     * Play a chord.
+     * Play a chord for a duration of time
      * @param notes pitches of the tones to play in Hertz (Hz)
      * @param duration number of beats to play tone for
      */
@@ -268,7 +271,7 @@ declare namespace music {
     }
      */
     /**
-     * Play a drum beat.
+     * Play a type of drum sound
      * @param drum which drum sound to use
      */
     //% blockId=music_play_drum_beat block="play %drum" blockGap=8
@@ -303,7 +306,7 @@ declare namespace music {
     function beat(fraction?: BeatFraction): string;
 
     /**
-     * Get the frequency of a note.
+     * Get the frequency of a note
      * @param name the note name, eg: Note.C
      */
     //% weight=1 help=music/note-frequency
@@ -316,7 +319,7 @@ declare namespace music {
     function noteFrequency(name: Note): number;
 
     /**
-     * Change freq of an oscillator
+     * Change the frequency (pitch) of an oscillator
      * @param wave type of sound wave
      */
     //% blockId="music_osc_freq" block="set %wave|wave to %note=device_note"
@@ -342,23 +345,23 @@ declare namespace music {
     function stopOsc(wave: Wave): void;
 
     /**
-     * Play an oscillator type
+     * Start an oscillator type
      * @param wave type of sound wave
      */
-    //% blockId="music_play_osc" block="start %wave|wave"
+    //% blockId="music_start_osc" block="start %wave|wave"
     //% weight=100
     //% wave.fieldEditor="gridpicker"
     //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
     //% wave.fieldOptions.tooltips="true"      
     //% blockNamespace=music inBasicCategory=true
-    //% shim=music::playOsc
-    function playOsc(wave: Wave): void;
+    //% shim=music::startOsc
+    function startOsc(wave: Wave): void;
 
     /**
-     * Set tempo
+     * Set the beats per minute (tempo)
      * @param bpm
      */
-    //% blockId="music_tempo" block="set tempo %bpm"
+    //% blockId="music_bpm" block="set tempo %bpm"
     //% weight=100
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true

@@ -1,7 +1,7 @@
 namespace pxsim.music {
 
     /**
-    * Play a tone.
+    * Play a tone for a duration of time
     * @param note pitch of the tone to play in Hertz (Hz)
     * @param duration number of beats to play tone for
     */
@@ -11,19 +11,20 @@ namespace pxsim.music {
         board().monosynth.triggerAttackRelease(note, duration); 
     }
 
+
     /**
-    * Rest.
+    * Rest for a duration of time
     * @param duration number of beats to rest for
     */
     //% blockId=music_rest block="rest for %duration=device_beat" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-/*
+    /*
     export function rest(duration: string) {
     }
-*/
+    */
 
     /**
-    * Play a chord.
+    * Play a chord for a duration of time
     * @param notes pitches of the tones to play in Hertz (Hz)
     * @param duration number of beats to play tone for
     */
@@ -36,7 +37,7 @@ namespace pxsim.music {
 */
 
     /**
-    * Play a drum beat.
+    * Play a type of drum sound
     * @param drum which drum sound to use
     */
     //% blockId=music_play_drum_beat block="play %drum" blockGap=8
@@ -97,7 +98,7 @@ namespace pxsim.music {
     }  
 
     /**
-     * Get the frequency of a note.
+     * Get the frequency of a note
      * @param name the note name, eg: Note.C
      */
     //% weight=1 help=music/note-frequency
@@ -111,7 +112,7 @@ namespace pxsim.music {
     }      
 
     /**
-     * Change freq of an oscillator
+     * Change the frequency (pitch) of an oscillator
      * @param wave type of sound wave
      */
     //% blockId="music_osc_freq" block="set %wave|wave to %note=device_note"
@@ -171,16 +172,16 @@ namespace pxsim.music {
     }
 
     /**
-     * Play an oscillator type
+     * Start an oscillator type
      * @param wave type of sound wave
      */
-    //% blockId="music_play_osc" block="start %wave|wave"
+    //% blockId="music_start_osc" block="start %wave|wave"
     //% weight=100
     //% wave.fieldEditor="gridpicker"
     //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
     //% wave.fieldOptions.tooltips="true"      
     //% blockNamespace=music inBasicCategory=true
-    export function playOsc(wave: Wave){
+    export function startOsc(wave: Wave){
         var type : string;
         var vol  : number;       
         switch(wave){
@@ -208,10 +209,10 @@ namespace pxsim.music {
     }    
 
     /**
-     * Set tempo
+     * Set the beats per minute (tempo)
      * @param bpm
      */
-    //% blockId="music_tempo" block="set tempo %bpm"
+    //% blockId="music_bpm" block="set tempo %bpm"
     //% weight=100
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true

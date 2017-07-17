@@ -1,5 +1,8 @@
 namespace pxsim.markers {
 
+    /**
+     * An augmented reality marker
+     */
     //% blockId=marker_block block="%marker"
     //% marker.fieldEditor="gridpicker"
     //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
@@ -37,7 +40,7 @@ namespace pxsim.markers {
     }
 
     /**
-     * Gets the rotational values of a marker
+     * Gets the x, y, z rotational values of a marker
      */
     //% blockId=ar_get_rot block="%marker=marker_block|rotation %axis" blockGap=8
     export function rotation(marker: number, axis: Axes): number {
