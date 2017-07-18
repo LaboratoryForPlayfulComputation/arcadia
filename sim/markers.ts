@@ -121,7 +121,7 @@ namespace pxsim.markers {
                 let neighborPos = marker.position();
                 let dist = neighborPos.distanceTo(this.position());
                 let s = 'marker' + this.code_.toString() + 'marker' + marker.code().toString();
-                if (dist <= 2.5 && this.visible() && marker.visible()){
+                if (dist <= 2.5 && this.visible() && marker.visible()){ // close
                     if (dist <= 1.5){ // touching
                         board().bus.queue(MultiMarkerEvent.Touching.toString() + s, MultiMarkerEvent.Touching);
                         if (this.neighbors_[i][1] != 'touching' || this.neighbors_[i][1] == ''){ // if close now but wasn't before
@@ -129,13 +129,11 @@ namespace pxsim.markers {
                         }
                         this.neighbors_[i][1] = 'touching';
                     }
-                    else { // close
-                        board().bus.queue(MultiMarkerEvent.Close.toString() + s, MultiMarkerEvent.Close);
-                        if (this.neighbors_[i][1] != 'close' || this.neighbors_[i][1] == ''){ // if close now but wasn't before
-                            board().bus.queue('on' + MultiMarkerEvent.Close.toString() + s, MultiMarkerEvent.Close);
-                        }
-                        this.neighbors_[i][1] = 'close';
+                    board().bus.queue(MultiMarkerEvent.Close.toString() + s, MultiMarkerEvent.Close);
+                    if (this.neighbors_[i][1] != 'close' || this.neighbors_[i][1] == ''){ // if close now but wasn't before
+                        board().bus.queue('on' + MultiMarkerEvent.Close.toString() + s, MultiMarkerEvent.Close);
                     }
+                    this.neighbors_[i][1] = 'close';
                 }
                 else{ // far
                     board().bus.queue(MultiMarkerEvent.Far.toString() + s, MultiMarkerEvent.Far);
