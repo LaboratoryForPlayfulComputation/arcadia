@@ -157,8 +157,8 @@ declare const enum Colors {
     //% enumval=0xFF00FF
     Purple = 0xFF00FF,
     //% block=pink blockIdentity=colors.named
-    //% enumval=0xFFC0CB
-    Pink = 0xFFC0CB,
+    //% enumval=0xFF54A6
+    Pink = 0xFF54A6,
     //% block=white blockIdentity=colors.named
     //% enumval=0xFFFFFF
     White = 0xFFFFFF,
