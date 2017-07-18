@@ -115,32 +115,72 @@ namespace pxsim.markers {
             this.checkNeighbors();  
         }
 
+        neighbor(i: number, dist: string) : boolean {
+            if (this.neighbors_[i][1] == dist) return true;
+            return false;
+        }
+
+        setNeighborDist(index: number, dist: string){
+            this.neighbors_[index][1] = dist;
+        }
+
+        cueTouching(marker: Marker, event?: string){
+            let s = MultiMarkerEvent.Touching.toString() + 'marker' + this.code().toString() + 'marker' + marker.code().toString();
+            if (event)
+                s = event + s;
+            board().bus.queue(s, MultiMarkerEvent.Touching);
+        }
+        cueClose(marker: Marker, event?: string){
+            let s = MultiMarkerEvent.Close.toString() + 'marker' + this.code().toString() + 'marker' + marker.code().toString();
+            if (event)
+                s = event + s;
+            board().bus.queue(s, MultiMarkerEvent.Close);
+        }
+        cueFar(marker: Marker, event?: string){
+            let s = MultiMarkerEvent.Far.toString() + 'marker' + this.code().toString() + 'marker' + marker.code().toString();
+            if (event)
+                s = event + s;
+            board().bus.queue(s, MultiMarkerEvent.Far);
+        }
+
         checkNeighbors(){
             for (let i = 0; i < this.neighbors_.length; i++){
                 let marker = this.neighbors_[i][0];
                 let neighborPos = marker.position();
                 let dist = neighborPos.distanceTo(this.position());
-                let s = 'marker' + this.code_.toString() + 'marker' + marker.code().toString();
-                if (dist <= 2.5 && this.visible() && marker.visible()){ // close
-                    if (dist <= 1.5){ // touching
-                        board().bus.queue(MultiMarkerEvent.Touching.toString() + s, MultiMarkerEvent.Touching);
-                        if (this.neighbors_[i][1] != 'touching' || this.neighbors_[i][1] == ''){ // if close now but wasn't before
-                            board().bus.queue('on' + MultiMarkerEvent.Touching.toString() + s, MultiMarkerEvent.Touching);
+                
+                if (this.code() == marker.code()){ // if the markers are the same, touching & close (while) 
+                    this.cueTouching(marker);
+                    this.cueClose(marker);
+                    if (this.neighbor(i, '') || !this.prevVisible()){ // touching & close (on)
+                        this.cueTouching(marker, 'on');
+                        this.cueClose(marker, 'on');                        
+                    }
+                    this.neighbors_[i][1] = 'touching';
+                } else {
+                    if (dist <= 2.5 && this.visible() && marker.visible()){ // close (while)
+                        if (dist <= 1.5){
+                            this.cueClose(marker);
+                            this.cueTouching(marker);
+                            if (!this.neighbor(i, 'touching') || this.neighbor(i, '')){ // touching (on)
+                                this.cueClose(marker, 'on');
+                                this.cueTouching(marker, 'on');
+                            }
+                            this.neighbors_[i][1] = 'touching';
+                        } else {
+                            this.cueClose(marker);
+                            if (!this.neighbor(i, 'close') || this.neighbor(i, '')){ // close(on)
+                                this.cueClose(marker, 'on');
+                            }
+                            this.neighbors_[i][1] = 'close';
                         }
-                        this.neighbors_[i][1] = 'touching';
+                    } else{ // far (while)
+                        this.cueFar(marker);
+                        if (!this.neighbor(i, 'far') || this.neighbor(i, '')){ // far (on)
+                            this.cueFar(marker, 'on');
+                        }
+                        this.neighbors_[i][1] = 'far';
                     }
-                    board().bus.queue(MultiMarkerEvent.Close.toString() + s, MultiMarkerEvent.Close);
-                    if (this.neighbors_[i][1] != 'close' || this.neighbors_[i][1] == ''){ // if close now but wasn't before
-                        board().bus.queue('on' + MultiMarkerEvent.Close.toString() + s, MultiMarkerEvent.Close);
-                    }
-                    this.neighbors_[i][1] = 'close';
-                }
-                else{ // far
-                    board().bus.queue(MultiMarkerEvent.Far.toString() + s, MultiMarkerEvent.Far);
-                    if (this.neighbors_[i][1] != 'far' || this.neighbors_[i][1] == ''){ // if far now but wasn't before
-                        board().bus.queue('on' + MultiMarkerEvent.Far.toString() + s, MultiMarkerEvent.Far);
-                    }                    
-                    this.neighbors_[i][1] = 'far';
                 }
             }
         }
