@@ -7,8 +7,8 @@ namespace pxsim.decorations {
     //% blockNamespace=markers advanced=true
     export function setText(marker: number, text: string) {
         let m = board().marker(marker);
-        let billboardMesh = three.createBillboard(marker, 0x000000);
-        let textMesh      = three.createText(text, 0xffffff, marker);
+        let billboardMesh = three.createBillboard(marker, m.color());
+        let textMesh      = three.createText(text, m.fontColor(), marker);
         let group         = m.group();
         billboardMesh.name       = marker.toString() + '-shape';
         billboardMesh.rotation.x = Math.PI / 2;
