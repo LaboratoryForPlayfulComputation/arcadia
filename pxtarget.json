@@ -47,6 +47,7 @@
         "coloredToolbox": true,
         "monacoToolbox": true,
         "invertedToolbox": true,
+        "invertedMonaco": true,
         "invertedMenu": true,
         "blocklyOptions": {
             "grid": {
