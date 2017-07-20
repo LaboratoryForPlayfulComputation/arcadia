@@ -24,17 +24,25 @@ namespace pxsim.music {
     */
 
     /**
-    * Play a chord for a duration of time
+    * Play a chord of an array of notes for a duration of time. Can play up to 5 notes.
     * @param notes pitches of the tones to play in Hertz (Hz)
     * @param duration number of beats to play tone for
     */
     //% blockId=music_play_chord block="play chord %notes| for %duration=device_beat" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-/*
     export function playChord(notes: number[], duration: string) {
-        //board().polysynth.triggerAttackRelease(notes, duration);
+        let notesToPlay = [];
+        let i = 0;
+        if (notes.length > 5){
+            while (i < 5){
+                notesToPlay.push(notes[i]);
+                i++;
+            }
+        } else {
+            notesToPlay = notes;
+        }
+        board().polysynth.triggerAttackRelease(notesToPlay, duration);
     }
-*/
 
     /**
     * Play a type of drum sound

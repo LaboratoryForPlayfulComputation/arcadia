@@ -129,6 +129,7 @@
   "music.drumBeat|block": "play %drum",
   "music.noteFrequency|block": "%note",
   "music.oscFreq|block": "set %wave|wave to %note=device_note",
+  "music.playChord|block": "play chord %notes| for %duration=device_beat",
   "music.playTone|block": "play tone %note=device_note| for %duration=device_beat",
   "music.setTempo|block": "set tempo %bpm",
   "music.startOsc|block": "start %wave|wave",
