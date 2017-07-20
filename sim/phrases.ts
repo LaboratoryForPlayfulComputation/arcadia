@@ -188,13 +188,10 @@ namespace pxsim.phrases {
         }
 
         play(time?: Tone.Time){
-            console.log("test");
             let t = time as number;
             this.sequence.loop = false;   
             if (time) this.sequence.start(t + 0.5);
             else this.sequence.start();
-            //this.sequence.stop(t + 2);
-            //this.sequence.stop(t + Tone.Time("2m").toSeconds());
             this.sequence.stop("+1m");
         }  
 

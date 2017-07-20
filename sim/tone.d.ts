@@ -558,6 +558,22 @@ declare module Tone {
         dispose(): Tone.Max;
     }
 
+    var MembraneSynth: {
+        new(options?: Object): Tone.MembraneSynth;
+    };
+
+    interface MembraneSynth extends Tone.Instrument {
+        envelope: Tone.Envelope;
+        filter: Tone.Filter;
+        filterEnvelope: Tone.Envelope;
+        noise: Tone.Noise;
+        dispose(): Tone.MembraneSynth;
+        triggerAttack(time?: Tone.Time, velocity?: number): Tone.MembraneSynth;
+        triggerAttackRelease(duration: Tone.Time, time?: Tone.Time, velocity?: number): Tone.MembraneSynth;
+        triggerRelease(time?: Tone.Time): Tone.MembraneSynth;
+        toMaster(): Tone.MembraneSynth;
+    }    
+
     var Merge: {
         new(): Tone.Merge;
     };
@@ -746,22 +762,6 @@ declare module Tone {
         triggerRelease(time?: Tone.Time): Tone.NoiseSynth;
     }
 
-    var MembraneSynth: {
-        new(options?: Object): Tone.MembraneSynth;
-    };
-
-    interface MembraneSynth extends Tone.Instrument {
-        envelope: Tone.Envelope;
-        filter: Tone.Filter;
-        filterEnvelope: Tone.Envelope;
-        noise: Tone.Noise;
-        dispose(): Tone.MembraneSynth;
-        triggerAttack(time?: Tone.Time, velocity?: number): Tone.MembraneSynth;
-        triggerAttackRelease(duration: Tone.Time, time?: Tone.Time, velocity?: number): Tone.MembraneSynth;
-        triggerRelease(time?: Tone.Time): Tone.MembraneSynth;
-        toMaster(): Tone.MembraneSynth;
-    }
-
     var Normalize: {
         new(min?: number, max?: number): Tone.Normalize;
     };
@@ -783,6 +783,8 @@ declare module Tone {
         unroute(channel: string | number, callback?: (e: any)=>any): void;
         dispose(): Tone.Note;
     }
+
+    function now(): Tone.Time;
 
     var OmniOscillator: {
         new(frequency?: Tone.Frequency, type?: string): Tone.OmniOscillator;
