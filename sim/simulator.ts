@@ -89,7 +89,7 @@ namespace pxsim {
                             tone.bpm(120);
                             /* start rendering */                    
                             this.runRenderingLoop();   
-                            tone.startTransport();       
+                            tone.startTransport(0);       
                             return Promise.resolve();                            
                         });
                 });

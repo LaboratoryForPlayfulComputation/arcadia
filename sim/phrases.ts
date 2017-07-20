@@ -10,8 +10,9 @@ namespace pxsim.phrases {
     //% blockId=music_play_phrase block="play phrase %name" blockGap=8
     //% blockNamespace=music advanced=true
     export function playPhrase(name: string) {
+        var now = Tone.now();
         let phrase = board().phrase(name);
-        if (phrase) phrase.play("1m");
+        if (phrase) phrase.play(now);
     }
 
     /**
@@ -21,8 +22,9 @@ namespace pxsim.phrases {
     //% blockId=music_loop_phrase block="loop phrase %name" blockGap=8
     //% blockNamespace=music advanced=true
     export function loopPhrase(name: string) {
+        var now = Tone.now();
         let phrase = board().phrase(name);
-        if (phrase) phrase.loop();
+        if (phrase) phrase.loop(now);
     }
 
     /**
@@ -186,19 +188,23 @@ namespace pxsim.phrases {
         }
 
         play(time?: Tone.Time){
+            console.log("test");
+            let t = time as number;
             this.sequence.loop = false;   
-            if (time) this.sequence.start(time);
+            if (time) this.sequence.start(t + 0.5);
             else this.sequence.start();
+            //this.sequence.stop(t + 2);
+            //this.sequence.stop(t + Tone.Time("2m").toSeconds());
+            this.sequence.stop("+1m");
         }  
 
         loop(time?: Tone.Time){
+            let t = time as number;
             if (this.sequence.state == "stopped"){
                 this.sequence.loop = true;      
-                if (time) this.sequence.start(time);
+                if (time) this.sequence.start(t + 0.5);
                 else this.sequence.start();
-            } else {
-                this.stop();
-            }
+            } 
         }
 
         stop(time?: Tone.Time){
