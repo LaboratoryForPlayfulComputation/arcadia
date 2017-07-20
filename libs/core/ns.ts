@@ -10,6 +10,16 @@ namespace markers {
  */
 //% weight=90 icon="\uf001" color=#ff3acd
 namespace music {
+    /**
+     * @param notes 
+     * @param duration 
+     */
+    //% blockGap=8
+    //% blockId=music_play_chord block="play chord %notes| for %duration=device_beat"
+    //% blockNamespace=music inBasicCategory=true
+    export function playChord(notes: number[], duration: string): void {
+        playChordCommand((notes as any).toString(), duration);
+    }
 }
 
 /**
@@ -25,4 +35,3 @@ namespace colors {
 //% weight=90 icon="\uf110" color=#FF5722
 namespace events {
 }
-

@@ -263,10 +263,9 @@ declare namespace music {
      * @param notes pitches of the tones to play in Hertz (Hz)
      * @param duration number of beats to play tone for
      */
-    //% blockId=music_play_chord block="play chord %notes| for %duration=device_beat" blockGap=8
-    //% blockNamespace=music inBasicCategory=true
-    //% shim=music::playChord
-    function playChord(notes: number[], duration: string): void;
+    //%
+    //% shim=music::playChordCommand
+    function playChordCommand(notesString: string, duration: string): void;
 
     /**
      * Play a type of drum sound

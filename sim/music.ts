@@ -28,10 +28,10 @@ namespace pxsim.music {
     * @param notes pitches of the tones to play in Hertz (Hz)
     * @param duration number of beats to play tone for
     */
-    //% blockId=music_play_chord block="play chord %notes| for %duration=device_beat" blockGap=8
-    //% blockNamespace=music inBasicCategory=true
-    export function playChord(notes: number[], duration: string) {
-        let notesToPlay = [];
+    //%
+    export function playChordCommand(notesString: string, duration: string) {
+        let notes = notesString.split(",");
+        let notesToPlay = [] as any;
         let i = 0;
         if (notes.length > 5){
             while (i < 5){
