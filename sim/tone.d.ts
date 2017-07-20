@@ -1270,5 +1270,6 @@ declare module Tone {
         loop: boolean | number;
         at(index: number): Tone.Event | string | Tone.Sequence;
         at(index: number, note: string): void;
+        state: string;
     }
 }
