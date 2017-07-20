@@ -115,8 +115,8 @@ declare module Tone {
         frequency: Tone.Signal;
         type: string;
         dispose(): Tone.AutoPanner;
-        start(Time?: Tone.Time): Tone.AutoPanner;
-        stop(Time?: Tone.Time): Tone.AutoPanner;
+        start(time?: Tone.Time): Tone.AutoPanner;
+        stop(time?: Tone.Time): Tone.AutoPanner;
         sync(): Tone.AutoPanner;
         unsync(): Tone.AutoPanner;
     }
@@ -1169,8 +1169,8 @@ declare module Tone {
     var Transport:  {
         new(): Tone.Transport;
         bpm: Tone.Signal;
-        start(time: Tone.Time): Tone.Transport;
-        stop(time: Tone.Time): Tone.Transport;
+        start(time?: Tone.Time): Tone.Transport;
+        stop(time?: Tone.Time): Tone.Transport;
         schedule(callback: (t: any) => any, time: Tone.Time): number;
     };
 
@@ -1197,8 +1197,8 @@ declare module Tone {
         setLoopPoints(startPosition: Tone.Time, endPosition: Tone.Time): Tone.Transport;
         setTimeline(callback: (e: any)=>any, timeout: Tone.Time): number;
         setTimeout(callback: (e: any)=>any, time: Tone.Time): number;
-        start(time: Tone.Time, offset?: Tone.Time): Tone.Transport;
-        stop(time: Tone.Time): Tone.Transport;
+        start(time?: Tone.Time, offset?: Tone.Time): Tone.Transport;
+        stop(time?: Tone.Time): Tone.Transport;
         syncSignal(signal: Tone.Signal, ratio?: number): Tone.Transport;
         syncSource(source: Tone.Source, delay: Tone.Time): Tone.Transport;
         unsyncSignal(signal: Tone.Signal): Tone.Transport;
@@ -1238,7 +1238,7 @@ declare module Tone {
 
     interface Event extends Tone {
         dispose(): Tone.Split;
-        start(time: Tone.Time): Tone.Event;
+        start(time?: Tone.Time): Tone.Event;
         value: any;
     }
 
@@ -1248,7 +1248,7 @@ declare module Tone {
 
     interface Part extends Tone.Event {
         loop: boolean | number;
-        start(time: Tone.Time): Tone.Event;
+        start(time?: Tone.Time): Tone.Event;
     }
 
     var MultiPlayer: {
@@ -1265,8 +1265,8 @@ declare module Tone {
     }
 
     interface Sequence extends Tone.Part {
-        start(time: Tone.Time): Tone.Part;
-        stop(time: Tone.Time): Tone.Part;
+        start(time?: Tone.Time): Tone.Part;
+        stop(time?: Tone.Time): Tone.Part;
         loop: boolean | number;
         at(index: number): Tone.Event | string | Tone.Sequence;
         at(index: number, note: string): void;

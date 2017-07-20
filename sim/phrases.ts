@@ -185,18 +185,23 @@ namespace pxsim.phrases {
             } 
         }
 
-        play(time: Tone.Time){
-            this.sequence.loop = 3;           
-            this.sequence.start(time);
+        play(time?: Tone.Time){
+            this.sequence.loop = true;   
+            if (time) this.sequence.start(time);
+            else this.sequence.start();
+            this.sequence.stop("1m");
         }  
 
-        loop(time: Tone.Time){
+        loop(time?: Tone.Time){
+            this.stop();
             this.sequence.loop = true;      
-            this.sequence.start(time);
+            if (time) this.sequence.start(time);
+            else this.sequence.start();
         }
 
-        stop(time: Tone.Time){
-            this.sequence.stop(time);
+        stop(time?: Tone.Time){
+            if (time) this.sequence.stop(time);
+            else this.sequence.stop();
         }             
     }
 

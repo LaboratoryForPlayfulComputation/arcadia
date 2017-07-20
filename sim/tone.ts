@@ -1,7 +1,11 @@
 namespace pxsim.tone {
 
+    let started = false;
     export function startTransport() {
-        Tone.Transport.start(0);
+        if (!started){
+            Tone.Transport.start(0);
+            started = true;
+        }
     }
 
     export function stopTransport() {

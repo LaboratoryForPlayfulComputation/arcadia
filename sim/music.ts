@@ -48,19 +48,19 @@ namespace pxsim.music {
     export function drumBeat(drum: Drum) {
         switch (drum) {
             case Drum.Kick:
-               board().drumPlayers["kick"].start(0);
+               board().drumPlayers["kick"].start();
                break;
             case Drum.Snare:
-               board().drumPlayers["snare"].start(0);
+               board().drumPlayers["snare"].start();
                break;
             case Drum.HiHat:
-               board().drumPlayers["hihat"].start(0);
+               board().drumPlayers["hihat"].start();
                break;   
             case Drum.Click:
-               board().drumPlayers["click"].start(0);
+               board().drumPlayers["click"].start();
                break;                           
             default:
-               board().drumPlayers["splat"].start(0);
+               board().drumPlayers["splat"].start();
                break;            
         }
     }
@@ -168,7 +168,7 @@ namespace pxsim.music {
                 break;            
         }
         let osc = board().oscillators[type];
-        osc.stop(0);
+        osc.stop();
     }
 
     /**
@@ -204,8 +204,8 @@ namespace pxsim.music {
         }
         let osc = board().oscillators[type];
         osc.volume.value = vol;
-        osc.stop(0);
-        osc.start(0);
+        osc.stop();
+        osc.start();
     }    
 
     /**
