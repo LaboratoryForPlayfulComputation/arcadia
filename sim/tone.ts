@@ -1,15 +1,17 @@
 namespace pxsim.tone {
 
     let started = false;
-    export function startTransport(time: Tone.Time) {
-        if (!started){
+    export function startTransport(time?: Tone.Time) {
+        /*if (!started){
             Tone.Transport.start(time);
             started = true;
-        }
+        }*/
+        if (time) Tone.Transport.start(time);
+        else Tone.Transport.start();
     }
 
     export function stopTransport() {
-        Tone.Transport.stop(0);
+        Tone.Transport.stop();
     }
 
     export function killFX(){
