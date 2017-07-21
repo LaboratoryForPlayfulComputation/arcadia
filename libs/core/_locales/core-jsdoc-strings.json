@@ -119,8 +119,6 @@
   "phrases.drumPhrase": "Create a drum pattern",
   "phrases.drumPhrase|param|name": "@param beat a string describing the beat",
   "phrases.loopPhrase": "Loops a musical phrase",
-  "phrases.notesPhrase": "Create a melody pattern",
-  "phrases.notesPhrase|param|name": "@param beat a string describing the beat",
   "phrases.playPhrase": "Plays a phrase once",
   "phrases.stopPhrase": "Stop a musical phrase"
 }

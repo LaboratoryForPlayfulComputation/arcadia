@@ -137,7 +137,6 @@
   "music|block": "music",
   "phrases.drumPhrase|block": "create beat %name|%beat",
   "phrases.loopPhrase|block": "loop phrase %name",
-  "phrases.notesPhrase|block": "create phrase %name|octave %octave|%melody",
   "phrases.playPhrase|block": "play phrase %name",
   "phrases.stopPhrase|block": "stop phrase %name",
   "phrases|block": "phrases",

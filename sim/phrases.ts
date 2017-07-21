@@ -55,29 +55,6 @@ namespace pxsim.phrases {
         board().phrases[name] = phrase;
     }
 
-    /**
-     * Create a melody pattern
-     * @param name
-     * @param beat a string describing the beat
-     */
-    //% blockId="music_phrase" block="create phrase %name|octave %octave|%melody"
-    //% weight=100
-    //% octave.fieldEditor="gridpicker"
-    //% octave.fieldOptions.width="200" octave.fieldOptions.columns="1"
-    //% octave.fieldOptions.tooltips="true"      
-    //% melody.fieldEditor="melody"
-    //% melody.fieldOptions.onParentBlock=true
-    //% melody.fieldOptions.decompileLiterals=true    
-    //% blockExternalInputs="true" blockGap=8
-    //% blockNamespace=music inBasicCategory=true advanced=true
-    export function notesPhrase(name: string, octave: Octave, melody: string){ 
-        let oct = getOctave(octave);
-        let notesArray = createNotesMap(JSON.parse(melody), 8, pitches, oct);
-        let numTracks = pitches.length;
-        let phrase = tone.createMelodySequence("8n", 8, notesArray, numTracks);
-        board().phrases[name] = phrase;
-    }
-
     /* translates what beats are active on each track,
        to each note that needs to be played on each beat */
     export function createNotesMap(sequence: pxsim.Map<string[]>, numBeats: number, sounds: string[], octave?: string) : pxsim.Map<string[]> {

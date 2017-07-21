@@ -409,24 +409,6 @@ declare namespace phrases {
     //% shim=phrases::drumPhrase
     function drumPhrase(name: string, beatString: string): void;
 
-    /**
-     * Create a melody pattern
-     * @param name
-     * @param beat a string describing the beat
-     */
-    //% blockId="music_phrase" block="create phrase %name|octave %octave|%melody"
-    //% weight=100
-    //% octave.fieldEditor="gridpicker"
-    //% octave.fieldOptions.width="200" octave.fieldOptions.columns="1"
-    //% octave.fieldOptions.tooltips="true"      
-    //% melody.fieldEditor="melody"
-    //% melody.fieldOptions.onParentBlock=true
-    //% melody.fieldOptions.decompileLiterals=true    
-    //% blockExternalInputs="true" blockGap=8
-    //% blockNamespace=music inBasicCategory=true advanced=true
-    //% shim=phrases::notesPhrase
-    function notesPhrase(name: string, octave: Octave, melody: string): void;
-
 }
 
 // Auto-generated. Do not edit. Really.
