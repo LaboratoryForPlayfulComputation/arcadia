@@ -30,7 +30,6 @@ namespace pxsim.music {
     */
     //%
     export function playChordCommand(notesString: string, duration: string) {
-        console.log(notesString);
         let notes = notesString.split(",");
         let notesToPlay = [] as any;
         let i = 0;

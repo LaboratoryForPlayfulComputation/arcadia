@@ -15,7 +15,7 @@ namespace music {
      * @param duration 
      */
     //% blockGap=8
-    //% blockId=music_play_chord block="play chord %notes| for %duration=device_beat"
+    //% blockId=music_play_chord block="play chord %notes=lists_create_with| for %duration=device_beat"
     //% blockNamespace=music inBasicCategory=true
     export function playChord(notes: number[], duration: string): void {
         let noteString = "";
