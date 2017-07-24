@@ -95,7 +95,7 @@ namespace pxsim.tone {
                                             sustain: 0.3,
                                             release: 0.25
                                         }}).toMaster();  
-        board().instruments.push(mono);
+        //board().instruments.push(mono);
         return mono;
     }
 
@@ -109,20 +109,10 @@ namespace pxsim.tone {
                 "sustain": 0.3,
                 "release": 0.25
             }}).toMaster();
-        board().instruments.push(poly);
+        //board().instruments.push(poly);
         return poly;   
     }
 
-    export function createKickDrum(): Tone.MembraneSynth {
-        let kick = new Tone.MembraneSynth({"envelope": {
-                                              "sustain": 0,
-                                              "attack":  0.02,
-                                              "decay":   0.8},
-                                           "octaves": 10
-                                         }).toMaster();
-        board().instruments.push(kick);
-        return kick;                                    
-    }     
 
     export function createOsc(wave: Wave, freq: number) : Tone.Oscillator {
         switch(wave){

@@ -75,6 +75,8 @@ namespace pxsim {
                             this.fx          = {};            
                             this.monosynth   = tone.createMonoSynth().toMaster();  // for play tone blocks
                             this.polysynth   = tone.createPolySynth(5).toMaster(); // for play chord blocks
+                            this.instruments.push(this.monosynth);
+                            this.instruments.push(this.polysynth);
                             this.drumSamples = drumSamples;
                             this.drumPlayers = {"kick" : new Tone.Player(this.drumSamples.get("kick")).toMaster(), // for one-off drum hits
                                                 "snare": new Tone.Player(this.drumSamples.get("snare")).toMaster(),
