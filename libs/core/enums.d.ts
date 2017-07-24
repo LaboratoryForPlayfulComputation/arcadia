@@ -368,3 +368,14 @@ declare const enum Wave {
     Sawtooth = 4
 }
 
+declare const enum Filter {
+    //% block='greyscale'
+    Greyscale = 1,
+    //% block='sepia'
+    Sepia = 2,
+    //% block='inverted'
+    Inverted = 3,
+    //% block='saturated'
+    Saturated = 4
+}
+
