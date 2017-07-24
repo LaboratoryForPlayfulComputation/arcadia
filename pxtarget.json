@@ -26,7 +26,8 @@
         "musicBlocks": true
     },
     "simulator": {
-        "autoRun": true
+        "autoRun": true,
+        "aspectRatio": 1.0
     },     
     "appTheme": {
         "logoUrl": "https://microsoft.github.io/pxt-sample/",
@@ -34,6 +35,10 @@
         "privacyUrl": "https://go.microsoft.com/fwlink/?LinkId=521839",
         "termsOfUseUrl": "https://go.microsoft.com/fwlink/?LinkID=206977",
         "betaUrl": "https://makecode.com/",
+        "organization": "Microsoft",
+        "organizationUrl": "https://makecode.com",
+        "organizationLogo": "./static/Microsoft-logo_rgb_c-gray-square.png",
+        "organizationWideLogo": "./static/Microsoft-logo_rgb_c-white.png",
         "docMenu": [
             {
                 "name": "About",
@@ -44,7 +49,7 @@
                 "path": "/docs"
             }
         ],
-        "coloredToolbox": true,
+        "coloredToolbox": false,
         "monacoToolbox": true,
         "invertedToolbox": true,
         "invertedMonaco": true,
@@ -57,8 +62,8 @@
                 "snap": true
             }
         },
-        "simAnimationEnter": "rotate in",
-        "simAnimationExit": "rotate out",
+        "simAnimationEnter": "scale in",
+        "simAnimationExit": "scale out",
         "extendEditor": true,
         "disableBlockIcons": true,
         "blockColors": {

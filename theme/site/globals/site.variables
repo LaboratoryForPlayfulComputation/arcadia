@@ -18,9 +18,8 @@
       Page
 ---------------*/
 
-@pageBackground      : #777777;
+@pageBackground      : #FFFFFF;
 @lineHeight          : 1.33;
-@textColor           : #FFFFFF;
 
 /*--------------
   Page Heading
@@ -133,7 +132,7 @@
    Layout
 --------------------*/
 
-@sideBarWidth: 8rem;
+@sideBarWidth: 22rem;
 @simulatorWidth: 30rem;
 @simulatorWidthSmall: 20rem;
 
