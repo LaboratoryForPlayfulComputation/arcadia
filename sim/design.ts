@@ -160,13 +160,14 @@ namespace pxsim.design {
         }
     } 
 
-    //document.getElementById("xyz").style["padding-top"];
     /**
      * Sets the filter of the video feed.
      */
     //% blockId=ar_set_filter block="set filter %filter" blockGap=8
     //% blockNamespace=design inBasicCategory=true
-    //% inlineInputMode="inline"    
+    //% inlineInputMode="inline" 
     export function setFilter(filter: Filter) {
+        let el = document.getElementsByTagName("iframe")[0];
+        if (el) el.style.filter = "grayscale(100%)";
     } 
 }

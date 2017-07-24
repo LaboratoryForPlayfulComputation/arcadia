@@ -135,7 +135,6 @@ declare namespace design {
     //% shim=design::setRotation
     function setRotation(marker: number, x: number, y: number, z: number): void;
 
-    //document.getElementById("xyz").style["padding-top"];
     /**
      * Sets the filter of the video feed.
      */
@@ -307,6 +306,15 @@ declare namespace music {
     //% blockNamespace=music inBasicCategory=true
     /*
     export function rest(duration: string) {
+     * TO DO:
+     * pause for x ms based on the global bpm.
+     * bps (beats per second) = Tone.Transport.bpm.value / 60
+     * whole note (in ms)     = 1 * bps * 1000
+     * half note (in ms)      = 0.5 * bps * 1000
+     * quarter note (in ms)   = 0.25 * bps * 1000
+     * eighth note (in ms)    = 0.125 * bps * 1000
+     * sixteenth note (in ms) = 0.0625 * bps * 1000
+     *    
     }
      */
     /**

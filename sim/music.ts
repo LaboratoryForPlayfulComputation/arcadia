@@ -9,6 +9,15 @@ namespace pxsim.music {
     //% blockNamespace=music inBasicCategory=true
     export function playTone(note: number, duration: string) { 
         board().monosynth.triggerAttackRelease(note, duration); 
+        /* TO DO:
+        * pause for x ms based on the global bpm.
+        * bps (beats per second) = Tone.Transport.bpm.value / 60
+        * whole note (in ms)     = 1 * bps * 1000
+        * half note (in ms)      = 0.5 * bps * 1000
+        * quarter note (in ms)   = 0.25 * bps * 1000
+        * eighth note (in ms)    = 0.125 * bps * 1000
+        * sixteenth note (in ms) = 0.0625 * bps * 1000
+        */
     }
 
 
@@ -20,6 +29,15 @@ namespace pxsim.music {
     //% blockNamespace=music inBasicCategory=true
     /*
     export function rest(duration: string) {
+        * TO DO:
+        * pause for x ms based on the global bpm.
+        * bps (beats per second) = Tone.Transport.bpm.value / 60
+        * whole note (in ms)     = 1 * bps * 1000
+        * half note (in ms)      = 0.5 * bps * 1000
+        * quarter note (in ms)   = 0.25 * bps * 1000
+        * eighth note (in ms)    = 0.125 * bps * 1000
+        * sixteenth note (in ms) = 0.0625 * bps * 1000
+        *    
     }
     */
 
@@ -30,6 +48,15 @@ namespace pxsim.music {
     */
     //%
     export function playChordCommand(notesString: string, duration: string) {
+        /* TO DO:
+        * pause for x ms based on the global bpm.
+        * bps (beats per second) = Tone.Transport.bpm.value / 60
+        * whole note (in ms)     = 1 * bps * 1000
+        * half note (in ms)      = 0.5 * bps * 1000
+        * quarter note (in ms)   = 0.25 * bps * 1000
+        * eighth note (in ms)    = 0.125 * bps * 1000
+        * sixteenth note (in ms) = 0.0625 * bps * 1000
+        */        
         let notes = notesString.split(",");
         let notesToPlay = [] as any;
         let i = 0;
