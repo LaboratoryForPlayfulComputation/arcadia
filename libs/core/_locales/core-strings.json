@@ -106,7 +106,6 @@
   "colors|block": "colors",
   "console|block": "console",
   "design.setColor|block": "%marker=marker_block|set color %color=colors_named",
-  "design.setFilter|block": "set filter %filter",
   "design.setNumber|block": "%marker=marker_block|set number %number",
   "design.setOpacity|block": "%marker=marker_block|set opacity %value",
   "design.setPosition|block": "%marker=marker_block|set position x: %x|y: %y|z: %z",

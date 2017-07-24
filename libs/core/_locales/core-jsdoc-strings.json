@@ -70,7 +70,6 @@
   "console.log": "Print out message",
   "design": "Design",
   "design.setColor": "Sets the color that displays when the marker is detected",
-  "design.setFilter": "Sets the filter of the video feed.",
   "design.setNumber": "Sets the number that displays when the marker is detected",
   "design.setOpacity": "Sets the opacity of the shape that is displayed on the marker. 0 is invisible, 1 is fully opaque. The default value is 0.9.",
   "design.setPosition": "Sets the position of the 3D object that is rendered in relation to the marker. Shapes will automatically have a default position of (0, 0, 0).",
