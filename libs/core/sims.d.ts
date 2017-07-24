@@ -93,6 +93,14 @@ declare namespace design {
     function setColor(marker: number, color: number): void;
 
     /**
+     * Sets the opacity of the shape that is displayed on the marker. 0 is invisible, 1 is fully opaque. The default value is 0.9.
+     */
+    //% blockId=ar_set_opacity block="%marker=marker_block|set opacity %value" blockGap=8
+    //% blockNamespace=design inBasicCategory=true
+    //% shim=design::setOpacity
+    function setOpacity(marker: number, value: number): void;
+
+    /**
      * Sets the text color that displays when the marker is detected
      */
     //% blockId=ar_set_text_color block="%marker=marker_block|set text color %color=colors_named" blockGap=8
@@ -117,6 +125,15 @@ declare namespace design {
     //% inlineInputMode="inline"
     //% shim=design::setPosition
     function setPosition(marker: number, x: number, y: number, z: number): void;
+
+    /**
+     * Sets the rotation of the 3D object that is rendered in relation to the marker. Shapes will automatically have a default rotation of (0, 0, 0).
+     */
+    //% blockId=ar_set_rotation block="%marker=marker_block|set rotation x: %x|y: %y|z: %z" blockGap=8
+    //% blockNamespace=design inBasicCategory=true
+    //% inlineInputMode="inline"
+    //% shim=design::setRotation
+    function setRotation(marker: number, x: number, y: number, z: number): void;
 
 }
 declare namespace events {

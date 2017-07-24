@@ -62,6 +62,7 @@ namespace pxsim.markers {
         private prevVisibleTime_ : number;
         private prevHiddenTime_  : number;
         private color_           : number;
+        private opacity_         : number;
         private fontColor_       : number;
         private scaleX_          : number;
         private scaleY_          : number;
@@ -83,6 +84,7 @@ namespace pxsim.markers {
             this.prevVisibleTime_ = 0;
             this.prevHiddenTime_  = 0;
             this.color_           = 0x000000;
+            this.opacity_         = 0.9;
             this.fontColor_       = 0xffffff;
             this.scaleX_          = 1;
             this.scaleY_          = 1;
@@ -238,6 +240,7 @@ namespace pxsim.markers {
         prevVisibleTime(){ return this.prevVisibleTime_; }
         prevHiddenTime(){ return this.prevHiddenTime_; }
         color(){ return this.color_; }
+        opacity(){ return this.opacity_; }
         fontColor(){ return this.fontColor_; }
         scaleX() {return this.scaleX_; }
         scaleY() {return this.scaleY_; }
@@ -270,6 +273,9 @@ namespace pxsim.markers {
         setColor(color: number){
             this.color_ = color;
         }
+        setOpacity(opacity: number){
+            this.opacity_ = opacity;
+        }
         setFontColor(color: number){
             this.fontColor_ = color;
         }
@@ -284,9 +290,13 @@ namespace pxsim.markers {
             this.posX_ = z;
         }   
         setRotation(x: number, y: number, z: number){
-            this.rotX_ = x;
-            this.rotY_ = y;
-            this.rotX_ = z;
+            const in_min  = -1;
+            const in_max  = 1;
+            const out_min = -Math.PI;
+            const out_max = Math.PI;
+            this.rotX_ = (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+            this.rotY_ = (y - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+            this.rotZ_ = (z - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
         }                
         addNeighbor(neighbor: any[]){
             this.neighbors_.push(neighbor);
