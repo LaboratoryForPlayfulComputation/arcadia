@@ -17,10 +17,11 @@ Third Party Code Components
 
 Some code derived (as noted) from
 
-AFRAME
-AR.js
-ARToolkit
-THREE.js
+
+AR.js https://github.com/jeromeetienne/AR.js/commit/0069b8ea0ae6286524291a128e77057ae6f3d55a
+AFRAME (included in AR.js download)
+ARToolkit (included in AR.js download)
+THREE.js (included in AR.js download)
 AFRAME-typings
 @types/three
-Tone.js
+Tone.js https://github.com/Tonejs/Tone.js/releases/tag/r10
