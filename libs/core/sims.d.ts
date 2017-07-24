@@ -136,54 +136,6 @@ declare namespace design {
     function setRotation(marker: number, x: number, y: number, z: number): void;
 
 }
-declare namespace events {
-    /**
-     * Allows use to define callbacks for a marker event
-     * @param marker 
-     */
-    //% blockId=ar_on_event block="on %marker=marker_block|%event |do" blockGap=8
-    //% event.fieldEditor="gridpicker"
-    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
-    //% event.fieldOptions.tooltips="true"
-    //% shim=events::onEvent
-    function onEvent(marker: number, event: MarkerEvent, handler: () => void): void;
-
-    /**
-     * Allows use to define callbacks for a marker event
-     * @param marker 
-     */
-    //% blockId=ar_while_event block="while %marker=marker_block|%event |do" blockGap=8
-    //% event.fieldEditor="gridpicker"
-    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
-    //% event.fieldOptions.tooltips="true"
-    //% shim=events::whileEvent
-    function whileEvent(marker: number, event: MarkerLoopEvent, handler: () => void): void;
-
-    /**
-     * Allows user to define callbacks that fire while the multi marker event is true
-     * @param marker 
-     */
-    //% blockId=ar_while_multi_event block="while %marker1=marker_block|%event |%marker2=marker_block |do" blockGap=8
-    //% event.fieldEditor="gridpicker"
-    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
-    //% event.fieldOptions.tooltips="true"
-    //% inlineInputMode="inline"
-    //% shim=events::whileMultiEvent
-    function whileMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: () => void): void;
-
-    /**
-     * Allows user to define callbacks that trigger once when the multi marker event is true
-     * @param marker 
-     */
-    //% blockId=ar_on_multi_event block="on %marker1=marker_block|%event |%marker2=marker_block |do" blockGap=8
-    //% event.fieldEditor="gridpicker"
-    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
-    //% event.fieldOptions.tooltips="true"    
-    //% inlineInputMode="inline"
-    //% shim=events::onMultiEvent
-    function onMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: () => void): void;
-
-}
 declare namespace fx {
     /**
      * Add an effect to a sequence.
@@ -276,6 +228,54 @@ declare namespace markers {
     //% blockId=ar_get_rot block="%marker=marker_block|rotation %axis" blockGap=8
     //% shim=markers::rotation
     function rotation(marker: number, axis: Axes): number;
+
+}
+declare namespace motion {
+    /**
+     * Allows use to define callbacks for a marker event
+     * @param marker 
+     */
+    //% blockId=ar_on_event block="on %marker=marker_block|%event |do" blockGap=8
+    //% event.fieldEditor="gridpicker"
+    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
+    //% event.fieldOptions.tooltips="true"
+    //% shim=motion::onEvent
+    function onEvent(marker: number, event: MarkerEvent, handler: () => void): void;
+
+    /**
+     * Allows use to define callbacks for a marker event
+     * @param marker 
+     */
+    //% blockId=ar_while_event block="while %marker=marker_block|%event |do" blockGap=8
+    //% event.fieldEditor="gridpicker"
+    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
+    //% event.fieldOptions.tooltips="true"
+    //% shim=motion::whileEvent
+    function whileEvent(marker: number, event: MarkerLoopEvent, handler: () => void): void;
+
+    /**
+     * Allows user to define callbacks that fire while the multi marker event is true
+     * @param marker 
+     */
+    //% blockId=ar_while_multi_event block="while %marker1=marker_block|%event |%marker2=marker_block |do" blockGap=8
+    //% event.fieldEditor="gridpicker"
+    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
+    //% event.fieldOptions.tooltips="true"
+    //% inlineInputMode="inline"
+    //% shim=motion::whileMultiEvent
+    function whileMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: () => void): void;
+
+    /**
+     * Allows user to define callbacks that trigger once when the multi marker event is true
+     * @param marker 
+     */
+    //% blockId=ar_on_multi_event block="on %marker1=marker_block|%event |%marker2=marker_block |do" blockGap=8
+    //% event.fieldEditor="gridpicker"
+    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
+    //% event.fieldOptions.tooltips="true"    
+    //% inlineInputMode="inline"
+    //% shim=motion::onMultiEvent
+    function onMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: () => void): void;
 
 }
 declare namespace music {

@@ -1,14 +1,14 @@
 /**
  * Augment Reality markers
  */
-//% weight=90 icon="\uf21d" color=#9239ff
+//% weight=92 icon="\uf21d" color=#9239ff
 namespace markers {
 }
 
 /**
  * Music
  */
-//% weight=90 icon="\uf001" color=#ff3acd
+//% weight=89 icon="\uf001" color=#ff3acd
 namespace music {
     /**
      * @param notes 
@@ -31,20 +31,20 @@ namespace music {
 /**
  * Colors
  */
-//% weight=90 icon="\uf1fc" color=#4c38ff
+//% weight=88 icon="\uf1fc" color=#4c38ff
 namespace colors {
 }
 
 /**
  * Design
  */
-//% weight=90 icon="\uf110" color=#FC2D72
+//% weight=90 icon="\uf005" color=#16ccb0
 namespace design {
 }
 
 /**
- * Events
+ * Motion
  */
-//% weight=90 icon="\uf110" color=#FF5722
-namespace events {
+//% weight=91 icon="\uf110" color=#FF5722
+namespace motion {
 }

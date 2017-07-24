@@ -1,4 +1,4 @@
-namespace pxsim.events {
+namespace pxsim.motion {
 
     /**
      * Allows use to define callbacks for a marker event
