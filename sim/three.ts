@@ -93,6 +93,7 @@ namespace pxsim.three {
      * @param color 
      */
     export function createBillboard(marker: MarkerCode, color: number): THREE.Mesh {
+        let m = board().marker(marker);
         var geometry = createPlane();
         var material = new THREE.MeshPhongMaterial({transparent: true,
                                                     opacity: 1.0,

@@ -147,7 +147,7 @@ namespace pxt.editor {
           beatBox.setAttribute("active", "true");
           pxsim.svg.fill(beatBox, '#00ffff');
       }
-      if (this.sourceBlock_ && this.sourceBlock_.workspace) this.sourceBlock_.workspace.playAudio('click');      
+      if (this.sourceBlock_ && this.sourceBlock_.workspace) this.sourceBlock_.workspace.playAudio('click');   //workspace.getAudioManager().play('click);    
     }
 
     getValue() {

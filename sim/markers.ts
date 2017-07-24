@@ -63,6 +63,15 @@ namespace pxsim.markers {
         private prevHiddenTime_  : number;
         private color_           : number;
         private fontColor_       : number;
+        private scaleX_          : number;
+        private scaleY_          : number;
+        private scaleZ_          : number;
+        private posX_            : number;
+        private posY_            : number;
+        private posZ_            : number;
+        private rotX_            : number;
+        private rotY_            : number;
+        private rotZ_            : number;
         private neighbors_       : any[][];
 
         constructor(code: MarkerCode) {
@@ -75,6 +84,15 @@ namespace pxsim.markers {
             this.prevHiddenTime_  = 0;
             this.color_           = 0x000000;
             this.fontColor_       = 0xffffff;
+            this.scaleX_          = 1;
+            this.scaleY_          = 1;
+            this.scaleZ_          = 1;
+            this.posX_            = 0;
+            this.posY_            = 0;
+            this.posZ_            = 0;            
+            this.rotX_            = 0;
+            this.rotY_            = 0;
+            this.rotZ_            = 0;
             this.neighbors_       = [];
         }
 
@@ -221,6 +239,15 @@ namespace pxsim.markers {
         prevHiddenTime(){ return this.prevHiddenTime_; }
         color(){ return this.color_; }
         fontColor(){ return this.fontColor_; }
+        scaleX() {return this.scaleX_; }
+        scaleY() {return this.scaleY_; }
+        scaleZ() {return this.scaleZ_; }
+        posX() {return this.posX_; }
+        posY() {return this.posY_; }
+        posZ() {return this.posZ_; }
+        rotX() {return this.rotX_; }
+        rotY() {return this.rotY_; }
+        rotZ() {return this.rotZ_; }        
         visible(): boolean { // Checks if marker is visible but also uses extra logic to prevent flickers
             let date = new Date();
             let time = date.getTime();
@@ -246,6 +273,21 @@ namespace pxsim.markers {
         setFontColor(color: number){
             this.fontColor_ = color;
         }
+        setScale(x: number, y: number, z: number){
+            this.scaleX_ = x;
+            this.scaleY_ = y;
+            this.scaleZ_ = z;
+        }
+        setPosition(x: number, y: number, z: number){
+            this.posX_ = x;
+            this.posY_ = y;
+            this.posX_ = z;
+        }   
+        setRotation(x: number, y: number, z: number){
+            this.rotX_ = x;
+            this.rotY_ = y;
+            this.rotX_ = z;
+        }                
         addNeighbor(neighbor: any[]){
             this.neighbors_.push(neighbor);
         }

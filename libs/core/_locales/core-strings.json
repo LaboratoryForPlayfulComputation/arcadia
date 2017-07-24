@@ -103,6 +103,8 @@
   "console|block": "console",
   "design.setColor|block": "%marker=marker_block|set color %color=colors_named",
   "design.setNumber|block": "%marker=marker_block|set number %number",
+  "design.setPosition|block": "%marker=marker_block|set position x: %x|y: %y|z: %z",
+  "design.setScale|block": "%marker=marker_block|set scale x: %x|y: %y|z: %z",
   "design.setShape|block": "%marker=marker_block|set shape %shape",
   "design.setTextColor|block": "%marker=marker_block|set text color %color=colors_named",
   "design.setText|block": "%marker=marker_block|set text %text",

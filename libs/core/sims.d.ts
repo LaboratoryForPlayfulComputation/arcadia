@@ -100,6 +100,24 @@ declare namespace design {
     //% shim=design::setTextColor
     function setTextColor(marker: number, color: number): void;
 
+    /**
+     * Sets the size of the 3D object that is rendered. Shapes will automatically have a default scale value of (1, 1, 1).
+     */
+    //% blockId=ar_set_scale block="%marker=marker_block|set scale x: %x|y: %y|z: %z" blockGap=8
+    //% blockNamespace=design inBasicCategory=true
+    //% inlineInputMode="inline"
+    //% shim=design::setScale
+    function setScale(marker: number, x: number, y: number, z: number): void;
+
+    /**
+     * Sets the position of the 3D object that is rendered in relation to the marker. Shapes will automatically have a default position of (0, 0, 0).
+     */
+    //% blockId=ar_set_position block="%marker=marker_block|set position x: %x|y: %y|z: %z" blockGap=8
+    //% blockNamespace=design inBasicCategory=true
+    //% inlineInputMode="inline"
+    //% shim=design::setPosition
+    function setPosition(marker: number, x: number, y: number, z: number): void;
+
 }
 declare namespace events {
     /**
