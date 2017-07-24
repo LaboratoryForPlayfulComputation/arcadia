@@ -22,6 +22,6 @@ AR.js https://github.com/jeromeetienne/AR.js/commit/0069b8ea0ae6286524291a128e77
 AFRAME (included in AR.js download)
 ARToolkit (included in AR.js download)
 THREE.js (included in AR.js download)
-AFRAME-typings
-@types/three
+AFRAME-typings https://github.com/devpaul/aframe-typings
+@types/three https://www.npmjs.com/package/@types/three
 Tone.js https://github.com/Tonejs/Tone.js/releases/tag/r10
