@@ -30,11 +30,11 @@
         "aspectRatio": 1.0
     },     
     "appTheme": {
-        "logoUrl": "https://microsoft.github.io/pxt-sample/",
-        "homeUrl": "https://microsoft.github.io/pxt-sample/",
+        "logoUrl": "https://ar.pxt.io/",
+        "homeUrl": "https://ar.pxt.io/",
         "privacyUrl": "https://go.microsoft.com/fwlink/?LinkId=521839",
         "termsOfUseUrl": "https://go.microsoft.com/fwlink/?LinkID=206977",
-        "betaUrl": "https://makecode.com/",
+        "betaUrl": "https://ar.pxt.io/",
         "organization": "Microsoft",
         "organizationUrl": "https://makecode.com",
         "organizationLogo": "./static/Microsoft-logo_rgb_c-gray-square.png",
