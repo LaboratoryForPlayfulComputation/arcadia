@@ -10,10 +10,12 @@ namespace pxsim.fx {
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
     //% effect.fieldOptions.tooltips="true"  
+    /*
     export function addEffectSeq(effect: Effect, name: string) {
         let phrase = board().phrase(name);
         if (phrase) phrase.addEffect(effect);
     }
+    */
 
     /**
     * Remove an effect from a sequence.
@@ -25,27 +27,29 @@ namespace pxsim.fx {
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
     //% effect.fieldOptions.tooltips="true"  
+    /*
     export function removeEffectSeq(effect: Effect, name: string) {
         let phrase = board().phrase(name);
         if (phrase) phrase.removeEffect(effect);
     }
+    */
 
     /**
     * Add an effect to every active instrument.
     * @param effect which effect to use
     */
-    //% blockId=music_add_effect_global block="add global effect %effect" blockGap=8
+    //% blockId=music_add_effect_global block="add effect %effect" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
     //% effect.fieldOptions.tooltips="true"  
     export function addGlobalEffect(effect: Effect) {
         let phrases = board().phrases;
-        /* Iterate over phrases and add fx to them */
+        // Iterate over phrases and add fx to them
         for (var phrase in phrases){
             phrases[phrase].addEffect(effect);
         }
-        /* Add fx to all of the boards instruments and oscillators */
+        // Add fx to all of the boards instruments and oscillators 
         let fx = tone.createEffect(effect);
         for (let i = 0; i < board().instruments.length; i++)
             board().instruments[i].connect(fx);
@@ -57,7 +61,7 @@ namespace pxsim.fx {
     * Remove an effect to every active instrument.
     * @param effect which effect to use
     */
-    //% blockId=music_rem_effect_global block="remove global effect %effect" blockGap=8
+    //% blockId=music_rem_effect_global block="remove effect %effect" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"

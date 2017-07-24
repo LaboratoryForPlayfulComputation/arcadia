@@ -159,10 +159,13 @@ declare namespace fx {
     //% blockNamespace=music inBasicCategory=true
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
-    //% effect.fieldOptions.tooltips="true"
-    //% shim=fx::addEffectSeq
-    function addEffectSeq(effect: Effect, name: string): void;
-
+    //% effect.fieldOptions.tooltips="true"  
+    /*
+    export function addEffectSeq(effect: Effect, name: string) {
+    let phrase = board().phrase(name);
+    if (phrase) phrase.addEffect(effect);
+    }
+     */
     /**
      * Remove an effect from a sequence.
      * @param name name of the phrase
@@ -172,15 +175,18 @@ declare namespace fx {
     //% blockNamespace=music inBasicCategory=true
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
-    //% effect.fieldOptions.tooltips="true"
-    //% shim=fx::removeEffectSeq
-    function removeEffectSeq(effect: Effect, name: string): void;
-
+    //% effect.fieldOptions.tooltips="true"  
+    /*
+    export function removeEffectSeq(effect: Effect, name: string) {
+    let phrase = board().phrase(name);
+    if (phrase) phrase.removeEffect(effect);
+    }
+     */
     /**
      * Add an effect to every active instrument.
      * @param effect which effect to use
      */
-    //% blockId=music_add_effect_global block="add global effect %effect" blockGap=8
+    //% blockId=music_add_effect_global block="add effect %effect" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
@@ -192,7 +198,7 @@ declare namespace fx {
      * Remove an effect to every active instrument.
      * @param effect which effect to use
      */
-    //% blockId=music_rem_effect_global block="remove global effect %effect" blockGap=8
+    //% blockId=music_rem_effect_global block="remove effect %effect" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
