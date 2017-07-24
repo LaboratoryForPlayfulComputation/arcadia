@@ -36,6 +36,13 @@ namespace colors {
 }
 
 /**
+ * Design
+ */
+//% weight=90 icon="\uf110" color=#FC2D72
+namespace design {
+}
+
+/**
  * Events
  */
 //% weight=90 icon="\uf110" color=#FF5722

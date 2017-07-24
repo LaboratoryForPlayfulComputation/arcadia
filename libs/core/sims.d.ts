@@ -55,38 +55,22 @@ declare namespace colors {
     //% shim=colors::named
     function named(color: Colors): number;
 
-    /**
-     * Sets the color that displays when the marker is detected
-     */
-    //% blockId=ar_set_color block="%marker=marker_block|set color %color=colors_named" blockGap=8
-    //% blockNamespace=markers advanced=true
-    //% shim=colors::setColor
-    function setColor(marker: number, color: number): void;
-
-    /**
-     * Sets the text color that displays when the marker is detected
-     */
-    //% blockId=ar_set_text_color block="%marker=marker_block|set text color %color=colors_named" blockGap=8
-    //% blockNamespace=markers advanced=true
-    //% shim=colors::setTextColor
-    function setTextColor(marker: number, color: number): void;
-
 }
-declare namespace decorations {
+declare namespace design {
     /**
      * Sets the text  that displays when the marker is detected
      */
     //% blockId=ar_set_text block="%marker=marker_block|set text %text" blockGap=8
-    //% blockNamespace=markers advanced=true
-    //% shim=decorations::setText
+    //% blockNamespace=design inBasicCategory=true
+    //% shim=design::setText
     function setText(marker: number, text: string): void;
 
     /**
      * Sets the number that displays when the marker is detected
      */
     //% blockId=ar_set_number block="%marker=marker_block|set number %number" blockGap=8
-    //% blockNamespace=markers advanced=true
-    //% shim=decorations::setNumber
+    //% blockNamespace=design inBasicCategory=true
+    //% shim=design::setNumber
     function setNumber(marker: number, number: number): void;
 
     /**
@@ -96,9 +80,25 @@ declare namespace decorations {
     //% shape.fieldEditor="gridpicker"
     //% shape.fieldOptions.width="200" shape.fieldOptions.columns="2"
     //% shape.fieldOptions.itemColour="black" shape.fieldOptions.tooltips="true"
-    //% blockNamespace=markers advanced=true
-    //% shim=decorations::setShape
+    //% blockNamespace=design inBasicCategory=true
+    //% shim=design::setShape
     function setShape(marker: number, shape: Shape): void;
+
+    /**
+     * Sets the color that displays when the marker is detected
+     */
+    //% blockId=ar_set_color block="%marker=marker_block|set color %color=colors_named" blockGap=8
+    //% blockNamespace=design inBasicCategory=true
+    //% shim=design::setColor
+    function setColor(marker: number, color: number): void;
+
+    /**
+     * Sets the text color that displays when the marker is detected
+     */
+    //% blockId=ar_set_text_color block="%marker=marker_block|set text color %color=colors_named" blockGap=8
+    //% blockNamespace=design inBasicCategory=true
+    //% shim=design::setTextColor
+    function setTextColor(marker: number, color: number): void;
 
 }
 declare namespace events {
