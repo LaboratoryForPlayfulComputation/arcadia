@@ -103,11 +103,14 @@ namespace pxsim.tone {
         let poly = new Tone.PolySynth(voices, Tone.MonoSynth);     
         poly.set("volume", -20);
         poly.set({
-            "envelope": {
-                "attack":  0.025,
-                "decay" :  0.1,
-                "sustain": 0.3,
-                "release": 0.25
+            oscillator: {
+                type: "sine"
+            },
+            envelope: {
+                attack:  0.025,
+                decay :  0.1,
+                sustain: 0.3,
+                release: 0.25
             }}).toMaster();
         //board().instruments.push(poly);
         return poly;   
