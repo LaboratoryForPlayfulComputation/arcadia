@@ -165,8 +165,7 @@ namespace pxsim.three {
         });            
     }
 
-    export function loadModel(url: string): Promise<THREE.Object3D> {
-        const extension = url.substring(url.lastIndexOf(".")+1).toLowerCase();
+    export function loadModel(content: string, extension: string) {
         let loader = null as any;
         switch (extension) {
             case "obj": 
@@ -183,9 +182,9 @@ namespace pxsim.three {
                 break;
         }
         return new Promise<THREE.Object3D>((resolve, reject) => {
-            loader.load(url, (model: THREE.Object3D) => { 
+            loader.parse(content, (model: THREE.Object3D) => { 
                 resolve(model);
-            }, null, (e: any) => reject(e)); // TO DO: add error message about file type not being supported
+            }); // TO DO: add error message about file type not being supported
         });
     }
 
