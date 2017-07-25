@@ -154,7 +154,7 @@ namespace pxsim {
          * @param marker 
          */
         marker(marker: MarkerCode): pxsim.markers.Marker {
-            //if (!this.markers) this.markers = {};
+            if (!this.markers) this.markers = {};
             let m = this.markers[marker.toString()];
             if (!m) 
                 m = this.markers[marker.toString()] = new pxsim.markers.Marker(marker);
