@@ -114,17 +114,32 @@ namespace pxsim.design {
     }     
 
     /**
-     * Sets the size of the 3D object that is rendered. Shapes will automatically have a default scale value of (1, 1, 1).
+     * Sets the size of the 3D object that is rendered. Shapes will automatically have a default scale value of 1.
      */
-    //% blockId=ar_set_scale block="%marker=marker_block|set scale x: %x|y: %y|z: %z" blockGap=8
+    //% blockId=ar_set_scale block="%marker=marker_block|set scale %number" blockGap=8
     //% blockNamespace=design inBasicCategory=true
     //% inlineInputMode="inline"    
-    export function setScale(marker: number, x: number, y: number, z: number) {
+    export function setScale(marker: number, size: number) {
+        let m = board().marker(marker);
+        m.setScale(size);
+        let object = m.shapeObject();
+        if (object) object.scale.set(size, size, size);
+    }  
+
+    /**
+     * Sets the size of the 3D object that is rendered. Shapes will automatically have a default scale value of (1, 1, 1).
+     */
+    //% blockId=ar_set_scale_3d block="%marker=marker_block|set scale x: %x|y: %y|z: %z" blockGap=8
+    //% blockNamespace=design inBasicCategory=true
+    //% inlineInputMode="inline"   
+    /* 
+    export function setScale3D(marker: number, x: number, y: number, z: number) {
         let m = board().marker(marker);
         m.setScale(x, y, z);
         let object = m.shapeObject();
         if (object) object.scale.set(x, y, z);
     }  
+    */
 
     /**
      * Sets the position of the 3D object that is rendered in relation to the marker. Shapes will automatically have a default position of (0, 0, 0).

@@ -279,10 +279,12 @@ namespace pxsim.markers {
         setFontColor(color: number){
             this.fontColor_ = color;
         }
-        setScale(x: number, y: number, z: number){
+        setScale(x: number, y?: number, z?: number){
             this.scaleX_ = x;
-            this.scaleY_ = y;
-            this.scaleZ_ = z;
+            if (y) this.scaleY_ = y;
+            else this.scaleY_ = x;
+            if (z) this.scaleZ_ = z;
+            else this.scaleZ_ = x;
         }
         setPosition(x: number, y: number, z: number){
             this.posX_ = x;
