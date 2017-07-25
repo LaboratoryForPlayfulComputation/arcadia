@@ -1,3 +1,4 @@
+
 declare namespace THREEx {
 	 interface ArToolkitSourceOptions {
       sourceType : String;
