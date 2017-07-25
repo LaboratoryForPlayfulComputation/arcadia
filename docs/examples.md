@@ -15,5 +15,9 @@
   "name": "Spin",
   "url":"/examples/spin",
   "cardType": "example"
+},{
+  "name": "Timer",
+  "url":"/examples/timer",
+  "cardType": "example"
 }]
 ```
