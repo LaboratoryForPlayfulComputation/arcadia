@@ -159,12 +159,29 @@ namespace pxsim.design {
     } 
 
     /**
-     * Sets the rotation of the 3D object that is rendered in relation to the marker. Shapes will automatically have a default rotation of (0, 0, 0).
+     * Sets the rotation of the 3D object that is rendered in relation to the marker. Shapes will automatically have a default rotation of 0°.
      */
-    //% blockId=ar_set_rotation block="%marker=marker_block|set rotation x: %x|y: %y|z: %z" blockGap=8
+    //% blockId=ar_set_rotation block="%marker=marker_block|set rotation %degrees|°" blockGap=8
     //% blockNamespace=design inBasicCategory=true
     //% inlineInputMode="inline"    
-    export function setRotation(marker: number, x: number, y: number, z: number) {
+    export function setRotation(marker: number, degrees: number) {
+        let m = board().marker(marker);
+        m.setRotation(degrees);
+        let object = m.shapeObject();
+        if (object){
+            object.rotation.x = m.rotX();
+            object.rotation.y = m.rotY();
+            object.rotation.z = m.rotZ();
+        }
+    } 
+
+    /**
+     * Sets the rotation of the 3D object that is rendered in relation to the marker. Shapes will automatically have a default rotation of (0, 0, 0).
+     */
+    //% blockId=ar_set_rotation_3d block="%marker=marker_block|set rotation x: %x|° y: %y|° z: %z|°" blockGap=8
+    //% blockNamespace=design advanced=true
+    //% inlineInputMode="inline"    
+    export function setRotation3D(marker: number, x: number, y: number, z: number) {
         let m = board().marker(marker);
         m.setRotation(x, y, z);
         let object = m.shapeObject();

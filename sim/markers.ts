@@ -291,14 +291,17 @@ namespace pxsim.markers {
             this.posY_ = y;
             this.posX_ = z;
         }   
-        setRotation(x: number, y: number, z: number){
-            const in_min  = -1;
-            const in_max  = 1;
-            const out_min = -Math.PI;
-            const out_max = Math.PI;
-            this.rotX_ = (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-            this.rotY_ = (y - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-            this.rotZ_ = (z - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+        setRotation(x: number, y?: number, z?: number){
+            if (x && y && z){
+                this.rotX_ = x * Math.PI / 180;
+                this.rotY_ = y * Math.PI / 180;
+                this.rotZ_ = z * Math.PI / 180;
+            } else {
+                this.rotX_ = 0;
+                this.rotZ_ = 0;
+                this.rotY_ = x * Math.PI / 180;;
+                
+            }
         }                
         addNeighbor(neighbor: any[]){
             this.neighbors_.push(neighbor);
