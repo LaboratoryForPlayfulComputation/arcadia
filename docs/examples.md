@@ -11,5 +11,9 @@
   "name": "Cheers!",
   "url":"/examples/cheers",
   "cardType": "example"
+},{
+  "name": "Spin",
+  "url":"/examples/spin",
+  "cardType": "example"
 }]
 ```
