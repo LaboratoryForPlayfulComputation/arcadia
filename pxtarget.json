@@ -75,6 +75,9 @@
             "advanced": "#111111",
             "functions": "#3399ff",
             "arrays": "#b62fd1"
-        }      
+        },
+        "galleries": {
+            "Examples": "examples"
+        }
     }
 }
