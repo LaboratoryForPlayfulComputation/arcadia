@@ -3,21 +3,15 @@ namespace pxsim.music {
     /**
     * Play a tone for a duration of time
     * @param note pitch of the tone to play in Hertz (Hz)
-    * @param duration number of beats to play tone for
+    * @param duration number of beats to play tone for, eg: BeatFraction.Quarter
     */
-    //% blockId=music_play_tone block="play tone %note=device_note| for %duration=device_beat" blockGap=8
-    //% blockNamespace=music inBasicCategory=true
-    export function playTone(note: number, duration: string) { 
-        board().monosynth.triggerAttackRelease(note, duration); 
-        /* TO DO:
-        * pause for x ms based on the global bpm.
-        * bps (beats per second) = Tone.Transport.bpm.value / 60
-        * whole note (in ms)     = 1 * bps * 1000
-        * half note (in ms)      = 0.5 * bps * 1000
-        * quarter note (in ms)   = 0.25 * bps * 1000
-        * eighth note (in ms)    = 0.125 * bps * 1000
-        * sixteenth note (in ms) = 0.0625 * bps * 1000
-        */
+    //% blockId=music_play_tone block="play tone %note=device_note| for %duration" blockGap=8
+    //% blockNamespace=music inBasicCategory=true promise
+    export function playToneAsync(note: number, duration: BeatFraction): Promise<void> { 
+        const t = beat(duration);
+        const tone = board().monosynth
+        tone.triggerAttackRelease(note, t);
+        return pauseBeatAsync(tone, duration);
     }
 
 
@@ -25,38 +19,20 @@ namespace pxsim.music {
     * Rest for a duration of time
     * @param duration number of beats to rest for
     */
-    //% blockId=music_rest block="rest for %duration=device_beat" blockGap=8
-    //% blockNamespace=music inBasicCategory=true
-    /*
-    export function rest(duration: string) {
-        * TO DO:
-        * pause for x ms based on the global bpm.
-        * bps (beats per second) = Tone.Transport.bpm.value / 60
-        * whole note (in ms)     = 1 * bps * 1000
-        * half note (in ms)      = 0.5 * bps * 1000
-        * quarter note (in ms)   = 0.25 * bps * 1000
-        * eighth note (in ms)    = 0.125 * bps * 1000
-        * sixteenth note (in ms) = 0.0625 * bps * 1000
-        *    
+    //% blockId=music_rest block="rest for %duration" blockGap=8
+    //% blockNamespace=music inBasicCategory=true promise
+    export function restAsync(duration: BeatFraction): Promise<void> {
+        const tone = board().monosynth;
+        return pauseBeatAsync(tone, duration);        
     }
-    */
 
     /**
     * Play a chord of an array of notes for a duration of time. Can play up to 5 notes.
     * @param notes pitches of the tones to play in Hertz (Hz)
     * @param duration number of beats to play tone for
     */
-    //%
-    export function playChordCommand(notesString: string, duration: string) {
-        /* TO DO:
-        * pause for x ms based on the global bpm.
-        * bps (beats per second) = Tone.Transport.bpm.value / 60
-        * whole note (in ms)     = 1 * bps * 1000
-        * half note (in ms)      = 0.5 * bps * 1000
-        * quarter note (in ms)   = 0.25 * bps * 1000
-        * eighth note (in ms)    = 0.125 * bps * 1000
-        * sixteenth note (in ms) = 0.0625 * bps * 1000
-        */        
+    //% promise
+    export function playChordCommandAsync(notesString: string, duration: BeatFraction): Promise<void> {
         let notes = notesString.split(",");
         let notesToPlay = [] as any;
         let i = 0;
@@ -68,7 +44,10 @@ namespace pxsim.music {
         } else {
             notesToPlay = notes;
         }
-        board().polysynth.triggerAttackRelease(notesToPlay, duration);
+        const t = beat(duration);
+        const note = board().polysynth;
+        board().polysynth.triggerAttackRelease(notesToPlay, t);
+        return pauseBeatAsync(note, duration);
     }
 
     /**
@@ -80,7 +59,7 @@ namespace pxsim.music {
     //% drum.fieldEditor="gridpicker"
     //% drum.fieldOptions.width="200" drum.fieldOptions.columns="1"
     //% drum.fieldOptions.tooltips="true"        
-    export function drumBeat(drum: Drum) {
+    export function playDrum(drum: Drum) {
         switch (drum) {
             case Drum.Kick:
                board().drumPlayers["kick"].start();
@@ -115,13 +94,9 @@ namespace pxsim.music {
 */
     
     /**
-     * Return the duration of a beat in milliseconds (the beat fraction).
-     * @param fraction the fraction of the current whole note, eg: BeatFraction.Half
+     * Converts into beat notation
      */
-    //% help=music/beat weight=49 blockGap=8
-    //% blockId=device_beat block="%fraction|beat" blockGap=8
-    //% blockNamespace=music inBasicCategory=true
-    export function beat(fraction?: BeatFraction): string {
+    function beat(fraction: BeatFraction): string {
         switch (fraction) {
             case BeatFraction.Whole: return "1n";
             case BeatFraction.Half: return "2n";
@@ -131,6 +106,12 @@ namespace pxsim.music {
             default: return "8n";
         }
     }  
+
+    function pauseBeatAsync(tone: Tone, fraction: BeatFraction): Promise<void> {
+        const t = beat(fraction);
+        const s = tone.toSeconds(t);
+        return loops.pauseAsync(s * 1000 + 20);
+    }
 
     /**
      * Get the frequency of a note
