@@ -379,3 +379,8 @@ declare const enum Filter {
     Saturated = 4
 }
 
+declare const enum ModelType {
+    OBJ,
+    STL,
+    DAE
+}

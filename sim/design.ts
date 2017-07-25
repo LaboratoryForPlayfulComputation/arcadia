@@ -8,16 +8,16 @@ namespace pxsim.design {
     export function setText(marker: number, text: string) {
         let m = board().marker(marker);
         let billboardMesh = three.createBillboard(marker, m.color());
-        let textMesh      = three.createText(text, m.fontColor(), marker);
-        let group         = m.group();
-        billboardMesh.name       = marker.toString() + '-shape';
+        let textMesh = three.createText(text, m.fontColor(), marker);
+        let group = m.group();
+        billboardMesh.name = marker.toString() + '-shape';
         billboardMesh.rotation.x = Math.PI / 2;
-        textMesh.name            = marker.toString() + '-text';
-        textMesh.rotation.x      = -Math.PI / 2;
-        textMesh.position.z      += 0.25;
-        textMesh.position.x      -= 0.5; 
+        textMesh.name = marker.toString() + '-text';
+        textMesh.rotation.x = -Math.PI / 2;
+        textMesh.position.z += 0.25;
+        textMesh.position.x -= 0.5;
         three.removeShapeFromMarker(marker);
-        three.removeTextFromMarker(marker);                 
+        three.removeTextFromMarker(marker);
         group.add(billboardMesh);
         group.add(textMesh);
     }
@@ -28,17 +28,17 @@ namespace pxsim.design {
     //% blockId=ar_set_number block="%marker=marker_block|set number %number" blockGap=8
     //% blockNamespace=design inBasicCategory=true
     export function setNumber(marker: number, number: number) {
-        let m = board().marker(marker);   
+        let m = board().marker(marker);
         let billboardMesh = three.createBillboard(marker, m.color());
-        let textMesh      = three.createText(number.toString(), m.fontColor(), marker);
-        billboardMesh.name       = marker.toString() + '-shape';
+        let textMesh = three.createText(number.toString(), m.fontColor(), marker);
+        billboardMesh.name = marker.toString() + '-shape';
         billboardMesh.rotation.x = Math.PI / 2;
-        textMesh.name            = marker.toString() + '-text';
-        textMesh.rotation.x      = -Math.PI / 2;
-        textMesh.position.z      += 0.25;
-        textMesh.position.x      -= 0.5;  
+        textMesh.name = marker.toString() + '-text';
+        textMesh.rotation.x = -Math.PI / 2;
+        textMesh.position.z += 0.25;
+        textMesh.position.x -= 0.5;
         three.removeShapeFromMarker(marker);
-        three.removeTextFromMarker(marker);              
+        three.removeTextFromMarker(marker);
         m.group().add(billboardMesh);
         m.group().add(textMesh);
     }
@@ -53,20 +53,46 @@ namespace pxsim.design {
     //% blockNamespace=design inBasicCategory=true
     export function setShape(marker: number, shape: Shape) {
         let m = board().marker(marker);
-        let geometry    = three.createGeometry(shape);
-        let material    = new THREE.MeshPhongMaterial({transparent: true,
-                                                        opacity: m.opacity(),
-                                                         color: m.color(),
-                                                          side: THREE.DoubleSide});
-        let mesh        = new THREE.Mesh(geometry, material);
+        let geometry = three.createGeometry(shape);
+        let material = new THREE.MeshPhongMaterial({
+            transparent: true,
+            opacity: m.opacity(),
+            color: m.color(),
+            side: THREE.DoubleSide
+        });
+        let mesh = new THREE.Mesh(geometry, material);
         mesh.scale.set(m.scaleX(), m.scaleY(), m.scaleZ());
-        mesh.name       = marker.toString() + '-shape';
+        mesh.name = marker.toString() + '-shape';
         mesh.position.y += 0.5;
         mesh.position.y += m.posY();
         mesh.position.x += m.posX();
         mesh.position.z += m.posZ();
         three.removeShapeFromMarker(marker);
         m.group().add(mesh);
+    }
+
+    /**
+ * Sets the shape that displays when the marker is detected
+ */
+    //% blockId=ar_set_model block="%marker=marker_block|set model %type|%content" blockGap=8
+    //% blockNamespace=design inBasicCategory=true
+    export function setModel(marker: number, type: ModelType, content: string) {
+        const m = board().marker(marker);
+        const mod = three.loadModel(type, content)
+        let material = new THREE.MeshPhongMaterial({
+            transparent: true,
+            opacity: m.opacity(),
+            color: m.color(),
+            side: THREE.DoubleSide
+        });
+        mod.scale.set(m.scaleX(), m.scaleY(), m.scaleZ());
+        mod.name = marker.toString() + '-shape';
+        mod.position.y += 0.5;
+        mod.position.y += m.posY();
+        mod.position.x += m.posX();
+        mod.position.z += m.posZ();
+        three.removeShapeFromMarker(marker);
+        m.group().add(mod);
     }
 
     /**
@@ -79,11 +105,13 @@ namespace pxsim.design {
         m.setColor(color);
         let object = m.shapeObject();
         if (object)
-            (object as any).material = new THREE.MeshPhongMaterial({transparent: true,
-                                                                    opacity: m.opacity(),
-                                                                    color: color,
-                                                                    side: THREE.DoubleSide});
-    }   
+            (object as any).material = new THREE.MeshPhongMaterial({
+                transparent: true,
+                opacity: m.opacity(),
+                color: color,
+                side: THREE.DoubleSide
+            });
+    }
 
     /**
      * Sets the opacity of the shape that is displayed on the marker. 0 is invisible, 1 is fully opaque. The default value is 0.9.
@@ -95,7 +123,7 @@ namespace pxsim.design {
         m.setOpacity(value);
         let object = m.shapeObject();
         if (object) (object as any).material.opacity = value;
-    }      
+    }
 
     /**
      * Sets the text color that displays when the marker is detected
@@ -104,14 +132,16 @@ namespace pxsim.design {
     //% blockNamespace=design inBasicCategory=true
     export function setTextColor(marker: number, color: number) {
         let m = board().marker(marker);
-        m.setFontColor(color);        
+        m.setFontColor(color);
         let object = m.textObject();
         if (object)
-            (object as any).material = new THREE.MeshBasicMaterial({transparent: true,
-                                                                    opacity: 5,
-                                                                    color: color,
-                                                                    side: THREE.DoubleSide});
-    }     
+            (object as any).material = new THREE.MeshBasicMaterial({
+                transparent: true,
+                opacity: 5,
+                color: color,
+                side: THREE.DoubleSide
+            });
+    }
 
     /**
      * Sets the size of the 3D object that is rendered. Shapes will automatically have a default scale value of 1.
@@ -124,7 +154,7 @@ namespace pxsim.design {
         m.setScale(size);
         let object = m.shapeObject();
         if (object) object.scale.set(size, size, size);
-    }  
+    }
 
     /**
      * Sets the size of the 3D object that is rendered. Shapes will automatically have a default scale value of (1, 1, 1).
@@ -137,7 +167,7 @@ namespace pxsim.design {
         m.setScale(x, y, z);
         let object = m.shapeObject();
         if (object) object.scale.set(x, y, z);
-    }  
+    }
 
     /**
      * Sets the position of the 3D object that is rendered in relation to the marker. Shapes will automatically have a default position of (0, 0, 0).
@@ -149,12 +179,12 @@ namespace pxsim.design {
         let m = board().marker(marker);
         m.setPosition(x, y, z);
         let object = m.shapeObject();
-        if (object){
+        if (object) {
             object.position.x += x;
             object.position.y += y;
             object.position.z += z;
         }
-    } 
+    }
 
     /**
      * Sets the rotation of the 3D object that is rendered in relation to the marker. Shapes will automatically have a default rotation of 0°.
@@ -166,12 +196,12 @@ namespace pxsim.design {
         let m = board().marker(marker);
         m.setRotation(degrees);
         let object = m.shapeObject();
-        if (object){
+        if (object) {
             object.rotation.x = m.rotX();
             object.rotation.y = m.rotY();
             object.rotation.z = m.rotZ();
         }
-    } 
+    }
 
     /**
      * Sets the rotation of the 3D object that is rendered in relation to the marker. Shapes will automatically have a default rotation of (0, 0, 0).
@@ -183,12 +213,12 @@ namespace pxsim.design {
         let m = board().marker(marker);
         m.setRotation(x, y, z);
         let object = m.shapeObject();
-        if (object){
+        if (object) {
             object.rotation.x = m.rotX();
             object.rotation.y = m.rotY();
             object.rotation.z = m.rotZ();
         }
-    } 
+    }
 
     /**
      * Sets the filter of the video feed.
