@@ -101,7 +101,7 @@ namespace pxsim.tone {
 
     export function createPolySynth(voices: number): Tone.PolySynth {
         let poly = new Tone.PolySynth(voices, Tone.MonoSynth);     
-        poly.set("volume", -20);
+        //poly.set("volume", -20);
         poly.set({
             oscillator: {
                 type: "sine"
