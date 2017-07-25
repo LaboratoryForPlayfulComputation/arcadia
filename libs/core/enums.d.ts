@@ -303,15 +303,15 @@ declare const enum Note {
 }
 
 declare const enum BeatFraction {
-    //% block=1
+    //% block="1 beat"
     Whole = 1,
-    //% block="1/2"
+    //% block="1/2 beat"
     Half = 2,
-    //% block="1/4"
+    //% block="1/4 beat"
     Quarter = 4,
-    //% block="1/8"
+    //% block="1/8 beat"
     Eighth = 8,
-    //% block="1/16"
+    //% block="1/16 beat"
     Sixteenth = 16
 }
 

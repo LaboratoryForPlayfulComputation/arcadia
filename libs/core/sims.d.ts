@@ -282,40 +282,30 @@ declare namespace music {
     /**
      * Play a tone for a duration of time
      * @param note pitch of the tone to play in Hertz (Hz)
-     * @param duration number of beats to play tone for
+     * @param duration number of beats to play tone for, eg: BeatFraction.Quarter
      */
-    //% blockId=music_play_tone block="play tone %note=device_note| for %duration=device_beat" blockGap=8
-    //% blockNamespace=music inBasicCategory=true
-    //% shim=music::playTone
-    function playTone(note: number, duration: string): void;
+    //% blockId=music_play_tone block="play tone %note=device_note| for %duration" blockGap=8
+    //% blockNamespace=music inBasicCategory=true promise
+    //% shim=music::playToneAsync promise
+    function playTone(note: number, duration: BeatFraction): void;
 
     /**
      * Rest for a duration of time
      * @param duration number of beats to rest for
      */
-    //% blockId=music_rest block="rest for %duration=device_beat" blockGap=8
-    //% blockNamespace=music inBasicCategory=true
-    /*
-    export function rest(duration: string) {
-     * TO DO:
-     * pause for x ms based on the global bpm.
-     * bps (beats per second) = Tone.Transport.bpm.value / 60
-     * whole note (in ms)     = 1 * bps * 1000
-     * half note (in ms)      = 0.5 * bps * 1000
-     * quarter note (in ms)   = 0.25 * bps * 1000
-     * eighth note (in ms)    = 0.125 * bps * 1000
-     * sixteenth note (in ms) = 0.0625 * bps * 1000
-     *    
-    }
-     */
+    //% blockId=music_rest block="rest for %duration" blockGap=8
+    //% blockNamespace=music inBasicCategory=true promise
+    //% shim=music::restAsync promise
+    function rest(duration: BeatFraction): void;
+
     /**
      * Play a chord of an array of notes for a duration of time. Can play up to 5 notes.
      * @param notes pitches of the tones to play in Hertz (Hz)
      * @param duration number of beats to play tone for
      */
-    //%
-    //% shim=music::playChordCommand
-    function playChordCommand(notesString: string, duration: string): void;
+    //% promise
+    //% shim=music::playChordCommandAsync promise
+    function playChordCommand(notesString: string, duration: BeatFraction): void;
 
     /**
      * Play a type of drum sound
@@ -326,8 +316,8 @@ declare namespace music {
     //% drum.fieldEditor="gridpicker"
     //% drum.fieldOptions.width="200" drum.fieldOptions.columns="1"
     //% drum.fieldOptions.tooltips="true"
-    //% shim=music::drumBeat
-    function drumBeat(drum: Drum): void;
+    //% shim=music::playDrum
+    function playDrum(drum: Drum): void;
 
     /**
      * Shift pitch by a certain amount of semitones. For reference, an octave is 12 semitones.
@@ -343,14 +333,10 @@ declare namespace music {
     }
      */
     /**
-     * Return the duration of a beat in milliseconds (the beat fraction).
-     * @param fraction the fraction of the current whole note, eg: BeatFraction.Half
+     * Converts into beat notation
      */
-    //% help=music/beat weight=49 blockGap=8
-    //% blockId=device_beat block="%fraction|beat" blockGap=8
-    //% blockNamespace=music inBasicCategory=true
     //% shim=music::beat
-    function beat(fraction?: BeatFraction): string;
+    function beat(fraction: BeatFraction): string;
 
     /**
      * Get the frequency of a note
