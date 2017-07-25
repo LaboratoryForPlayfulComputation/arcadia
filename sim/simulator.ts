@@ -104,7 +104,7 @@ namespace pxsim {
             this.onRenderFcts = [];
             /* update the AR toolkit source and context */
             this.onRenderFcts.push(() => {
-                if(this.arToolkitSource.ready === false) return
+                if(!this.arToolkitSource || this.arToolkitSource.ready === false) return
                 this.arToolkitContext.update(this.arToolkitSource.domElement)
                 if (this.scene && this.camera)
                     this.scene.visible = this.camera.visible;
@@ -154,6 +154,7 @@ namespace pxsim {
          * @param marker 
          */
         marker(marker: MarkerCode): pxsim.markers.Marker {
+            //if (!this.markers) this.markers = {};
             let m = this.markers[marker.toString()];
             if (!m) 
                 m = this.markers[marker.toString()] = new pxsim.markers.Marker(marker);
