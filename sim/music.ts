@@ -110,7 +110,7 @@ namespace pxsim.music {
     function pauseBeatAsync(tone: Tone, fraction: BeatFraction): Promise<void> {
         const t = beat(fraction);
         const s = tone.toSeconds(t);
-        return loops.pauseAsync(s * 1000 + 20);
+        return loops.pauseAsync(s * 1000 + 5);
     }
 
     /**

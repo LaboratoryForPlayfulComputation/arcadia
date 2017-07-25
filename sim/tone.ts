@@ -90,7 +90,7 @@ namespace pxsim.tone {
                                             type: "sine"
                                         },
                                         envelope: {
-                                            attack:  0.005,
+                                            attack:  0.02,
                                             decay:   0.1,
                                             sustain: 0.3,
                                             release: 0.25
@@ -104,7 +104,7 @@ namespace pxsim.tone {
         poly.set("volume", -20);
         poly.set({
             "envelope": {
-                "attack":  0.005,
+                "attack":  0.025,
                 "decay" :  0.1,
                 "sustain": 0.3,
                 "release": 0.25
