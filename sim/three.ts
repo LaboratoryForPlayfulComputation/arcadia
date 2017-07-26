@@ -86,6 +86,16 @@ namespace pxsim.three {
     export function createPlane(): THREE.Geometry {
         return new THREE.PlaneGeometry(1, 1, 32);
     }
+    export function createLine(v1: THREE.Vector3, v2: THREE.Vector3, color: number): THREE.Line {
+        let material = new THREE.LineBasicMaterial({
+                    color: color,
+                });
+
+        let geometry = new THREE.Geometry();
+        geometry.vertices.push(v1, v2);
+
+        return new THREE.Line(geometry, material);
+    }
 
     /**
      * Creates a solid colored plane in a particular marker group

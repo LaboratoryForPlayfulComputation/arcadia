@@ -251,17 +251,7 @@ namespace pxsim.markers {
             let cp = this.worldPosition();
 
             if(pp != cp){
-                var material = new THREE.LineBasicMaterial({
-                    color: this.brushColor(),
-                });
-
-                var geometry = new THREE.Geometry();
-                geometry.vertices.push(
-                    new THREE.Vector3(pp.x, pp.y, pp.z),
-                    new THREE.Vector3(cp.x, cp.y, cp.z)
-                );
-
-                var line = new THREE.Line(geometry, material);
+                let line = three.createLine(pp, cp, this.brushColor());
                 line.name = 'markerrroot' + this.code_.toString();
                 this.paintGroup_.add(line);
             }
