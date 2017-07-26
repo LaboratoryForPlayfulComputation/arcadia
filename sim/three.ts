@@ -165,27 +165,24 @@ namespace pxsim.three {
         });            
     }
 
-    export function loadModel(content: string, extension: string) {
+    export function loadModel(type: ModelType, content: string): THREE.Object3D {
         let loader = null as any;
-        switch (extension) {
-            case "obj": 
-                loader = new (THREE as any).OBJLoader(); // must cast THREE to any because loaders not defined in typings plug in
-                break;
-            case "stl":
+        switch (type) {
+            case ModelType.STL:
                 loader = new (THREE as any).STLLoader();
                 break;
-            case "dae":
+            case ModelType.MTL:
+                loader = new (THREE as any).MTLLoader();
+                break;                
+            case ModelType.DAE:
                 loader = new (THREE as any).ColladaLoader();
                 break;                
             default:
                 loader = new (THREE as any).OBJLoader();
                 break;
         }
-        return new Promise<THREE.Object3D>((resolve, reject) => {
-            loader.parse(content, (model: THREE.Object3D) => { 
-                resolve(model);
-            }); // TO DO: add error message about file type not being supported
-        });
+        const model = loader.parse(content);
+        return model;
     }
 
 }
