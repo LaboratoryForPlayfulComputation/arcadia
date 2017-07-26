@@ -223,4 +223,19 @@ namespace pxsim.music {
         tone.bpm(bpm);
     }
 
+    /**
+     * Set the master volume. Choose a number in the range of 0-100, the default volume is 50.
+     * @param bpm
+     */
+    //% blockId="music_volume" block="set volume %value"
+    //% weight=100
+    //% blockExternalInputs="true" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    export function setVolume(value: number){
+        const cappedVal = Math.min(Math.max(value, 0), 100); // caps number between the ranges 0 and 100
+        const mappedVal = (cappedVal - 0) * (1 - 0) / (100 - 0) + 0;
+        const decibels  = Math.log(mappedVal)*10;
+        Tone.Master.volume.value = decibels;
+    }
+
 }

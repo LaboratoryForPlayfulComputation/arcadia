@@ -408,6 +408,17 @@ declare namespace music {
     //% shim=music::setTempo
     function setTempo(bpm: number): void;
 
+    /**
+     * Set the master volume. Choose a number in the range of 0-100, the default volume is 50.
+     * @param bpm
+     */
+    //% blockId="music_volume" block="set volume %value"
+    //% weight=100
+    //% blockExternalInputs="true" blockGap=8
+    //% blockNamespace=music inBasicCategory=true
+    //% shim=music::setVolume
+    function setVolume(value: number): void;
+
 }
 declare namespace phrases {
     /**

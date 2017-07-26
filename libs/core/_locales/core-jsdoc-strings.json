@@ -114,6 +114,7 @@
   "music.rest": "Rest for a duration of time",
   "music.rest|param|duration": "number of beats to rest for",
   "music.setTempo": "Set the beats per minute (tempo)",
+  "music.setVolume": "Set the master volume. Choose a number in the range of 0-100, the default volume is 50.",
   "music.startOsc": "Start an oscillator type",
   "music.startOsc|param|wave": "type of sound wave",
   "music.stopOsc": "Stop an oscillator type",
