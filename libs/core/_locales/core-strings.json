@@ -134,7 +134,6 @@
   "motion.whileEvent|block": "while %marker=marker_block|%event |do",
   "motion.whileMultiEvent|block": "while %marker1=marker_block|%event |%marker2=marker_block |do",
   "motion|block": "motion",
-  "music.beat|block": "bend by %pitch| semitones",
   "music.noteFrequency|block": "%note",
   "music.oscFreq|block": "set %wave|wave to %note=device_note",
   "music.playDrum|block": "play %drum",

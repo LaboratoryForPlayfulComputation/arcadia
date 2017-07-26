@@ -346,25 +346,6 @@ declare namespace music {
     function playDrum(drum: Drum): void;
 
     /**
-     * Shift pitch by a certain amount of semitones. For reference, an octave is 12 semitones.
-     * @param pitch amount in semitones to shift the pitch by
-     */
-    /*
-    //% blockId=music_bend block="bend by %pitch| semitones" blockGap=8
-    //% blockNamespace=music inBasicCategory=true
-    export function bend(pitch: number) {
-    let shift = new Tone.PitchShift(pitch);
-    for (let i = 0; i < board().instruments.length; i++)
-    board().instruments[i].connect(shift);       
-    }
-     */
-    /**
-     * Converts into beat notation
-     */
-    //% shim=music::beat
-    function beat(fraction: BeatFraction): string;
-
-    /**
      * Get the frequency of a note
      * @param name the note name, eg: Note.C
      */

@@ -100,7 +100,6 @@
   "motion.whileEvent": "Allows use to define callbacks for a marker event",
   "motion.whileMultiEvent": "Allows user to define callbacks that fire while the multi marker event is true",
   "music": "Music",
-  "music.beat": "Shift pitch by a certain amount of semitones. For reference, an octave is 12 semitones.\n\n\nConverts into beat notation",
   "music.noteFrequency": "Get the frequency of a note",
   "music.noteFrequency|param|name": "the note name, eg: Note.C",
   "music.oscFreq": "Change the frequency (pitch) of an oscillator",
