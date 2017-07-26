@@ -161,6 +161,15 @@ declare namespace design {
     //% shim=design::setRotation3D
     function setRotation3D(marker: number, x: number, y: number, z: number): void;
 
+    /**
+     * Sets the filter of the video feed.
+     */
+    //% blockId=ar_set_filter block="set filter %filter" blockGap=8
+    //% blockNamespace=design inBasicCategory=true
+    //% inlineInputMode="inline"
+    //% shim=design::setFilter
+    function setFilter(filter: Filter): void;
+
 }
 declare namespace fx {
     /**
