@@ -67,6 +67,7 @@ namespace pxsim.markers {
         private scaleX_          : number;
         private scaleY_          : number;
         private scaleZ_          : number;
+        private autoScale_       : number;
         private posX_            : number;
         private posY_            : number;
         private posZ_            : number;
@@ -89,6 +90,7 @@ namespace pxsim.markers {
             this.scaleX_          = 1;
             this.scaleY_          = 1;
             this.scaleZ_          = 1;
+            this.autoScale_       = 1;
             this.posX_            = 0;
             this.posY_            = 0;
             this.posZ_            = 0;            
@@ -229,7 +231,10 @@ namespace pxsim.markers {
 
         /* Getter methods */
         textObject(){ return this.group_.getObjectByName(this.code_.toString() + '-text'); }    
-        shapeObject(){ return this.group_.getObjectByName(this.code_.toString() + '-shape'); }
+        shapeObject(){ 
+            return this.group_.getObjectByName(this.code_.toString() + '-shape')
+                || this.group_.getObjectByName(this.code_.toString() + '-model'); 
+        }
         code(){ return this.code_; }
         group(){ return this.group_; }
         position(){ return this.group_.position; }
@@ -280,11 +285,14 @@ namespace pxsim.markers {
             this.fontColor_ = color;
         }
         setScale(x: number, y?: number, z?: number){
-            this.scaleX_ = x;
-            if (y) this.scaleY_ = y;
-            else this.scaleY_ = x;
-            if (z) this.scaleZ_ = z;
-            else this.scaleZ_ = x;
+            this.scaleX_ = x / this.autoScale_;
+            if (y) this.scaleY_ = y / this.autoScale_;
+            else this.scaleY_ = this.scaleX_;
+            if (z) this.scaleZ_ = z / this.autoScale_;
+            else this.scaleZ_ = this.scaleX_;
+        }
+        setAutoScale(value: number){
+            this.autoScale_ = value;
         }
         setPosition(x: number, y: number, z: number){
             this.posX_ = x;

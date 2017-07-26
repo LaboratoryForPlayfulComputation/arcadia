@@ -61,6 +61,7 @@ namespace pxsim.design {
             side: THREE.DoubleSide
         });
         let mesh = new THREE.Mesh(geometry, material);
+        m.setAutoScale(1);
         mesh.scale.set(m.scaleX(), m.scaleY(), m.scaleZ());
         mesh.name = marker.toString() + '-shape';
         mesh.position.y += 0.5;
@@ -85,8 +86,14 @@ namespace pxsim.design {
             color: m.color(),
             side: THREE.DoubleSide
         });
-        mod.scale.set(m.scaleX(), m.scaleY(), m.scaleZ());
-        mod.name = marker.toString() + '-shape';
+        const boundingBox  = new THREE.Box3().setFromObject(mod);
+        const maxDimension = Math.max(boundingBox.max.x, boundingBox.max.y, boundingBox.max.z);
+        let autoScale      = 1;
+        if (maxDimension > 1.5) autoScale = maxDimension / 1.5;
+        else if (maxDimension < 0.5) autoScale = maxDimension * 2;
+        m.setAutoScale(autoScale);
+        mod.scale.set(m.scaleX()/autoScale, m.scaleY()/autoScale, m.scaleZ()/autoScale);
+        mod.name = marker.toString() + '-model';
         mod.position.y += 0.5;
         mod.position.y += m.posY();
         mod.position.x += m.posX();
@@ -153,7 +160,7 @@ namespace pxsim.design {
         let m = board().marker(marker);
         m.setScale(size);
         let object = m.shapeObject();
-        if (object) object.scale.set(size, size, size);
+        if (object) object.scale.set(m.scaleX(), m.scaleY(), m.scaleZ());
     }
 
     /**
@@ -166,7 +173,7 @@ namespace pxsim.design {
         let m = board().marker(marker);
         m.setScale(x, y, z);
         let object = m.shapeObject();
-        if (object) object.scale.set(x, y, z);
+        if (object) object.scale.set(m.scaleX(), m.scaleY(), m.scaleZ());
     }
 
     /**
