@@ -14,7 +14,6 @@ namespace pxsim.music {
         return pauseBeatAsync(tone, duration);
     }
 
-
     /**
     * Rest for a duration of time
     * @param duration number of beats to rest for

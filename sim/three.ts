@@ -189,7 +189,6 @@ namespace pxsim.three {
                 break;                
             default:
                 loader = new (THREE as any).OBJLoader();
-                break;
         }
         const model = loader.parse(content);
         return model;
