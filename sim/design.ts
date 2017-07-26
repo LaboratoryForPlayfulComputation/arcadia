@@ -111,13 +111,17 @@ namespace pxsim.design {
         let m = board().markers[marker.toString()];
         m.setColor(color);
         let object = m.shapeObject();
-        if (object)
-            (object as any).material = new THREE.MeshPhongMaterial({
+        if (object){
+            let mat = new THREE.MeshPhongMaterial({
                 transparent: true,
                 opacity: m.opacity(),
                 color: color,
                 side: THREE.DoubleSide
             });
+            object.traverse(function(child){
+                if (child instanceof THREE.Mesh) child.material = mat;
+            });
+        }
     }
 
     /**

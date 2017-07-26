@@ -382,5 +382,6 @@ declare const enum Filter {
 declare const enum ModelType {
     OBJ,
     STL,
+    MTL,
     DAE
 }

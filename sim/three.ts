@@ -171,6 +171,9 @@ namespace pxsim.three {
             case ModelType.STL:
                 loader = new (THREE as any).STLLoader();
                 break;
+            case ModelType.MTL:
+                loader = new (THREE as any).MTLLoader();
+                break;                
             case ModelType.DAE:
                 loader = new (THREE as any).ColladaLoader();
                 break;                
