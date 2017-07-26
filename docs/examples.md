@@ -12,9 +12,13 @@
   "url":"/examples/cheers",
   "cardType": "example"
 },{
+  "name": "Theremin",
+  "url":"/examples/theremin",
+  "cardType": "example"
+},{
   "name": "Spin",
   "url":"/examples/spin",
-  "cardType": "example"
+  "cardType": "example"  
 },{
   "name": "Timer",
   "url":"/examples/timer",
