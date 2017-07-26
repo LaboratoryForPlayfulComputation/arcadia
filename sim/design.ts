@@ -231,19 +231,43 @@ namespace pxsim.design {
         }
     }
 
+    /**
+     * Use a marker as an AR paintbrush..
+     */
+    //% blockId=ar_set_brush_mode block="%marker=marker_block|set brush %val" blockGap=8
+    //% blockNamespace=design advanced=true
+    //% inlineInputMode="inline"    
+    export function setBrushMode(marker: number, val: Toggle) {
+        let m = board().marker(marker);
+        switch (val){
+            case Toggle.on:
+                m.setPainting(true);
+                break;
+            default:
+                m.setPainting(false);
+        }
+    }  
 
     /**
-     * Sets the filter of the video feed.
+     * Set the color of your AR paintbrush.
      */
-    //% blockId=ar_set_filter block="set filter %filter" blockGap=8
-    //% blockNamespace=design inBasicCategory=true
-    //% inlineInputMode="inline" 
-    /*
-    export function setFilter(filter: Filter) {
-        //let el = document.getElementsByTagName("iframe")[0];
-        let el = document;
-        console.log(el.toString());
-        //if (el) el.style.filter = "grayscale(100%)";
+    //% blockId=ar_set_brush_color block="%marker=marker_block|set brush color %color=colors_named" blockGap=8
+    //% blockNamespace=design advanced=true
+    //% inlineInputMode="inline"    
+    export function setBrushColor(marker: number, color: number) {
+        let m = board().marker(marker);
+        m.setBrushColor(color);
     }
-    */
+
+    /**
+     * Clear all strokes made by your AR paintbrush.
+     */
+    //% blockId=ar_clear_brush_strokes block="%marker=marker_block|clear brush strokes" blockGap=8
+    //% blockNamespace=design advanced=true
+    //% inlineInputMode="inline"    
+    export function clearBrushStrokes(marker: number) {
+        let m = board().marker(marker);
+        m.clearBrushStrokes();
+    }
+
 }
