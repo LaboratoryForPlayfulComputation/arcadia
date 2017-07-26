@@ -171,7 +171,7 @@ declare namespace design {
     function setBrushMode(marker: number, val: Toggle): void;
 
     /**
-     * Use a marker as an AR paintbrush..
+     * Set the color of your AR paintbrush.
      */
     //% blockId=ar_set_brush_color block="%marker=marker_block|set brush color %color=colors_named" blockGap=8
     //% blockNamespace=design advanced=true
@@ -180,7 +180,7 @@ declare namespace design {
     function setBrushColor(marker: number, color: number): void;
 
     /**
-     * Use a marker as an AR paintbrush..
+     * Clear all strokes made by your AR paintbrush.
      */
     //% blockId=ar_clear_brush_strokes block="%marker=marker_block|clear brush strokes" blockGap=8
     //% blockNamespace=design advanced=true

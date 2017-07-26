@@ -77,6 +77,7 @@ namespace pxsim.markers {
         private opacity_         : number;
         private fontColor_       : number;
         private brushColor_      : number;
+        private brushWidth_      : number;
         private scaleX_          : number;
         private scaleY_          : number;
         private scaleZ_          : number;
@@ -104,6 +105,7 @@ namespace pxsim.markers {
             this.opacity_         = 0.9;
             this.fontColor_       = 0xffffff;
             this.brushColor_      = 0xffffff;
+            this.brushWidth_      = 1;
             this.scaleX_          = 1;
             this.scaleY_          = 1;
             this.scaleZ_          = 1;
@@ -250,7 +252,7 @@ namespace pxsim.markers {
 
             if(pp != cp){
                 var material = new THREE.LineBasicMaterial({
-                    color: this.brushColor()
+                    color: this.brushColor(),
                 });
 
                 var geometry = new THREE.Geometry();
@@ -300,6 +302,7 @@ namespace pxsim.markers {
         opacity(){ return this.opacity_; }
         fontColor(){ return this.fontColor_; }
         brushColor(){ return this.brushColor_; }
+        brushWidth(){ return this.brushWidth_; }
         scaleX() { return this.scaleX_; }
         scaleY() { return this.scaleY_; }
         scaleZ() { return this.scaleZ_; }
@@ -341,6 +344,9 @@ namespace pxsim.markers {
         setBrushColor(color: number){
             this.brushColor_ = color;
         }        
+        setBrushWidth(thickness: number){
+            this.brushWidth_ = thickness;
+        }
         setScale(x: number, y?: number, z?: number){
             this.scaleX_ = x / this.autoScale_;
             if (y) this.scaleY_ = y / this.autoScale_;
