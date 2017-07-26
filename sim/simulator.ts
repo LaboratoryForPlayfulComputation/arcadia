@@ -92,7 +92,7 @@ namespace pxsim {
                             /* start rendering */                    
                             this.runRenderingLoop();   
                             tone.startTransport(0);    
-                            Tone.Master.volume.value = -10;
+                            music.setVolume(50);
                             return Promise.resolve();                            
                         });
                 });
