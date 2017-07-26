@@ -125,6 +125,7 @@
   "loops.pause|block": "pause (ms) %pause",
   "loops|block": "loops",
   "markers.distance|block": "distance from %marker1=marker_block| to %marker2=marker_block",
+  "markers.mapPositionToRange|block": "%marker=marker_block|map position %axis|from %out_min|to %out_max",
   "markers.marker|block": "%marker",
   "markers.position|block": "%marker=marker_block|position %axis",
   "markers.rotation|block": "%marker=marker_block|rotation %axis",

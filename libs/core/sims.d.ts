@@ -255,6 +255,14 @@ declare namespace markers {
     //% shim=markers::rotation
     function rotation(marker: number, axis: Axes): number;
 
+    /**
+     * Maps the x, y, or z position of a marker to a specified range.
+     */
+    //% blockId=ar_map_pos block="%marker=marker_block|map position %axis|from %out_min|to %out_max" blockGap=8
+    //% inlineInputMode="inline"
+    //% shim=markers::mapPositionToRange
+    function mapPositionToRange(marker: number, axis: Axes, out_min: number, out_max: number): number;
+
 }
 declare namespace motion {
     /**

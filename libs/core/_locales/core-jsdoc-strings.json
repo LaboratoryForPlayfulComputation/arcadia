@@ -91,6 +91,7 @@
   "loops.pause|param|ms": "how long to pause for, eg: 100, 200, 500, 1000, 2000",
   "markers": "Augment Reality markers",
   "markers.distance": "Gets the distance between the centers of 2 markers",
+  "markers.mapPositionToRange": "Maps the x, y, or z position of a marker to a specified range.",
   "markers.marker": "An augmented reality marker",
   "markers.position": "Gets the x, y, z positional coordinates of a marker",
   "markers.rotation": "Gets the x, y, z rotational values of a marker",

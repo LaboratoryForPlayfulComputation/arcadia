@@ -52,6 +52,17 @@ namespace pxsim.markers {
         }
     }
 
+    /**
+     * Maps the x, y, or z position of a marker to a specified range.
+     */
+    //% blockId=ar_map_pos block="%marker=marker_block|map position %axis|from %out_min|to %out_max" blockGap=8
+    //% inlineInputMode="inline"    
+    export function mapPositionToRange(marker: number, axis: Axes, out_min: number, out_max: number): number{
+        const in_min = -1.5;
+        const in_max = 1.5;
+        return (position(marker, axis) - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    }
+
     /* Class to store marker data */
     export class Marker {
         private code_            : MarkerCode;
