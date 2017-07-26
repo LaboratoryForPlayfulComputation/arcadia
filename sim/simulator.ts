@@ -120,6 +120,7 @@ namespace pxsim {
                 for (var key in this.markers){
                     let marker = this.markers[key];
                     marker.triggerEvents();
+                    if (marker.painting()) marker.paint();
                     marker.updateState();      
                 }
             });
