@@ -130,7 +130,7 @@ namespace pxsim.three {
             side: THREE.DoubleSide
         });
         let m = board().marker(marker);
-        //let object   = m.group.getObjectByName(marker.toString() + '-text');
+        //let object = m.group.getObjectByName(marker.toString() + '-text');
         let textMesh = new THREE.Mesh(text3d, material);
         return textMesh;
     }
