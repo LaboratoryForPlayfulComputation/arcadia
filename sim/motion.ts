@@ -58,10 +58,4 @@ namespace pxsim.motion {
         board().bus.listen(eventString, event, handler);
     }
 
-    export function when(){
-        /* TO DO: add a "when" block to loops that triggers
-           an event 1 time when it is true. Doesn't trigger again
-           until it is false and then true again */
-    }
-
 }
