@@ -88,7 +88,7 @@ declare namespace design {
      * Sets the shape that displays when the marker is detected
      */
     //% blockId=ar_set_model block="%marker=marker_block|set model %type|%content" blockGap=8
-    //% blockNamespace=design inBasicCategory=true
+    //% blockNamespace=design advanced=true
     //% shim=design::setModel
     function setModel(marker: number, type: ModelType, content: string): void;
 
