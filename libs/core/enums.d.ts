@@ -369,8 +369,8 @@ declare const enum Wave {
 }
 
 declare const enum Filter {
-    //% block='greyscale'
-    Greyscale = 1,
+    //% block='grayscale'
+    Grayscale = 1,
     //% block='sepia'
     Sepia = 2,
     //% block='inverted'

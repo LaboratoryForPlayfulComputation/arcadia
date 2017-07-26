@@ -231,6 +231,7 @@ namespace pxsim.design {
         }
     }
 
+
     /**
      * Sets the filter of the video feed.
      */
@@ -239,8 +240,10 @@ namespace pxsim.design {
     //% inlineInputMode="inline" 
     /*
     export function setFilter(filter: Filter) {
-        let el = document.getElementsByTagName("iframe")[0];
-        if (el) el.style.filter = "grayscale(100%)";
-    } 
+        //let el = document.getElementsByTagName("iframe")[0];
+        let el = document;
+        console.log(el.toString());
+        //if (el) el.style.filter = "grayscale(100%)";
+    }
     */
 }

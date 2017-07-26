@@ -30,7 +30,7 @@
   "Effect.Distortion|block": "distortion",
   "Effect.Phaser|block": "phaser",
   "Effect.Reverb|block": "reverb",
-  "Filter.Greyscale|block": "greyscale",
+  "Filter.Grayscale|block": "grayscale",
   "Filter.Inverted|block": "inverted",
   "Filter.Saturated|block": "saturated",
   "Filter.Sepia|block": "sepia",
