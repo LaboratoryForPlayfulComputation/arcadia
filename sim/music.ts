@@ -35,12 +35,8 @@ namespace pxsim.music {
     export function playChordCommandAsync(notesString: string, duration: BeatFraction): Promise<void> {
         let notes = notesString.split(",");
         let notesToPlay = [] as any;
-        let i = 0;
         if (notes.length > 5){
-            while (i < 5){
-                notesToPlay.push(notes[i]);
-                i++;
-            }
+            for (let i = 0; i < 5; i++) notesToPlay.push(notes[i]);
         } else {
             notesToPlay = notes;
         }
@@ -75,7 +71,6 @@ namespace pxsim.music {
                break;                           
             default:
                board().drumPlayers["splat"].start();
-               break;            
         }
     }
 
@@ -138,7 +133,6 @@ namespace pxsim.music {
                 break;            
             default:
                 type = "sawtooth";
-                break;            
         }
         let osc = board().oscillators[type];
         osc.frequency.value = freq;
@@ -168,7 +162,6 @@ namespace pxsim.music {
                 break;            
             default:
                 type = "sawtooth";
-                break;            
         }
         let osc = board().oscillators[type];
         osc.stop();
@@ -203,7 +196,6 @@ namespace pxsim.music {
             default:
                 type = "sawtooth";
                 vol = -30;
-                break;            
         }
         let osc = board().oscillators[type];
         osc.volume.value = vol;

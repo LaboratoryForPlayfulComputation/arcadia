@@ -249,7 +249,6 @@ namespace pxsim.markers {
         paint(){
             let pp = this.prevWorldPos_;
             let cp = this.worldPosition();
-
             if(pp != cp){
                 let line = three.createLine(pp, cp, this.brushColor());
                 line.name = 'markerrroot' + this.code_.toString();
@@ -361,7 +360,6 @@ namespace pxsim.markers {
                 this.rotX_ = 0;
                 this.rotZ_ = 0;
                 this.rotY_ = x * Math.PI / 180;;
-                
             }
         }                
         addNeighbor(neighbor: any[]){
