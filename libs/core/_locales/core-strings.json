@@ -142,7 +142,7 @@
   "music.playTone|block": "play tone %note=device_note| for %duration",
   "music.rest|block": "rest for %duration",
   "music.setTempo|block": "set tempo %bpm",
-  "music.setVolume|block": "set volume %value",
+  "music.setVolume|block": "set volume %volume",
   "music.startOsc|block": "start %wave|wave",
   "music.stopOsc|block": "stop %wave|wave",
   "music|block": "music",

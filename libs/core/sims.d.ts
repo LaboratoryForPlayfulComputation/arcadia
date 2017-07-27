@@ -101,7 +101,8 @@ declare namespace design {
     function setColor(marker: number, color: number): void;
 
     /**
-     * Sets the opacity of the shape that is displayed on the marker. 0 is invisible, 1 is fully opaque. The default value is 0.9.
+     * Sets the opacity of the shape that is displayed on the marker. 0 is invisible, 1 is fully opaque.
+     * @param value How opaque the shape should be between 0 and 1, eg: 0.9
      */
     //% blockId=ar_set_opacity block="%marker=marker_block|set opacity %value" blockGap=8
     //% blockNamespace=design inBasicCategory=true
@@ -118,6 +119,7 @@ declare namespace design {
 
     /**
      * Sets the size of the 3D object that is rendered. Shapes will automatically have a default scale value of 1.
+     * @param size The amount to scale the model by, eg: 1
      */
     //% blockId=ar_set_scale block="%marker=marker_block|set scale %number" blockGap=8
     //% blockNamespace=design inBasicCategory=true
@@ -127,6 +129,9 @@ declare namespace design {
 
     /**
      * Sets the size of the 3D object that is rendered. Shapes will automatically have a default scale value of (1, 1, 1).
+     * @param x The amount to scale the model in the x direction, eg: 1
+     * @param y The amount to scale the model in the y direction, eg: 1
+     * @param z The amount to scale the model in the z direction, eg: 1
      */
     //% blockId=ar_set_scale_3d block="%marker=marker_block|set scale x: %x|y: %y|z: %z" blockGap=8
     //% blockNamespace=design advanced=true
@@ -220,50 +225,6 @@ declare namespace fx {
     function removeGlobalEffect(effect: Effect): void;
 
 }
-declare namespace markers {
-    /**
-     * An augmented reality marker
-     */
-    //% blockId=marker_block block="%marker"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"    
-    //% marker.fieldOptions.decompileLiterals=true
-    //% shim=TD_ID
-    //% useEnumVal=1
-    //% shim=markers::marker
-    function marker(marker: MarkerCode): number;
-
-    /**
-     * Gets the distance between the centers of 2 markers
-     */
-    //% blockId=ar_get_dist block="distance from %marker1=marker_block| to %marker2=marker_block" blockGap=8
-    //% shim=markers::distance
-    function distance(marker1: number, marker2: number): number;
-
-    /**
-     * Gets the x, y, z positional coordinates of a marker
-     */
-    //% blockId=ar_get_pos block="%marker=marker_block|position %axis" blockGap=8
-    //% shim=markers::position
-    function position(marker: number, axis: Axes): number;
-
-    /**
-     * Gets the x, y, z rotational values of a marker
-     */
-    //% blockId=ar_get_rot block="%marker=marker_block|rotation %axis" blockGap=8
-    //% shim=markers::rotation
-    function rotation(marker: number, axis: Axes): number;
-
-    /**
-     * Maps the x, y, or z position of a marker to a specified range.
-     */
-    //% blockId=ar_map_pos block="%marker=marker_block|map position %axis|from %out_min|to %out_max" blockGap=8
-    //% inlineInputMode="inline"
-    //% shim=markers::mapPositionToRange
-    function mapPositionToRange(marker: number, axis: Axes, out_min: number, out_max: number): number;
-
-}
 declare namespace interaction {
     /**
      * Allows use to define callbacks for a marker event
@@ -317,6 +278,52 @@ declare namespace interaction {
     //% blockId=ar_slider block="slider %marker1=marker_block|from %marker2=marker_block|to %marker3=marker_block" blockGap=8
     //% shim=interaction::slider
     function slider(marker1: number, marker2: number, marker3: number): number;
+
+}
+declare namespace markers {
+    /**
+     * An augmented reality marker
+     */
+    //% blockId=marker_block block="%marker"
+    //% marker.fieldEditor="gridpicker"
+    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"    
+    //% marker.fieldOptions.decompileLiterals=true
+    //% shim=TD_ID
+    //% useEnumVal=1
+    //% shim=markers::marker
+    function marker(marker: MarkerCode): number;
+
+    /**
+     * Gets the distance between the centers of 2 markers
+     */
+    //% blockId=ar_get_dist block="distance from %marker1=marker_block| to %marker2=marker_block" blockGap=8
+    //% shim=markers::distance
+    function distance(marker1: number, marker2: number): number;
+
+    /**
+     * Gets the x, y, z positional coordinates of a marker
+     */
+    //% blockId=ar_get_pos block="%marker=marker_block|position %axis" blockGap=8
+    //% shim=markers::position
+    function position(marker: number, axis: Axes): number;
+
+    /**
+     * Gets the x, y, z rotational values of a marker
+     */
+    //% blockId=ar_get_rot block="%marker=marker_block|rotation %axis" blockGap=8
+    //% shim=markers::rotation
+    function rotation(marker: number, axis: Axes): number;
+
+    /**
+     * Maps the x, y, or z position of a marker to a specified range.
+     * @param out_min The lower end of the range to map to, eg: 0
+     * @param out_max The upper end of the range to map to, eg: 100
+     */
+    //% blockId=ar_map_pos block="%marker=marker_block|map position %axis|from %out_min|to %out_max" blockGap=8
+    //% inlineInputMode="inline"
+    //% shim=markers::mapPositionToRange
+    function mapPositionToRange(marker: number, axis: Axes, out_min: number, out_max: number): number;
 
 }
 declare namespace music {
@@ -414,7 +421,7 @@ declare namespace music {
 
     /**
      * Set the beats per minute (tempo)
-     * @param bpm
+     * @param bpm The number of beats per minute, eg: 120
      */
     //% blockId="music_bpm" block="set tempo %bpm"
     //% weight=100
@@ -425,14 +432,14 @@ declare namespace music {
 
     /**
      * Set the master volume. Choose a number in the range of 0-100, the default volume is 50.
-     * @param bpm
+     * @param volume The volume level, eg: 50
      */
-    //% blockId="music_volume" block="set volume %value"
+    //% blockId="music_volume" block="set volume %volume"
     //% weight=100
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% shim=music::setVolume
-    function setVolume(value: number): void;
+    function setVolume(volume: number): void;
 
 }
 declare namespace paint {

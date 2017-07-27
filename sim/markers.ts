@@ -54,6 +54,8 @@ namespace pxsim.markers {
 
     /**
      * Maps the x, y, or z position of a marker to a specified range.
+     * @param out_min The lower end of the range to map to, eg: 0
+     * @param out_max The upper end of the range to map to, eg: 100
      */
     //% blockId=ar_map_pos block="%marker=marker_block|map position %axis|from %out_min|to %out_max" blockGap=8
     //% inlineInputMode="inline"    
