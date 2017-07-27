@@ -89,7 +89,7 @@ namespace pxsim.design {
         const boundingBox  = new THREE.Box3().setFromObject(mod);
         const maxDimension = Math.max(boundingBox.max.x, boundingBox.max.y, boundingBox.max.z);
         let autoScale      = 1;
-        if (maxDimension > 1.5) autoScale = maxDimension / 1.5;
+        if (maxDimension > 1) autoScale = maxDimension / 1.25;
         else if (maxDimension < 0.5) autoScale = maxDimension * 2;
         m.setAutoScale(autoScale);
         mod.scale.set(m.scaleX()/autoScale, m.scaleY()/autoScale, m.scaleZ()/autoScale);
