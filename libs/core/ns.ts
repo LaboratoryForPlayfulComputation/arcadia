@@ -48,3 +48,10 @@ namespace design {
 //% weight=91 icon="\uf110" color=#FF5722
 namespace motion {
 }
+
+/**
+ * Paint
+ */
+//% icon="\uf1fc" color=#4c38ff
+namespace paint {
+}

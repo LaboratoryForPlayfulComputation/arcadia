@@ -161,33 +161,6 @@ declare namespace design {
     //% shim=design::setRotation3D
     function setRotation3D(marker: number, x: number, y: number, z: number): void;
 
-    /**
-     * Use a marker as an AR paintbrush..
-     */
-    //% blockId=ar_set_brush_mode block="%marker=marker_block|set brush %val" blockGap=8
-    //% blockNamespace=design advanced=true
-    //% inlineInputMode="inline"
-    //% shim=design::setBrushMode
-    function setBrushMode(marker: number, val: Toggle): void;
-
-    /**
-     * Set the color of your AR paintbrush.
-     */
-    //% blockId=ar_set_brush_color block="%marker=marker_block|set brush color %color=colors_named" blockGap=8
-    //% blockNamespace=design advanced=true
-    //% inlineInputMode="inline"
-    //% shim=design::setBrushColor
-    function setBrushColor(marker: number, color: number): void;
-
-    /**
-     * Clear all strokes made by your AR paintbrush.
-     */
-    //% blockId=ar_clear_brush_strokes block="%marker=marker_block|clear brush strokes" blockGap=8
-    //% blockNamespace=design advanced=true
-    //% inlineInputMode="inline"
-    //% shim=design::clearBrushStrokes
-    function clearBrushStrokes(marker: number): void;
-
 }
 declare namespace fx {
     /**
@@ -453,6 +426,35 @@ declare namespace music {
     //% blockNamespace=music inBasicCategory=true
     //% shim=music::setVolume
     function setVolume(value: number): void;
+
+}
+declare namespace paint {
+    /**
+     * Use a marker as an AR paintbrush..
+     */
+    //% blockId=ar_set_brush_mode block="%marker=marker_block|set brush %val" blockGap=8
+    //% blockNamespace=paint inBasicCategory=true
+    //% inlineInputMode="inline"
+    //% shim=paint::setBrushMode
+    function setBrushMode(marker: number, val: Toggle): void;
+
+    /**
+     * Set the color of your AR paintbrush.
+     */
+    //% blockId=ar_set_brush_color block="%marker=marker_block|set brush color %color=colors_named" blockGap=8
+    //% blockNamespace=paint inBasicCategory=true
+    //% inlineInputMode="inline"
+    //% shim=paint::setBrushColor
+    function setBrushColor(marker: number, color: number): void;
+
+    /**
+     * Clear all strokes made by your AR paintbrush.
+     */
+    //% blockId=ar_clear_brush_strokes block="%marker=marker_block|clear brush strokes" blockGap=8
+    //% blockNamespace=paint inBasicCategory=true
+    //% inlineInputMode="inline"
+    //% shim=paint::clearBrushStrokes
+    function clearBrushStrokes(marker: number): void;
 
 }
 declare namespace phrases {

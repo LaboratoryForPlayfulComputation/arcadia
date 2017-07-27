@@ -105,9 +105,6 @@
   "colors.rgb|block": "red %red|green %green|blue %blue",
   "colors|block": "colors",
   "console|block": "console",
-  "design.clearBrushStrokes|block": "%marker=marker_block|clear brush strokes",
-  "design.setBrushColor|block": "%marker=marker_block|set brush color %color=colors_named",
-  "design.setBrushMode|block": "%marker=marker_block|set brush %val",
   "design.setColor|block": "%marker=marker_block|set color %color=colors_named",
   "design.setModel|block": "%marker=marker_block|set model %type|%content",
   "design.setNumber|block": "%marker=marker_block|set number %number",
@@ -148,6 +145,10 @@
   "music.startOsc|block": "start %wave|wave",
   "music.stopOsc|block": "stop %wave|wave",
   "music|block": "music",
+  "paint.clearBrushStrokes|block": "%marker=marker_block|clear brush strokes",
+  "paint.setBrushColor|block": "%marker=marker_block|set brush color %color=colors_named",
+  "paint.setBrushMode|block": "%marker=marker_block|set brush %val",
+  "paint|block": "paint",
   "phrases.drumPhrase|block": "create beat %name|%beat",
   "phrases.loopPhrase|block": "loop phrase %name",
   "phrases.playPhrase|block": "play phrase %name",
@@ -161,6 +162,7 @@
   "{id:category}Math": "Math",
   "{id:category}Motion": "Motion",
   "{id:category}Music": "Music",
+  "{id:category}Paint": "Paint",
   "{id:category}String": "String",
   "{id:category}Text": "Text"
 }
