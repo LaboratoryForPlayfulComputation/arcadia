@@ -129,5 +129,6 @@
   "phrases.loopPhrase": "Loops a musical phrase",
   "phrases.playPhrase": "Plays a phrase once",
   "phrases.stopPhrase": "Stop a musical phrase",
+  "ui": "UI",
   "ui.slider": "Maps the value of 1 marker in relation to its distance between 2 markers."
 }
