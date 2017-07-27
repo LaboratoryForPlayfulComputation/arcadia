@@ -52,6 +52,20 @@ namespace motion {
 /**
  * Paint
  */
-//% icon="\uf1fc" color=#4c38ff
+//% icon="\uf1fc" color=#e00d0d
 namespace paint {
+}
+
+/**
+ * ui
+ */
+//% icon="\uf1fc" color=#2910e8
+namespace ui {
+}
+
+/**
+ * Models
+ */
+//% icon="\uf1fc" color=#4d03a3
+namespace models {
 }
