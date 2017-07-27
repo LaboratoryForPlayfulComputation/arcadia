@@ -264,7 +264,7 @@ declare namespace markers {
     function mapPositionToRange(marker: number, axis: Axes, out_min: number, out_max: number): number;
 
 }
-declare namespace motion {
+declare namespace interaction {
     /**
      * Allows use to define callbacks for a marker event
      * @param marker 
@@ -273,7 +273,7 @@ declare namespace motion {
     //% event.fieldEditor="gridpicker"
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"
-    //% shim=motion::onEvent
+    //% shim=interaction::onEvent
     function onEvent(marker: number, event: MarkerEvent, handler: () => void): void;
 
     /**
@@ -284,7 +284,7 @@ declare namespace motion {
     //% event.fieldEditor="gridpicker"
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"
-    //% shim=motion::whileEvent
+    //% shim=interaction::whileEvent
     function whileEvent(marker: number, event: MarkerLoopEvent, handler: () => void): void;
 
     /**
@@ -296,7 +296,7 @@ declare namespace motion {
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"
     //% inlineInputMode="inline"
-    //% shim=motion::whileMultiEvent
+    //% shim=interaction::whileMultiEvent
     function whileMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: () => void): void;
 
     /**
@@ -308,8 +308,15 @@ declare namespace motion {
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"    
     //% inlineInputMode="inline"
-    //% shim=motion::onMultiEvent
+    //% shim=interaction::onMultiEvent
     function onMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: () => void): void;
+
+    /**
+     * Maps the value of 1 marker in relation to its distance between 2 markers.
+     */
+    //% blockId=ar_slider block="slider %marker1=marker_block|from %marker2=marker_block|to %marker3=marker_block" blockGap=8
+    //% shim=interaction::slider
+    function slider(marker1: number, marker2: number, marker3: number): number;
 
 }
 declare namespace music {
@@ -499,15 +506,6 @@ declare namespace phrases {
     //% blockNamespace=music advanced=true
     //% shim=phrases::drumPhrase
     function drumPhrase(name: string, beatString: string): void;
-
-}
-declare namespace ui {
-    /**
-     * Maps the value of 1 marker in relation to its distance between 2 markers.
-     */
-    //% blockId=ar_slider block="slider %marker1=marker_block|from %marker2=marker_block|to %marker3=marker_block" blockGap=8
-    //% shim=ui::slider
-    function slider(marker1: number, marker2: number, marker3: number): number;
 
 }
 
