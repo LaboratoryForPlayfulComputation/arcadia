@@ -501,5 +501,14 @@ declare namespace phrases {
     function drumPhrase(name: string, beatString: string): void;
 
 }
+declare namespace ui {
+    /**
+     * Maps the value of 1 marker in relation to its distance between 2 markers.
+     */
+    //% blockId=ar_slider block="slider %marker1=marker_block|from %marker2=marker_block|to %marker3=marker_block" blockGap=8
+    //% shim=ui::slider
+    function slider(marker1: number, marker2: number, marker3: number): number;
+
+}
 
 // Auto-generated. Do not edit. Really.

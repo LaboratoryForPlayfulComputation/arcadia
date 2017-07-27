@@ -128,5 +128,7 @@
   "phrases.drumPhrase|param|name": "@param beat a string describing the beat",
   "phrases.loopPhrase": "Loops a musical phrase",
   "phrases.playPhrase": "Plays a phrase once",
-  "phrases.stopPhrase": "Stop a musical phrase"
+  "phrases.stopPhrase": "Stop a musical phrase",
+  "ui": "ui",
+  "ui.slider": "Maps the value of 1 marker in relation to its distance between 2 markers."
 }
