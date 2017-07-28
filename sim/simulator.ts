@@ -30,12 +30,13 @@ namespace pxsim {
         public bus              : pxsim.EventBus;
         public font             : String;
         public scene            : THREE.Scene;
-        public camera           : THREE.Camera;
+        public camera           : THREE.PerspectiveCamera;
         public markers          : pxsim.Map<pxsim.markers.Marker>;
         public arToolkitContext : THREEx.ArToolkitContext;
         public arToolkitSource  : THREEx.ArToolkitSource;
         public renderer         : THREE.WebGLRenderer;
         public stereoRenderer   : any;
+        public video            : threex.ArVideo;
         public mirror           : boolean;
         public vrEffect         : boolean;
         public baseURL          : string;
@@ -67,7 +68,7 @@ namespace pxsim {
                             this.renderer         = getWebGlContext();
                             this.stereoRenderer   = getStereoRenderer();
                             this.mirror           = false;
-                            this.vrEffect         = false;
+                            this.vrEffect         = true;
                             this.camera           = three.createCamera();
                             this.scene            = three.createScene();
                             threex.initArToolkit();
@@ -127,6 +128,7 @@ namespace pxsim {
                         this.stereoRenderer.render(this.scene, this.camera);                    
                 }
             });
+            board().onRenderFcts.push(() => {this.video.update(this.camera);});              
             /* updates marker state and triggers events if position or rotation changes */
             this.onRenderFcts.push(() => {
                 for (var key in this.markers){
@@ -219,8 +221,8 @@ namespace pxsim {
     let stereoRenderer: any = null;
     function getStereoRenderer(): any {
         if (stereoRenderer == null){
-          //stereoRenderer = new (THREE as any).StereoEffect(getWebGlContext());
-          stereoRenderer = new (THREE as any).VREffect(getWebGlContext());
+          stereoRenderer = new (THREE as any).StereoEffect(getWebGlContext());
+          //stereoRenderer = new (THREE as any).VREffect(getWebGlContext());
         let width = window.innerWidth ||
                     document.documentElement.clientWidth ||
                     document.body.clientWidth ||
