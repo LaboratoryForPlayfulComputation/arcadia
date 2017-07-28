@@ -166,6 +166,24 @@ declare namespace design {
     //% shim=design::setRotation3D
     function setRotation3D(marker: number, x: number, y: number, z: number): void;
 
+    /**
+     * Sets the filter of the video feed.
+     */
+    //% blockId=ar_add_filter block="add filter %filter" blockGap=8
+    //% blockNamespace=design inBasicCategory=true
+    //% inlineInputMode="inline"
+    //% shim=design::addFilter
+    function addFilter(filter: Filter): void;
+
+    /**
+     * Sets the filter of the video feed.
+     */
+    //% blockId=ar_remove_filter block="remove filter %filter" blockGap=8
+    //% blockNamespace=design inBasicCategory=true
+    //% inlineInputMode="inline"
+    //% shim=design::removeFilter
+    function removeFilter(filter: Filter): void;
+
 }
 declare namespace fx {
     /**
