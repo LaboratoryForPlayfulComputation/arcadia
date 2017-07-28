@@ -246,43 +246,44 @@ namespace pxsim.design {
     export function addFilter(filter: Filter) {
         switch (filter){
             case Filter.Grayscale:
-                document.body.style.filter = "grayscale(100%)";
+                //document.body.style.filter = "grayscale(100%)"; // works
+                pxsim.U.addClass(document.body, "grayscale-sim"); // doesn't work
                 break;
             case Filter.Invert:
-                document.body.style.filter = "invert(100%)";
+                pxsim.U.addClass(document.body, "invert-sim");
                 break;
             case Filter.Saturate:
-                document.body.style.filter = "saturate(1)";
+                pxsim.U.addClass(document.body, "saturate-sim");
                 break;
             case Filter.HueRotate:
-                document.body.style.filter = "hue-rotate(90deg)";
+                pxsim.U.addClass(document.body, "huerotate-sim");
                 break;  
             case Filter.Blur:
-                document.body.style.filter = "blur(5px)";
+                pxsim.U.addClass(document.body, "blur-sim");
                 break;    
             case Filter.Contrast:
-                document.body.style.filter = "contrast(200%)";
+                pxsim.U.addClass(document.body, "highcontrast-sim");
                 break;     
             case Filter.Red:
-                document.body.style.filter = "grayscale(100%) sepia(100%) hue-rotate(90deg)";
+                pxsim.U.addClass(document.body, "red-sim");
                 break;     
             case Filter.Orange:
-                document.body.style.filter = "grayscale(100%) sepia(100%) hue-rotate(90deg)";
+                pxsim.U.addClass(document.body, "orange-sim");
                 break;     
             case Filter.Yellow:
-                document.body.style.filter = "grayscale(100%) sepia(100%) hue-rotate(90deg)";
+                pxsim.U.addClass(document.body, "yellow-sim");
                 break;     
             case Filter.Green:
-                document.body.style.filter = "grayscale(100%) sepia(100%) hue-rotate(90deg)";
+                pxsim.U.addClass(document.body, "green-sim");
                 break;     
             case Filter.Blue:
-                document.body.style.filter = "grayscale(100%) sepia(100%) hue-rotate(90deg)";
+                pxsim.U.addClass(document.body, "blue-sim");
                 break;     
             case Filter.Purple:
-                document.body.style.filter = "grayscale(100%) sepia(100%) hue-rotate(90deg)";
+                pxsim.U.addClass(document.body, "purple-sim");
                 break;                                                               
             default:
-                document.body.style.filter = "sepia(100%)";
+                pxsim.U.addClass(document.body, "sepia-sim");
         }
     }
 
@@ -295,37 +296,44 @@ namespace pxsim.design {
     export function removeFilter(filter: Filter) {
         switch (filter){
             case Filter.Grayscale:
-                document.body.style.filter = "grayscale(0%)";
+                pxsim.U.removeClass(document.body, "grayscale-sim");
                 break;
             case Filter.Invert:
-                document.body.style.filter = "invert(0%)";
+                pxsim.U.removeClass(document.body, "invert-sim");
                 break;
             case Filter.Saturate:
-                document.body.style.filter = "saturate(0)";
+                pxsim.U.removeClass(document.body, "saturate-sim");
                 break;
             case Filter.HueRotate:
-                document.body.style.filter = "hue-rotate(0)";
-                break;
+                pxsim.U.removeClass(document.body, "huerotate-sim");
+                break;  
             case Filter.Blur:
-                document.body.style.filter = "blur(0px)";
+                pxsim.U.removeClass(document.body, "blur-sim");
                 break;    
             case Filter.Contrast:
-                document.body.style.filter = "contrast(0%)";
-                break;  
+                pxsim.U.removeClass(document.body, "highcontrast-sim");
+                break;     
             case Filter.Red:
+                pxsim.U.removeClass(document.body, "red-sim");
+                break;     
             case Filter.Orange:
+                pxsim.U.removeClass(document.body, "orange-sim");
+                break;     
             case Filter.Yellow:
+                pxsim.U.removeClass(document.body, "yellow-sim");
+                break;     
             case Filter.Green:
+                pxsim.U.removeClass(document.body, "green-sim");
+                break;     
             case Filter.Blue:
+                pxsim.U.removeClass(document.body, "blue-sim");
+                break;     
             case Filter.Purple:
-                document.body.style.filter = "";
-                break;                                 
+                pxsim.U.removeClass(document.body, "purple-sim");
+                break;                                                               
             default:
-                document.body.style.filter = "sepia(0%)";
+                pxsim.U.removeClass(document.body, "sepia-sim");
         }
     }
 
-    function filterHelper(filter: string){
-        // TO DO, use this to help layer filters instead of just replacing them each time
-    }
 }

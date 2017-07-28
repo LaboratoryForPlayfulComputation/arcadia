@@ -141,7 +141,7 @@ namespace pxsim {
         }
 
         kill() {
-            document.body.style.filter = ""; // removes all filters added from usercode
+            document.body.className = ""; // removes all filters added from usercode
             if (this.scene)       three.removeSceneChildren(this.scene);
             if (this.fx)          tone.killFX();
             if (this.phrases)     tone.killPhrases();
