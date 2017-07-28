@@ -279,13 +279,6 @@ declare namespace interaction {
     //% shim=interaction::slider
     function slider(marker1: number, marker2: number, marker3: number): number;
 
-    /**
-     * Maps the value of 1 marker in relation to its angle with a 2nd marker.
-     */
-    //% blockId=ar_wheel block="wheel %marker1=marker_block|and %marker2=marker_block" blockGap=8
-    //% shim=interaction::wheel
-    function wheel(marker1: number, marker2: number): number;
-
 }
 declare namespace markers {
     /**
