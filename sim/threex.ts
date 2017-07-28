@@ -49,4 +49,10 @@ namespace pxsim.threex {
         board().arToolkitSource = arToolkitSourceSingleton;
     }
 
+    export function initARVideo(videoTexture: any){
+        var videoInWebgl = new THREEx.ArVideoInWebgl(videoTexture)
+        board().scene.add(videoInWebgl.object3d);	
+        board().arToolkitSource.domElement.style.visibility = 'hidden';
+    }
+
 }
