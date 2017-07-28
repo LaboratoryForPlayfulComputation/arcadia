@@ -236,4 +236,104 @@ namespace pxsim.design {
         }
     }
 
+
+    /**
+     * Sets the filter of the video feed.
+     */
+    //% blockId=ar_add_filter block="add filter %filter" blockGap=8
+    //% blockNamespace=design inBasicCategory=true
+    //% inlineInputMode="inline" 
+    export function addFilter(filter: Filter) {
+        switch (filter){
+            case Filter.Grayscale:
+                //document.body.style.filter = "grayscale(100%)"; // works
+                pxsim.U.addClass(document.body, "grayscale-sim"); // doesn't work
+                break;
+            case Filter.Invert:
+                pxsim.U.addClass(document.body, "invert-sim");
+                break;
+            case Filter.Saturate:
+                pxsim.U.addClass(document.body, "saturate-sim");
+                break;
+            case Filter.HueRotate:
+                pxsim.U.addClass(document.body, "huerotate-sim");
+                break;  
+            case Filter.Blur:
+                pxsim.U.addClass(document.body, "blur-sim");
+                break;    
+            case Filter.Contrast:
+                pxsim.U.addClass(document.body, "highcontrast-sim");
+                break;     
+            case Filter.Red:
+                pxsim.U.addClass(document.body, "red-sim");
+                break;     
+            case Filter.Orange:
+                pxsim.U.addClass(document.body, "orange-sim");
+                break;     
+            case Filter.Yellow:
+                pxsim.U.addClass(document.body, "yellow-sim");
+                break;     
+            case Filter.Green:
+                pxsim.U.addClass(document.body, "green-sim");
+                break;     
+            case Filter.Blue:
+                pxsim.U.addClass(document.body, "blue-sim");
+                break;     
+            case Filter.Purple:
+                pxsim.U.addClass(document.body, "purple-sim");
+                break;                                                               
+            default:
+                pxsim.U.addClass(document.body, "sepia-sim");
+        }
+    }
+
+    /**
+     * Sets the filter of the video feed.
+     */
+    //% blockId=ar_remove_filter block="remove filter %filter" blockGap=8
+    //% blockNamespace=design inBasicCategory=true
+    //% inlineInputMode="inline" 
+    export function removeFilter(filter: Filter) {
+        switch (filter){
+            case Filter.Grayscale:
+                pxsim.U.removeClass(document.body, "grayscale-sim");
+                break;
+            case Filter.Invert:
+                pxsim.U.removeClass(document.body, "invert-sim");
+                break;
+            case Filter.Saturate:
+                pxsim.U.removeClass(document.body, "saturate-sim");
+                break;
+            case Filter.HueRotate:
+                pxsim.U.removeClass(document.body, "huerotate-sim");
+                break;  
+            case Filter.Blur:
+                pxsim.U.removeClass(document.body, "blur-sim");
+                break;    
+            case Filter.Contrast:
+                pxsim.U.removeClass(document.body, "highcontrast-sim");
+                break;     
+            case Filter.Red:
+                pxsim.U.removeClass(document.body, "red-sim");
+                break;     
+            case Filter.Orange:
+                pxsim.U.removeClass(document.body, "orange-sim");
+                break;     
+            case Filter.Yellow:
+                pxsim.U.removeClass(document.body, "yellow-sim");
+                break;     
+            case Filter.Green:
+                pxsim.U.removeClass(document.body, "green-sim");
+                break;     
+            case Filter.Blue:
+                pxsim.U.removeClass(document.body, "blue-sim");
+                break;     
+            case Filter.Purple:
+                pxsim.U.removeClass(document.body, "purple-sim");
+                break;                                                               
+            default:
+                pxsim.U.removeClass(document.body, "sepia-sim");
+        }
+    }
+
 }

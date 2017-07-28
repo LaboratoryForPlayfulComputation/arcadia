@@ -3,6 +3,7 @@
 namespace pxt.editor {
     initExtensionsAsync = function (opts: pxt.editor.ExtensionOptions): Promise<pxt.editor.ExtensionResult> {
         pxt.debug("loading pxt-ar target extensions...");
+        const modelRx = /\.(obj|mtl|stl|dae)$/i;
         const res: pxt.editor.ExtensionResult = {
             fieldEditors: [{
                 selector: "drums",
@@ -14,10 +15,10 @@ namespace pxt.editor {
             }],
             resourceImporters: [{
                 id: "model",
-                canImport: file => /.obj$/i.test(file.name),
+                canImport: file => modelRx.test(file.name),
                 importAsync: (project, file) => {
-                    const t: string = "obj";
-                    const n: string = ts.pxtc.escapeIdentifier(file.name.replace(/.obj$/i, ""));
+                    const t: string = modelRx.exec(file.name)[1].toLowerCase();
+                    const n: string = ts.pxtc.escapeIdentifier(file.name.replace(modelRx, ""));
                     return ts.pxtc.Util.fileReadAsTextAsync(file)
                         .then(contents => project.updateFileAsync(file.name + ".ts",
                             `

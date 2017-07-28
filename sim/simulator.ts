@@ -35,6 +35,9 @@ namespace pxsim {
         public arToolkitContext : THREEx.ArToolkitContext;
         public arToolkitSource  : THREEx.ArToolkitSource;
         public renderer         : THREE.WebGLRenderer;
+        public stereoRenderer   : any;
+        public mirror           : boolean;
+        public vrEffect         : boolean;
         public baseURL          : string;
         public onRenderFcts     : Array<any>;
         public instruments      : Array<Tone.Instrument>;
@@ -62,6 +65,9 @@ namespace pxsim {
                             /* AR */
                             this.markers          = {};
                             this.renderer         = getWebGlContext();
+                            this.stereoRenderer   = getStereoRenderer();
+                            this.mirror           = false;
+                            this.vrEffect         = false;
                             this.camera           = three.createCamera();
                             this.scene            = three.createScene();
                             threex.initArToolkit();
@@ -112,8 +118,14 @@ namespace pxsim {
             });
             /* render the THREE.js scene */
             this.onRenderFcts.push(() => {
-                if (this.renderer && this.scene && this.camera)
-                    this.renderer.render(this.scene, this.camera);
+                if (!this.vrEffect){
+                    if (this.renderer && this.scene && this.camera)
+                        this.renderer.render(this.scene, this.camera);
+                }
+                else{
+                    if (this.stereoRenderer && this.scene && this.camera)
+                        this.stereoRenderer.render(this.scene, this.camera);                    
+                }
             });
             /* updates marker state and triggers events if position or rotation changes */
             this.onRenderFcts.push(() => {
@@ -141,6 +153,7 @@ namespace pxsim {
         }
 
         kill() {
+            document.body.className = ""; // removes all filters added from usercode
             if (this.scene)       three.removeSceneChildren(this.scene);
             if (this.fx)          tone.killFX();
             if (this.phrases)     tone.killPhrases();
@@ -186,13 +199,39 @@ namespace pxsim {
                 alpha: true
             });
             renderer.setClearColor(new THREE.Color('lightgrey'), 0);
-            renderer.setSize( 640, 480 );
+            let width = window.innerWidth ||
+                        document.documentElement.clientWidth ||
+                        document.body.clientWidth ||
+                        document.body.offsetWidth;
+            let height = window.innerHeight ||
+                        document.documentElement.clientHeight ||
+                        document.body.clientHeight ||
+                        document.body.offsetHeight;                        
+            renderer.setSize(width, height);
             renderer.domElement.style.position = 'absolute';
             renderer.domElement.style.top = '0px';
             renderer.domElement.style.left = '0px';
             document.body.appendChild(renderer.domElement);
         }
         return renderer;        
+    }
+
+    let stereoRenderer: any = null;
+    function getStereoRenderer(): any {
+        if (stereoRenderer == null){
+          //stereoRenderer = new (THREE as any).StereoEffect(getWebGlContext());
+          stereoRenderer = new (THREE as any).VREffect(getWebGlContext());
+        let width = window.innerWidth ||
+                    document.documentElement.clientWidth ||
+                    document.body.clientWidth ||
+                    document.body.offsetWidth;
+        let height = window.innerHeight ||
+                    document.documentElement.clientHeight ||
+                    document.body.clientHeight ||
+                    document.body.offsetHeight;            
+          stereoRenderer.setSize(width, height);
+        }
+        return stereoRenderer;
     }
 
 }

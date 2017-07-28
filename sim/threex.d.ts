@@ -76,4 +76,9 @@ declare namespace THREEx {
         fontColor: number,
         scripts: pxsim.Map<() => void>;
     }
+    class ArVideoInWebgl {
+        constructor(texture: any); // THREE.NearestFilter
+        update(camera: THREE.Camera) : void;
+        object3d: THREE.Object3D;
+    }
 }
