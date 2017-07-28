@@ -385,3 +385,8 @@ declare const enum ModelType {
     MTL,
     DAE
 }
+
+declare const enum Toggle {
+    on,
+    off
+}

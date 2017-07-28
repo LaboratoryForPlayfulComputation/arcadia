@@ -156,7 +156,6 @@ namespace pxsim.tone {
             default:
                 effect = new Tone.Freeverb().toMaster();
                 type = "reverb";
-                break;
         }
         board().fx[type] = effect;
         return effect;        

@@ -54,6 +54,8 @@ namespace pxsim.markers {
 
     /**
      * Maps the x, y, or z position of a marker to a specified range.
+     * @param out_min The lower end of the range to map to, eg: 0
+     * @param out_max The upper end of the range to map to, eg: 100
      */
     //% blockId=ar_map_pos block="%marker=marker_block|map position %axis|from %out_min|to %out_max" blockGap=8
     //% inlineInputMode="inline"    
@@ -67,6 +69,7 @@ namespace pxsim.markers {
     export class Marker {
         private code_            : MarkerCode;
         private group_           : THREE.Group;
+        private prevWorldPos_    : THREE.Vector3;
         private prevPos_         : THREE.Vector3;
         private prevRot_         : THREE.Euler;
         private prevVisible_     : boolean;
@@ -75,6 +78,8 @@ namespace pxsim.markers {
         private color_           : number;
         private opacity_         : number;
         private fontColor_       : number;
+        private brushColor_      : number;
+        private brushWidth_      : number;
         private scaleX_          : number;
         private scaleY_          : number;
         private scaleZ_          : number;
@@ -86,10 +91,13 @@ namespace pxsim.markers {
         private rotY_            : number;
         private rotZ_            : number;
         private neighbors_       : any[][];
+        private paintGroup_      : THREE.Group;
+        private painting_        : boolean;
 
         constructor(code: MarkerCode) {
             this.code_            = code;
             this.group_           = this.initControls();
+            this.prevWorldPos_    = new THREE.Vector3(0, 0, 0);
             this.prevPos_         = new THREE.Vector3(0, 0, 0);
             this.prevRot_         = new THREE.Euler(0, 0, 0);
             this.prevVisible_     = false;
@@ -98,6 +106,8 @@ namespace pxsim.markers {
             this.color_           = 0x000000;
             this.opacity_         = 0.9;
             this.fontColor_       = 0xffffff;
+            this.brushColor_      = 0xffffff;
+            this.brushWidth_      = 1;
             this.scaleX_          = 1;
             this.scaleY_          = 1;
             this.scaleZ_          = 1;
@@ -109,6 +119,10 @@ namespace pxsim.markers {
             this.rotY_            = 0;
             this.rotZ_            = 0;
             this.neighbors_       = [];
+            this.paintGroup_      = new THREE.Group();
+            this.paintGroup_.name = "paintgroup" + this.code_.toString();
+            this.painting_        = false;
+            board().scene.add(this.paintGroup_);
         }
 
         triggerEvents(){
@@ -228,8 +242,27 @@ namespace pxsim.markers {
                                                   this.position().z);
             this.prevRot_ = new THREE.Euler(this.rotation().x,
                                                 this.rotation().y,
-                                                this.rotation().z);                                              
+                                                this.rotation().z);
+            this.prevWorldPos_= new THREE.Vector3(this.worldPosition().x,
+                                                    this.worldPosition().y,
+                                                        this.worldPosition().z);                                              
         }  
+
+        paint(){
+            let pp = this.prevWorldPos_;
+            let cp = this.worldPosition();
+            if(pp != cp){
+                let line = three.createLine(pp, cp, this.brushColor());
+                line.name = 'markerrroot' + this.code_.toString();
+                this.paintGroup_.add(line);
+            }
+        }
+
+        clearBrushStrokes(){
+            while (this.paintGroup_.children.length){
+                this.paintGroup_.remove(this.paintGroup_.children[0]);
+            }               
+        }
 
         initControls(): THREE.Group {
             let group = new THREE.Group;
@@ -249,6 +282,7 @@ namespace pxsim.markers {
         code(){ return this.code_; }
         group(){ return this.group_; }
         position(){ return this.group_.position; }
+        worldPosition(){ return this.group_.getWorldPosition(); }
         prevPosition(){ return this.prevPos_; }
         rotation(){ return this.group_.rotation; }
         prevRotation(){ return this.prevRot_; }
@@ -258,15 +292,17 @@ namespace pxsim.markers {
         color(){ return this.color_; }
         opacity(){ return this.opacity_; }
         fontColor(){ return this.fontColor_; }
-        scaleX() {return this.scaleX_; }
-        scaleY() {return this.scaleY_; }
-        scaleZ() {return this.scaleZ_; }
-        posX() {return this.posX_; }
-        posY() {return this.posY_; }
-        posZ() {return this.posZ_; }
-        rotX() {return this.rotX_; }
-        rotY() {return this.rotY_; }
-        rotZ() {return this.rotZ_; }        
+        brushColor(){ return this.brushColor_; }
+        brushWidth(){ return this.brushWidth_; }
+        scaleX() { return this.scaleX_; }
+        scaleY() { return this.scaleY_; }
+        scaleZ() { return this.scaleZ_; }
+        posX() { return this.posX_; }
+        posY() { return this.posY_; }
+        posZ() { return this.posZ_; }
+        rotX() { return this.rotX_; }
+        rotY() { return this.rotY_; }
+        rotZ() { return this.rotZ_; }        
         visible(): boolean { // Checks if marker is visible but also uses extra logic to prevent flickers
             let date = new Date();
             let time = date.getTime();
@@ -281,6 +317,7 @@ namespace pxsim.markers {
             }
             return false;
         } 
+        painting(): boolean {return this.painting_; }
 
         /* Setter methods */
         setPrevVisibleTime(time: number){
@@ -294,6 +331,12 @@ namespace pxsim.markers {
         }
         setFontColor(color: number){
             this.fontColor_ = color;
+        }
+        setBrushColor(color: number){
+            this.brushColor_ = color;
+        }        
+        setBrushWidth(thickness: number){
+            this.brushWidth_ = thickness;
         }
         setScale(x: number, y?: number, z?: number){
             this.scaleX_ = x / this.autoScale_;
@@ -319,11 +362,13 @@ namespace pxsim.markers {
                 this.rotX_ = 0;
                 this.rotZ_ = 0;
                 this.rotY_ = x * Math.PI / 180;;
-                
             }
         }                
         addNeighbor(neighbor: any[]){
             this.neighbors_.push(neighbor);
+        }
+        setPainting(val: boolean){
+            this.painting_ = val;
         }
            
     }           

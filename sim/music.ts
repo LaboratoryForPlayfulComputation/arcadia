@@ -14,7 +14,6 @@ namespace pxsim.music {
         return pauseBeatAsync(tone, duration);
     }
 
-
     /**
     * Rest for a duration of time
     * @param duration number of beats to rest for
@@ -35,12 +34,8 @@ namespace pxsim.music {
     export function playChordCommandAsync(notesString: string, duration: BeatFraction): Promise<void> {
         let notes = notesString.split(",");
         let notesToPlay = [] as any;
-        let i = 0;
         if (notes.length > 5){
-            while (i < 5){
-                notesToPlay.push(notes[i]);
-                i++;
-            }
+            for (let i = 0; i < 5; i++) notesToPlay.push(notes[i]);
         } else {
             notesToPlay = notes;
         }
@@ -75,7 +70,6 @@ namespace pxsim.music {
                break;                           
             default:
                board().drumPlayers["splat"].start();
-               break;            
         }
     }
 
@@ -138,7 +132,6 @@ namespace pxsim.music {
                 break;            
             default:
                 type = "sawtooth";
-                break;            
         }
         let osc = board().oscillators[type];
         osc.frequency.value = freq;
@@ -168,7 +161,6 @@ namespace pxsim.music {
                 break;            
             default:
                 type = "sawtooth";
-                break;            
         }
         let osc = board().oscillators[type];
         osc.stop();
@@ -203,7 +195,6 @@ namespace pxsim.music {
             default:
                 type = "sawtooth";
                 vol = -30;
-                break;            
         }
         let osc = board().oscillators[type];
         osc.volume.value = vol;
@@ -213,7 +204,7 @@ namespace pxsim.music {
 
     /**
      * Set the beats per minute (tempo)
-     * @param bpm
+     * @param bpm The number of beats per minute, eg: 120
      */
     //% blockId="music_bpm" block="set tempo %bpm"
     //% weight=100
@@ -225,14 +216,14 @@ namespace pxsim.music {
 
     /**
      * Set the master volume. Choose a number in the range of 0-100, the default volume is 50.
-     * @param bpm
+     * @param volume The volume level, eg: 50
      */
-    //% blockId="music_volume" block="set volume %value"
+    //% blockId="music_volume" block="set volume %volume"
     //% weight=100
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
-    export function setVolume(value: number){
-        const cappedVal = Math.min(Math.max(value, 0), 100); // caps number between the ranges 0 and 100
+    export function setVolume(volume: number){
+        const cappedVal = Math.min(Math.max(volume, 0), 100); // caps number between the ranges 0 and 100
         const mappedVal = (cappedVal - 0) * (1 - 0) / (100 - 0) + 0;
         const decibels  = Math.log(mappedVal)*10;
         Tone.Master.volume.value = decibels;

@@ -46,5 +46,20 @@ namespace design {
  * Motion
  */
 //% weight=91 icon="\uf110" color=#FF5722
-namespace motion {
+namespace interaction {
+}
+
+/**
+ * Paint
+ */
+//% icon="\uf1fc" color=#e00d0d
+namespace paint {
+}
+
+
+/**
+ * Models
+ */
+//% icon="\uf1fc" color=#4d03a3
+namespace models {
 }

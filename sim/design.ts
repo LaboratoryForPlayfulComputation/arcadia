@@ -76,7 +76,7 @@ namespace pxsim.design {
  * Sets the shape that displays when the marker is detected
  */
     //% blockId=ar_set_model block="%marker=marker_block|set model %type|%content" blockGap=8
-    //% blockNamespace=design inBasicCategory=true
+    //% blockNamespace=design advanced=true
     export function setModel(marker: number, type: ModelType, content: string) {
         const m = board().marker(marker);
         const mod = three.loadModel(type, content)
@@ -89,7 +89,7 @@ namespace pxsim.design {
         const boundingBox  = new THREE.Box3().setFromObject(mod);
         const maxDimension = Math.max(boundingBox.max.x, boundingBox.max.y, boundingBox.max.z);
         let autoScale      = 1;
-        if (maxDimension > 1.5) autoScale = maxDimension / 1.5;
+        if (maxDimension > 1) autoScale = maxDimension / 1.25;
         else if (maxDimension < 0.5) autoScale = maxDimension * 2;
         m.setAutoScale(autoScale);
         mod.scale.set(m.scaleX()/autoScale, m.scaleY()/autoScale, m.scaleZ()/autoScale);
@@ -125,7 +125,8 @@ namespace pxsim.design {
     }
 
     /**
-     * Sets the opacity of the shape that is displayed on the marker. 0 is invisible, 1 is fully opaque. The default value is 0.9.
+     * Sets the opacity of the shape that is displayed on the marker. 0 is invisible, 1 is fully opaque.
+     * @param value How opaque the shape should be between 0 and 1, eg: 0.9
      */
     //% blockId=ar_set_opacity block="%marker=marker_block|set opacity %value" blockGap=8
     //% blockNamespace=design inBasicCategory=true
@@ -156,6 +157,7 @@ namespace pxsim.design {
 
     /**
      * Sets the size of the 3D object that is rendered. Shapes will automatically have a default scale value of 1.
+     * @param size The amount to scale the model by, eg: 1
      */
     //% blockId=ar_set_scale block="%marker=marker_block|set scale %number" blockGap=8
     //% blockNamespace=design inBasicCategory=true
@@ -169,6 +171,9 @@ namespace pxsim.design {
 
     /**
      * Sets the size of the 3D object that is rendered. Shapes will automatically have a default scale value of (1, 1, 1).
+     * @param x The amount to scale the model in the x direction, eg: 1
+     * @param y The amount to scale the model in the y direction, eg: 1
+     * @param z The amount to scale the model in the z direction, eg: 1
      */
     //% blockId=ar_set_scale_3d block="%marker=marker_block|set scale x: %x|y: %y|z: %z" blockGap=8
     //% blockNamespace=design advanced=true

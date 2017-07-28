@@ -88,7 +88,7 @@ declare namespace design {
      * Sets the shape that displays when the marker is detected
      */
     //% blockId=ar_set_model block="%marker=marker_block|set model %type|%content" blockGap=8
-    //% blockNamespace=design inBasicCategory=true
+    //% blockNamespace=design advanced=true
     //% shim=design::setModel
     function setModel(marker: number, type: ModelType, content: string): void;
 
@@ -101,7 +101,8 @@ declare namespace design {
     function setColor(marker: number, color: number): void;
 
     /**
-     * Sets the opacity of the shape that is displayed on the marker. 0 is invisible, 1 is fully opaque. The default value is 0.9.
+     * Sets the opacity of the shape that is displayed on the marker. 0 is invisible, 1 is fully opaque.
+     * @param value How opaque the shape should be between 0 and 1, eg: 0.9
      */
     //% blockId=ar_set_opacity block="%marker=marker_block|set opacity %value" blockGap=8
     //% blockNamespace=design inBasicCategory=true
@@ -118,6 +119,7 @@ declare namespace design {
 
     /**
      * Sets the size of the 3D object that is rendered. Shapes will automatically have a default scale value of 1.
+     * @param size The amount to scale the model by, eg: 1
      */
     //% blockId=ar_set_scale block="%marker=marker_block|set scale %number" blockGap=8
     //% blockNamespace=design inBasicCategory=true
@@ -127,6 +129,9 @@ declare namespace design {
 
     /**
      * Sets the size of the 3D object that is rendered. Shapes will automatically have a default scale value of (1, 1, 1).
+     * @param x The amount to scale the model in the x direction, eg: 1
+     * @param y The amount to scale the model in the y direction, eg: 1
+     * @param z The amount to scale the model in the z direction, eg: 1
      */
     //% blockId=ar_set_scale_3d block="%marker=marker_block|set scale x: %x|y: %y|z: %z" blockGap=8
     //% blockNamespace=design advanced=true
@@ -229,6 +234,61 @@ declare namespace fx {
     function removeGlobalEffect(effect: Effect): void;
 
 }
+declare namespace interaction {
+    /**
+     * Allows use to define callbacks for a marker event
+     * @param marker 
+     */
+    //% blockId=ar_on_event block="on %marker=marker_block|%event |do" blockGap=8
+    //% event.fieldEditor="gridpicker"
+    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
+    //% event.fieldOptions.tooltips="true"
+    //% shim=interaction::onEvent
+    function onEvent(marker: number, event: MarkerEvent, handler: () => void): void;
+
+    /**
+     * Allows use to define callbacks for a marker event
+     * @param marker 
+     */
+    //% blockId=ar_while_event block="while %marker=marker_block|%event |do" blockGap=8
+    //% event.fieldEditor="gridpicker"
+    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
+    //% event.fieldOptions.tooltips="true"
+    //% shim=interaction::whileEvent
+    function whileEvent(marker: number, event: MarkerLoopEvent, handler: () => void): void;
+
+    /**
+     * Allows user to define callbacks that fire while the multi marker event is true
+     * @param marker 
+     */
+    //% blockId=ar_while_multi_event block="while %marker1=marker_block|%event |%marker2=marker_block |do" blockGap=8
+    //% event.fieldEditor="gridpicker"
+    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
+    //% event.fieldOptions.tooltips="true"
+    //% inlineInputMode="inline"
+    //% shim=interaction::whileMultiEvent
+    function whileMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: () => void): void;
+
+    /**
+     * Allows user to define callbacks that trigger once when the multi marker event is true
+     * @param marker 
+     */
+    //% blockId=ar_on_multi_event block="on %marker1=marker_block|%event |%marker2=marker_block |do" blockGap=8
+    //% event.fieldEditor="gridpicker"
+    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
+    //% event.fieldOptions.tooltips="true"    
+    //% inlineInputMode="inline"
+    //% shim=interaction::onMultiEvent
+    function onMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: () => void): void;
+
+    /**
+     * Maps the value of 1 marker in relation to its distance between 2 markers.
+     */
+    //% blockId=ar_slider block="slider %marker1=marker_block|from %marker2=marker_block|to %marker3=marker_block" blockGap=8
+    //% shim=interaction::slider
+    function slider(marker1: number, marker2: number, marker3: number): number;
+
+}
 declare namespace markers {
     /**
      * An augmented reality marker
@@ -266,59 +326,13 @@ declare namespace markers {
 
     /**
      * Maps the x, y, or z position of a marker to a specified range.
+     * @param out_min The lower end of the range to map to, eg: 0
+     * @param out_max The upper end of the range to map to, eg: 100
      */
     //% blockId=ar_map_pos block="%marker=marker_block|map position %axis|from %out_min|to %out_max" blockGap=8
     //% inlineInputMode="inline"
     //% shim=markers::mapPositionToRange
     function mapPositionToRange(marker: number, axis: Axes, out_min: number, out_max: number): number;
-
-}
-declare namespace motion {
-    /**
-     * Allows use to define callbacks for a marker event
-     * @param marker 
-     */
-    //% blockId=ar_on_event block="on %marker=marker_block|%event |do" blockGap=8
-    //% event.fieldEditor="gridpicker"
-    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
-    //% event.fieldOptions.tooltips="true"
-    //% shim=motion::onEvent
-    function onEvent(marker: number, event: MarkerEvent, handler: () => void): void;
-
-    /**
-     * Allows use to define callbacks for a marker event
-     * @param marker 
-     */
-    //% blockId=ar_while_event block="while %marker=marker_block|%event |do" blockGap=8
-    //% event.fieldEditor="gridpicker"
-    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
-    //% event.fieldOptions.tooltips="true"
-    //% shim=motion::whileEvent
-    function whileEvent(marker: number, event: MarkerLoopEvent, handler: () => void): void;
-
-    /**
-     * Allows user to define callbacks that fire while the multi marker event is true
-     * @param marker 
-     */
-    //% blockId=ar_while_multi_event block="while %marker1=marker_block|%event |%marker2=marker_block |do" blockGap=8
-    //% event.fieldEditor="gridpicker"
-    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
-    //% event.fieldOptions.tooltips="true"
-    //% inlineInputMode="inline"
-    //% shim=motion::whileMultiEvent
-    function whileMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: () => void): void;
-
-    /**
-     * Allows user to define callbacks that trigger once when the multi marker event is true
-     * @param marker 
-     */
-    //% blockId=ar_on_multi_event block="on %marker1=marker_block|%event |%marker2=marker_block |do" blockGap=8
-    //% event.fieldEditor="gridpicker"
-    //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
-    //% event.fieldOptions.tooltips="true"    
-    //% inlineInputMode="inline"
-    //% shim=motion::onMultiEvent
-    function onMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: () => void): void;
 
 }
 declare namespace music {
@@ -416,7 +430,7 @@ declare namespace music {
 
     /**
      * Set the beats per minute (tempo)
-     * @param bpm
+     * @param bpm The number of beats per minute, eg: 120
      */
     //% blockId="music_bpm" block="set tempo %bpm"
     //% weight=100
@@ -427,14 +441,43 @@ declare namespace music {
 
     /**
      * Set the master volume. Choose a number in the range of 0-100, the default volume is 50.
-     * @param bpm
+     * @param volume The volume level, eg: 50
      */
-    //% blockId="music_volume" block="set volume %value"
+    //% blockId="music_volume" block="set volume %volume"
     //% weight=100
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% shim=music::setVolume
-    function setVolume(value: number): void;
+    function setVolume(volume: number): void;
+
+}
+declare namespace paint {
+    /**
+     * Use a marker as an AR paintbrush..
+     */
+    //% blockId=ar_set_brush_mode block="%marker=marker_block|set brush %val" blockGap=8
+    //% blockNamespace=paint inBasicCategory=true
+    //% inlineInputMode="inline"
+    //% shim=paint::setBrushMode
+    function setBrushMode(marker: number, val: Toggle): void;
+
+    /**
+     * Set the color of your AR paintbrush.
+     */
+    //% blockId=ar_set_brush_color block="%marker=marker_block|set brush color %color=colors_named" blockGap=8
+    //% blockNamespace=paint inBasicCategory=true
+    //% inlineInputMode="inline"
+    //% shim=paint::setBrushColor
+    function setBrushColor(marker: number, color: number): void;
+
+    /**
+     * Clear all strokes made by your AR paintbrush.
+     */
+    //% blockId=ar_clear_brush_strokes block="%marker=marker_block|clear brush strokes" blockGap=8
+    //% blockNamespace=paint inBasicCategory=true
+    //% inlineInputMode="inline"
+    //% shim=paint::clearBrushStrokes
+    function clearBrushStrokes(marker: number): void;
 
 }
 declare namespace phrases {

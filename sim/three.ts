@@ -86,6 +86,16 @@ namespace pxsim.three {
     export function createPlane(): THREE.Geometry {
         return new THREE.PlaneGeometry(1, 1, 32);
     }
+    export function createLine(v1: THREE.Vector3, v2: THREE.Vector3, color: number): THREE.Line {
+        let material = new THREE.LineBasicMaterial({
+                    color: color,
+                });
+
+        let geometry = new THREE.Geometry();
+        geometry.vertices.push(v1, v2);
+
+        return new THREE.Line(geometry, material);
+    }
 
     /**
      * Creates a solid colored plane in a particular marker group
@@ -120,7 +130,7 @@ namespace pxsim.three {
             side: THREE.DoubleSide
         });
         let m = board().marker(marker);
-        //let object   = m.group.getObjectByName(marker.toString() + '-text');
+        //let object = m.group.getObjectByName(marker.toString() + '-text');
         let textMesh = new THREE.Mesh(text3d, material);
         return textMesh;
     }
@@ -179,7 +189,6 @@ namespace pxsim.three {
                 break;                
             default:
                 loader = new (THREE as any).OBJLoader();
-                break;
         }
         const model = loader.parse(content);
         return model;
