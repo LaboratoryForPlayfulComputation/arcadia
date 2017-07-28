@@ -240,13 +240,44 @@ namespace pxsim.design {
     /**
      * Sets the filter of the video feed.
      */
-    //% blockId=ar_set_filter block="set filter %filter" blockGap=8
+    //% blockId=ar_add_filter block="add filter %filter" blockGap=8
     //% blockNamespace=design inBasicCategory=true
     //% inlineInputMode="inline" 
-    export function setFilter(filter: Filter) {
-        //let el = document.getElementsByTagName("iframe")[0];
-        let el = document;
-        console.log(el.toString());
-        //if (el) el.style.filter = "grayscale(100%)";
+    export function addFilter(filter: Filter) {
+        switch (filter){
+            case Filter.Grayscale:
+                document.body.style.filter = "grayscale(100%)";
+                break;
+            case Filter.Inverted:
+                document.body.style.filter = "invert(100%)";
+                break;
+            case Filter.Saturated:
+                document.body.style.filter = "saturate(100%)";
+                break;
+            default:
+                document.body.style.filter = "sepia(100%)";
+        }
+    }
+
+    /**
+     * Sets the filter of the video feed.
+     */
+    //% blockId=ar_remove_filter block="remove filter %filter" blockGap=8
+    //% blockNamespace=design inBasicCategory=true
+    //% inlineInputMode="inline" 
+    export function removeFilter(filter: Filter) {
+        switch (filter){
+            case Filter.Grayscale:
+                document.body.style.filter = "grayscale(0%)";
+                break;
+            case Filter.Inverted:
+                document.body.style.filter = "invert(0%)";
+                break;
+            case Filter.Saturated:
+                document.body.style.filter = "saturate(0%)";
+                break;
+            default:
+                document.body.style.filter = "sepia(0%)";
+        }
     }
 }

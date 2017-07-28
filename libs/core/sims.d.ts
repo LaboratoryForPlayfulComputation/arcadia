@@ -169,11 +169,20 @@ declare namespace design {
     /**
      * Sets the filter of the video feed.
      */
-    //% blockId=ar_set_filter block="set filter %filter" blockGap=8
+    //% blockId=ar_add_filter block="add filter %filter" blockGap=8
     //% blockNamespace=design inBasicCategory=true
     //% inlineInputMode="inline"
-    //% shim=design::setFilter
-    function setFilter(filter: Filter): void;
+    //% shim=design::addFilter
+    function addFilter(filter: Filter): void;
+
+    /**
+     * Sets the filter of the video feed.
+     */
+    //% blockId=ar_remove_filter block="remove filter %filter" blockGap=8
+    //% blockNamespace=design inBasicCategory=true
+    //% inlineInputMode="inline"
+    //% shim=design::removeFilter
+    function removeFilter(filter: Filter): void;
 
 }
 declare namespace fx {
