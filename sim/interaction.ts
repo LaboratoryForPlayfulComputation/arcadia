@@ -62,7 +62,7 @@ namespace pxsim.interaction {
      * Maps the value of 1 marker in relation to its distance between 2 markers.
      */
     //% blockId=ar_slider block="slider %marker1=marker_block|from %marker2=marker_block|to %marker3=marker_block" blockGap=8
-    export function slider(marker1: number, marker2: number, marker3: number) : number{
+    export function slider(marker1: number, marker2: number, marker3: number) : number {
         // TO DO: remember last state that the slider was in if there's a flicker
         let m1 = board().marker(marker1);
         let m2 = board().marker(marker2);
@@ -75,8 +75,21 @@ namespace pxsim.interaction {
         return sliderVal;    
     }
 
-    export function knob(){
-        
+    /**
+     * Maps the value of 1 marker in relation to its angle with a 2nd marker.
+     */
+    //% blockId=ar_wheel block="wheel %marker1=marker_block|and %marker2=marker_block" blockGap=8
+    export function wheel(marker1: number, marker2: number) : number { // TO DO: figure out what the difference b/w these angles are...
+        let m1 = board().marker(marker1);
+        let m2 = board().marker(marker2);
+        let v1 = m1.rotation().toVector3();
+        let v2 = m2.rotation().toVector3();
+        let angle = v1.distanceTo(v2);
+        const in_min  = 0;
+        const in_max  = 4;
+        const out_min = 0;
+        const out_max = 1;
+        return (angle - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
 
 }
