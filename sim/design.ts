@@ -262,7 +262,25 @@ namespace pxsim.design {
                 break;    
             case Filter.Contrast:
                 document.body.style.filter = "contrast(200%)";
-                break;                                               
+                break;     
+            case Filter.Red:
+                document.body.style.filter = "grayscale(100%) sepia(100%) hue-rotate(90deg)";
+                break;     
+            case Filter.Orange:
+                document.body.style.filter = "grayscale(100%) sepia(100%) hue-rotate(90deg)";
+                break;     
+            case Filter.Yellow:
+                document.body.style.filter = "grayscale(100%) sepia(100%) hue-rotate(90deg)";
+                break;     
+            case Filter.Green:
+                document.body.style.filter = "grayscale(100%) sepia(100%) hue-rotate(90deg)";
+                break;     
+            case Filter.Blue:
+                document.body.style.filter = "grayscale(100%) sepia(100%) hue-rotate(90deg)";
+                break;     
+            case Filter.Purple:
+                document.body.style.filter = "grayscale(100%) sepia(100%) hue-rotate(90deg)";
+                break;                                                               
             default:
                 document.body.style.filter = "sepia(100%)";
         }
@@ -293,9 +311,21 @@ namespace pxsim.design {
                 break;    
             case Filter.Contrast:
                 document.body.style.filter = "contrast(0%)";
-                break;                 
+                break;  
+            case Filter.Red:
+            case Filter.Orange:
+            case Filter.Yellow:
+            case Filter.Green:
+            case Filter.Blue:
+            case Filter.Purple:
+                document.body.style.filter = "";
+                break;                                 
             default:
                 document.body.style.filter = "sepia(0%)";
         }
+    }
+
+    function filterHelper(filter: string){
+        // TO DO, use this to help layer filters instead of just replacing them each time
     }
 }

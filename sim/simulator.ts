@@ -141,13 +141,7 @@ namespace pxsim {
         }
 
         kill() {
-            document.body.style.filter = "grayscale(0%)";
-            document.body.style.filter = "saturate(0)";
-            document.body.style.filter = "sepia(0%)";
-            document.body.style.filter = "invert(0%)";
-            document.body.style.filter = "hue-rotate(0)";
-            document.body.style.filter = "blur(0px)";
-            document.body.style.filter = "contrast(0%)";
+            document.body.style.filter = ""; // removes all filters added from usercode
             if (this.scene)       three.removeSceneChildren(this.scene);
             if (this.fx)          tone.killFX();
             if (this.phrases)     tone.killPhrases();
