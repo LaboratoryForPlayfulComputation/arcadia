@@ -124,6 +124,7 @@
   "interaction.onEvent|block": "on %marker=marker_block|%event |do",
   "interaction.onMultiEvent|block": "on %marker1=marker_block|%event |%marker2=marker_block |do",
   "interaction.slider|block": "slider %marker1=marker_block|from %marker2=marker_block|to %marker3=marker_block",
+  "interaction.wheel|block": "wheel %marker1=marker_block|and %marker2=marker_block",
   "interaction.whileEvent|block": "while %marker=marker_block|%event |do",
   "interaction.whileMultiEvent|block": "while %marker1=marker_block|%event |%marker2=marker_block |do",
   "interaction|block": "interaction",

@@ -94,6 +94,7 @@
   "interaction.onEvent": "Allows use to define callbacks for a marker event",
   "interaction.onMultiEvent": "Allows user to define callbacks that trigger once when the multi marker event is true",
   "interaction.slider": "Maps the value of 1 marker in relation to its distance between 2 markers.",
+  "interaction.wheel": "Maps the value of 1 marker in relation to its angle with a 2nd marker.",
   "interaction.whileEvent": "Allows use to define callbacks for a marker event",
   "interaction.whileMultiEvent": "Allows user to define callbacks that fire while the multi marker event is true",
   "loops.forever": "Repeats the code forever in the background. On each iteration, allows other code to run.",
