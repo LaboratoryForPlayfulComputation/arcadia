@@ -57,33 +57,43 @@ namespace pxsim {
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
             this.baseURL = msg.cdnUrl;
+            this.bus  = new pxsim.EventBus(runtime);
+            /* AR */
+            this.markers          = {};
+            this.onRenderFcts     = [];
+            this.renderer         = getWebGlContext();
+            this.stereoRenderer   = getStereoRenderer();
+            this.mirror           = false;
+            this.vrEffect         = false;
+            this.camera           = three.createCamera();
+            this.scene            = three.createScene();
+            threex.initArToolkit();
+            this.scene.add(this.camera);      
+            this.scene.add(three.createDirectionalLight());
+            this.scene.add(three.createAmbientLight());      
+            this.initRenderFunctions();         
+            /* music */
+            this.phrases     = {};
+            this.instruments = [];
+            this.fx          = {};            
+            this.monosynth   = tone.createMonoSynth().toMaster();  // for play tone blocks
+            this.polysynth   = tone.createPolySynth(5).toMaster(); // for play chord blocks
+            this.instruments.push(this.monosynth);
+            this.instruments.push(this.polysynth);
+            this.oscillators = {"sine": tone.createOsc(Wave.Sine, 440),
+                                "square": tone.createOsc(Wave.Square, 440),
+                                "triangle": tone.createOsc(Wave.Triangle, 440),
+                                "sawtooth": tone.createOsc(Wave.Sawtooth, 440)};
+            tone.bpm(120);
+            /* start rendering */                    
+            this.runRenderingLoop();   
+            tone.startTransport(0);    
+            music.setVolume(50);               
             return three.loadFontAsync(this.baseURL)
                 .then(font => {
                     this.font = font;
                     return tone.loadDrumSamplesAsync(this.baseURL)
                         .then(drumSamples => {
-                            this.bus  = new pxsim.EventBus(runtime);
-                            /* AR */
-                            this.markers          = {};
-                            this.renderer         = getWebGlContext();
-                            this.stereoRenderer   = getStereoRenderer();
-                            this.mirror           = false;
-                            this.vrEffect         = true;
-                            this.camera           = three.createCamera();
-                            this.scene            = three.createScene();
-                            threex.initArToolkit();
-                            this.scene.add(this.camera);      
-                            this.scene.add(three.createDirectionalLight());
-                            this.scene.add(three.createAmbientLight());      
-                            this.initRenderFunctions();
-                            /* music */
-                            this.phrases     = {};
-                            this.instruments = [];
-                            this.fx          = {};            
-                            this.monosynth   = tone.createMonoSynth().toMaster();  // for play tone blocks
-                            this.polysynth   = tone.createPolySynth(5).toMaster(); // for play chord blocks
-                            this.instruments.push(this.monosynth);
-                            this.instruments.push(this.polysynth);
                             this.drumSamples = drumSamples;
                             this.drumPlayers = {"kick" : new Tone.Player(this.drumSamples.get("kick")).toMaster(), // for one-off drum hits
                                                 "snare": new Tone.Player(this.drumSamples.get("snare")).toMaster(),
@@ -91,15 +101,7 @@ namespace pxsim {
                                                 "click": new Tone.Player(this.drumSamples.get("click")).toMaster(),
                                                 "splat": new Tone.Player(this.drumSamples.get("splat")).toMaster()};
                             this.drumMachine = tone.createDrumMachine().toMaster(); // for building drum sequences
-                            this.oscillators = {"sine": tone.createOsc(Wave.Sine, 440),
-                                                "square": tone.createOsc(Wave.Square, 440),
-                                                "triangle": tone.createOsc(Wave.Triangle, 440),
-                                                "sawtooth": tone.createOsc(Wave.Sawtooth, 440)};
-                            tone.bpm(120);
-                            /* start rendering */                    
-                            this.runRenderingLoop();   
-                            tone.startTransport(0);    
-                            music.setVolume(50);
+
                             return Promise.resolve();                            
                         });
                 });
@@ -222,7 +224,6 @@ namespace pxsim {
     function getStereoRenderer(): any {
         if (stereoRenderer == null){
           stereoRenderer = new (THREE as any).StereoEffect(getWebGlContext());
-          //stereoRenderer = new (THREE as any).VREffect(getWebGlContext());
         let width = window.innerWidth ||
                     document.documentElement.clientWidth ||
                     document.body.clientWidth ||
