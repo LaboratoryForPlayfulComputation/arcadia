@@ -248,12 +248,21 @@ namespace pxsim.design {
             case Filter.Grayscale:
                 document.body.style.filter = "grayscale(100%)";
                 break;
-            case Filter.Inverted:
+            case Filter.Invert:
                 document.body.style.filter = "invert(100%)";
                 break;
-            case Filter.Saturated:
-                document.body.style.filter = "saturate(100%)";
+            case Filter.Saturate:
+                document.body.style.filter = "saturate(1)";
                 break;
+            case Filter.HueRotate:
+                document.body.style.filter = "hue-rotate(90deg)";
+                break;  
+            case Filter.Blur:
+                document.body.style.filter = "blur(5px)";
+                break;    
+            case Filter.Contrast:
+                document.body.style.filter = "contrast(200%)";
+                break;                                               
             default:
                 document.body.style.filter = "sepia(100%)";
         }
@@ -270,12 +279,21 @@ namespace pxsim.design {
             case Filter.Grayscale:
                 document.body.style.filter = "grayscale(0%)";
                 break;
-            case Filter.Inverted:
+            case Filter.Invert:
                 document.body.style.filter = "invert(0%)";
                 break;
-            case Filter.Saturated:
-                document.body.style.filter = "saturate(0%)";
+            case Filter.Saturate:
+                document.body.style.filter = "saturate(0)";
                 break;
+            case Filter.HueRotate:
+                document.body.style.filter = "hue-rotate(0)";
+                break;
+            case Filter.Blur:
+                document.body.style.filter = "blur(0px)";
+                break;    
+            case Filter.Contrast:
+                document.body.style.filter = "contrast(0%)";
+                break;                 
             default:
                 document.body.style.filter = "sepia(0%)";
         }

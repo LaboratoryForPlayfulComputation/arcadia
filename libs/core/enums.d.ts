@@ -373,10 +373,16 @@ declare const enum Filter {
     Grayscale = 1,
     //% block='sepia'
     Sepia = 2,
-    //% block='inverted'
-    Inverted = 3,
-    //% block='saturated'
-    Saturated = 4
+    //% block='invert'
+    Invert = 3,
+    //% block='saturate'
+    Saturate = 4,
+    //% block='hue-rotate'
+    HueRotate = 5,
+    //% block='blur'
+    Blur = 6,
+    //% block='high contrast'
+    Contrast = 7        
 }
 
 declare const enum ModelType {
