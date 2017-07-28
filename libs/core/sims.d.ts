@@ -166,6 +166,24 @@ declare namespace design {
     //% shim=design::setRotation3D
     function setRotation3D(marker: number, x: number, y: number, z: number): void;
 
+    /**
+     * Sets the filter of the video feed.
+     */
+    //% blockId=ar_add_filter block="add filter %filter" blockGap=8
+    //% blockNamespace=design inBasicCategory=true
+    //% inlineInputMode="inline"
+    //% shim=design::addFilter
+    function addFilter(filter: Filter): void;
+
+    /**
+     * Sets the filter of the video feed.
+     */
+    //% blockId=ar_remove_filter block="remove filter %filter" blockGap=8
+    //% blockNamespace=design inBasicCategory=true
+    //% inlineInputMode="inline"
+    //% shim=design::removeFilter
+    function removeFilter(filter: Filter): void;
+
 }
 declare namespace fx {
     /**
@@ -278,13 +296,6 @@ declare namespace interaction {
     //% blockId=ar_slider block="slider %marker1=marker_block|from %marker2=marker_block|to %marker3=marker_block" blockGap=8
     //% shim=interaction::slider
     function slider(marker1: number, marker2: number, marker3: number): number;
-
-    /**
-     * Maps the value of 1 marker in relation to its angle with a 2nd marker.
-     */
-    //% blockId=ar_wheel block="wheel %marker1=marker_block|and %marker2=marker_block" blockGap=8
-    //% shim=interaction::wheel
-    function wheel(marker1: number, marker2: number): number;
 
 }
 declare namespace markers {
