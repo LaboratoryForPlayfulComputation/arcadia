@@ -263,25 +263,10 @@ namespace pxsim.design {
                 break;    
             case Filter.Contrast:
                 pxsim.U.addClass(document.body, "highcontrast-sim");
-                break;     
-            case Filter.Red:
-                pxsim.U.addClass(document.body, "red-sim");
-                break;     
-            case Filter.Orange:
-                pxsim.U.addClass(document.body, "orange-sim");
-                break;     
-            case Filter.Yellow:
-                pxsim.U.addClass(document.body, "yellow-sim");
-                break;     
+                break;       
             case Filter.Green:
                 pxsim.U.addClass(document.body, "green-sim");
-                break;     
-            case Filter.Blue:
-                pxsim.U.addClass(document.body, "blue-sim");
-                break;     
-            case Filter.Purple:
-                pxsim.U.addClass(document.body, "purple-sim");
-                break;                                                               
+                break;                                                                  
             default:
                 pxsim.U.addClass(document.body, "sepia-sim");
         }
@@ -313,25 +298,10 @@ namespace pxsim.design {
                 break;    
             case Filter.Contrast:
                 pxsim.U.removeClass(document.body, "highcontrast-sim");
-                break;     
-            case Filter.Red:
-                pxsim.U.removeClass(document.body, "red-sim");
-                break;     
-            case Filter.Orange:
-                pxsim.U.removeClass(document.body, "orange-sim");
-                break;     
-            case Filter.Yellow:
-                pxsim.U.removeClass(document.body, "yellow-sim");
-                break;     
+                break;        
             case Filter.Green:
                 pxsim.U.removeClass(document.body, "green-sim");
-                break;     
-            case Filter.Blue:
-                pxsim.U.removeClass(document.body, "blue-sim");
-                break;     
-            case Filter.Purple:
-                pxsim.U.removeClass(document.body, "purple-sim");
-                break;                                                               
+                break;                                                                  
             default:
                 pxsim.U.removeClass(document.body, "sepia-sim");
         }

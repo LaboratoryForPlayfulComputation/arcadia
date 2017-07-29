@@ -1,14 +1,14 @@
 
 .red-sim {
-    filter: grayscale(100%) sepia(100%) hue-rotate(90deg);
+    filter: grayscale(100%) sepia(100%) hue-rotate(20deg);
 }
 
 .orange-sim {
-    filter: grayscale(100%) sepia(100%) hue-rotate(90deg);
+    filter: grayscale(100%) sepia(100%) hue-rotate(30deg);
 }
 
 .yellow-sim {
-    filter: grayscale(100%) sepia(100%) hue-rotate(90deg);
+    filter: grayscale(100%) sepia(100%) hue-rotate(10deg);
 }
 
 .green-sim {
@@ -16,11 +16,11 @@
 }
 
 .blue-sim {
-    filter: grayscale(100%) sepia(100%) hue-rotate(90deg);
+    filter: grayscale(100%) sepia(100%) hue-rotate(40deg);
 }
 
 .purple-sim {
-    filter: grayscale(100%) sepia(100%) hue-rotate(90deg);
+    filter: grayscale(100%) sepia(100%) hue-rotate(60deg);
 }
 
 .huerotate-sim {

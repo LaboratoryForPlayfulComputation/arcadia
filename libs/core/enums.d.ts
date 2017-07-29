@@ -383,18 +383,8 @@ declare const enum Filter {
     Blur = 6,
     //% block='high contrast'
     Contrast = 7,
-    //% block='red'
-    Red = 8,
-    //% block='orange'
-    Orange = 9,
-    //% block='yellow'
-    Yellow = 10,
     //% block='green'
-    Green = 11,
-    //% block='blue'
-    Blue = 12,
-    //% block='purple'
-    Purple = 13        
+    Green = 8     
 }
 
 declare const enum ModelType {
