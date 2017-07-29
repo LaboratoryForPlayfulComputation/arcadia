@@ -270,7 +270,6 @@ namespace pxsim.design {
             default:
                 pxsim.U.addClass(document.body, "sepia-sim");
         }
-        console.log(document.body.style.filter);
     }
 
     /**
