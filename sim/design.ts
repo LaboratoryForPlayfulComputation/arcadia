@@ -86,6 +86,9 @@ namespace pxsim.design {
             color: m.color(),
             side: THREE.DoubleSide
         });
+        mod.traverse(function(child){
+            if (child instanceof THREE.Mesh) child.material = material;
+        });        
         const boundingBox  = new THREE.Box3().setFromObject(mod);
         const maxDimension = Math.max(boundingBox.max.x, boundingBox.max.y, boundingBox.max.z);
         let autoScale      = 1;
