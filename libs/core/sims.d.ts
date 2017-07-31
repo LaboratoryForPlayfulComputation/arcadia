@@ -222,25 +222,25 @@ declare namespace fx {
      * Add an effect to every active instrument.
      * @param effect which effect to use
      */
-    //% blockId=music_add_effect_global block="add effect %effect" blockGap=8
+    //% blockId=music_add_effect block="add effect %effect" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
     //% effect.fieldOptions.tooltips="true"
-    //% shim=fx::addGlobalEffect
-    function addGlobalEffect(effect: Effect): void;
+    //% shim=fx::addEffect
+    function addEffect(effect: Effect): void;
 
     /**
      * Remove an effect to every active instrument.
      * @param effect which effect to use
      */
-    //% blockId=music_rem_effect_global block="remove effect %effect" blockGap=8
+    //% blockId=music_rem_effect block="remove effect %effect" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
     //% effect.fieldOptions.tooltips="true"
-    //% shim=fx::removeGlobalEffect
-    function removeGlobalEffect(effect: Effect): void;
+    //% shim=fx::removeEffect
+    function removeEffect(effect: Effect): void;
 
 }
 declare namespace interaction {

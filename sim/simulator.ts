@@ -73,7 +73,11 @@ namespace pxsim {
             /* music */
             this.phrases     = {};
             this.instruments = [];
-            this.fx          = {};            
+            this.fx          = {"distortion": tone.createEffect(Effect.Distortion), 
+                                    "delay": tone.createEffect(Effect.Delay),
+                                        "chorus": tone.createEffect(Effect.Chorus),
+                                            "reverb": tone.createEffect(Effect.Reverb),
+                                                "phaser": tone.createEffect(Effect.Phaser)};            
             this.monosynth   = tone.createMonoSynth().toMaster();  // for play tone blocks
             this.polysynth   = tone.createPolySynth(5).toMaster(); // for play chord blocks
             this.instruments.push(this.monosynth);
