@@ -32,6 +32,7 @@ namespace pxsim {
         public scene            : THREE.Scene;
         public camera           : THREE.Camera;
         public markers          : pxsim.Map<pxsim.markers.Marker>;
+        public markerColors     : Array<number>;
         public arToolkitContext : THREEx.ArToolkitContext;
         public arToolkitSource  : THREEx.ArToolkitSource;
         public renderer         : THREE.WebGLRenderer;
@@ -52,37 +53,54 @@ namespace pxsim {
         
         constructor() {
             super();
+            this.bus  = new pxsim.EventBus(runtime);
+            /* AR */
+            this.markers          = {};
+            this.markerColors     = [0xff0000, 0xff6100, 0xffb200, 0xffe100,
+                                        0xb6ff00, 0x48ff00, 0x33b500, 0x00e082,
+                                            0x00e0ba, 0x006ee5, 0x0003e5, 0x4200a5,
+                                                0x6600ff, 0x9800ff, 0xe500ff, 0xff00a5];
+            this.renderer         = getWebGlContext();
+            this.stereoRenderer   = getStereoRenderer();
+            this.mirror           = false;
+            this.vrEffect         = false;
+            this.camera           = three.createCamera();
+            this.scene            = three.createScene();
+            this.scene.add(this.camera);      
+            this.scene.add(three.createDirectionalLight());
+            this.scene.add(three.createAmbientLight());      
+
+            /* music */
+            this.phrases     = {};
+            this.instruments = [];
+            this.fx          = {};            
+            this.monosynth   = tone.createMonoSynth().toMaster();  // for play tone blocks
+            this.polysynth   = tone.createPolySynth(5).toMaster(); // for play chord blocks
+            this.instruments.push(this.monosynth);
+            this.instruments.push(this.polysynth);
+            this.oscillators = {"sine": tone.createOsc(Wave.Sine, 440),
+                                "square": tone.createOsc(Wave.Square, 440),
+                                "triangle": tone.createOsc(Wave.Triangle, 440),
+                                "sawtooth": tone.createOsc(Wave.Sawtooth, 440)};
+            tone.bpm(120);
+            tone.startTransport(0);    
+            music.setVolume(50);            
         }
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
             this.baseURL = msg.cdnUrl;
+
+            /* start rendering */                    
+            threex.initArToolkit();
+            this.initMarkers();
+            this.initRenderFunctions(); 
+            this.runRenderingLoop();   
+                       
             return three.loadFontAsync(this.baseURL)
                 .then(font => {
                     this.font = font;
                     return tone.loadDrumSamplesAsync(this.baseURL)
                         .then(drumSamples => {
-                            this.bus  = new pxsim.EventBus(runtime);
-                            /* AR */
-                            this.markers          = {};
-                            this.renderer         = getWebGlContext();
-                            this.stereoRenderer   = getStereoRenderer();
-                            this.mirror           = false;
-                            this.vrEffect         = false;
-                            this.camera           = three.createCamera();
-                            this.scene            = three.createScene();
-                            threex.initArToolkit();
-                            this.scene.add(this.camera);      
-                            this.scene.add(three.createDirectionalLight());
-                            this.scene.add(three.createAmbientLight());      
-                            this.initRenderFunctions();
-                            /* music */
-                            this.phrases     = {};
-                            this.instruments = [];
-                            this.fx          = {};            
-                            this.monosynth   = tone.createMonoSynth().toMaster();  // for play tone blocks
-                            this.polysynth   = tone.createPolySynth(5).toMaster(); // for play chord blocks
-                            this.instruments.push(this.monosynth);
-                            this.instruments.push(this.polysynth);
                             this.drumSamples = drumSamples;
                             this.drumPlayers = {"kick" : new Tone.Player(this.drumSamples.get("kick")).toMaster(), // for one-off drum hits
                                                 "snare": new Tone.Player(this.drumSamples.get("snare")).toMaster(),
@@ -90,15 +108,6 @@ namespace pxsim {
                                                 "click": new Tone.Player(this.drumSamples.get("click")).toMaster(),
                                                 "splat": new Tone.Player(this.drumSamples.get("splat")).toMaster()};
                             this.drumMachine = tone.createDrumMachine().toMaster(); // for building drum sequences
-                            this.oscillators = {"sine": tone.createOsc(Wave.Sine, 440),
-                                                "square": tone.createOsc(Wave.Square, 440),
-                                                "triangle": tone.createOsc(Wave.Triangle, 440),
-                                                "sawtooth": tone.createOsc(Wave.Sawtooth, 440)};
-                            tone.bpm(120);
-                            /* start rendering */                    
-                            this.runRenderingLoop();   
-                            tone.startTransport(0);    
-                            music.setVolume(50);
                             return Promise.resolve();                            
                         });
                 });
@@ -138,6 +147,13 @@ namespace pxsim {
             });
         }
 
+        initMarkers(){
+            for (let i = 0; i < 16; i++){
+                //this.marker(i);
+                design.setShape(i, Shape.Box);
+            }
+        }
+
         runRenderingLoop(){
             let self = this;
             let lastTimeMsec = 0;
@@ -172,7 +188,7 @@ namespace pxsim {
             if (!this.markers) this.markers = {};
             let m = this.markers[marker.toString()];
             if (!m) 
-                m = this.markers[marker.toString()] = new pxsim.markers.Marker(marker);
+                m = this.markers[marker.toString()] = new pxsim.markers.Marker(marker, this.markerColors[marker]);
             return m;
         }
 

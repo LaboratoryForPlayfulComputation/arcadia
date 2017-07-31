@@ -65,6 +65,7 @@ namespace pxsim.markers {
         return (position(marker, axis) - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
 
+
     /* Class to store marker data */
     export class Marker {
         private code_            : MarkerCode;
@@ -94,7 +95,7 @@ namespace pxsim.markers {
         private paintGroup_      : THREE.Group;
         private painting_        : boolean;
 
-        constructor(code: MarkerCode) {
+        constructor(code: MarkerCode, color: number) {
             this.code_            = code;
             this.group_           = this.initControls();
             this.prevWorldPos_    = new THREE.Vector3(0, 0, 0);
@@ -104,6 +105,8 @@ namespace pxsim.markers {
             this.prevVisibleTime_ = 0;
             this.prevHiddenTime_  = 0;
             this.color_           = 0x000000;
+            if (color)
+                this.color_ = color;
             this.opacity_         = 0.9;
             this.fontColor_       = 0xffffff;
             this.brushColor_      = 0xffffff;
