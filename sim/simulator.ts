@@ -56,10 +56,10 @@ namespace pxsim {
             this.bus  = new pxsim.EventBus(runtime);
             /* AR */
             this.markers          = {};
-            this.markerColors     = [0xff0000, 0xff6100, 0xffb200, 0xffe100,
-                                        0xb6ff00, 0x48ff00, 0x33b500, 0x00e082,
-                                            0x00e0ba, 0x006ee5, 0x0003e5, 0x4200a5,
-                                                0x6600ff, 0x9800ff, 0xe500ff, 0xff00a5];
+            this.markerColors     = [0xff0000, 0xff4c00, 0xffe100, 0x33b500,
+                                        0x00660a, 0x00e082, 0x00e0ba, 0x006ee5,
+                                            0x0003e5, 0x4200a5, 0x6600ff, 0xe500ff,
+                                                0xff00a5, 0x822600, 0x000000, 0xffffff];
             this.renderer         = getWebGlContext();
             this.stereoRenderer   = getStereoRenderer();
             this.mirror           = false;
