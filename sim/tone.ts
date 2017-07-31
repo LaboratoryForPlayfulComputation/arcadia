@@ -135,27 +135,37 @@ namespace pxsim.tone {
         var type : string;
         switch (fx) {
             case Effect.Distortion:
-                effect = new Tone.Distortion(0.8).toMaster();
                 type = "distortion";
+                effect = board().fx[type];
+                if (!effect)
+                    effect = new Tone.Distortion(0.5).toMaster();
                 break;
             case Effect.Delay:
-                effect = new Tone.FeedbackDelay("8n").toMaster();
                 type = "delay";
+                effect = board().fx[type];
+                if (!effect)
+                    effect = new Tone.FeedbackDelay("8n").toMaster();
                 break;
             case Effect.Chorus:
-                effect = new Tone.Chorus(4, 2.5, 0.5).toMaster();
                 type = "chorus";
+                effect = board().fx[type];
+                if (!effect)
+                    effect = new Tone.Chorus(4, 2.5, 0.5).toMaster();
                 break;
             case Effect.Phaser:
-                effect = new Tone.Phaser({"frequency": 15, 
+                type = "phaser";
+                effect = board().fx[type];
+                if (!effect)
+                    effect = new Tone.Phaser({"frequency": 15, 
                                             "octaves": 5, 
                                             "baseFrequency": 1000
                                         }).toMaster();
-                type = "phaser";
                 break;
             default:
-                effect = new Tone.Freeverb().toMaster();
                 type = "reverb";
+                effect = board().fx[type];
+                if (!effect)
+                    effect = new Tone.Freeverb().toMaster();
         }
         board().fx[type] = effect;
         return effect;        

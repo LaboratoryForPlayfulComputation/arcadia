@@ -44,8 +44,8 @@ namespace pxsim.fx {
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
     //% effect.fieldOptions.tooltips="true"  
     export function addGlobalEffect(effect: Effect) {
-        let phrases = board().phrases;
         // Iterate over phrases and add fx to them
+        let phrases = board().phrases;
         for (var phrase in phrases){
             phrases[phrase].addEffect(effect);
         }
