@@ -45,16 +45,18 @@ namespace pxsim.fx {
     //% effect.fieldOptions.tooltips="true"  
     export function addGlobalEffect(effect: Effect) {
         // Iterate over phrases and add fx to them
-        let phrases = board().phrases;
+        /*let phrases = board().phrases;
         for (var phrase in phrases){
             phrases[phrase].addEffect(effect);
-        }
+        }*/
         // Add fx to all of the boards instruments and oscillators 
         let fx = tone.createEffect(effect);
-        for (let i = 0; i < board().instruments.length; i++)
-            board().instruments[i].connect(fx);
-        for (var osc in board().oscillators)
-            board().oscillators[osc].connect(fx);
+        if (fx){
+            for (let i = 0; i < board().instruments.length; i++)
+                board().instruments[i].connect(fx);
+            for (var osc in board().oscillators)
+                board().oscillators[osc].connect(fx);
+        }
     }
 
     /**
@@ -83,19 +85,21 @@ namespace pxsim.fx {
                 break;
             default:
                 type = "reverb";
-                break;
             }
+        let fx = board().fx[type];
+        if (fx) {
+            for (let i = 0; i < board().instruments.length; i++)
+                board().instruments[i].disconnect(fx);
+            for (var osc in board().oscillators)
+                board().oscillators[osc].disconnect(fx);
+        }
 
-        for (let i = 0; i < board().instruments.length; i++)
-            board().instruments[i].disconnect(board().fx[type]);
-        for (var osc in board().oscillators)
-            board().oscillators[osc].disconnect(board().fx[type]);
-
+        /*
         let phrases = board().phrases;
         for (var phrase in phrases){
             let p = phrases[phrase];
             if (p) p.removeEffect(effect);
-        }
+        }*/
     }
 
 }
