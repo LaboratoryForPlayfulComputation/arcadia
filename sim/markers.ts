@@ -65,6 +65,7 @@ namespace pxsim.markers {
         return (position(marker, axis) - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
 
+
     /* Class to store marker data */
     export class Marker {
         private code_            : MarkerCode;
