@@ -18,6 +18,10 @@ namespace pxsim.threex {
             let arToolkitSource = new THREEx.ArToolkitSource({
                 sourceType: 'webcam',
                 sourceURL: null,
+                sourceWidth: 1200,
+                sourceHeight: 675,
+                displayWidth: 1200,
+                displayHeight: 675             
             });   
             let arToolkitContext = new THREEx.ArToolkitContext({
                 cameraParametersUrl: board().baseURL + 'AR.js/data/data/camera_para.dat',
