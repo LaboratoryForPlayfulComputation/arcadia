@@ -65,6 +65,41 @@ namespace pxsim.markers {
         return (position(marker, axis) - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
 
+    /**
+     * Maps the x, y, or z position of a marker to a specified range. When you rotate the marker, the lowest value will be when the marker is in it's normal orientation and will get higher as you turn it clockwise.
+     * @param out_min The lower end of the range to map to, eg: 0
+     * @param out_max The upper end of the range to map to, eg: 100
+     */
+    //% blockId=ar_map_rot block="%marker=marker_block|map rotation from %out_min|to %out_max" blockGap=8
+    //% inlineInputMode="inline"    
+    export function mapRotationToRange(marker: number, out_min: number, out_max: number): number{
+        const out_min_first  = out_min;         
+        const out_min_second = out_max / 4;     
+        const out_min_third  = out_max / 2;     
+        const out_min_fourth = out_max * (3/4); 
+        const out_max_first  = out_max / 4;     
+        const out_max_second = out_max / 2;     
+        const out_max_third  = out_max * (3/4); 
+        const out_max_fourth = out_max;         
+        let rotY = THREE.Math.radToDeg(rotation(marker, Axes.y));
+        let w = THREE.Math.radToDeg(board().marker(marker).rotation().w);
+        let map = 0;
+ 
+        if (rotY <= 0) { // 1st quadrant
+            rotY *= -1;
+            map = (rotY) * (out_max_first - out_min_first) / (40) + out_min_first;
+        } else if (w <= 0) { // 2nd quadrant
+            map = (rotY - 40) * (out_max_second - out_min_second) / (10) + out_min_second;
+        } else if (rotY >= 25) { // 3rd quadrant
+            rotY *= -1;
+            map = (rotY - -50) * (out_max_third - out_min_third) / (-25 - -50) + out_min_third;
+        } else { // 4th quadrant
+            rotY *= -1;
+            map = (rotY - -25) * (out_max_fourth - out_min_fourth) / (0 - -25) + out_min_fourth;
+        }
+        return map;
+    }
+
 
     /* Class to store marker data */
     export class Marker {
@@ -72,7 +107,7 @@ namespace pxsim.markers {
         private group_           : THREE.Group;
         private prevWorldPos_    : THREE.Vector3;
         private prevPos_         : THREE.Vector3;
-        private prevRot_         : THREE.Euler;
+        private prevRot_         : THREE.Quaternion;
         private prevVisible_     : boolean;
         private prevVisibleTime_ : number;
         private prevHiddenTime_  : number;
@@ -100,7 +135,7 @@ namespace pxsim.markers {
             this.group_           = this.initControls();
             this.prevWorldPos_    = new THREE.Vector3(0, 0, 0);
             this.prevPos_         = new THREE.Vector3(0, 0, 0);
-            this.prevRot_         = new THREE.Euler(0, 0, 0);
+            this.prevRot_         = new THREE.Quaternion(0, 0, 0, 0);
             this.prevVisible_     = false;
             this.prevVisibleTime_ = 0;
             this.prevHiddenTime_  = 0;
@@ -243,9 +278,10 @@ namespace pxsim.markers {
             this.prevPos_ = new THREE.Vector3(this.position().x,
                                                   this.position().y,
                                                   this.position().z);
-            this.prevRot_ = new THREE.Euler(this.rotation().x,
+            this.prevRot_ = this.rotation();
+            /*new THREE.Quaternion(this.rotation().x,
                                                 this.rotation().y,
-                                                this.rotation().z);
+                                                this.rotation().z);*/
             this.prevWorldPos_= new THREE.Vector3(this.worldPosition().x,
                                                     this.worldPosition().y,
                                                         this.worldPosition().z);                                              
@@ -287,7 +323,7 @@ namespace pxsim.markers {
         position(){ return this.group_.position; }
         worldPosition(){ return this.group_.getWorldPosition(); }
         prevPosition(){ return this.prevPos_; }
-        rotation(){ return this.group_.rotation; }
+        rotation(){ return this.group_.quaternion; }
         prevRotation(){ return this.prevRot_; }
         prevVisible(){ return this.prevVisible_; }
         prevVisibleTime(){ return this.prevVisibleTime_; }

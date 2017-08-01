@@ -343,6 +343,16 @@ declare namespace markers {
     //% shim=markers::mapPositionToRange
     function mapPositionToRange(marker: number, axis: Axes, out_min: number, out_max: number): number;
 
+    /**
+     * Maps the x, y, or z position of a marker to a specified range. When you rotate the marker, the lowest value will be when the marker is in it's normal orientation and will get higher as you turn it clockwise.
+     * @param out_min The lower end of the range to map to, eg: 0
+     * @param out_max The upper end of the range to map to, eg: 100
+     */
+    //% blockId=ar_map_rot block="%marker=marker_block|map rotation from %out_min|to %out_max" blockGap=8
+    //% inlineInputMode="inline"
+    //% shim=markers::mapRotationToRange
+    function mapRotationToRange(marker: number, out_min: number, out_max: number): number;
+
 }
 declare namespace music {
     /**
