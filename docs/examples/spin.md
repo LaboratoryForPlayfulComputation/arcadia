@@ -2,7 +2,7 @@
 
 ```blocks
 let angle = 0
-motion.whileEvent(markers.marker(MarkerCode.Marker5), MarkerLoopEvent.WhileVisible, function () {
+interaction.whileEvent(markers.marker(MarkerCode.Marker5), MarkerLoopEvent.WhileVisible, function () {
     angle += 10
     design.setRotation(markers.marker(MarkerCode.Marker5), angle)
 })
