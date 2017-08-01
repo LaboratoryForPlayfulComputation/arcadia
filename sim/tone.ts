@@ -90,10 +90,12 @@ namespace pxsim.tone {
                                             type: "sine"
                                         },
                                         envelope: {
-                                            attack:  0.02,
+                                            attack:  0.01,
                                             decay:   0.1,
-                                            sustain: 0.3,
-                                            release: 0.25
+                                            sustain: 0.5,
+                                            release: 1,
+                                            attackCurve:"linear",
+                                            releaseCurve:"exponential"
                                         }}).toMaster();  
         //board().instruments.push(mono);
         return mono;
@@ -101,16 +103,17 @@ namespace pxsim.tone {
 
     export function createPolySynth(voices: number): Tone.PolySynth {
         let poly = new Tone.PolySynth(voices, Tone.MonoSynth);     
-        //poly.set("volume", -20);
         poly.set({
             oscillator: {
                 type: "sine"
             },
             envelope: {
-                attack:  0.025,
-                decay :  0.1,
-                sustain: 0.3,
-                release: 0.25
+                attack:  0.01,
+                decay:   0.1,
+                sustain: 0.5,
+                release: 1,
+                attackCurve:"linear",
+                releaseCurve:"exponential"
             }}).toMaster();
         //board().instruments.push(poly);
         return poly;   
