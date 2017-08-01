@@ -20,6 +20,10 @@
   "url":"/examples/spin",
   "cardType": "example"  
 },{
+  "name": "Color wheel",
+  "url":"/examples/color_wheel",
+  "cardType": "example"    
+},{
   "name": "Rainbow Paintbrush",
   "url":"/examples/rainbow_paintbrush",
   "cardType": "example"
