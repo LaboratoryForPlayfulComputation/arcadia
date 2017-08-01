@@ -81,21 +81,21 @@ namespace pxsim.markers {
         const out_max_second = out_max / 2;     
         const out_max_third  = out_max * (3/4); 
         const out_max_fourth = out_max;         
+        const first_max      = 40;
+        const second_max     = 49;
+        const third_max      = 25;
         let rotY = THREE.Math.radToDeg(rotation(marker, Axes.y));
         let w = THREE.Math.radToDeg(board().marker(marker).rotation().w);
         let map = 0;
  
         if (rotY <= 0) { // 1st quadrant
-            rotY *= -1;
-            map = (rotY) * (out_max_first - out_min_first) / (40) + out_min_first;
+            map = (-rotY) * (out_max_first - out_min_first) / (first_max) + out_min_first;
         } else if (w <= 0) { // 2nd quadrant
-            map = (rotY - 40) * (out_max_second - out_min_second) / (10) + out_min_second;
-        } else if (rotY >= 25) { // 3rd quadrant
-            rotY *= -1;
-            map = (rotY - -50) * (out_max_third - out_min_third) / (-25 - -50) + out_min_third;
+            map = (rotY - first_max) * (out_max_second - out_min_second) / (second_max - first_max) + out_min_second;
+        } else if (rotY >= third_max) { // 3rd quadrant
+            map = (-rotY + second_max) * (out_max_third - out_min_third) / (-third_max + second_max) + out_min_third;
         } else { // 4th quadrant
-            rotY *= -1;
-            map = (rotY - -25) * (out_max_fourth - out_min_fourth) / (0 - -25) + out_min_fourth;
+            map = (-rotY + third_max) * (out_max_fourth - out_min_fourth) / (third_max) + out_min_fourth;
         }
         return map;
     }
@@ -279,9 +279,6 @@ namespace pxsim.markers {
                                                   this.position().y,
                                                   this.position().z);
             this.prevRot_ = this.rotation();
-            /*new THREE.Quaternion(this.rotation().x,
-                                                this.rotation().y,
-                                                this.rotation().z);*/
             this.prevWorldPos_= new THREE.Vector3(this.worldPosition().x,
                                                     this.worldPosition().y,
                                                         this.worldPosition().z);                                              
