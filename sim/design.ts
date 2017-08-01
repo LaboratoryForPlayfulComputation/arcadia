@@ -137,7 +137,11 @@ namespace pxsim.design {
         let m = board().markers[marker.toString()];
         m.setOpacity(value);
         let object = m.shapeObject();
-        if (object) (object as any).material.opacity = value;
+        if (object){
+            object.traverse(function(child){
+                if (child instanceof THREE.Mesh) child.material.opacity = value;
+            });            
+        }
     }
 
     /**
