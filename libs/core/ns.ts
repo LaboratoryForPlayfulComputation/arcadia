@@ -31,7 +31,7 @@ namespace music {
 /**
  * Colors
  */
-//% weight=88 icon="\uf1fc" color=#4c38ff
+//% weight=87 icon="\uf1fc" color=#4c38ff
 namespace colors {
 }
 
@@ -60,6 +60,6 @@ namespace paint {
 /**
  * Models
  */
-//% icon="\uf1fc" color=#4d03a3
+//% weight=88 icon="\uf1fc" color=#4d03a3
 namespace models {
 }
