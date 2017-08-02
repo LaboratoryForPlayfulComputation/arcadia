@@ -88,10 +88,9 @@ namespace pxsim.markers {
         let w = THREE.Math.radToDeg(board().marker(marker).rotation().w);
         let map = 0;
  
-        if (rotY <= 0) { // 1st quadrant
-            map = (-rotY) * (out_max_first - out_min_first) / (first_max) + out_min_first;
-        } else if (w <= 0) { // 2nd quadrant
-            map = (rotY - first_max) * (out_max_second - out_min_second) / (second_max - first_max) + out_min_second;
+        if (rotY <= 0 || w <= 0) { // 1st and 2nd quadrant
+            if (rotY < 0) rotY *= -1;
+            map = (rotY) * (out_max_second - out_min_first) / (second_max) + out_min_first;
         } else if (rotY >= third_max) { // 3rd quadrant
             map = (-rotY + second_max) * (out_max_third - out_min_third) / (-third_max + second_max) + out_min_third;
         } else { // 4th quadrant
