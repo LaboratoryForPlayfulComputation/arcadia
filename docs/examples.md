@@ -16,8 +16,8 @@
   "url":"/examples/theremin",
   "cardType": "example"
 },{
-  "name": "Spin",
-  "url":"/examples/spin",
+  "name": "Dinner Spinner",
+  "url":"/examples/dinner_spinner",
   "cardType": "example"  
 },{
   "name": "Color wheel",
