@@ -28,7 +28,7 @@ namespace pxsim {
      */
     export class Board extends pxsim.BaseBoard {
         public bus              : pxsim.EventBus;
-        public font             : String;
+        public font             : THREE.Font;
         public scene            : THREE.Scene;
         public camera           : THREE.Camera;
         public markers          : pxsim.Map<pxsim.markers.Marker>;
@@ -54,6 +54,7 @@ namespace pxsim {
         constructor() {
             super();
             this.bus  = new pxsim.EventBus(runtime);
+            this.font = three.parseFont(font.helvetiker_regular);
             /* AR */
             this.markers          = {};
             this.markerColors     = [0xff0000, 0xff4c00, 0xffe100, 0x33b500,
@@ -100,20 +101,16 @@ namespace pxsim {
             this.initRenderFunctions(); 
             this.runRenderingLoop();   
                        
-            return three.loadFontAsync(this.baseURL)
-                .then(font => {
-                    this.font = font;
-                    return tone.loadDrumSamplesAsync(this.baseURL)
-                        .then(drumSamples => {
-                            this.drumSamples = drumSamples;
-                            this.drumPlayers = {"kick" : new Tone.Player(this.drumSamples.get("kick")).toMaster(), // for one-off drum hits
-                                                "snare": new Tone.Player(this.drumSamples.get("snare")).toMaster(),
-                                                "hihat": new Tone.Player(this.drumSamples.get("hihat")).toMaster(),
-                                                "click": new Tone.Player(this.drumSamples.get("click")).toMaster(),
-                                                "splat": new Tone.Player(this.drumSamples.get("splat")).toMaster()};
-                            this.drumMachine = tone.createDrumMachine().toMaster(); // for building drum sequences
-                            return Promise.resolve();                            
-                        });
+            return tone.loadDrumSamplesAsync(this.baseURL)
+                .then(drumSamples => {
+                    this.drumSamples = drumSamples;
+                    this.drumPlayers = {"kick" : new Tone.Player(this.drumSamples.get("kick")).toMaster(), // for one-off drum hits
+                                        "snare": new Tone.Player(this.drumSamples.get("snare")).toMaster(),
+                                        "hihat": new Tone.Player(this.drumSamples.get("hihat")).toMaster(),
+                                        "click": new Tone.Player(this.drumSamples.get("click")).toMaster(),
+                                        "splat": new Tone.Player(this.drumSamples.get("splat")).toMaster()};
+                    this.drumMachine = tone.createDrumMachine().toMaster(); // for building drum sequences
+                    return Promise.resolve();                            
                 });
         }       
 
