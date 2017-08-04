@@ -171,6 +171,7 @@ namespace pxsim {
 
         kill() {
             document.body.className = ""; // removes all filters added from usercode
+            Tone.Master.volume.value = -Infinity;
             if (this.scene)       three.removeSceneChildren(this.scene);
             if (this.fx)          tone.killFX();
             if (this.phrases)     tone.killPhrases();
