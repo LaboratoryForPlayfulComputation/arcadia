@@ -10,7 +10,7 @@ namespace pxsim.music {
     export function playToneAsync(note: number, duration: BeatFraction): Promise<void> { 
         const t = beat(duration);
         const tone = board().monosynth
-        tone.triggerAttackRelease(note, t);
+        tone.triggerAttackRelease(note, t, "+16t");
         return pauseBeatAsync(tone, duration);
     }
 
@@ -32,17 +32,19 @@ namespace pxsim.music {
     */
     //% promise
     export function playChordCommandAsync(notesString: string, duration: BeatFraction): Promise<void> {
-        let notes = notesString.split(",");
-        let notesToPlay = [] as any;
-        if (notes.length > 5){
-            for (let i = 0; i < 5; i++) notesToPlay.push(notes[i]);
-        } else {
-            notesToPlay = notes;
+        const tone = board().polysynth;
+        if (notesString != ""){
+            let notes = notesString.split(",");
+            let notesToPlay = [] as any;
+            if (notes.length > 5){
+                for (let i = 0; i < 5; i++) notesToPlay.push(notes[i]);
+            } else {
+                notesToPlay = notes;
+            }
+            const t = beat(duration);
+            board().polysynth.triggerAttackRelease(notesToPlay, t, "+16t");
         }
-        const t = beat(duration);
-        const note = board().polysynth;
-        board().polysynth.triggerAttackRelease(notesToPlay, t);
-        return pauseBeatAsync(note, duration);
+        return pauseBeatAsync(tone, duration);
     }
 
     /**
@@ -57,19 +59,19 @@ namespace pxsim.music {
     export function playDrum(drum: Drum) {
         switch (drum) {
             case Drum.Kick:
-               board().drumPlayers["kick"].start();
+               board().drumPlayers["kick"].start("+16t");
                break;
             case Drum.Snare:
-               board().drumPlayers["snare"].start();
+               board().drumPlayers["snare"].start("+16t");
                break;
             case Drum.HiHat:
-               board().drumPlayers["hihat"].start();
+               board().drumPlayers["hihat"].start("+16t");
                break;   
             case Drum.Click:
-               board().drumPlayers["click"].start();
+               board().drumPlayers["click"].start("+16t");
                break;                           
             default:
-               board().drumPlayers["splat"].start();
+               board().drumPlayers["splat"].start("+16t");
         }
     }
 
@@ -199,7 +201,7 @@ namespace pxsim.music {
         let osc = board().oscillators[type];
         osc.volume.value = vol;
         osc.stop();
-        osc.start();
+        osc.start("+16t");
     }    
 
     /**

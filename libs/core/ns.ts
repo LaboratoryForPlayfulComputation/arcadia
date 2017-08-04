@@ -20,10 +20,12 @@ namespace music {
     export function playChord(notes: number[], duration: BeatFraction): void {
         let noteString = "";
         let notesLen = notes.length;
-        for (let i = 0; i < notesLen - 1; i++) {
-            noteString = noteString + notes[i].toString() + ",";
+        if (notesLen > 0){
+            for (let i = 0; i < notesLen - 1; i++) {
+                noteString = noteString + notes[i].toString() + ",";
+            }
+            noteString = noteString + notes[notesLen - 1].toString(); // so we don't have a trailing comma
         }
-        noteString = noteString + notes[notesLen - 1].toString(); // so we don't have a trailing comma
         playChordCommand(noteString, duration);
     }
 }
