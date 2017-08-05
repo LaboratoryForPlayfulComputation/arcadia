@@ -169,7 +169,6 @@ namespace pxt.editor {
       }
 
       this.fieldGroup_.appendChild(this.boardElement);
-      (this.borderRect_ as HTMLElement).style.display = 'none';
     }
 
     private isInFlyout() {

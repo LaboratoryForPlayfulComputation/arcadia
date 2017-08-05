@@ -4,9 +4,9 @@ namespace pxsim.markers {
      * An augmented reality marker
      */
     //% blockId=marker_block block="%marker"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"    
+    //% marker.fieldEditor="imagedropdown"
+    //% marker.fieldOptions.width="250" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
     //% marker.fieldOptions.decompileLiterals=true
     //% shim=TD_ID
     //% useEnumVal=1

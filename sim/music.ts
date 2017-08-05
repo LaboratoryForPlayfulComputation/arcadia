@@ -102,7 +102,7 @@ namespace pxsim.music {
      */
     //% weight=1 help=music/note-frequency
     //% blockId=device_note block="%note"
-    //% shim=TD_ID
+    //% shim=TD_ID colorSecondary="#FFFFFF"
     //% note.fieldEditor="note" note.defl="262" note.fieldOptions.decompileLiterals=true
     //% useEnumVal=1 blockGap=8
     //% blockNamespace=music inBasicCategory=true

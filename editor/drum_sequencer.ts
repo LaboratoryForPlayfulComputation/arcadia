@@ -31,7 +31,7 @@ namespace pxt.editor {
 
     initGrid() {
       const BOARD_SVG = `
-<svg xmlns="http://www.w3.org/2000/svg" id="field-neopixels" viewBox="0 0 180.09375 179.22874">
+<svg xmlns="http://www.w3.org/2000/svg" id="drum-sequencer" viewBox="0 -20 180.09375 179.22874">
   <text x="-50" y="15" fill="white">Kick</text>
   <rect id="track0beat0" width="20" height="20" fill="#000000"/>
   <rect id="track0beat1" width="20" height="20" x="25" fill="#000000"/>
@@ -106,7 +106,6 @@ namespace pxt.editor {
       }
 
       this.fieldGroup_.appendChild(this.boardElement);
-      (this.borderRect_ as HTMLElement).style.display = 'none';
     }
 
     private isInFlyout() {
