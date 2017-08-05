@@ -54,14 +54,6 @@
         "invertedToolbox": true,
         "invertedMonaco": true,
         "invertedMenu": true,
-        "blocklyOptions": {
-            "grid": {
-                "spacing": 30,
-                "length": 7,
-                "colour": "rgba(189, 195, 199, 0.30)",
-                "snap": true
-            }
-        },
         "simAnimationEnter": "scale in",
         "simAnimationExit": "scale out",
         "extendEditor": true,
