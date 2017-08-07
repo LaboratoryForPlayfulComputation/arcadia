@@ -16,6 +16,6 @@
     * [DJ](/examples/dj)
     * [Dinner Spinner](/examples/dinner_spinner)
     * [Color wheel](/examples/color_wheel)
-    * [Timer](/examples/timer)   
+    * [Timer](/examples/timer)
     * [Theremin](/examples/theremin)
-    * [Rainbow paintbrush](/examples/rainbow_paintbrush)        
+    * [Rainbow paintbrush](/examples/rainbow_paintbrush)
