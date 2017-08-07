@@ -1,7 +1,7 @@
 {
     "id": "ar",
-    "name": "AR editor",
-    "title": "Microsoft MakeCode for AR",
+    "name": "Arcadia",
+    "title": "Microsoft MakeCode for Marker-based Augmented Reality",
     "corepkg": "core",
     "cloud": {
         "workspace": false,
