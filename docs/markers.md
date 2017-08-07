@@ -4,7 +4,7 @@
 ### Materials needed
 *  __Option 1:__ Printer, white printer paper & black ink _(recommended)_  
 or
-*  __Option 2:__ White paper, a ruler, a black marker & cardboard _(recommended if you don’t have a printer)_  
+*  __Option 2:__ White paper, a ruler, a black marker & cardboard   
 or
 *  __Option 3:__ A cellphone or an electronic device that can display images  
 
