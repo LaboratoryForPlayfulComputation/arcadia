@@ -3,9 +3,9 @@
 ## #documentation
 
 * [Documentation](/docs)
-    * [About](/examples/about)
-    * [Preparing your markers](/examples/markers)
-    * [Writing your first program](/examples/program)
+    * [About](/about)
+    * [Preparing your markers](/markers)
+    * [Writing your first program](/program)
 
 ## #examples
 
