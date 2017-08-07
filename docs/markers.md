@@ -11,7 +11,7 @@ or
 ### Option 1: Printing (recommended)
 You can download high quality images of barcodes for printing here, feel free to resize them to be smaller.
 Cut on the grey dashed lines so that there is white space left around the edges.
-You may want to glue the marker onto a hard, flat surface such as cardboard. If the image is bent it may not be detected by the camera.
+You may want to glue the marker onto a hard, flat surface such as cardboard. If the image is bent or too shiny it may not be detected by the camera.
 ![alt text](/static/markers-printed.jpg)
 
 ### Option 2: Drawing
