@@ -1,5 +1,12 @@
 # @extends
 
+## #documentation
+
+* [Documentation](/docs)
+    * [About](/about)
+    * [Preparing your markers](/markers)
+    * [Writing your first program](/program)
+
 ## #examples
 
 * [Examples](/examples)
