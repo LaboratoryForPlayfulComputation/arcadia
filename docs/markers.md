@@ -29,7 +29,7 @@ Here are links to some other pages to help you get started!
 * [Writing your first program](/program)  
 
 ### Printable markers
-Click on the value of the marker you'd like to use to get a high-quality image.
+Click on the value of the marker you'd like to use to get a high-quality image. Or, if you'd like to print multiple markers on the same piece of paper you can print markers 0-7 [here](static/AR_MARKER_CODES/0-7.png), and markers 8-15 [here](static/AR_MARKER_CODES/8-15.png).
 
 [0](static/AR_MARKER_CODES/00.png)  
 [1](static/AR_MARKER_CODES/01.png)  
