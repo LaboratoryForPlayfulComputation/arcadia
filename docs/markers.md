@@ -9,7 +9,7 @@ or
 *  __Option 3:__ A cellphone or an electronic device that can display images  
 
 ### Option 1: Printing (recommended)
-You can download high quality images of barcodes for printing here, feel free to resize them to be smaller.
+You can download high quality images of barcodes for printing below, feel free to resize them.
 Cut on the grey dashed lines so that there is white space left around the edges.
 You may want to glue the marker onto a hard, flat surface such as cardboard. If the image is bent or too shiny it may not be detected by the camera.
 ![alt text](/static/markers-printed.jpg)
