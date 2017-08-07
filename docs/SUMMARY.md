@@ -2,6 +2,11 @@
 
 ## #documentation
 
+* [Documentation](/docs)
+    * [About](/examples/about)
+    * [Preparing your markers](/examples/markers)
+    * [Writing your first program](/examples/program)
+
 ## #examples
 
 * [Examples](/examples)
