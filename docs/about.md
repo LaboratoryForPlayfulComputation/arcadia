@@ -1,4 +1,4 @@
-# About Arcadia, an editor for Marker-based Augmented Reliaty
+# About Arcadia, an editor for Marker-based Augmented Reality
 
 You might be wondering what AR, or Augmented Reality, means. Well, augmented reality is defined as a real, live environment that is “augmented” by computer images. It’s a mixture of the real and the virtual.  
 
