@@ -1,5 +1,7 @@
 # @extends
 
+## #documentation
+
 ## #examples
 
 * [Examples](/examples)
