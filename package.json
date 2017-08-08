@@ -34,7 +34,7 @@
   "dependencies": {
     "@types/three": "^0.84.11",
     "@types/webaudioapi": "0.0.27",
-    "pxt-core": "2.0.8"
+    "pxt-core": "2.0.9"
   },
   "scripts": {
     "test": "node node_modules/pxt-core/built/pxt.js travis",
