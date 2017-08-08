@@ -16,7 +16,7 @@ loops.forever(function () {
     markers.mapRotationToRange(markers.marker(MarkerCode.Marker3), 80, 140)
     )
     music.setVolume(
-    interaction.slider(markers.marker(MarkerCode.Marker12), markers.marker(MarkerCode.Marker5), markers.marker(MarkerCode.Marker7)) + 100
+    interaction.slider(markers.marker(MarkerCode.Marker1), markers.marker(MarkerCode.Marker5), markers.marker(MarkerCode.Marker7)) + 100
     )
     music.playTone(music.noteFrequency(330), BeatFraction.Quarter)
     music.playTone(music.noteFrequency(440), BeatFraction.Quarter)
