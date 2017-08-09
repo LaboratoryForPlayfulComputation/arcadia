@@ -12,6 +12,7 @@
 * [Examples](/examples)
     * [Blinky](/examples/blinky)
     * [Cheers](/examples/cheers)
+    * [Piano](/examples/piano)
     * [Drums](/examples/drums)
     * [DJ](/examples/dj)
     * [Dinner Spinner](/examples/dinner_spinner)

@@ -12,6 +12,10 @@
   "url":"/examples/cheers",
   "cardType": "example"
 },{
+  "name": "Piano",
+  "url":"/examples/piano",
+  "cardType": "example"
+},{
   "name": "Drums",
   "url":"/examples/drums",
   "cardType": "example"  
