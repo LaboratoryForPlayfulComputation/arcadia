@@ -24,7 +24,7 @@ interaction.onEvent(markers.marker(MarkerCode.Marker3), MarkerEvent.Visible, fun
 Now let's make some sounds. Go to the *music* drawer and find the `play tone` block and place it inside of the `on marker visible` block.
 ```blocks
 interaction.onEvent(markers.marker(MarkerCode.Marker3), MarkerEvent.Visible, function () {
-    music.playTone(music.noteFrequency(262), BeatFraction.Quarter)
+    music.playTone(Note.C, BeatFraction.Quarter)
 })
 ```
 
