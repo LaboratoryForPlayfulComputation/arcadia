@@ -252,6 +252,7 @@ declare namespace interaction {
     //% event.fieldEditor="gridpicker"
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"
+    //% weight=99
     //% shim=interaction::onEvent
     function onEvent(marker: number, event: MarkerEvent, handler: () => void): void;
 
@@ -262,7 +263,8 @@ declare namespace interaction {
     //% blockId=ar_while_event block="while %marker=marker_block|%event |do" blockGap=8
     //% event.fieldEditor="gridpicker"
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
-    //% event.fieldOptions.tooltips="true"
+    //% event.fieldOptions.tooltips="true"    
+    //% weight=97
     //% shim=interaction::whileEvent
     function whileEvent(marker: number, event: MarkerLoopEvent, handler: () => void): void;
 
@@ -274,7 +276,8 @@ declare namespace interaction {
     //% event.fieldEditor="gridpicker"
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"
-    //% inlineInputMode="inline"
+    //% inlineInputMode="inline"    
+    //% weight=96
     //% shim=interaction::whileMultiEvent
     function whileMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: () => void): void;
 
@@ -286,7 +289,8 @@ declare namespace interaction {
     //% event.fieldEditor="gridpicker"
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"    
-    //% inlineInputMode="inline"
+    //% inlineInputMode="inline"    
+    //% weight=98
     //% shim=interaction::onMultiEvent
     function onMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: () => void): void;
 
@@ -294,6 +298,7 @@ declare namespace interaction {
      * Maps the value of 1 marker in relation to its distance between 2 markers.
      */
     //% blockId=ar_slider block="slider %marker1=marker_block|from %marker2=marker_block|to %marker3=marker_block" blockGap=8
+    //% weight=95
     //% shim=interaction::slider
     function slider(marker1: number, marker2: number, marker3: number): number;
 
@@ -340,8 +345,8 @@ declare namespace markers {
      */
     //% blockId=ar_map_pos block="%marker=marker_block|map position %axis|from %out_min|to %out_max" blockGap=8
     //% inlineInputMode="inline"
-    //% shim=markers::mapPositionToRange
-    function mapPositionToRange(marker: number, axis: Axes, out_min: number, out_max: number): number;
+    //% shim=markers::mapPosition
+    function mapPosition(marker: number, axis: Axes, out_min: number, out_max: number): number;
 
     /**
      * Maps the x, y, or z position of a marker to a specified range. When you rotate the marker, the lowest value will be when the marker is in it's normal orientation and will get higher as you turn it clockwise.
@@ -350,8 +355,8 @@ declare namespace markers {
      */
     //% blockId=ar_map_rot block="%marker=marker_block|map rotation from %out_min|to %out_max" blockGap=8
     //% inlineInputMode="inline"
-    //% shim=markers::mapRotationToRange
-    function mapRotationToRange(marker: number, out_min: number, out_max: number): number;
+    //% shim=markers::mapRotation
+    function mapRotation(marker: number, out_min: number, out_max: number): number;
 
 }
 declare namespace music {
@@ -397,7 +402,7 @@ declare namespace music {
 
     /**
      * Get the frequency of a note
-     * @param name the note name, eg: Note.C
+     * @param note the note name, eg: Note.C
      */
     //% weight=1 help=music/note-frequency
     //% blockId=device_note block="%note"
@@ -406,7 +411,7 @@ declare namespace music {
     //% useEnumVal=1 blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% shim=music::noteFrequency
-    function noteFrequency(name: Note): number;
+    function noteFrequency(note: Note): number;
 
     /**
      * Change the frequency (pitch) of an oscillator
@@ -459,8 +464,8 @@ declare namespace music {
     function setTempo(bpm: number): void;
 
     /**
-     * Set the master volume. Choose a number in the range of 0-100, the default volume is 50.
-     * @param volume The volume level, eg: 50
+     * Set the master volume. Choose a number in the range of 0-100, the default volume is 100.
+     * @param volume The volume level, eg: 100
      */
     //% blockId="music_volume" block="set volume %volume"
     //% weight=100

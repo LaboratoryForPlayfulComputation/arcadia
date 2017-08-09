@@ -183,12 +183,12 @@ namespace pxsim.markers {
             else if (distanceY <= -distThreshold) board().bus.queue(this.code_, MarkerEvent.MovedDown);
             if      (distanceZ >= distThreshold)  board().bus.queue(this.code_, MarkerEvent.MovedForward);
             else if (distanceZ <= -distThreshold) board().bus.queue(this.code_, MarkerEvent.MovedBackward); 
-            if      (angleX >= distThreshold)     board().bus.queue(this.code_, MarkerEvent.RotatedClockwise);
-            else if (angleX <= -distThreshold)    board().bus.queue(this.code_, MarkerEvent.RotatedCounterClockwise);
-            if      (angleX >= angleThreshold)    board().bus.queue(this.code_, MarkerEvent.RotatedClockwise);
-            else if (angleX <= -angleThreshold)   board().bus.queue(this.code_, MarkerEvent.RotatedCounterClockwise);            
-            if (Math.abs(angleX) >= angleThreshold || Math.abs(angleY) >= angleThreshold || Math.abs(angleZ) >= angleThreshold)
-                board().bus.queue(this.code_, MarkerEvent.Rotated);
+            //if      (angleX >= distThreshold)     board().bus.queue(this.code_, MarkerEvent.RotatedClockwise);
+            //else if (angleX <= -distThreshold)    board().bus.queue(this.code_, MarkerEvent.RotatedCounterClockwise);
+            //if      (angleX >= angleThreshold)    board().bus.queue(this.code_, MarkerEvent.RotatedClockwise);
+            //else if (angleX <= -angleThreshold)   board().bus.queue(this.code_, MarkerEvent.RotatedCounterClockwise);            
+            //if (Math.abs(angleX) >= angleThreshold || Math.abs(angleY) >= angleThreshold || Math.abs(angleZ) >= angleThreshold)
+                //board().bus.queue(this.code_, MarkerEvent.Rotated);
             if (this.visible() == true){
                 board().bus.queue(this.code_, MarkerLoopEvent.WhileVisible);
                 if (this.prevVisible_ == false) board().bus.queue(this.code_, MarkerEvent.Visible);
