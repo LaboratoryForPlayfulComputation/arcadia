@@ -69,42 +69,33 @@ declare const enum MarkerCode {
 }
 
 declare const enum MarkerEvent {
-    //% block="moved"
-    //% enumval=0x01
-    Moved = 0x01,
-    //% block="moved left"
-    //% enumval=0x02
-    MovedLeft = 0x02,
-    //% block="moved right"
-    //% enumval=0x03
-    MovedRight = 0x03,    
-    //% block="moved up"
-    //% enumval=0x04
-    MovedUp = 0x04,
-    //% block="moved down"
-    //% enumval=0x05
-    MovedDown = 0x05,    
-    //% block="moved forward"
-    //% enumval=0x06
-    MovedForward = 0x06,
-    //% block="moved backward"
-    //% enumval=0x07
-    MovedBackward = 0x07,    
-    //% block="rotated"
-    //% enumval=0x08
-    Rotated = 0x08,
-    //% block="rotated clockwise"
-    //% enumval=0x09
-    RotatedClockwise = 0x09,
-    //% block="rotated counterclockwise"
-    //% enumval=0x10
-    RotatedCounterClockwise = 0x10,  
     //% block="hidden"
-    //% enumval=0x11
-    Hidden = 0x11,     
+    //% enumval=0x01
+    Hidden = 0x01,     
     //% block="visible"
+    //% enumval=0x02
+    Visible = 0x02,  
+    //% block="moved"
+    //% enumval=0x03
+    Moved = 0x03,
+    //% block="moved left"
+    //% enumval=0x04
+    MovedLeft = 0x04,
+    //% block="moved right"
+    //% enumval=0x05
+    MovedRight = 0x05,    
+    //% block="moved up"
+    //% enumval=0x06
+    MovedUp = 0x06,
+    //% block="moved down"
+    //% enumval=0x07
+    MovedDown = 0x07,    
+    //% block="moved forward"
+    //% enumval=0x11
+    MovedForward = 0x11,
+    //% block="moved backward"
     //% enumval=0x12
-    Visible = 0x12,        
+    MovedBackward = 0x12          
 }
 
 declare const enum MarkerLoopEvent {
