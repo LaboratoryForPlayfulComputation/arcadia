@@ -49,9 +49,9 @@
                 "path": "/about"
             },
             {
-                "name": "Docs",
+                "name": "Getting started",
                 "path": "/docs"
-            }
+            }          
         ],
         "coloredToolbox": false,
         "monacoToolbox": true,
