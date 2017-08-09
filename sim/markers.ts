@@ -59,7 +59,7 @@ namespace pxsim.markers {
      */
     //% blockId=ar_map_pos block="%marker=marker_block|map position %axis|from %out_min|to %out_max" blockGap=8
     //% inlineInputMode="inline"    
-    export function mapPositionToRange(marker: number, axis: Axes, out_min: number, out_max: number): number{
+    export function mapPosition(marker: number, axis: Axes, out_min: number, out_max: number): number{
         const in_min = -1.5;
         const in_max = 1.5;
         return (position(marker, axis) - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
@@ -72,7 +72,7 @@ namespace pxsim.markers {
      */
     //% blockId=ar_map_rot block="%marker=marker_block|map rotation from %out_min|to %out_max" blockGap=8
     //% inlineInputMode="inline"    
-    export function mapRotationToRange(marker: number, out_min: number, out_max: number): number{
+    export function mapRotation(marker: number, out_min: number, out_max: number): number{
         const out_min_first  = out_min;         
         const out_min_second = out_max / 4;     
         const out_min_third  = out_max / 2;     
