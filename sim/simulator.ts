@@ -89,7 +89,7 @@ namespace pxsim {
                                 "sawtooth": tone.createOsc(Wave.Sawtooth, 440)};
             tone.bpm(120);
             tone.startTransport(0);    
-            music.setVolume(50);            
+            music.setVolume(100);            
         }
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {

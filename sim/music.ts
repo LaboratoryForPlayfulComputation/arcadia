@@ -217,8 +217,8 @@ namespace pxsim.music {
     }
 
     /**
-     * Set the master volume. Choose a number in the range of 0-100, the default volume is 50.
-     * @param volume The volume level, eg: 50
+     * Set the master volume. Choose a number in the range of 0-100, the default volume is 100.
+     * @param volume The volume level, eg: 100
      */
     //% blockId="music_volume" block="set volume %volume"
     //% weight=100
