@@ -21,7 +21,7 @@ loops.forever(function () {
     music.playTone(Note.E, BeatFraction.Quarter)
     music.playTone(Note.A, BeatFraction.Quarter)
     music.playTone(Note.G, BeatFraction.Quarter)
-    music.playTone(Note.D3, BeatFraction.Quarter)
+    music.playTone(Note.D5, BeatFraction.Quarter)
     music.playTone(Note.A, BeatFraction.Quarter)
     music.playTone(Note.E, BeatFraction.Quarter)
 })
