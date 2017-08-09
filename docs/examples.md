@@ -12,9 +12,13 @@
   "url":"/examples/cheers",
   "cardType": "example"
 },{
-  "name": "Theremin",
-  "url":"/examples/theremin",
-  "cardType": "example"
+  "name": "Drums",
+  "url":"/examples/drums",
+  "cardType": "example"  
+},{
+  "name": "DJ",
+  "url":"/examples/dj",
+  "cardType": "example"  
 },{
   "name": "Dinner Spinner",
   "url":"/examples/dinner_spinner",
@@ -26,6 +30,10 @@
 },{
   "name": "Rainbow Paintbrush",
   "url":"/examples/rainbow_paintbrush",
+  "cardType": "example"
+},{
+  "name": "Theremin",
+  "url":"/examples/theremin",
   "cardType": "example"
 },{
   "name": "Timer",
