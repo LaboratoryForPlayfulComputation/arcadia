@@ -10,7 +10,7 @@ while (count > 0) {
 }
 design.setColor(markers.marker(MarkerCode.Marker5), colors.named(Colors.Red))
 design.setNumber(markers.marker(MarkerCode.Marker5), 0)
-music.playTone(music.noteFrequency(262), BeatFraction.Whole)
+music.playTone(Note.C, BeatFraction.Whole)
 ```
 
 ![alt text](/static/timer.gif)

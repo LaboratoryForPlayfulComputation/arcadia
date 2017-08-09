@@ -35,10 +35,10 @@ Note: notice in the video above how the user is holding the marker. She is not c
 Now, let's use our second marker to play another note. The code for this marker will look nearly identical to what you have already, except we must change the marker in the dropdown and also pick a new note for the `play tone` block.
 ```blocks
 interaction.onEvent(markers.marker(MarkerCode.Marker3), MarkerEvent.Visible, function () {
-    music.playTone(music.noteFrequency(262), BeatFraction.Quarter)
+    music.playTone(Note.C, BeatFraction.Quarter)
 })
 interaction.onEvent(markers.marker(MarkerCode.Marker6), MarkerEvent.Visible, function () {
-    music.playTone(music.noteFrequency(330), BeatFraction.Quarter)
+    music.playTone(Note.E, BeatFraction.Quarter)
 })
 ```
 

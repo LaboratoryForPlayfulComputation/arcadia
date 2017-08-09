@@ -18,12 +18,12 @@ loops.forever(function () {
     music.setVolume(
     interaction.slider(markers.marker(MarkerCode.Marker1), markers.marker(MarkerCode.Marker5), markers.marker(MarkerCode.Marker7)) + 100
     )
-    music.playTone(music.noteFrequency(330), BeatFraction.Quarter)
-    music.playTone(music.noteFrequency(440), BeatFraction.Quarter)
-    music.playTone(music.noteFrequency(392), BeatFraction.Quarter)
-    music.playTone(music.noteFrequency(587), BeatFraction.Quarter)
-    music.playTone(music.noteFrequency(440), BeatFraction.Quarter)
-    music.playTone(music.noteFrequency(392), BeatFraction.Quarter)
+    music.playTone(Note.E, BeatFraction.Quarter)
+    music.playTone(Note.A, BeatFraction.Quarter)
+    music.playTone(Note.G, BeatFraction.Quarter)
+    music.playTone(Note.D3, BeatFraction.Quarter)
+    music.playTone(Note.A, BeatFraction.Quarter)
+    music.playTone(Note.E, BeatFraction.Quarter)
 })
 interaction.onEvent(markers.marker(MarkerCode.Marker4), MarkerEvent.Hidden, function () {
     chorus = !(chorus)
