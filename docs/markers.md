@@ -27,6 +27,7 @@ Save the image of your marker onto your mobile phone or other electronic device.
 Here are links to some other pages to help you get started!
 * [About](/about)
 * [Writing your first program](/program)  
+* [Example projects](/examples)
 
 ### Printable markers
 Click on the value of the marker you'd like to use to get a high-quality image. Or, if you'd like to print multiple markers on the same piece of paper you can download the images below. The first image is markers 0-7 and the second is for markers 8-15.  

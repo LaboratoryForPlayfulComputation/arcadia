@@ -14,3 +14,4 @@ You can begin building your own AR experiences at @homeurl@. Note: this editor i
 Here are links to some other pages to help you get started!
 * [Preparing your markers](/markers)
 * [Writing your first program](/program)
+* [Example projects](/examples)

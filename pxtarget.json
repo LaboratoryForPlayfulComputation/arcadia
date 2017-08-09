@@ -49,9 +49,17 @@
                 "path": "/about"
             },
             {
+                "name": "Preparing markers",
+                "path": "/markers"
+            },
+            {
                 "name": "Getting started",
-                "path": "/docs"
-            }          
+                "path": "/program"
+            },
+            {
+                "name": "Examples",
+                "path": "/examples"
+            }                                     
         ],
         "coloredToolbox": false,
         "monacoToolbox": true,
