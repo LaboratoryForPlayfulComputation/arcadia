@@ -13,6 +13,7 @@ You can download high quality images of barcodes for printing below, feel free t
 Cut on the grey dashed lines so that there is white space left around the edges.
 You may want to glue the marker onto a hard, flat surface such as cardboard. If the image is bent or too shiny it may not be detected by the camera.
 ![alt text](/static/markers-printed.jpg)
+![alt text](/static/marker-cardboard.png)
 
 ### Option 2: Drawing
 Below is an image of a hand drawn marker. Notice how it is black and white and has a white border around the outside. This helps provide an extra layer of contrast which helps the image recognition software to pick it up. Also, the marker is glued onto a piece of cardboard to help keep it flat and sturdy. If you are drawing I recommend tracing one of the marker images below, you'll want to be as precise as possible.  I suggest using a ruler and pencil to start, then filling in the black areas with a sharpie or some other black utensil.
