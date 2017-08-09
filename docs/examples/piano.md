@@ -7,3 +7,4 @@ interaction.onEvent(markers.marker(MarkerCode.Marker3), MarkerEvent.Visible, fun
 interaction.onEvent(markers.marker(MarkerCode.Marker6), MarkerEvent.Visible, function () {
     music.playTone(Note.E, BeatFraction.Quarter)
 })
+```
