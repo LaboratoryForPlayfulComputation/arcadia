@@ -7,7 +7,8 @@ namespace pxsim.interaction {
     //% blockId=ar_on_event block="on %marker=marker_block|%event |do" blockGap=8
     //% event.fieldEditor="gridpicker"
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
-    //% event.fieldOptions.tooltips="true"    
+    //% event.fieldOptions.tooltips="true"
+    //% weight=99    
     export function onEvent(marker: number, event: MarkerEvent, handler: RefAction) {
         board().bus.listen(marker, event, handler);
     }
@@ -20,6 +21,7 @@ namespace pxsim.interaction {
     //% event.fieldEditor="gridpicker"
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"    
+    //% weight=97    
     export function whileEvent(marker: number, event: MarkerLoopEvent, handler: RefAction) {
         board().bus.listen(marker, event, handler);
     }
@@ -33,6 +35,7 @@ namespace pxsim.interaction {
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"
     //% inlineInputMode="inline"    
+    //% weight=96    
     export function whileMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: RefAction) {
         let eventString = event.toString() + 'marker' + marker1.toString() + 'marker' + marker2.toString();
         let m1 = board().marker(marker1);
@@ -50,6 +53,7 @@ namespace pxsim.interaction {
     //% event.fieldOptions.width="400" event.fieldOptions.columns="4"
     //% event.fieldOptions.tooltips="true"    
     //% inlineInputMode="inline"    
+    //% weight=98    
     export function onMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: RefAction) {
         let eventString = 'on' + event.toString() + 'marker' + marker1.toString() + 'marker' + marker2.toString();
         let m1 = board().marker(marker1);
@@ -62,6 +66,7 @@ namespace pxsim.interaction {
      * Maps the value of 1 marker in relation to its distance between 2 markers.
      */
     //% blockId=ar_slider block="slider %marker1=marker_block|from %marker2=marker_block|to %marker3=marker_block" blockGap=8
+    //% weight=95    
     export function slider(marker1: number, marker2: number, marker3: number) : number {
         // TO DO: remember last state that the slider was in if there's a flicker
         let m1 = board().marker(marker1);
