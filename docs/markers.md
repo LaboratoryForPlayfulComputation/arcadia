@@ -30,11 +30,14 @@ Here are links to some other pages to help you get started!
 
 ### Printable markers
 Click on the value of the marker you'd like to use to get a high-quality image. Or, if you'd like to print multiple markers on the same piece of paper you can download the images below. The first image is markers 0-7 and the second is for markers 8-15.  
+
 #### Markers 0-7  
 ![alt text](/static/AR_MARKER_CODES/0-7.png)
+
 #### Markers 8-15  
 ![alt text](/static/AR_MARKER_CODES/8-15.png)
 
+#### Individual marker images
 [0](static/AR_MARKER_CODES/00.png)  
 [1](static/AR_MARKER_CODES/01.png)  
 [2](static/AR_MARKER_CODES/02.png)  
