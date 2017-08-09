@@ -29,6 +29,8 @@ interaction.onEvent(markers.marker(MarkerCode.Marker3), MarkerEvent.Visible, fun
 ```
 
 Let's test this out. Using the marker that matches the one you just wrote code for, hold it up in front of your webcam. When the marker is detected by the camera you should hear a tone play. Try covering the marker with your hand and then removing your hand, you should hear the tone again.
+![alt text](/static/piano1.gif)
+Note: notice in the video above how the user is holding the marker. She is not covering the marker with her fingers. It is useful to have the carboard a little thicker than the marker itself to make it easier to hold like this.
 
 Now, let's use our second marker to play another note. The code for this marker will look nearly identical to what you have already, except we must change the marker in the dropdown and also pick a new note for the `play tone` block.
 ```blocks
