@@ -307,20 +307,13 @@ declare namespace interaction {
     //% shim=interaction::onMultiEvent
     function onMultiEvent(marker1: number, event: MultiMarkerEvent, marker2: number, handler: () => void): void;
 
-    /**
-     * Maps the value of 1 marker in relation to its distance between 2 markers.
-     */
-    //% blockId=ar_slider block="slider %marker1=marker_block|from %marker2=marker_block|to %marker3=marker_block" blockGap=8
-    //% weight=95
-    //% shim=interaction::slider
-    function slider(marker1: number, marker2: number, marker3: number): number;
-
 }
 declare namespace markers {
     /**
      * Gets the distance between the centers of 2 markers
      */
     //% blockId=ar_get_dist block="distance from %marker1=marker_block| to %marker2=marker_block" blockGap=8
+    //% weight=97
     //% shim=markers::distance
     function distance(marker1: number, marker2: number): number;
 
@@ -328,6 +321,7 @@ declare namespace markers {
      * Gets the x, y, z positional coordinates of a marker
      */
     //% blockId=ar_get_pos block="%marker=marker_block|position %axis" blockGap=8
+    //% weight=99
     //% shim=markers::position
     function position(marker: number, axis: Axes): number;
 
@@ -335,6 +329,7 @@ declare namespace markers {
      * Gets the x, y, z rotational values of a marker
      */
     //% blockId=ar_get_rot block="%marker=marker_block|rotation %axis" blockGap=8
+    //% weight=98
     //% shim=markers::rotation
     function rotation(marker: number, axis: Axes): number;
 
@@ -344,6 +339,7 @@ declare namespace markers {
      * @param out_max The upper end of the range to map to, eg: 100
      */
     //% blockId=ar_map_pos block="%marker=marker_block|map position %axis|from %out_min|to %out_max" blockGap=8
+    //% weight=96
     //% inlineInputMode="inline"
     //% shim=markers::mapPosition
     function mapPosition(marker: number, axis: Axes, out_min: number, out_max: number): number;
@@ -354,9 +350,18 @@ declare namespace markers {
      * @param out_max The upper end of the range to map to, eg: 100
      */
     //% blockId=ar_map_rot block="%marker=marker_block|map rotation from %out_min|to %out_max" blockGap=8
+    //% weight=95
     //% inlineInputMode="inline"
     //% shim=markers::mapRotation
     function mapRotation(marker: number, out_min: number, out_max: number): number;
+
+    /**
+     * Maps the value of 1 marker in relation to its distance between 2 markers.
+     */
+    //% blockId=ar_slider block="slider %marker1=marker_block|from %marker2=marker_block|to %marker3=marker_block" blockGap=8
+    //% weight=94
+    //% shim=markers::slider
+    function slider(marker1: number, marker2: number, marker3: number): number;
 
 }
 declare namespace music {

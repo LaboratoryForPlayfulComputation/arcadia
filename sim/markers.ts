@@ -6,6 +6,7 @@ namespace pxsim.markers {
      * Gets the distance between the centers of 2 markers
      */
     //% blockId=ar_get_dist block="distance from %marker1=marker_block| to %marker2=marker_block" blockGap=8
+    //% weight=97
     export function distance(marker1: number, marker2: number): number {     
         let m1 = board().marker(marker1);
         let m2 = board().marker(marker2);
@@ -17,6 +18,7 @@ namespace pxsim.markers {
      * Gets the x, y, z positional coordinates of a marker
      */
     //% blockId=ar_get_pos block="%marker=marker_block|position %axis" blockGap=8
+    //% weight=99
     export function position(marker: number, axis: Axes): number {
         let m = board().marker(marker);
         switch(axis) {
@@ -30,6 +32,7 @@ namespace pxsim.markers {
      * Gets the x, y, z rotational values of a marker
      */
     //% blockId=ar_get_rot block="%marker=marker_block|rotation %axis" blockGap=8
+    //% weight=98
     export function rotation(marker: number, axis: Axes): number {
         let m = board().marker(marker);
         switch(axis) {
@@ -45,6 +48,7 @@ namespace pxsim.markers {
      * @param out_max The upper end of the range to map to, eg: 100
      */
     //% blockId=ar_map_pos block="%marker=marker_block|map position %axis|from %out_min|to %out_max" blockGap=8
+    //% weight=96
     //% inlineInputMode="inline"    
     export function mapPosition(marker: number, axis: Axes, out_min: number, out_max: number): number{
         let m = board().marker(marker);
@@ -59,6 +63,7 @@ namespace pxsim.markers {
      * @param out_max The upper end of the range to map to, eg: 100
      */
     //% blockId=ar_map_rot block="%marker=marker_block|map rotation from %out_min|to %out_max" blockGap=8
+    //% weight=95
     //% inlineInputMode="inline"    
     export function mapRotation(marker: number, out_min: number, out_max: number): number{
         let m = board().marker(marker);
@@ -87,6 +92,24 @@ namespace pxsim.markers {
         }
         return map;
     }
+
+    /**
+     * Maps the value of 1 marker in relation to its distance between 2 markers.
+     */
+    //% blockId=ar_slider block="slider %marker1=marker_block|from %marker2=marker_block|to %marker3=marker_block" blockGap=8
+    //% weight=94    
+    export function slider(marker1: number, marker2: number, marker3: number) : number {
+        // TO DO: remember last state that the slider was in if there's a flicker
+        let m1 = board().marker(marker1);
+        let m2 = board().marker(marker2);
+        let m3 = board().marker(marker3);
+        let sliderVal  = 0;
+        let totalDist = markers.distance(m2.code(), m3.code());
+        let sliderDist = markers.distance(m1.code(), m2.code());
+        if (totalDist > 0 && sliderDist != -9999)
+            sliderVal = sliderDist / totalDist;
+        return sliderVal;    
+    }    
 
 
     /* Class to store marker data */

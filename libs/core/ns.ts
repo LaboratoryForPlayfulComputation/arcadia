@@ -9,6 +9,7 @@ namespace markers {
      * @param marker The value of the marker
      */
     //% blockId=marker_block block="%marker"
+    //% weight=100
     //% marker.fieldEditor="imagedropdown"
     //% marker.fieldOptions.width="250" marker.fieldOptions.columns="4"
     //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
