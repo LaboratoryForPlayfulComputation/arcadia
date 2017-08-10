@@ -53,6 +53,12 @@ namespace pxsim {
         
         constructor() {
             super();
+
+            if (!isChrome()){
+                console.log("We've detected that you are not using Chrome. " +
+                "Arcadia is currently only supported for the Chrome browser.");
+            }
+
             this.bus  = new pxsim.EventBus(runtime);
             this.font = three.parseFont(font.helvetiker_regular);
             /* AR */
@@ -250,6 +256,20 @@ namespace pxsim {
           stereoRenderer.setSize(width, height);
         }
         return stereoRenderer;
+    }
+
+    function isChrome() {
+        var isChromium = (window as any).chrome,
+            winNav = window.navigator,
+            vendorName = winNav.vendor,
+            isOpera = winNav.userAgent.indexOf("OPR") > -1,
+            isIEedge = winNav.userAgent.indexOf("Edge") > -1,
+            isIOSChrome = winNav.userAgent.match("CriOS");
+
+        if(isIOSChrome) return true;
+        else if(isChromium !== null && isChromium !== undefined && vendorName === "Google Inc." && isOpera == false && isIEedge == false)
+            return true;
+        else return false;
     }
 
 }
