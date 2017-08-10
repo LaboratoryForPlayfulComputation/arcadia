@@ -101,6 +101,10 @@ namespace pxsim {
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
             this.baseURL = msg.cdnUrl;
 
+            navigator.mediaDevices.enumerateDevices()
+                .then(gotDevices)
+                .catch(errorCallback);
+
             /* start rendering */                    
             threex.initArToolkit();
             this.initMarkers();
@@ -270,6 +274,23 @@ namespace pxsim {
         else if(isChromium !== null && isChromium !== undefined && vendorName === "Google Inc." && isOpera == false && isIEedge == false)
             return true;
         else return false;
+    }
+
+    function gotDevices(deviceInfos: any){
+        let videoSelect = document.getElementById("cameras");
+        for (let i = 0; i !== deviceInfos.length; ++i) {
+            let deviceInfo = deviceInfos[i];
+            let option = document.createElement('option');
+            option.value = deviceInfo.deviceId;
+            if (deviceInfo.kind === 'videoinput') {
+                option.text = deviceInfo.label;
+                videoSelect.appendChild(option);
+            }
+        }
+    }
+
+    function errorCallback(){
+
     }
 
 }
