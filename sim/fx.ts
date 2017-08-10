@@ -40,6 +40,7 @@ namespace pxsim.fx {
     */
     //% blockId=music_add_effect block="add effect %effect" blockGap=8
     //% blockNamespace=music inBasicCategory=true
+    //% weight=93
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
     //% effect.fieldOptions.tooltips="true"  
@@ -75,6 +76,7 @@ namespace pxsim.fx {
     * @param effect which effect to use
     */
     //% blockId=music_rem_effect block="remove effect %effect" blockGap=8
+    //% weight=92
     //% blockNamespace=music inBasicCategory=true
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"

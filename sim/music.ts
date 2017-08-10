@@ -6,6 +6,7 @@ namespace pxsim.music {
     * @param duration number of beats to play tone for, eg: BeatFraction.Quarter
     */
     //% blockId=music_play_tone block="play tone %note=device_note| for %duration" blockGap=8
+    //% weight=100
     //% blockNamespace=music inBasicCategory=true promise
     export function playToneAsync(note: number, duration: BeatFraction): Promise<void> { 
         const t = beat(duration);
@@ -19,6 +20,7 @@ namespace pxsim.music {
     * @param duration number of beats to rest for
     */
     //% blockId=music_rest block="rest for %duration" blockGap=8
+    //% weight=97
     //% blockNamespace=music inBasicCategory=true promise
     export function restAsync(duration: BeatFraction): Promise<void> {
         const tone = board().monosynth;
@@ -52,6 +54,7 @@ namespace pxsim.music {
     * @param drum which drum sound to use
     */
     //% blockId=music_play_drum_beat block="play %drum" blockGap=8
+    //% weight=99
     //% blockNamespace=music inBasicCategory=true
     //% drum.fieldEditor="gridpicker"
     //% drum.fieldOptions.width="200" drum.fieldOptions.columns="1"
@@ -101,7 +104,7 @@ namespace pxsim.music {
      * @param wave type of sound wave
      */
     //% blockId="music_osc_freq" block="set %wave|wave to %note=device_note"
-    //% weight=100
+    //% weight=90
     //% wave.fieldEditor="gridpicker"
     //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
     //% wave.fieldOptions.tooltips="true"      
@@ -130,7 +133,7 @@ namespace pxsim.music {
      * @param wave type of sound wave
      */
     //% blockId="music_stop_osc" block="stop %wave|wave"
-    //% weight=100
+    //% weight=89
     //% wave.fieldEditor="gridpicker"
     //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
     //% wave.fieldOptions.tooltips="true"      
@@ -159,7 +162,7 @@ namespace pxsim.music {
      * @param wave type of sound wave
      */
     //% blockId="music_start_osc" block="start %wave|wave"
-    //% weight=100
+    //% weight=91
     //% wave.fieldEditor="gridpicker"
     //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
     //% wave.fieldOptions.tooltips="true"      
@@ -195,7 +198,7 @@ namespace pxsim.music {
      * @param bpm The number of beats per minute, eg: 120
      */
     //% blockId="music_bpm" block="set tempo %bpm"
-    //% weight=100
+    //% weight=95
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     export function setTempo(bpm: number){
@@ -207,7 +210,7 @@ namespace pxsim.music {
      * @param volume The volume level, eg: 100
      */
     //% blockId="music_volume" block="set volume %volume"
-    //% weight=100
+    //% weight=94
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     export function setVolume(volume: number){

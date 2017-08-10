@@ -18,53 +18,53 @@ declare const enum Axes {
  * An augmented reality marker
  */
 declare const enum MarkerCode {
+    //% blockImage=1
     //% blockIdentity=markers.marker enumval=0
-    //% blockImage=1
     Marker0 = 0,
+    //% blockImage=1
     //% blockIdentity=markers.marker enumval=1
-    //% blockImage=1
     Marker1 = 1,
+    //% blockImage=1
     //% blockIdentity=markers.marker enumval=2
-    //% blockImage=1
     Marker2 = 2,
+    //% blockImage=1
     //% blockIdentity=markers.marker enumval=3
-    //% blockImage=1
     Marker3 = 3,
+    //% blockImage=1
     //% blockIdentity=markers.marker enumval=4
-    //% blockImage=1
     Marker4 = 4,
+    //% blockImage=1
     //% blockIdentity=markers.marker enumval=5
-    //% blockImage=1
     Marker5 = 5,
+    //% blockImage=1
     //% blockIdentity=markers.marker enumval=6
-    //% blockImage=1
     Marker6 = 6,
+    //% blockImage=1
     //% blockIdentity=markers.marker enumval=7
-    //% blockImage=1
     Marker7 = 7,
+    //% blockImage=1
     //% blockIdentity=markers.marker enumval=8
-    //% blockImage=1
     Marker8 = 8,
+    //% blockImage=1
     //% blockIdentity=markers.marker enumval=9
-    //% blockImage=1
     Marker9 = 9,
+    //% blockImage=1
     //% blockIdentity=markers.marker enumval=10
-    //% blockImage=1
     Marker10 = 10,
+    //% blockImage=1
     //% blockIdentity=markers.marker enumval=11
-    //% blockImage=1
     Marker11 = 11,
+    //% blockImage=1
     //% blockIdentity=markers.marker enumval=12
-    //% blockImage=1
     Marker12 = 12,
+    //% blockImage=1
     //% blockIdentity=markers.marker enumval=13
-    //% blockImage=1
     Marker13 = 13,
+    //% blockImage=1
     //% blockIdentity=markers.marker enumval=14
-    //% blockImage=1
     Marker14 = 14,
-    //% blockIdentity=markers.marker enumval=15
     //% blockImage=1
+    //% blockIdentity=markers.marker enumval=15
     Marker15 = 15
 }
 

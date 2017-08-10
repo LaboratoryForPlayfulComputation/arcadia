@@ -1,7 +1,7 @@
 /**
  * Augment Reality markers
  */
-//% weight=92 icon="\uf21d" color=#9239ff
+//% weight=89 icon="\uf21d" color=#9239ff
 namespace markers {
 
     /**
@@ -23,7 +23,7 @@ namespace markers {
 /**
  * Music
  */
-//% weight=89 icon="\uf001" color=#ff3acd
+//% weight=90 icon="\uf001" color=#ff3acd
 namespace music {
     /**
      * @param notes 
@@ -31,6 +31,7 @@ namespace music {
      */
     //% blockGap=8
     //% blockId=music_play_chord block="play chord %notes=lists_create_with| for %duration"
+    //% weight=98
     //% blockNamespace=music inBasicCategory=true
     export function playChord(notes: number[], duration: BeatFraction): void {
         let noteString = "";
@@ -48,7 +49,7 @@ namespace music {
      * Get the frequency of a note
      * @param note the note name, eg: Note.C
      */
-    //% weight=1 help=music/note-frequency
+    //% weight=96 help=music/note-frequency
     //% blockId=device_note block="%note"
     //% shim=TD_ID colorSecondary="#FFFFFF"
     //% note.fieldEditor="note" note.defl="262" note.fieldOptions.decompileLiterals=true
@@ -69,14 +70,14 @@ namespace colors {
 /**
  * Design
  */
-//% weight=90 icon="\uf005" color=#16ccb0
+//% weight=91 icon="\uf005" color=#16ccb0
 namespace design {
 }
 
 /**
  * Motion
  */
-//% weight=91 icon="\uf110" color=#FF5722
+//% weight=92 icon="\uf110" color=#FF5722
 namespace interaction {
 }
 

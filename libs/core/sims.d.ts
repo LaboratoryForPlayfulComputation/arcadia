@@ -61,6 +61,7 @@ declare namespace design {
      * Sets the text  that displays when the marker is detected
      */
     //% blockId=ar_set_text block="%marker=marker_block|set text %text" blockGap=8
+    //% weight=98
     //% blockNamespace=design inBasicCategory=true
     //% shim=design::setText
     function setText(marker: number, text: string): void;
@@ -69,6 +70,7 @@ declare namespace design {
      * Sets the number that displays when the marker is detected
      */
     //% blockId=ar_set_number block="%marker=marker_block|set number %number" blockGap=8
+    //% weight=96
     //% blockNamespace=design inBasicCategory=true
     //% shim=design::setNumber
     function setNumber(marker: number, number: number): void;
@@ -77,6 +79,7 @@ declare namespace design {
      * Sets the shape that displays when the marker is detected
      */
     //% blockId=ar_set_shape block="%marker=marker_block|set shape %shape" blockGap=8
+    //% weight=100
     //% shape.fieldEditor="gridpicker"
     //% shape.fieldOptions.width="200" shape.fieldOptions.columns="2"
     //% shape.fieldOptions.itemColour="black" shape.fieldOptions.tooltips="true"
@@ -96,6 +99,7 @@ declare namespace design {
      * Sets the color that displays when the marker is detected
      */
     //% blockId=ar_set_color block="%marker=marker_block|set color %color=colors_named" blockGap=8
+    //% weight=99
     //% blockNamespace=design inBasicCategory=true
     //% shim=design::setColor
     function setColor(marker: number, color: number): void;
@@ -105,6 +109,7 @@ declare namespace design {
      * @param value How opaque the shape should be between 0 and 1, eg: 0.9
      */
     //% blockId=ar_set_opacity block="%marker=marker_block|set opacity %value" blockGap=8
+    //% weight=95
     //% blockNamespace=design inBasicCategory=true
     //% shim=design::setOpacity
     function setOpacity(marker: number, value: number): void;
@@ -113,6 +118,7 @@ declare namespace design {
      * Sets the text color that displays when the marker is detected
      */
     //% blockId=ar_set_text_color block="%marker=marker_block|set text color %color=colors_named" blockGap=8
+    //% weight=97
     //% blockNamespace=design inBasicCategory=true
     //% shim=design::setTextColor
     function setTextColor(marker: number, color: number): void;
@@ -122,6 +128,7 @@ declare namespace design {
      * @param size The amount to scale the model by, eg: 1
      */
     //% blockId=ar_set_scale block="%marker=marker_block|set scale %number" blockGap=8
+    //% weight=94
     //% blockNamespace=design inBasicCategory=true
     //% inlineInputMode="inline"
     //% shim=design::setScale
@@ -143,6 +150,7 @@ declare namespace design {
      * Sets the position of the 3D object that is rendered in relation to the marker. Shapes will automatically have a default position of (0, 0, 0).
      */
     //% blockId=ar_set_position block="%marker=marker_block|set position x: %x|y: %y|z: %z" blockGap=8
+    //% weight=92
     //% blockNamespace=design inBasicCategory=true
     //% inlineInputMode="inline"
     //% shim=design::setPosition
@@ -152,6 +160,7 @@ declare namespace design {
      * Sets the rotation of the 3D object that is rendered in relation to the marker. Shapes will automatically have a default rotation of 0°.
      */
     //% blockId=ar_set_rotation block="%marker=marker_block|set rotation %degrees|°" blockGap=8
+    //% weight=93
     //% blockNamespace=design inBasicCategory=true
     //% inlineInputMode="inline"
     //% shim=design::setRotation
@@ -170,6 +179,7 @@ declare namespace design {
      * Sets the filter of the video feed.
      */
     //% blockId=ar_add_filter block="add filter %filter" blockGap=8
+    //% weight=91
     //% blockNamespace=design inBasicCategory=true
     //% inlineInputMode="inline"
     //% shim=design::addFilter
@@ -179,6 +189,7 @@ declare namespace design {
      * Sets the filter of the video feed.
      */
     //% blockId=ar_remove_filter block="remove filter %filter" blockGap=8
+    //% weight=90
     //% blockNamespace=design inBasicCategory=true
     //% inlineInputMode="inline"
     //% shim=design::removeFilter
@@ -224,6 +235,7 @@ declare namespace fx {
      */
     //% blockId=music_add_effect block="add effect %effect" blockGap=8
     //% blockNamespace=music inBasicCategory=true
+    //% weight=93
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
     //% effect.fieldOptions.tooltips="true"
@@ -235,6 +247,7 @@ declare namespace fx {
      * @param effect which effect to use
      */
     //% blockId=music_rem_effect block="remove effect %effect" blockGap=8
+    //% weight=92
     //% blockNamespace=music inBasicCategory=true
     //% effect.fieldEditor="gridpicker"
     //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
@@ -353,6 +366,7 @@ declare namespace music {
      * @param duration number of beats to play tone for, eg: BeatFraction.Quarter
      */
     //% blockId=music_play_tone block="play tone %note=device_note| for %duration" blockGap=8
+    //% weight=100
     //% blockNamespace=music inBasicCategory=true promise
     //% shim=music::playToneAsync promise
     function playTone(note: number, duration: BeatFraction): void;
@@ -362,6 +376,7 @@ declare namespace music {
      * @param duration number of beats to rest for
      */
     //% blockId=music_rest block="rest for %duration" blockGap=8
+    //% weight=97
     //% blockNamespace=music inBasicCategory=true promise
     //% shim=music::restAsync promise
     function rest(duration: BeatFraction): void;
@@ -380,6 +395,7 @@ declare namespace music {
      * @param drum which drum sound to use
      */
     //% blockId=music_play_drum_beat block="play %drum" blockGap=8
+    //% weight=99
     //% blockNamespace=music inBasicCategory=true
     //% drum.fieldEditor="gridpicker"
     //% drum.fieldOptions.width="200" drum.fieldOptions.columns="1"
@@ -392,7 +408,7 @@ declare namespace music {
      * @param wave type of sound wave
      */
     //% blockId="music_osc_freq" block="set %wave|wave to %note=device_note"
-    //% weight=100
+    //% weight=90
     //% wave.fieldEditor="gridpicker"
     //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
     //% wave.fieldOptions.tooltips="true"      
@@ -405,7 +421,7 @@ declare namespace music {
      * @param wave type of sound wave
      */
     //% blockId="music_stop_osc" block="stop %wave|wave"
-    //% weight=100
+    //% weight=89
     //% wave.fieldEditor="gridpicker"
     //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
     //% wave.fieldOptions.tooltips="true"      
@@ -418,7 +434,7 @@ declare namespace music {
      * @param wave type of sound wave
      */
     //% blockId="music_start_osc" block="start %wave|wave"
-    //% weight=100
+    //% weight=91
     //% wave.fieldEditor="gridpicker"
     //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
     //% wave.fieldOptions.tooltips="true"      
@@ -431,7 +447,7 @@ declare namespace music {
      * @param bpm The number of beats per minute, eg: 120
      */
     //% blockId="music_bpm" block="set tempo %bpm"
-    //% weight=100
+    //% weight=95
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% shim=music::setTempo
@@ -442,7 +458,7 @@ declare namespace music {
      * @param volume The volume level, eg: 100
      */
     //% blockId="music_volume" block="set volume %volume"
-    //% weight=100
+    //% weight=94
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     //% shim=music::setVolume
