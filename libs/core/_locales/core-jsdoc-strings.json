@@ -145,6 +145,7 @@
   "markers.mapRotation|param|out_max": "The upper end of the range to map to, eg: 100",
   "markers.mapRotation|param|out_min": "The lower end of the range to map to, eg: 0",
   "markers.marker": "An augmented reality marker",
+  "markers.marker|param|marker": "The value of the marker",
   "markers.position": "Gets the x, y, z positional coordinates of a marker",
   "markers.rotation": "Gets the x, y, z rotational values of a marker",
   "music": "Music",

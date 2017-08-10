@@ -1,19 +1,6 @@
 namespace pxsim.markers {
 
-    /**
-     * An augmented reality marker
-     */
-    //% blockId=marker_block block="%marker"
-    //% marker.fieldEditor="imagedropdown"
-    //% marker.fieldOptions.width="250" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    //% marker.fieldOptions.decompileLiterals=true
-    //% shim=TD_ID
-    //% useEnumVal=1
-    export function marker(marker: MarkerCode): number { 
-        board().marker(marker);
-        return marker;
-    } 
+
 
     /**
      * Gets the distance between the centers of 2 markers
@@ -60,6 +47,7 @@ namespace pxsim.markers {
     //% blockId=ar_map_pos block="%marker=marker_block|map position %axis|from %out_min|to %out_max" blockGap=8
     //% inlineInputMode="inline"    
     export function mapPosition(marker: number, axis: Axes, out_min: number, out_max: number): number{
+        let m = board().marker(marker);
         const in_min = -1.5;
         const in_max = 1.5;
         return (position(marker, axis) - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
@@ -73,6 +61,7 @@ namespace pxsim.markers {
     //% blockId=ar_map_rot block="%marker=marker_block|map rotation from %out_min|to %out_max" blockGap=8
     //% inlineInputMode="inline"    
     export function mapRotation(marker: number, out_min: number, out_max: number): number{
+        let m = board().marker(marker);
         const out_min_first  = out_min;         
         const out_min_second = out_max / 4;     
         const out_min_third  = out_max / 2;     
@@ -85,7 +74,7 @@ namespace pxsim.markers {
         const second_max     = 49;
         const third_max      = 25;
         let rotY = THREE.Math.radToDeg(rotation(marker, Axes.y));
-        let w = THREE.Math.radToDeg(board().marker(marker).rotation().w);
+        let w = THREE.Math.radToDeg(m.rotation().w);
         let map = 0;
  
         if (rotY <= 0 || w <= 0) { // 1st and 2nd quadrant

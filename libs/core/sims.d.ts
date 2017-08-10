@@ -305,19 +305,6 @@ declare namespace interaction {
 }
 declare namespace markers {
     /**
-     * An augmented reality marker
-     */
-    //% blockId=marker_block block="%marker"
-    //% marker.fieldEditor="imagedropdown"
-    //% marker.fieldOptions.width="250" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
-    //% marker.fieldOptions.decompileLiterals=true
-    //% shim=TD_ID
-    //% useEnumVal=1
-    //% shim=markers::marker
-    function marker(marker: MarkerCode): number;
-
-    /**
      * Gets the distance between the centers of 2 markers
      */
     //% blockId=ar_get_dist block="distance from %marker1=marker_block| to %marker2=marker_block" blockGap=8

@@ -3,6 +3,21 @@
  */
 //% weight=92 icon="\uf21d" color=#9239ff
 namespace markers {
+
+    /**
+     * An augmented reality marker
+     * @param marker The value of the marker
+     */
+    //% blockId=marker_block block="%marker"
+    //% marker.fieldEditor="imagedropdown"
+    //% marker.fieldOptions.width="250" marker.fieldOptions.columns="4"
+    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"
+    //% marker.fieldOptions.decompileLiterals=true marker.defl=0
+    //% shim=TD_ID useEnumVal=1
+    export function marker(marker: MarkerCode): number { 
+        return marker;
+    } 
+
 }
 
 /**
