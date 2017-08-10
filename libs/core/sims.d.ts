@@ -401,19 +401,6 @@ declare namespace music {
     function playDrum(drum: Drum): void;
 
     /**
-     * Get the frequency of a note
-     * @param note the note name, eg: Note.C
-     */
-    //% weight=1 help=music/note-frequency
-    //% blockId=device_note block="%note"
-    //% shim=TD_ID colorSecondary="#FFFFFF"
-    //% note.fieldEditor="note" note.defl="262" note.fieldOptions.decompileLiterals=true
-    //% useEnumVal=1 blockGap=8
-    //% blockNamespace=music inBasicCategory=true
-    //% shim=music::noteFrequency
-    function noteFrequency(note: Note): number;
-
-    /**
      * Change the frequency (pitch) of an oscillator
      * @param wave type of sound wave
      */

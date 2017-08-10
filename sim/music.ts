@@ -96,20 +96,6 @@ namespace pxsim.music {
         return loops.pauseAsync(s * 1000);
     }
 
-   /**
-     * Get the frequency of a note
-     * @param note the note name, eg: Note.C
-     */
-    //% weight=1 help=music/note-frequency
-    //% blockId=device_note block="%note"
-    //% shim=TD_ID colorSecondary="#FFFFFF"
-    //% note.fieldEditor="note" note.defl="262" note.fieldOptions.decompileLiterals=true
-    //% useEnumVal=1 blockGap=8
-    //% blockNamespace=music inBasicCategory=true
-    export function noteFrequency(note: Note): number {
-        return note;
-    }  
-
     /**
      * Change the frequency (pitch) of an oscillator
      * @param wave type of sound wave
