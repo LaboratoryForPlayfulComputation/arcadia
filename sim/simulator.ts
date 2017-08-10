@@ -101,7 +101,7 @@ namespace pxsim {
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
             this.baseURL = msg.cdnUrl;
 
-            navigator.mediaDevices.enumerateDevices()
+            (navigator as any).mediaDevices.enumerateDevices()
                 .then(gotDevices)
                 .catch(errorCallback);
 
@@ -277,7 +277,7 @@ namespace pxsim {
     }
 
     function gotDevices(deviceInfos: any){
-        let videoSelect = document.getElementById("cameras");
+        let videoSelect = document.getElementById("videoSource");
         for (let i = 0; i !== deviceInfos.length; ++i) {
             let deviceInfo = deviceInfos[i];
             let option = document.createElement('option');
