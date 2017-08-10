@@ -13,7 +13,7 @@ interaction.onEvent(MarkerCode.Marker0, MarkerEvent.Hidden, function () {
 })
 loops.forever(function () {
     music.setTempo(
-    markers.mapRotationToRange(MarkerCode.Marker3, 80, 140)
+    markers.mapRotation(MarkerCode.Marker3, 80, 140)
     )
     music.setVolume(
     markers.slider(MarkerCode.Marker1, MarkerCode.Marker5, MarkerCode.Marker7) + 100
