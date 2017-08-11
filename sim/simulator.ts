@@ -176,9 +176,7 @@ namespace pxsim {
         }
 
         kill() {
-            if ((document.body.className as any).includes("mirror-sim"))
-                document.body.className = "mirror-sim";
-            else document.body.className = ""; 
+            design.removeAllFilters();
             Tone.Master.volume.value = -Infinity;
             if (this.scene)       three.removeSceneChildren(this.scene);
             if (this.fx)          tone.killFX();

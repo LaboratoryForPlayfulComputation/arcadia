@@ -263,29 +263,28 @@ namespace pxsim.design {
     export function addFilter(filter: Filter) {
         switch (filter){
             case Filter.Grayscale:
-                //document.body.style.filter = "grayscale(100%)"; // works
-                pxsim.U.addClass(document.body, "grayscale-sim"); // doesn't work
+                addFilterHelper("grayscale(100%)");
                 break;
             case Filter.Invert:
-                pxsim.U.addClass(document.body, "invert-sim");
+                addFilterHelper("invert(100%)");
                 break;
             case Filter.Saturate:
-                pxsim.U.addClass(document.body, "saturate-sim");
+                addFilterHelper("saturate(5)");
                 break;
             case Filter.HueRotate:
-                pxsim.U.addClass(document.body, "huerotate-sim");
+                addFilterHelper("hue-rotate(90deg)");
                 break;  
             case Filter.Blur:
-                pxsim.U.addClass(document.body, "blur-sim");
+                addFilterHelper("blur(5px)");
                 break;    
             case Filter.Contrast:
-                pxsim.U.addClass(document.body, "highcontrast-sim");
+                addFilterHelper("contrast(200%)");
                 break;       
             case Filter.Green:
-                pxsim.U.addClass(document.body, "green-sim");
+                addFilterHelper("grayscale(100%) sepia(100%) hue-rotate(90deg)");
                 break;                                                                  
             default:
-                pxsim.U.addClass(document.body, "sepia-sim");
+                addFilterHelper("sepia(100%)");
         }
     }
 
@@ -299,29 +298,66 @@ namespace pxsim.design {
     export function removeFilter(filter: Filter) {
         switch (filter){
             case Filter.Grayscale:
-                pxsim.U.removeClass(document.body, "grayscale-sim");
+                removeFilterHelper("grayscale(100%)");
                 break;
             case Filter.Invert:
-                pxsim.U.removeClass(document.body, "invert-sim");
+                removeFilterHelper("invert(100%)");
                 break;
             case Filter.Saturate:
-                pxsim.U.removeClass(document.body, "saturate-sim");
+                removeFilterHelper("saturate(5)");
                 break;
             case Filter.HueRotate:
-                pxsim.U.removeClass(document.body, "huerotate-sim");
+                removeFilterHelper("hue-rotate(90deg)");
                 break;  
             case Filter.Blur:
-                pxsim.U.removeClass(document.body, "blur-sim");
+                removeFilterHelper("blur(5px)");
                 break;    
             case Filter.Contrast:
-                pxsim.U.removeClass(document.body, "highcontrast-sim");
-                break;        
+                removeFilterHelper("contrast(200%)");
+                break;       
             case Filter.Green:
-                pxsim.U.removeClass(document.body, "green-sim");
+                removeFilterHelper("grayscale(100%) sepia(100%) hue-rotate(90deg)");
                 break;                                                                  
             default:
-                pxsim.U.removeClass(document.body, "sepia-sim");
+                removeFilterHelper("sepia(100%)");
         }
+    }
+
+    export function addFilterHelper(filter: string) {
+        let canvas = document.getElementsByTagName("canvas")[0];
+        let video  = document.getElementsByTagName("video")[0];
+        let filterString = canvas.style.filter;
+        if (canvas && video){
+            if (!(filterString as any).includes(filter)){
+                filterString = filterString + " " + filter;
+            }
+            canvas.style.filter = filterString;
+            video.style.filter = filterString;
+        }
+    }
+
+    export function removeFilterHelper(filter: string) {
+        let canvas = document.getElementsByTagName("canvas")[0];
+        let video  = document.getElementsByTagName("video")[0];
+        if (canvas && video){
+            let filterString = canvas.style.filter;
+            if ((filterString as any).includes(filter)){
+                filterString = filterString.replace(filter, "");
+            }
+            canvas.style.filter = filterString;
+            video.style.filter = filterString;
+        }
+    }
+
+    export function removeAllFilters() {
+        removeFilter(Filter.Grayscale);
+        removeFilter(Filter.Invert);
+        removeFilter(Filter.Saturate);
+        removeFilter(Filter.HueRotate);
+        removeFilter(Filter.Blur);
+        removeFilter(Filter.Contrast);
+        removeFilter(Filter.Green);
+        removeFilter(Filter.Sepia);
     }
 
 }
