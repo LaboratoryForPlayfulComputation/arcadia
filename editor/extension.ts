@@ -39,7 +39,6 @@ namespace models {
                 }
             }]
         };
-
         return Promise.resolve<pxt.editor.ExtensionResult>(res);
     };
 }
