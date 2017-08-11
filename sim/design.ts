@@ -268,7 +268,7 @@ namespace pxsim.design {
                 addFilterHelper("invert(100%)");
                 break;
             case Filter.Saturate:
-                addFilterHelper("saturate(5)");
+                addFilterHelper("saturate(2)");
                 break;
             case Filter.HueRotate:
                 addFilterHelper("hue-rotate(90deg)");
@@ -303,7 +303,7 @@ namespace pxsim.design {
                 removeFilterHelper("invert(100%)");
                 break;
             case Filter.Saturate:
-                removeFilterHelper("saturate(5)");
+                removeFilterHelper("saturate(2)");
                 break;
             case Filter.HueRotate:
                 removeFilterHelper("hue-rotate(90deg)");
