@@ -39,7 +39,24 @@ namespace models {
                 }
             }]
         };
+        
+        let flipButton = document.createElement("button");
+        flipButton.innerHTML = "&#9789;&#9790;";
+        let editorTools = document.getElementById("simulators");
+        editorTools.appendChild(flipButton);
 
+        document.addEventListener("keydown", keyDownTextField, true);
+        function keyDownTextField(e: any) {
+            let keyCode = e.keyCode;
+            let sim = document.getElementsByTagName("iframe")[0].contentWindow.document.body;
+            if (keyCode == 13) {
+                if ((sim.className as any).includes("mirror-sim")){
+                    (sim.className as any).replace("mirror-sim", "");
+                } else {
+                    sim.className += " mirror-sim";
+                }
+            }
+        }
         return Promise.resolve<pxt.editor.ExtensionResult>(res);
     };
 }
