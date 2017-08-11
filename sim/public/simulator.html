@@ -37,21 +37,15 @@
         function flipSim (){
             var canvas = document.getElementsByTagName("canvas")[0];
             var video  = document.getElementsByTagName("video")[0];
-            var canvasCssText = canvas.getAttribute("style");
-            var videoCssText  = video.getAttribute("style");
 
-            if (canvasCssText.includes(flipCss)){
-                canvasCssText       = canvasCssText.replace(flipCss, "");
-                videoCssText        = videoCssText.replace(flipCss, "");
-                canvas.setAttribute("style", canvasCssText);
-                video.setAttribute("style", videoCssText);
+            if (canvas.className.includes("mirror-sim")){
+                canvas.className = canvas.className.replace("mirror-sim", "");
+                video.className  = video.className.replace("mirror-sim", "");
                 canvas.style.filter = canvas.style.filter.replace(flipFilter, "");
                 video.style.filter  = video.style.filter.replace(flipFilter, "");
             } else {
-                canvasCssText      = canvasCssText + " " + flipCss;
-                videoCssText       = videoCssText + " " + flipCss;
-                canvas.setAttribute("style", canvasCssText);
-                video.setAttribute("style", videoCssText);                
+                canvas.className += " mirror-sim";
+                video.className  += " mirror-sim";              
                 canvas.style.filter += flipFilter;
                 video.style.filter += flipFilter;
             }
