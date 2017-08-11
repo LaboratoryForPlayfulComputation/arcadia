@@ -31,8 +31,6 @@
 <body>
     <button id="flip" onClick="flipSim()" style="position: absolute; z-index: 9999;">flip</button>
     <script>
-        var flipCss = "-moz-transform: scaleX(-1); -o-transform: scaleX(-1); " +
-                            "-webkit-transform: scaleX(-1); transform: scaleX(-1);";
         var flipFilter = " FlipH ";
         function flipSim (){
             var canvas = document.getElementsByTagName("canvas")[0];
@@ -47,7 +45,7 @@
                 canvas.className += " mirror-sim";
                 video.className  += " mirror-sim";              
                 canvas.style.filter += flipFilter;
-                video.style.filter += flipFilter;
+                video.style.filter  += flipFilter;
             }
         }
     </script>
