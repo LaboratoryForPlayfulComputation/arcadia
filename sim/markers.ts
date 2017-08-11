@@ -1,24 +1,12 @@
 namespace pxsim.markers {
 
-    /**
-     * An augmented reality marker
-     */
-    //% blockId=marker_block block="%marker"
-    //% marker.fieldEditor="gridpicker"
-    //% marker.fieldOptions.width="400" marker.fieldOptions.columns="4"
-    //% marker.fieldOptions.itemColour="black" marker.fieldOptions.tooltips="true"    
-    //% marker.fieldOptions.decompileLiterals=true
-    //% shim=TD_ID
-    //% useEnumVal=1
-    export function marker(marker: MarkerCode): number { 
-        board().marker(marker);
-        return marker;
-    } 
+
 
     /**
      * Gets the distance between the centers of 2 markers
      */
     //% blockId=ar_get_dist block="distance from %marker1=marker_block| to %marker2=marker_block" blockGap=8
+    //% weight=97
     export function distance(marker1: number, marker2: number): number {     
         let m1 = board().marker(marker1);
         let m2 = board().marker(marker2);
@@ -30,6 +18,7 @@ namespace pxsim.markers {
      * Gets the x, y, z positional coordinates of a marker
      */
     //% blockId=ar_get_pos block="%marker=marker_block|position %axis" blockGap=8
+    //% weight=99
     export function position(marker: number, axis: Axes): number {
         let m = board().marker(marker);
         switch(axis) {
@@ -43,6 +32,7 @@ namespace pxsim.markers {
      * Gets the x, y, z rotational values of a marker
      */
     //% blockId=ar_get_rot block="%marker=marker_block|rotation %axis" blockGap=8
+    //% weight=98
     export function rotation(marker: number, axis: Axes): number {
         let m = board().marker(marker);
         switch(axis) {
@@ -58,12 +48,69 @@ namespace pxsim.markers {
      * @param out_max The upper end of the range to map to, eg: 100
      */
     //% blockId=ar_map_pos block="%marker=marker_block|map position %axis|from %out_min|to %out_max" blockGap=8
+    //% weight=96
     //% inlineInputMode="inline"    
-    export function mapPositionToRange(marker: number, axis: Axes, out_min: number, out_max: number): number{
+    export function mapPosition(marker: number, axis: Axes, out_min: number, out_max: number): number{
+        let m = board().marker(marker);
         const in_min = -1.5;
         const in_max = 1.5;
         return (position(marker, axis) - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
+
+    /**
+     * Maps the x, y, or z position of a marker to a specified range. When you rotate the marker, the lowest value will be when the marker is in it's normal orientation and will get higher as you turn it clockwise.
+     * @param out_min The lower end of the range to map to, eg: 0
+     * @param out_max The upper end of the range to map to, eg: 100
+     */
+    //% blockId=ar_map_rot block="%marker=marker_block|map rotation from %out_min|to %out_max" blockGap=8
+    //% weight=95
+    //% inlineInputMode="inline"    
+    export function mapRotation(marker: number, out_min: number, out_max: number): number{
+        let m = board().marker(marker);
+        const out_min_first  = out_min;         
+        const out_min_second = out_max / 4;     
+        const out_min_third  = out_max / 2;     
+        const out_min_fourth = out_max * (3/4); 
+        const out_max_first  = out_max / 4;     
+        const out_max_second = out_max / 2;     
+        const out_max_third  = out_max * (3/4); 
+        const out_max_fourth = out_max;         
+        const first_max      = 40;
+        const second_max     = 49;
+        const third_max      = 25;
+        let rotY = THREE.Math.radToDeg(rotation(marker, Axes.y));
+        let w = THREE.Math.radToDeg(m.rotation().w);
+        let map = 0;
+ 
+        if (rotY <= 0 || w <= 0) { // 1st and 2nd quadrant
+            if (rotY < 0) rotY *= -1;
+            map = (rotY) * (out_max_second - out_min_first) / (second_max) + out_min_first;
+        } else if (rotY >= third_max) { // 3rd quadrant
+            map = (-rotY + second_max) * (out_max_third - out_min_third) / (-third_max + second_max) + out_min_third;
+        } else { // 4th quadrant
+            map = (-rotY + third_max) * (out_max_fourth - out_min_fourth) / (third_max) + out_min_fourth;
+        }
+        return map;
+    }
+
+    /**
+     * Maps the value of 1 marker in relation to its distance between 2 markers.
+     */
+    //% blockId=ar_slider block="slider %marker1=marker_block|from %marker2=marker_block|to %marker3=marker_block" blockGap=8
+    //% weight=94    
+    export function slider(marker1: number, marker2: number, marker3: number) : number {
+        // TO DO: remember last state that the slider was in if there's a flicker
+        let m1 = board().marker(marker1);
+        let m2 = board().marker(marker2);
+        let m3 = board().marker(marker3);
+        let sliderVal  = 0;
+        let totalDist = markers.distance(m2.code(), m3.code());
+        let sliderDist = markers.distance(m1.code(), m2.code());
+        if (totalDist > 0 && sliderDist != -9999)
+            sliderVal = sliderDist / totalDist;
+        return sliderVal;    
+    }    
+
 
     /* Class to store marker data */
     export class Marker {
@@ -71,7 +118,7 @@ namespace pxsim.markers {
         private group_           : THREE.Group;
         private prevWorldPos_    : THREE.Vector3;
         private prevPos_         : THREE.Vector3;
-        private prevRot_         : THREE.Euler;
+        private prevRot_         : THREE.Quaternion;
         private prevVisible_     : boolean;
         private prevVisibleTime_ : number;
         private prevHiddenTime_  : number;
@@ -94,16 +141,18 @@ namespace pxsim.markers {
         private paintGroup_      : THREE.Group;
         private painting_        : boolean;
 
-        constructor(code: MarkerCode) {
+        constructor(code: MarkerCode, color: number) {
             this.code_            = code;
             this.group_           = this.initControls();
             this.prevWorldPos_    = new THREE.Vector3(0, 0, 0);
             this.prevPos_         = new THREE.Vector3(0, 0, 0);
-            this.prevRot_         = new THREE.Euler(0, 0, 0);
+            this.prevRot_         = new THREE.Quaternion(0, 0, 0, 0);
             this.prevVisible_     = false;
             this.prevVisibleTime_ = 0;
             this.prevHiddenTime_  = 0;
             this.color_           = 0x000000;
+            if (color)
+                this.color_ = color;
             this.opacity_         = 0.9;
             this.fontColor_       = 0xffffff;
             this.brushColor_      = 0xffffff;
@@ -146,12 +195,12 @@ namespace pxsim.markers {
             else if (distanceY <= -distThreshold) board().bus.queue(this.code_, MarkerEvent.MovedDown);
             if      (distanceZ >= distThreshold)  board().bus.queue(this.code_, MarkerEvent.MovedForward);
             else if (distanceZ <= -distThreshold) board().bus.queue(this.code_, MarkerEvent.MovedBackward); 
-            if      (angleX >= distThreshold)     board().bus.queue(this.code_, MarkerEvent.RotatedClockwise);
-            else if (angleX <= -distThreshold)    board().bus.queue(this.code_, MarkerEvent.RotatedCounterClockwise);
-            if      (angleX >= angleThreshold)    board().bus.queue(this.code_, MarkerEvent.RotatedClockwise);
-            else if (angleX <= -angleThreshold)   board().bus.queue(this.code_, MarkerEvent.RotatedCounterClockwise);            
-            if (Math.abs(angleX) >= angleThreshold || Math.abs(angleY) >= angleThreshold || Math.abs(angleZ) >= angleThreshold)
-                board().bus.queue(this.code_, MarkerEvent.Rotated);
+            //if      (angleX >= distThreshold)     board().bus.queue(this.code_, MarkerEvent.RotatedClockwise);
+            //else if (angleX <= -distThreshold)    board().bus.queue(this.code_, MarkerEvent.RotatedCounterClockwise);
+            //if      (angleX >= angleThreshold)    board().bus.queue(this.code_, MarkerEvent.RotatedClockwise);
+            //else if (angleX <= -angleThreshold)   board().bus.queue(this.code_, MarkerEvent.RotatedCounterClockwise);            
+            //if (Math.abs(angleX) >= angleThreshold || Math.abs(angleY) >= angleThreshold || Math.abs(angleZ) >= angleThreshold)
+                //board().bus.queue(this.code_, MarkerEvent.Rotated);
             if (this.visible() == true){
                 board().bus.queue(this.code_, MarkerLoopEvent.WhileVisible);
                 if (this.prevVisible_ == false) board().bus.queue(this.code_, MarkerEvent.Visible);
@@ -240,9 +289,7 @@ namespace pxsim.markers {
             this.prevPos_ = new THREE.Vector3(this.position().x,
                                                   this.position().y,
                                                   this.position().z);
-            this.prevRot_ = new THREE.Euler(this.rotation().x,
-                                                this.rotation().y,
-                                                this.rotation().z);
+            this.prevRot_ = this.rotation();
             this.prevWorldPos_= new THREE.Vector3(this.worldPosition().x,
                                                     this.worldPosition().y,
                                                         this.worldPosition().z);                                              
@@ -284,7 +331,7 @@ namespace pxsim.markers {
         position(){ return this.group_.position; }
         worldPosition(){ return this.group_.getWorldPosition(); }
         prevPosition(){ return this.prevPos_; }
-        rotation(){ return this.group_.rotation; }
+        rotation(){ return this.group_.quaternion; }
         prevRotation(){ return this.prevRot_; }
         prevVisible(){ return this.prevVisible_; }
         prevVisibleTime(){ return this.prevVisibleTime_; }

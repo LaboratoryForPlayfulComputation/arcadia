@@ -3,6 +3,10 @@ declare namespace THREEx {
 	 interface ArToolkitSourceOptions {
       sourceType : String;
       sourceURL : String;
+      sourceWidth: number;
+      sourceHeight: number;
+      displayWidth: number;
+      displayHeight: number;        
 	}
     class ArToolkitSource {
         constructor(options: ArToolkitSourceOptions);

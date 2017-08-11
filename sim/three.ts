@@ -121,7 +121,7 @@ namespace pxsim.three {
             bevelSize: 1,
             height: 0.025,
             curveSegments: 2,
-            font: board().font as any
+            font: board().font
         });
         let material = new THREE.MeshBasicMaterial({
             transparent: true,
@@ -173,6 +173,12 @@ namespace pxsim.three {
                 resolve(font);
             }, null, e => reject(e));
         });            
+    }
+
+    export function parseFont(typeface: any) : THREE.Font{
+        let loader = new THREE.FontLoader();
+        let font = loader.parse(typeface);
+        return font;
     }
 
     export function loadModel(type: ModelType, content: string): THREE.Object3D {

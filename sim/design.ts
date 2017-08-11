@@ -4,6 +4,7 @@ namespace pxsim.design {
      * Sets the text  that displays when the marker is detected
      */
     //% blockId=ar_set_text block="%marker=marker_block|set text %text" blockGap=8
+    //% weight=98
     //% blockNamespace=design inBasicCategory=true
     export function setText(marker: number, text: string) {
         let m = board().marker(marker);
@@ -26,6 +27,7 @@ namespace pxsim.design {
      * Sets the number that displays when the marker is detected
      */
     //% blockId=ar_set_number block="%marker=marker_block|set number %number" blockGap=8
+    //% weight=96
     //% blockNamespace=design inBasicCategory=true
     export function setNumber(marker: number, number: number) {
         let m = board().marker(marker);
@@ -47,6 +49,7 @@ namespace pxsim.design {
      * Sets the shape that displays when the marker is detected
      */
     //% blockId=ar_set_shape block="%marker=marker_block|set shape %shape" blockGap=8
+    //% weight=100
     //% shape.fieldEditor="gridpicker"
     //% shape.fieldOptions.width="200" shape.fieldOptions.columns="2"
     //% shape.fieldOptions.itemColour="black" shape.fieldOptions.tooltips="true"
@@ -73,10 +76,9 @@ namespace pxsim.design {
     }
 
     /**
- * Sets the shape that displays when the marker is detected
- */
-    //% blockId=ar_set_model block="%marker=marker_block|set model %type|%content" blockGap=8
-    //% blockNamespace=design advanced=true
+        * Sets the shape that displays when the marker is detected
+        CURRENTLY DISABLED, NOT A BLOCK
+    */
     export function setModel(marker: number, type: ModelType, content: string) {
         const m = board().marker(marker);
         const mod = three.loadModel(type, content)
@@ -86,6 +88,9 @@ namespace pxsim.design {
             color: m.color(),
             side: THREE.DoubleSide
         });
+        mod.traverse(function(child){
+            if (child instanceof THREE.Mesh) child.material = material;
+        });        
         const boundingBox  = new THREE.Box3().setFromObject(mod);
         const maxDimension = Math.max(boundingBox.max.x, boundingBox.max.y, boundingBox.max.z);
         let autoScale      = 1;
@@ -106,6 +111,7 @@ namespace pxsim.design {
      * Sets the color that displays when the marker is detected
      */
     //% blockId=ar_set_color block="%marker=marker_block|set color %color=colors_named" blockGap=8
+    //% weight=99
     //% blockNamespace=design inBasicCategory=true
     export function setColor(marker: number, color: number) {
         let m = board().markers[marker.toString()];
@@ -129,18 +135,24 @@ namespace pxsim.design {
      * @param value How opaque the shape should be between 0 and 1, eg: 0.9
      */
     //% blockId=ar_set_opacity block="%marker=marker_block|set opacity %value" blockGap=8
+    //% weight=95
     //% blockNamespace=design inBasicCategory=true
     export function setOpacity(marker: number, value: number) {
         let m = board().markers[marker.toString()];
         m.setOpacity(value);
         let object = m.shapeObject();
-        if (object) (object as any).material.opacity = value;
+        if (object){
+            object.traverse(function(child){
+                if (child instanceof THREE.Mesh) child.material.opacity = value;
+            });            
+        }
     }
 
     /**
      * Sets the text color that displays when the marker is detected
      */
     //% blockId=ar_set_text_color block="%marker=marker_block|set text color %color=colors_named" blockGap=8
+    //% weight=97
     //% blockNamespace=design inBasicCategory=true
     export function setTextColor(marker: number, color: number) {
         let m = board().marker(marker);
@@ -160,6 +172,7 @@ namespace pxsim.design {
      * @param size The amount to scale the model by, eg: 1
      */
     //% blockId=ar_set_scale block="%marker=marker_block|set scale %number" blockGap=8
+    //% weight=94
     //% blockNamespace=design inBasicCategory=true
     //% inlineInputMode="inline"    
     export function setScale(marker: number, size: number) {
@@ -189,6 +202,7 @@ namespace pxsim.design {
      * Sets the position of the 3D object that is rendered in relation to the marker. Shapes will automatically have a default position of (0, 0, 0).
      */
     //% blockId=ar_set_position block="%marker=marker_block|set position x: %x|y: %y|z: %z" blockGap=8
+    //% weight=92
     //% blockNamespace=design inBasicCategory=true
     //% inlineInputMode="inline"    
     export function setPosition(marker: number, x: number, y: number, z: number) {
@@ -206,6 +220,7 @@ namespace pxsim.design {
      * Sets the rotation of the 3D object that is rendered in relation to the marker. Shapes will automatically have a default rotation of 0°.
      */
     //% blockId=ar_set_rotation block="%marker=marker_block|set rotation %degrees|°" blockGap=8
+    //% weight=93
     //% blockNamespace=design inBasicCategory=true
     //% inlineInputMode="inline"    
     export function setRotation(marker: number, degrees: number) {
@@ -241,49 +256,34 @@ namespace pxsim.design {
      * Sets the filter of the video feed.
      */
     //% blockId=ar_add_filter block="add filter %filter" blockGap=8
+    //% weight=91
     //% blockNamespace=design inBasicCategory=true
     //% inlineInputMode="inline" 
     export function addFilter(filter: Filter) {
         switch (filter){
             case Filter.Grayscale:
-                //document.body.style.filter = "grayscale(100%)"; // works
-                pxsim.U.addClass(document.body, "grayscale-sim"); // doesn't work
+                addFilterHelper("grayscale(100%)");
                 break;
             case Filter.Invert:
-                pxsim.U.addClass(document.body, "invert-sim");
+                addFilterHelper("invert(100%)");
                 break;
             case Filter.Saturate:
-                pxsim.U.addClass(document.body, "saturate-sim");
+                addFilterHelper("saturate(2)");
                 break;
             case Filter.HueRotate:
-                pxsim.U.addClass(document.body, "huerotate-sim");
+                addFilterHelper("hue-rotate(90deg)");
                 break;  
             case Filter.Blur:
-                pxsim.U.addClass(document.body, "blur-sim");
+                addFilterHelper("blur(5px)");
                 break;    
             case Filter.Contrast:
-                pxsim.U.addClass(document.body, "highcontrast-sim");
-                break;     
-            case Filter.Red:
-                pxsim.U.addClass(document.body, "red-sim");
-                break;     
-            case Filter.Orange:
-                pxsim.U.addClass(document.body, "orange-sim");
-                break;     
-            case Filter.Yellow:
-                pxsim.U.addClass(document.body, "yellow-sim");
-                break;     
+                addFilterHelper("contrast(200%)");
+                break;       
             case Filter.Green:
-                pxsim.U.addClass(document.body, "green-sim");
-                break;     
-            case Filter.Blue:
-                pxsim.U.addClass(document.body, "blue-sim");
-                break;     
-            case Filter.Purple:
-                pxsim.U.addClass(document.body, "purple-sim");
-                break;                                                               
+                addFilterHelper("grayscale(100%) sepia(100%) hue-rotate(90deg)");
+                break;                                                                  
             default:
-                pxsim.U.addClass(document.body, "sepia-sim");
+                addFilterHelper("sepia(100%)");
         }
     }
 
@@ -291,49 +291,72 @@ namespace pxsim.design {
      * Sets the filter of the video feed.
      */
     //% blockId=ar_remove_filter block="remove filter %filter" blockGap=8
+    //% weight=90
     //% blockNamespace=design inBasicCategory=true
     //% inlineInputMode="inline" 
     export function removeFilter(filter: Filter) {
         switch (filter){
             case Filter.Grayscale:
-                pxsim.U.removeClass(document.body, "grayscale-sim");
+                removeFilterHelper("grayscale(100%)");
                 break;
             case Filter.Invert:
-                pxsim.U.removeClass(document.body, "invert-sim");
+                removeFilterHelper("invert(100%)");
                 break;
             case Filter.Saturate:
-                pxsim.U.removeClass(document.body, "saturate-sim");
+                removeFilterHelper("saturate(2)");
                 break;
             case Filter.HueRotate:
-                pxsim.U.removeClass(document.body, "huerotate-sim");
+                removeFilterHelper("hue-rotate(90deg)");
                 break;  
             case Filter.Blur:
-                pxsim.U.removeClass(document.body, "blur-sim");
+                removeFilterHelper("blur(5px)");
                 break;    
             case Filter.Contrast:
-                pxsim.U.removeClass(document.body, "highcontrast-sim");
-                break;     
-            case Filter.Red:
-                pxsim.U.removeClass(document.body, "red-sim");
-                break;     
-            case Filter.Orange:
-                pxsim.U.removeClass(document.body, "orange-sim");
-                break;     
-            case Filter.Yellow:
-                pxsim.U.removeClass(document.body, "yellow-sim");
-                break;     
+                removeFilterHelper("contrast(200%)");
+                break;       
             case Filter.Green:
-                pxsim.U.removeClass(document.body, "green-sim");
-                break;     
-            case Filter.Blue:
-                pxsim.U.removeClass(document.body, "blue-sim");
-                break;     
-            case Filter.Purple:
-                pxsim.U.removeClass(document.body, "purple-sim");
-                break;                                                               
+                removeFilterHelper("grayscale(100%) sepia(100%) hue-rotate(90deg)");
+                break;                                                                  
             default:
-                pxsim.U.removeClass(document.body, "sepia-sim");
+                removeFilterHelper("sepia(100%)");
         }
+    }
+
+    export function addFilterHelper(filter: string) {
+        let canvas = document.getElementsByTagName("canvas")[0];
+        let video  = document.getElementsByTagName("video")[0];
+        let filterString = canvas.style.filter;
+        if (canvas && video){
+            if (!(filterString as any).includes(filter)){
+                filterString = filterString + " " + filter;
+            }
+            canvas.style.filter = filterString;
+            video.style.filter = filterString;
+        }
+    }
+
+    export function removeFilterHelper(filter: string) {
+        let canvas = document.getElementsByTagName("canvas")[0];
+        let video  = document.getElementsByTagName("video")[0];
+        if (canvas && video){
+            let filterString = canvas.style.filter;
+            if ((filterString as any).includes(filter)){
+                filterString = filterString.replace(filter, "");
+            }
+            canvas.style.filter = filterString;
+            video.style.filter = filterString;
+        }
+    }
+
+    export function removeAllFilters() {
+        removeFilter(Filter.Grayscale);
+        removeFilter(Filter.Invert);
+        removeFilter(Filter.Saturate);
+        removeFilter(Filter.HueRotate);
+        removeFilter(Filter.Blur);
+        removeFilter(Filter.Contrast);
+        removeFilter(Filter.Green);
+        removeFilter(Filter.Sepia);
     }
 
 }

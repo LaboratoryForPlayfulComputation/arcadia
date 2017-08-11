@@ -28,10 +28,11 @@ namespace pxsim {
      */
     export class Board extends pxsim.BaseBoard {
         public bus              : pxsim.EventBus;
-        public font             : String;
+        public font             : THREE.Font;
         public scene            : THREE.Scene;
         public camera           : THREE.PerspectiveCamera;
         public markers          : pxsim.Map<pxsim.markers.Marker>;
+        public markerColors     : Array<number>;
         public arToolkitContext : THREEx.ArToolkitContext;
         public arToolkitSource  : THREEx.ArToolkitSource;
         public renderer         : THREE.WebGLRenderer;
@@ -53,29 +54,38 @@ namespace pxsim {
         
         constructor() {
             super();
-        }
-        
-        initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
-            this.baseURL = msg.cdnUrl;
+
+            if (!isChrome()){
+                console.log("We've detected that you are not using Chrome. " +
+                "Arcadia is currently only supported for the Chrome browser.");
+            }
+
             this.bus  = new pxsim.EventBus(runtime);
+            this.font = three.parseFont(font.helvetiker_regular);
             /* AR */
             this.markers          = {};
-            this.onRenderFcts     = [];
+            this.markerColors     = [0xff0000, 0xff4c00, 0xffe100, 0x33b500,
+                                        0x00660a, 0x00e082, 0x00e0ba, 0x006ee5,
+                                            0x0003e5, 0x4200a5, 0x6600ff, 0xe500ff,
+                                                0xff00a5, 0x822600, 0x000000, 0xffffff];
             this.renderer         = getWebGlContext();
             this.stereoRenderer   = getStereoRenderer();
             this.mirror           = false;
             this.vrEffect         = false;
             this.camera           = three.createCamera();
             this.scene            = three.createScene();
-            threex.initArToolkit();
             this.scene.add(this.camera);      
             this.scene.add(three.createDirectionalLight());
             this.scene.add(three.createAmbientLight());      
-            this.initRenderFunctions();         
+
             /* music */
             this.phrases     = {};
             this.instruments = [];
-            this.fx          = {};            
+            this.fx          = {"distortion": tone.createEffect(Effect.Distortion), 
+                                    "delay": tone.createEffect(Effect.Delay),
+                                        "chorus": tone.createEffect(Effect.Chorus),
+                                            "reverb": tone.createEffect(Effect.Reverb),
+                                                "phaser": tone.createEffect(Effect.Phaser)};            
             this.monosynth   = tone.createMonoSynth().toMaster();  // for play tone blocks
             this.polysynth   = tone.createPolySynth(5).toMaster(); // for play chord blocks
             this.instruments.push(this.monosynth);
@@ -85,25 +95,28 @@ namespace pxsim {
                                 "triangle": tone.createOsc(Wave.Triangle, 440),
                                 "sawtooth": tone.createOsc(Wave.Sawtooth, 440)};
             tone.bpm(120);
+            tone.startTransport(0);    
+            music.setVolume(100);               
+        }
+        
+        initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
+            this.baseURL = msg.cdnUrl;
+            /* AR */
+            threex.initArToolkit();
+            this.initRenderFunctions();         
             /* start rendering */                    
             this.runRenderingLoop();   
-            tone.startTransport(0);    
-            music.setVolume(50);               
-            return three.loadFontAsync(this.baseURL)
-                .then(font => {
-                    this.font = font;
-                    return tone.loadDrumSamplesAsync(this.baseURL)
-                        .then(drumSamples => {
-                            this.drumSamples = drumSamples;
-                            this.drumPlayers = {"kick" : new Tone.Player(this.drumSamples.get("kick")).toMaster(), // for one-off drum hits
-                                                "snare": new Tone.Player(this.drumSamples.get("snare")).toMaster(),
-                                                "hihat": new Tone.Player(this.drumSamples.get("hihat")).toMaster(),
-                                                "click": new Tone.Player(this.drumSamples.get("click")).toMaster(),
-                                                "splat": new Tone.Player(this.drumSamples.get("splat")).toMaster()};
-                            this.drumMachine = tone.createDrumMachine().toMaster(); // for building drum sequences
-
-                            return Promise.resolve();                            
-                        });
+            /* music */
+            return tone.loadDrumSamplesAsync(this.baseURL)
+                .then(drumSamples => {
+                    this.drumSamples = drumSamples;
+                    this.drumPlayers = {"kick" : new Tone.Player(this.drumSamples.get("kick")).toMaster(), // for one-off drum hits
+                                        "snare": new Tone.Player(this.drumSamples.get("snare")).toMaster(),
+                                        "hihat": new Tone.Player(this.drumSamples.get("hihat")).toMaster(),
+                                        "click": new Tone.Player(this.drumSamples.get("click")).toMaster(),
+                                        "splat": new Tone.Player(this.drumSamples.get("splat")).toMaster()};
+                    this.drumMachine = tone.createDrumMachine().toMaster(); // for building drum sequences
+                    return Promise.resolve();                            
                 });
         }       
 
@@ -142,6 +155,13 @@ namespace pxsim {
             });
         }
 
+        initMarkers(){
+            for (let i = 0; i < 16; i++){
+                //this.marker(i);
+                design.setShape(i, Shape.Box);
+            }
+        }
+
         runRenderingLoop(){
             let self = this;
             let lastTimeMsec = 0;
@@ -157,7 +177,8 @@ namespace pxsim {
         }
 
         kill() {
-            document.body.className = ""; // removes all filters added from usercode
+            design.removeAllFilters();
+            Tone.Master.volume.value = -Infinity;
             if (this.scene)       three.removeSceneChildren(this.scene);
             if (this.fx)          tone.killFX();
             if (this.phrases)     tone.killPhrases();
@@ -176,7 +197,7 @@ namespace pxsim {
             if (!this.markers) this.markers = {};
             let m = this.markers[marker.toString()];
             if (!m) 
-                m = this.markers[marker.toString()] = new pxsim.markers.Marker(marker);
+                m = this.markers[marker.toString()] = new pxsim.markers.Marker(marker, this.markerColors[marker]);
             return m;
         }
 
@@ -235,6 +256,20 @@ namespace pxsim {
           stereoRenderer.setSize(width, height);
         }
         return stereoRenderer;
+    }
+
+    function isChrome() {
+        var isChromium = (window as any).chrome,
+            winNav = window.navigator,
+            vendorName = winNav.vendor,
+            isOpera = winNav.userAgent.indexOf("OPR") > -1,
+            isIEedge = winNav.userAgent.indexOf("Edge") > -1,
+            isIOSChrome = winNav.userAgent.match("CriOS");
+
+        if(isIOSChrome) return true;
+        else if(isChromium !== null && isChromium !== undefined && vendorName === "Google Inc." && isOpera == false && isIEedge == false)
+            return true;
+        else return false;
     }
 
 }

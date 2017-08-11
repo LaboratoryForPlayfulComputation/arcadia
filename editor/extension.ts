@@ -25,7 +25,7 @@ namespace pxt.editor {
 /**
  * Custom 3D models for markers
  */
-//% weight=99
+//% weight=88
 namespace models {
     /*
     * Sets a custom 3D model on the marker based on ${n}

@@ -90,10 +90,12 @@ namespace pxsim.tone {
                                             type: "sine"
                                         },
                                         envelope: {
-                                            attack:  0.02,
+                                            attack:  0.01,
                                             decay:   0.1,
-                                            sustain: 0.3,
-                                            release: 0.25
+                                            sustain: 0.5,
+                                            release: 1,
+                                            attackCurve:"linear",
+                                            releaseCurve:"exponential"
                                         }}).toMaster();  
         //board().instruments.push(mono);
         return mono;
@@ -101,16 +103,17 @@ namespace pxsim.tone {
 
     export function createPolySynth(voices: number): Tone.PolySynth {
         let poly = new Tone.PolySynth(voices, Tone.MonoSynth);     
-        //poly.set("volume", -20);
         poly.set({
             oscillator: {
                 type: "sine"
             },
             envelope: {
-                attack:  0.025,
-                decay :  0.1,
-                sustain: 0.3,
-                release: 0.25
+                attack:  0.01,
+                decay:   0.1,
+                sustain: 0.5,
+                release: 1,
+                attackCurve:"linear",
+                releaseCurve:"exponential"
             }}).toMaster();
         //board().instruments.push(poly);
         return poly;   
@@ -131,34 +134,16 @@ namespace pxsim.tone {
     }
 
     export function createEffect(fx: Effect): Tone.Effect {
-        var effect : Tone.Effect;
-        var type : string;
         switch (fx) {
-            case Effect.Distortion:
-                effect = new Tone.Distortion(0.8).toMaster();
-                type = "distortion";
-                break;
-            case Effect.Delay:
-                effect = new Tone.FeedbackDelay("8n").toMaster();
-                type = "delay";
-                break;
-            case Effect.Chorus:
-                effect = new Tone.Chorus(4, 2.5, 0.5).toMaster();
-                type = "chorus";
-                break;
-            case Effect.Phaser:
-                effect = new Tone.Phaser({"frequency": 15, 
+            case Effect.Distortion: return new Tone.Distortion(0.5).toMaster();
+            case Effect.Delay: return new Tone.FeedbackDelay("8n").toMaster();
+            case Effect.Chorus: return new Tone.Chorus(4, 2.5, 0.5).toMaster();
+            case Effect.Phaser: return new Tone.Phaser({"frequency": 15, 
                                             "octaves": 5, 
                                             "baseFrequency": 1000
                                         }).toMaster();
-                type = "phaser";
-                break;
-            default:
-                effect = new Tone.Freeverb().toMaster();
-                type = "reverb";
+            default: return new Tone.Freeverb().toMaster();
         }
-        board().fx[type] = effect;
-        return effect;        
     }
 
 }

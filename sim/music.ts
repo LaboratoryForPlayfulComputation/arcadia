@@ -6,11 +6,12 @@ namespace pxsim.music {
     * @param duration number of beats to play tone for, eg: BeatFraction.Quarter
     */
     //% blockId=music_play_tone block="play tone %note=device_note| for %duration" blockGap=8
+    //% weight=100
     //% blockNamespace=music inBasicCategory=true promise
     export function playToneAsync(note: number, duration: BeatFraction): Promise<void> { 
         const t = beat(duration);
         const tone = board().monosynth
-        tone.triggerAttackRelease(note, t);
+        tone.triggerAttackRelease(note, t, "+16t");
         return pauseBeatAsync(tone, duration);
     }
 
@@ -19,6 +20,7 @@ namespace pxsim.music {
     * @param duration number of beats to rest for
     */
     //% blockId=music_rest block="rest for %duration" blockGap=8
+    //% weight=97
     //% blockNamespace=music inBasicCategory=true promise
     export function restAsync(duration: BeatFraction): Promise<void> {
         const tone = board().monosynth;
@@ -32,17 +34,19 @@ namespace pxsim.music {
     */
     //% promise
     export function playChordCommandAsync(notesString: string, duration: BeatFraction): Promise<void> {
-        let notes = notesString.split(",");
-        let notesToPlay = [] as any;
-        if (notes.length > 5){
-            for (let i = 0; i < 5; i++) notesToPlay.push(notes[i]);
-        } else {
-            notesToPlay = notes;
+        const tone = board().polysynth;
+        if (notesString != ""){
+            let notes = notesString.split(",");
+            let notesToPlay = [] as any;
+            if (notes.length > 5){
+                for (let i = 0; i < 5; i++) notesToPlay.push(notes[i]);
+            } else {
+                notesToPlay = notes;
+            }
+            const t = beat(duration);
+            board().polysynth.triggerAttackRelease(notesToPlay, t, "+16t");
         }
-        const t = beat(duration);
-        const note = board().polysynth;
-        board().polysynth.triggerAttackRelease(notesToPlay, t);
-        return pauseBeatAsync(note, duration);
+        return pauseBeatAsync(tone, duration);
     }
 
     /**
@@ -50,6 +54,7 @@ namespace pxsim.music {
     * @param drum which drum sound to use
     */
     //% blockId=music_play_drum_beat block="play %drum" blockGap=8
+    //% weight=99
     //% blockNamespace=music inBasicCategory=true
     //% drum.fieldEditor="gridpicker"
     //% drum.fieldOptions.width="200" drum.fieldOptions.columns="1"
@@ -57,19 +62,19 @@ namespace pxsim.music {
     export function playDrum(drum: Drum) {
         switch (drum) {
             case Drum.Kick:
-               board().drumPlayers["kick"].start();
+               board().drumPlayers["kick"].start("+16t");
                break;
             case Drum.Snare:
-               board().drumPlayers["snare"].start();
+               board().drumPlayers["snare"].start("+16t");
                break;
             case Drum.HiHat:
-               board().drumPlayers["hihat"].start();
+               board().drumPlayers["hihat"].start("+16t");
                break;   
             case Drum.Click:
-               board().drumPlayers["click"].start();
+               board().drumPlayers["click"].start("+16t");
                break;                           
             default:
-               board().drumPlayers["splat"].start();
+               board().drumPlayers["splat"].start("+16t");
         }
     }
 
@@ -91,29 +96,15 @@ namespace pxsim.music {
     function pauseBeatAsync(tone: Tone, fraction: BeatFraction): Promise<void> {
         const t = beat(fraction);
         const s = tone.toSeconds(t);
-        return loops.pauseAsync(s * 1000 + 5);
+        return loops.pauseAsync(s * 1000);
     }
-
-    /**
-     * Get the frequency of a note
-     * @param name the note name, eg: Note.C
-     */
-    //% weight=1 help=music/note-frequency
-    //% blockId=device_note block="%note"
-    //% shim=TD_ID
-    //% note.fieldEditor="note" note.defl="262" note.fieldOptions.decompileLiterals=true
-    //% useEnumVal=1 blockGap=8
-    //% blockNamespace=music inBasicCategory=true
-    export function noteFrequency(name: Note): number {
-        return name;
-    }      
 
     /**
      * Change the frequency (pitch) of an oscillator
      * @param wave type of sound wave
      */
     //% blockId="music_osc_freq" block="set %wave|wave to %note=device_note"
-    //% weight=100
+    //% weight=90
     //% wave.fieldEditor="gridpicker"
     //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
     //% wave.fieldOptions.tooltips="true"      
@@ -142,7 +133,7 @@ namespace pxsim.music {
      * @param wave type of sound wave
      */
     //% blockId="music_stop_osc" block="stop %wave|wave"
-    //% weight=100
+    //% weight=89
     //% wave.fieldEditor="gridpicker"
     //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
     //% wave.fieldOptions.tooltips="true"      
@@ -171,7 +162,7 @@ namespace pxsim.music {
      * @param wave type of sound wave
      */
     //% blockId="music_start_osc" block="start %wave|wave"
-    //% weight=100
+    //% weight=91
     //% wave.fieldEditor="gridpicker"
     //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
     //% wave.fieldOptions.tooltips="true"      
@@ -199,7 +190,7 @@ namespace pxsim.music {
         let osc = board().oscillators[type];
         osc.volume.value = vol;
         osc.stop();
-        osc.start();
+        osc.start("+16t");
     }    
 
     /**
@@ -207,7 +198,7 @@ namespace pxsim.music {
      * @param bpm The number of beats per minute, eg: 120
      */
     //% blockId="music_bpm" block="set tempo %bpm"
-    //% weight=100
+    //% weight=95
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     export function setTempo(bpm: number){
@@ -215,11 +206,11 @@ namespace pxsim.music {
     }
 
     /**
-     * Set the master volume. Choose a number in the range of 0-100, the default volume is 50.
-     * @param volume The volume level, eg: 50
+     * Set the master volume. Choose a number in the range of 0-100, the default volume is 100.
+     * @param volume The volume level, eg: 100
      */
     //% blockId="music_volume" block="set volume %volume"
-    //% weight=100
+    //% weight=94
     //% blockExternalInputs="true" blockGap=8
     //% blockNamespace=music inBasicCategory=true
     export function setVolume(volume: number){

@@ -18,93 +18,84 @@ declare const enum Axes {
  * An augmented reality marker
  */
 declare const enum MarkerCode {
-    //% block=0 enumval=0
     //% blockImage=1
+    //% blockIdentity=markers.marker enumval=0
     Marker0 = 0,
-    //% block=1 enumval=1
     //% blockImage=1
+    //% blockIdentity=markers.marker enumval=1
     Marker1 = 1,
-    //% block=2 enumval=2
     //% blockImage=1
+    //% blockIdentity=markers.marker enumval=2
     Marker2 = 2,
-    //% block=3 enumval=3
     //% blockImage=1
+    //% blockIdentity=markers.marker enumval=3
     Marker3 = 3,
-    //% block=4 enumval=4
     //% blockImage=1
+    //% blockIdentity=markers.marker enumval=4
     Marker4 = 4,
-    //% block=5 enumval=5
     //% blockImage=1
+    //% blockIdentity=markers.marker enumval=5
     Marker5 = 5,
-    //% block=6 enumval=6
     //% blockImage=1
+    //% blockIdentity=markers.marker enumval=6
     Marker6 = 6,
-    //% block=7 enumval=7
     //% blockImage=1
+    //% blockIdentity=markers.marker enumval=7
     Marker7 = 7,
-    //% block=8 enumval=8
     //% blockImage=1
+    //% blockIdentity=markers.marker enumval=8
     Marker8 = 8,
-    //% block=9 enumval=9
     //% blockImage=1
+    //% blockIdentity=markers.marker enumval=9
     Marker9 = 9,
-    //% block=10 enumval=10
     //% blockImage=1
+    //% blockIdentity=markers.marker enumval=10
     Marker10 = 10,
-    //% block=11 enumval=11
     //% blockImage=1
+    //% blockIdentity=markers.marker enumval=11
     Marker11 = 11,
-    //% block=12 enumval=12
     //% blockImage=1
+    //% blockIdentity=markers.marker enumval=12
     Marker12 = 12,
-    //% block=13 enumval=13
     //% blockImage=1
+    //% blockIdentity=markers.marker enumval=13
     Marker13 = 13,
-    //% block=14 enumval=14
     //% blockImage=1
+    //% blockIdentity=markers.marker enumval=14
     Marker14 = 14,
-    //% block=15 enumval=15
     //% blockImage=1
+    //% blockIdentity=markers.marker enumval=15
     Marker15 = 15
 }
 
 declare const enum MarkerEvent {
-    //% block="moved"
-    //% enumval=0x01
-    Moved = 0x01,
-    //% block="moved left"
-    //% enumval=0x02
-    MovedLeft = 0x02,
-    //% block="moved right"
-    //% enumval=0x03
-    MovedRight = 0x03,    
-    //% block="moved up"
-    //% enumval=0x04
-    MovedUp = 0x04,
-    //% block="moved down"
-    //% enumval=0x05
-    MovedDown = 0x05,    
-    //% block="moved forward"
-    //% enumval=0x06
-    MovedForward = 0x06,
-    //% block="moved backward"
-    //% enumval=0x07
-    MovedBackward = 0x07,    
-    //% block="rotated"
-    //% enumval=0x08
-    Rotated = 0x08,
-    //% block="rotated clockwise"
-    //% enumval=0x09
-    RotatedClockwise = 0x09,
-    //% block="rotated counterclockwise"
-    //% enumval=0x10
-    RotatedCounterClockwise = 0x10,  
     //% block="hidden"
-    //% enumval=0x11
-    Hidden = 0x11,     
+    //% enumval=0x01
+    Hidden = 0x01,     
     //% block="visible"
+    //% enumval=0x02
+    Visible = 0x02,  
+    //% block="moved"
+    //% enumval=0x03
+    Moved = 0x03,
+    //% block="moved left"
+    //% enumval=0x04
+    MovedLeft = 0x04,
+    //% block="moved right"
+    //% enumval=0x05
+    MovedRight = 0x05,    
+    //% block="moved up"
+    //% enumval=0x06
+    MovedUp = 0x06,
+    //% block="moved down"
+    //% enumval=0x07
+    MovedDown = 0x07,    
+    //% block="moved forward"
+    //% enumval=0x11
+    MovedForward = 0x11,
+    //% block="moved backward"
     //% enumval=0x12
-    Visible = 0x12,        
+    MovedBackward = 0x12          
 }
 
 declare const enum MarkerLoopEvent {
@@ -383,18 +374,8 @@ declare const enum Filter {
     Blur = 6,
     //% block='high contrast'
     Contrast = 7,
-    //% block='red'
-    Red = 8,
-    //% block='orange'
-    Orange = 9,
-    //% block='yellow'
-    Yellow = 10,
     //% block='green'
-    Green = 11,
-    //% block='blue'
-    Blue = 12,
-    //% block='purple'
-    Purple = 13        
+    Green = 8     
 }
 
 declare const enum ModelType {

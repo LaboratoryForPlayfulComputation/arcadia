@@ -1,6 +1,6 @@
 {
   "name": "pxt-ar",
-  "version": "0.0.75",
+  "version": "0.0.120",
   "description": "Microsoft MakeCode editor for AR",
   "keywords": [
     "JavaScript",
@@ -34,7 +34,7 @@
   "dependencies": {
     "@types/three": "^0.84.11",
     "@types/webaudioapi": "0.0.27",
-    "pxt-core": "1.7.21"
+    "pxt-core": "2.0.12"
   },
   "scripts": {
     "test": "node node_modules/pxt-core/built/pxt.js travis",

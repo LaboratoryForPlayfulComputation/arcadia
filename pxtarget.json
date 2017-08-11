@@ -1,7 +1,7 @@
 {
     "id": "ar",
-    "name": "AR editor",
-    "title": "Microsoft MakeCode for AR",
+    "name": "Arcadia",
+    "title": "Microsoft MakeCode for Marker-based Augmented Reality",
     "corepkg": "core",
     "cloud": {
         "workspace": false,
@@ -35,6 +35,10 @@
         "privacyUrl": "https://go.microsoft.com/fwlink/?LinkId=521839",
         "termsOfUseUrl": "https://go.microsoft.com/fwlink/?LinkID=206977",
         "betaUrl": "https://ar.pxt.io/",
+        "logo": "./static/logo.svg",
+        "docsLogo": "./static/logo.svg",
+        "portraitLogo": "./static/logo.svg",
+        "footerLogo": "./static/logo.svg",        
         "organization": "Microsoft",
         "organizationUrl": "https://makecode.com",
         "organizationLogo": "./static/Microsoft-logo_rgb_c-gray-square.png",
@@ -45,23 +49,23 @@
                 "path": "/about"
             },
             {
-                "name": "Docs",
-                "path": "/docs"
-            }
+                "name": "Preparing markers",
+                "path": "/markers"
+            },
+            {
+                "name": "Getting started",
+                "path": "/program"
+            },
+            {
+                "name": "Examples",
+                "path": "/examples"
+            }                                     
         ],
         "coloredToolbox": false,
         "monacoToolbox": true,
         "invertedToolbox": true,
         "invertedMonaco": true,
         "invertedMenu": true,
-        "blocklyOptions": {
-            "grid": {
-                "spacing": 30,
-                "length": 7,
-                "colour": "rgba(189, 195, 199, 0.30)",
-                "snap": true
-            }
-        },
         "simAnimationEnter": "scale in",
         "simAnimationExit": "scale out",
         "extendEditor": true,

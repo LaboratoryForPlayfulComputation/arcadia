@@ -6,13 +6,10 @@
        Fonts
 --------------------*/
 
-@emSize            : 14px;
-@fontSize          : 13px;
-@headerFont        : "Roboto Mono", serif;
-@pageFont          : "Roboto Mono", serif;
-@googleFontName    : 'Roboto Mono';
-@importGoogleFonts : true;
-@fontName          : 'Source Code Pro';
+@headerFont        : 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace !important;
+@pageFont          : 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace !important;
+/*@googleFontName    : 'Source Code Pro';*/
+@importGoogleFonts : false;
 
 /*--------------
       Page
@@ -141,7 +138,7 @@
 --------------------*/
 
 @simulatorBackground: @darkerGrey;
-@blocklySvgColor: #darkerGrey;
+@blocklySvgColor: #F9F9F9;
 
 /*-------------------
    Side Docs
