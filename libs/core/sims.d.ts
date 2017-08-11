@@ -88,14 +88,6 @@ declare namespace design {
     function setShape(marker: number, shape: Shape): void;
 
     /**
-     * Sets the shape that displays when the marker is detected
-     */
-    //% blockId=ar_set_model block="%marker=marker_block|set model %type|%content" blockGap=8
-    //% blockNamespace=models advanced=true
-    //% shim=design::setModel
-    function setModel(marker: number, type: ModelType, content: string): void;
-
-    /**
      * Sets the color that displays when the marker is detected
      */
     //% blockId=ar_set_color block="%marker=marker_block|set color %color=colors_named" blockGap=8
@@ -260,6 +252,7 @@ declare namespace interaction {
     /**
      * Allows use to define callbacks for a marker event
      * @param marker 
+     * @param event 
      */
     //% blockId=ar_on_event block="on %marker=marker_block|%event |do" blockGap=8
     //% event.fieldEditor="gridpicker"
@@ -271,7 +264,8 @@ declare namespace interaction {
 
     /**
      * Allows use to define callbacks for a marker event
-     * @param marker 
+     * @param marker
+     * @param event 
      */
     //% blockId=ar_while_event block="while %marker=marker_block|%event |do" blockGap=8
     //% event.fieldEditor="gridpicker"
@@ -283,7 +277,9 @@ declare namespace interaction {
 
     /**
      * Allows user to define callbacks that fire while the multi marker event is true
-     * @param marker 
+     * @param marker1 
+     * @param marker2 
+     * @param event 
      */
     //% blockId=ar_while_multi_event block="while %marker1=marker_block|%event |%marker2=marker_block |do" blockGap=8
     //% event.fieldEditor="gridpicker"
@@ -296,7 +292,9 @@ declare namespace interaction {
 
     /**
      * Allows user to define callbacks that trigger once when the multi marker event is true
-     * @param marker 
+     * @param marker1 
+     * @param marker2 
+     * @param event 
      */
     //% blockId=ar_on_multi_event block="on %marker1=marker_block|%event |%marker2=marker_block |do" blockGap=8
     //% event.fieldEditor="gridpicker"

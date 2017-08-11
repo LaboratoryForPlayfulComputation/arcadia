@@ -3,6 +3,7 @@ namespace pxsim.interaction {
     /**
      * Allows use to define callbacks for a marker event
      * @param marker 
+     * @param event 
      */
     //% blockId=ar_on_event block="on %marker=marker_block|%event |do" blockGap=8
     //% event.fieldEditor="gridpicker"
@@ -15,7 +16,8 @@ namespace pxsim.interaction {
 
     /**
      * Allows use to define callbacks for a marker event
-     * @param marker 
+     * @param marker
+     * @param event 
      */
     //% blockId=ar_while_event block="while %marker=marker_block|%event |do" blockGap=8
     //% event.fieldEditor="gridpicker"
@@ -28,7 +30,9 @@ namespace pxsim.interaction {
 
     /**
      * Allows user to define callbacks that fire while the multi marker event is true
-     * @param marker 
+     * @param marker1 
+     * @param marker2 
+     * @param event 
      */
     //% blockId=ar_while_multi_event block="while %marker1=marker_block|%event |%marker2=marker_block |do" blockGap=8
     //% event.fieldEditor="gridpicker"
@@ -46,7 +50,9 @@ namespace pxsim.interaction {
 
     /**
      * Allows user to define callbacks that trigger once when the multi marker event is true
-     * @param marker 
+     * @param marker1 
+     * @param marker2 
+     * @param event 
      */
     //% blockId=ar_on_multi_event block="on %marker1=marker_block|%event |%marker2=marker_block |do" blockGap=8
     //% event.fieldEditor="gridpicker"
