@@ -29,4 +29,18 @@
 </head>
 
 <body>
+    <button id="flip" onClick="flipSim()" style="position: absolute; z-index: 9999;">flip</button>
+    <script>
+        function flipSim (){
+            var canvas = document.getElementsByTagName("canvas")[0];
+            var video  = document.getElementsByTagName("video")[0];
+            if (canvas.className.includes("mirror-sim")){
+                canvas.className = canvas.className.replace("mirror-sim", "");
+                video.className  = video.className.replace("mirror-sim", "");
+            } else {
+                canvas.className += " mirror-sim ";
+                video.className  += " mirror-sim ";
+            }
+        }
+    </script>
 </body>
