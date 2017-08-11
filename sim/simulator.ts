@@ -95,7 +95,7 @@ namespace pxsim {
                                 "sawtooth": tone.createOsc(Wave.Sawtooth, 440)};
             tone.bpm(120);
             tone.startTransport(0);    
-            music.setVolume(100);            
+            music.setVolume(100);               
         }
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
@@ -176,7 +176,9 @@ namespace pxsim {
         }
 
         kill() {
-            document.body.className = ""; // removes all filters added from usercode
+            if ((document.body.className as any).includes("mirror-sim"))
+                document.body.className = "mirror-sim";
+            else document.body.className = ""; 
             Tone.Master.volume.value = -Infinity;
             if (this.scene)       three.removeSceneChildren(this.scene);
             if (this.fx)          tone.killFX();

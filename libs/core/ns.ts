@@ -18,7 +18,6 @@ namespace markers {
     export function marker(marker: MarkerCode): number { 
         return marker;
     } 
-
 }
 
 /**
