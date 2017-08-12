@@ -15,9 +15,9 @@ namespace pxsim.three {
      * Creates a camera for our scene
      */
     let camera: any = null;
-    export function createCamera(): THREE.Camera{
+    export function createCamera(): THREE.PerspectiveCamera{
         if (camera == null)
-            camera = new THREE.Camera();
+            camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 100);
         return camera;
     }
 

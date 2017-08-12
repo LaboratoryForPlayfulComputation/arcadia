@@ -29,7 +29,10 @@
 </head>
 
 <body>
-    <button id="flip" onClick="flipSim()" style="position: absolute; z-index: 9999;">flip</button>
+    <span style="position: absolute; z-index: 9999;">
+        <button id="flip" onClick="flipSim()">Flip</button>
+        <button id="vr" onClick="vrEffect()">VR</button>        
+    </span>
     <script>
         var flipFilter = " FlipH ";
         function flipSim (){
@@ -47,6 +50,13 @@
                 canvas.style.filter += flipFilter;
                 video.style.filter  += flipFilter;
             }
+        }
+
+        function vrEffect (){
+            pxsim.board().vrEffect = !pxsim.board().vrEffect;
+            var evt = document.createEvent("HTMLEvents");
+            evt.initEvent('resize', true, false);
+            window.dispatchEvent(evt);
         }
     </script>
 </body>

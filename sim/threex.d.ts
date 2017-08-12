@@ -13,7 +13,7 @@ declare namespace THREEx {
         init(callback: () => void): void;
         domElement: HTMLElement;
         ready: Boolean;
-        onResize(): void;
+        onResize(rendererEl?: HTMLCanvasElement): void;
         copySizeTo(element: HTMLElement): void;
     }
     interface ArToolkitContextOptions {

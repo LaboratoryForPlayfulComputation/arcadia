@@ -30,13 +30,14 @@ namespace pxsim {
         public bus              : pxsim.EventBus;
         public font             : THREE.Font;
         public scene            : THREE.Scene;
-        public camera           : THREE.Camera;
+        public camera           : THREE.PerspectiveCamera;
         public markers          : pxsim.Map<pxsim.markers.Marker>;
         public markerColors     : Array<number>;
         public arToolkitContext : THREEx.ArToolkitContext;
         public arToolkitSource  : THREEx.ArToolkitSource;
         public renderer         : THREE.WebGLRenderer;
         public stereoRenderer   : any;
+        public video            : threex.ArVideo;
         public mirror           : boolean;
         public vrEffect         : boolean;
         public baseURL          : string;
@@ -100,13 +101,13 @@ namespace pxsim {
         
         initAsync(msg: pxsim.SimulatorRunMessage): Promise<void> {
             this.baseURL = msg.cdnUrl;
-
-            /* start rendering */                    
+            /* AR */
             threex.initArToolkit();
             this.initMarkers();
-            this.initRenderFunctions(); 
+            this.initRenderFunctions();         
+            /* start rendering */                    
             this.runRenderingLoop();   
-                       
+            /* music */
             return tone.loadDrumSamplesAsync(this.baseURL)
                 .then(drumSamples => {
                     this.drumSamples = drumSamples;
@@ -143,6 +144,7 @@ namespace pxsim {
                         this.stereoRenderer.render(this.scene, this.camera);                    
                 }
             });
+            board().onRenderFcts.push(() => {this.video.update(this.camera);});              
             /* updates marker state and triggers events if position or rotation changes */
             this.onRenderFcts.push(() => {
                 for (var key in this.markers){
@@ -156,7 +158,6 @@ namespace pxsim {
 
         initMarkers(){
             for (let i = 0; i < 16; i++){
-                //this.marker(i);
                 design.setShape(i, Shape.Box);
             }
         }
@@ -243,8 +244,7 @@ namespace pxsim {
     let stereoRenderer: any = null;
     function getStereoRenderer(): any {
         if (stereoRenderer == null){
-          //stereoRenderer = new (THREE as any).StereoEffect(getWebGlContext());
-          stereoRenderer = new (THREE as any).VREffect(getWebGlContext());
+          stereoRenderer = new (THREE as any).StereoEffect(getWebGlContext());
         let width = window.innerWidth ||
                     document.documentElement.clientWidth ||
                     document.body.clientWidth ||
