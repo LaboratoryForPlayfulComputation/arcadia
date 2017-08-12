@@ -103,6 +103,7 @@ namespace pxsim {
             this.baseURL = msg.cdnUrl;
             /* AR */
             threex.initArToolkit();
+            this.initMarkers();
             this.initRenderFunctions();         
             /* start rendering */                    
             this.runRenderingLoop();   
@@ -157,7 +158,6 @@ namespace pxsim {
 
         initMarkers(){
             for (let i = 0; i < 16; i++){
-                //this.marker(i);
                 design.setShape(i, Shape.Box);
             }
         }

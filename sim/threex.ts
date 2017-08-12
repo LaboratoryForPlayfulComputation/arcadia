@@ -94,8 +94,8 @@ namespace pxsim.threex {
             camera.matrixWorld.decompose( camera.position, camera.quaternion, camera.scale );	
             this.object3d.quaternion.copy( camera.quaternion )
             var fov = THREE.Math.radToDeg(Math.atan(1/camera.projectionMatrix.elements[5]))*2;
-            var elementWidth = parseFloat(this.source.domElement.style.width.replace(/px$/,''), 10 );
-            var elementHeight = parseFloat(this.source.domElement.style.height.replace(/px$/,''), 10 );
+            var elementWidth = parseFloat((this.source.domElement.style.width.replace(/px$/,''), 10 ) as any);
+            var elementHeight = parseFloat((this.source.domElement.style.height.replace(/px$/,''), 10 ) as any);
             var aspect = elementWidth / elementHeight
             this.object3d.scale.y = Math.tan(THREE.Math.DEG2RAD * fov/2)*position.length() 
             this.object3d.scale.x = this.object3d.scale.y * aspect
