@@ -6,10 +6,10 @@
        Fonts
 --------------------*/
 
-@headerFont        : 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace !important;
-@pageFont          : 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace !important;
-/*@googleFontName    : 'Source Code Pro';*/
 @importGoogleFonts : false;
+
+@headerFont        : 'Montserrat', sans-serif;
+@pageFont          : 'Montserrat', sans-serif;
 
 /*--------------
       Page
@@ -115,13 +115,8 @@
    Menu
 --------------------*/
 
-@mainMenuInvertedBackground: @black;
+@mainMenuInvertedBackground: #cf357e;
 @mainMenuTutorialBackground: @black;
-
-@mainMenuHeight: 4.5rem;
-@mobileMenuHeight: 4.0rem;
-
-@mainMenuBlocksJsToggleColor: #7a2fd6;
 
 @tutorialSelectedMenuColor: @primaryColor;
 
@@ -137,7 +132,7 @@
    Background
 --------------------*/
 
-@simulatorBackground: @darkerGrey;
+@simulatorBackground: #f9fafb;
 @blocklySvgColor: #F9F9F9;
 
 /*-------------------
@@ -151,5 +146,7 @@
    Editor
 --------------------*/
 
-@blocklyToolboxColor: @darkGrey;
+@blocklyToolboxColor: #FFF;
 @trashIconColor: @primaryColor;
+
+@editorToolsHeight: 20rem;

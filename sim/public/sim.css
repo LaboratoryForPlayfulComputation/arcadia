@@ -58,3 +58,12 @@
     transform: scaleX(-1);
     -ms-filter: "FlipH";
 }
+
+#flip {
+    background: #fff;
+    border: 1px solid #c6c6c6;
+    border-radius: 3px;
+    padding: 5px 12px 5px 12px;
+    color: #575E75;
+    font-size: 11pt;
+}
