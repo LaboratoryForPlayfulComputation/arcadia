@@ -100,16 +100,62 @@ namespace pxsim.markers {
     //% weight=94    
     export function slider(marker1: number, marker2: number, marker3: number) : number {
         // TO DO: remember last state that the slider was in if there's a flicker
-        let m1 = board().marker(marker1);
-        let m2 = board().marker(marker2);
-        let m3 = board().marker(marker3);
+        let m1 = board().marker(marker1); // slider
+        let m2 = board().marker(marker2); // start
+        let m3 = board().marker(marker3); // finish
         let sliderVal  = 0;
         let totalDist = markers.distance(m2.code(), m3.code());
         let sliderDist = markers.distance(m1.code(), m2.code());
         if (totalDist > 0 && sliderDist != -9999)
-            sliderVal = sliderDist / totalDist;
+            sliderVal = sliderDist / totalDist;     
+
+        let lineName = "m" + m1.code().toString() + "m" + m2.code().toString() + "m" + m3.code().toString() + '-sliderLine';
+        let knobName = "m" + m1.code().toString() + "m" + m2.code().toString() + "m" + m3.code().toString() + '-sliderKnob';
+        let line = board().uiGroup.getObjectByName(lineName);
+        let knob = board().uiGroup.getObjectByName(knobName);
+
+        if (!(line && knob)){
+            line = three.createLine(m2.worldPosition(), m3.worldPosition(), 0xFFFFFF);
+            line.name = lineName;            
+            board().uiGroup.add(line);
+
+            let knobGeo      = new THREE.SphereGeometry(0.25, 32, 32);
+            let knobMaterial = new THREE.MeshNormalMaterial();
+            knob = new THREE.Mesh(knobGeo, knobMaterial);
+            knob.name = knobName;
+            board().uiGroup.add(knob);
+
+            createSliderRenderFcts(m1, m2, m3, line, knob);   
+        }    
+
         return sliderVal;    
     }    
+
+    export function createSliderRenderFcts(m1: Marker, m2: Marker, m3: Marker, line: THREE.Object3D, knob: THREE.Object3D) {
+        board().onRenderFcts.push(() => {
+                if (!(m2.visible() && m3.visible())) {
+                    line.visible = knob.visible = false;
+                } else { // update line vertices
+                    line.visible = true;
+                    let x0 = m2.worldPosition().x;
+                    let y0 = m2.worldPosition().y;
+                    let z0 = m2.worldPosition().z;   
+                    let x1 = m3.worldPosition().x;
+                    let y1 = m3.worldPosition().y;
+                    let z1 = m3.worldPosition().z;                                        
+                    (line as any).geometry.vertices[0].set(x0, y0, z0);
+                    (line as any).geometry.vertices[1].set(x1, y1, z1);
+                    (line as any).geometry.verticesNeedUpdate = true;
+                    // update knob position
+                    let sliderVal = slider(m1.code(), m2.code(), m3.code());
+                    let pointX  = (1-sliderVal)*x0 + sliderVal*x1;
+                    let pointY  = (1-sliderVal)*y0 + sliderVal*y1;
+                    let pointZ  = (1-sliderVal)*z0 + sliderVal*z1;
+                    knob.position.set(pointX, pointY, pointZ); // need world position of where on slider
+                    knob.visible = true;
+                }
+        });
+    }
 
 
     /* Class to store marker data */

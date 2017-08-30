@@ -86,7 +86,7 @@ namespace pxsim.three {
     export function createPlane(): THREE.Geometry {
         return new THREE.PlaneGeometry(1, 1, 32);
     }
-    export function createLine(v1: THREE.Vector3, v2: THREE.Vector3, color: number): THREE.Line {
+    export function createLine(v1: THREE.Vector3, v2: THREE.Vector3, color: number, width?: number): THREE.Line {
         let material = new THREE.LineBasicMaterial({
                     color: color,
                 });
@@ -163,6 +163,16 @@ namespace pxsim.three {
     export function removeSceneChildren(scene: THREE.Scene){
         while (scene.children.length){
             scene.remove(scene.children[0]);
+        }      
+    }  
+
+    /**
+     * Removes all objects and child objects from ui group
+     * @param scene 
+     */
+    export function removeUiChildren(group: THREE.Group){
+        while (group.children.length){
+            group.remove(group.children[0]);
         }      
     }  
 

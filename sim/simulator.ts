@@ -41,6 +41,7 @@ namespace pxsim {
         public vrEffect         : boolean;
         public baseURL          : string;
         public onRenderFcts     : Array<any>;
+        public uiGroup          : THREE.Group;
         public instruments      : Array<Tone.Instrument>;
         public fx               : pxsim.Map<Tone.Effect>;
         public monosynth        : Tone.MonoSynth;
@@ -73,9 +74,11 @@ namespace pxsim {
             this.vrEffect         = false;
             this.camera           = three.createCamera();
             this.scene            = three.createScene();
+            this.uiGroup          = new THREE.Group();
             this.scene.add(this.camera);      
             this.scene.add(three.createDirectionalLight());
-            this.scene.add(three.createAmbientLight());      
+            this.scene.add(three.createAmbientLight());
+            this.scene.add(this.uiGroup);      
 
             /* music */
             this.phrases     = {};
