@@ -111,30 +111,44 @@ namespace pxsim.markers {
 
         let lineName = "m" + m1.code().toString() + "m" + m2.code().toString() + "m" + m3.code().toString() + '-sliderLine';
         let knobName = "m" + m1.code().toString() + "m" + m2.code().toString() + "m" + m3.code().toString() + '-sliderKnob';
+        let textName = "m" + m1.code().toString() + "m" + m2.code().toString() + "m" + m3.code().toString() + '-sliderVal';
+        let knobGroupName = "m" + m1.code().toString() + "m" + m2.code().toString() + "m" + m3.code().toString() + '-knobGroup';
         let line = board().uiGroup.getObjectByName(lineName);
-        let knob = board().uiGroup.getObjectByName(knobName);
+        let knobGroup = board().uiGroup.getObjectByName(knobGroupName);
 
-        if (!(line && knob)){
+        if (!(line && knobGroup)){
             line = three.createLine(m2.worldPosition(), m3.worldPosition(), 0xFFFFFF);
             line.name = lineName;            
             board().uiGroup.add(line);
 
+            knobGroup = new THREE.Group();
+            knobGroup.name = knobGroupName;
+
             let knobGeo      = new THREE.SphereGeometry(0.25, 32, 32);
             let knobMaterial = new THREE.MeshNormalMaterial();
-            knob = new THREE.Mesh(knobGeo, knobMaterial);
+            let knob = new THREE.Mesh(knobGeo, knobMaterial);
             knob.name = knobName;
-            board().uiGroup.add(knob);
+            knobGroup.add(knob);
 
-            createSliderRenderFcts(m1, m2, m3, line, knob);   
+            let text = three.createText("0", 0x000000, 0.2);
+            text.name = textName;
+            text.position.y += 0.25;
+            knobGroup.add(text);
+
+            board().uiGroup.add(knobGroup);
+
+            createSliderRenderFcts(m1, m2, m3, line, knobGroup);   
         }    
 
         return sliderVal;    
     }    
 
-    export function createSliderRenderFcts(m1: Marker, m2: Marker, m3: Marker, line: THREE.Object3D, knob: THREE.Object3D) {
+    export function createSliderRenderFcts(m1: Marker, m2: Marker, m3: Marker, line: THREE.Object3D, knobGroup: THREE.Group) {
         board().onRenderFcts.push(() => {
+                let textName = "m" + m1.code().toString() + "m" + m2.code().toString() + "m" + m3.code().toString() + '-sliderVal';
+                let text = knobGroup.getObjectByName(textName);
                 if (!(m2.visible() && m3.visible())) {
-                    line.visible = knob.visible = false;
+                    line.visible = knobGroup.visible = false;
                 } else { // update line vertices
                     line.visible = true;
                     let x0 = m2.worldPosition().x;
@@ -151,8 +165,17 @@ namespace pxsim.markers {
                     let pointX  = (1-sliderVal)*x0 + sliderVal*x1;
                     let pointY  = (1-sliderVal)*y0 + sliderVal*y1;
                     let pointZ  = (1-sliderVal)*z0 + sliderVal*z1;
-                    knob.position.set(pointX, pointY, pointZ); // need world position of where on slider
-                    knob.visible = true;
+                    // update slider value text
+                    if (text){
+                        knobGroup.remove(text);
+                        text = three.createText(sliderVal.toFixed(3).toString(), 0x000000, 0.2);
+                        text.name = textName;
+                        text.position.y += 0.25;
+                        knobGroup.add(text);                        
+                    }
+                    // world position of where to put the knob (not the same as the world position of the slider marker)
+                    knobGroup.position.set(pointX, pointY, pointZ);
+                    knobGroup.visible = true;
                 }
         });
     }

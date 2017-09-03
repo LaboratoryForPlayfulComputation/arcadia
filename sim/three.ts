@@ -113,9 +113,12 @@ namespace pxsim.three {
         return billboard;
     }    
 
-    export function createText(text: string, color: number, marker: MarkerCode): THREE.Mesh {
+    export function createText(text: string, color: number, fontSize?: number): THREE.Mesh {
+        let size = 0.25;
+        if (fontSize)
+            size = fontSize;
         let text3d = new THREE.TextGeometry(text, {
-            size: 0.25,
+            size: size,
             bevelEnabled: false,
             bevelThickness: 3,
             bevelSize: 1,
@@ -129,8 +132,7 @@ namespace pxsim.three {
             color: color,
             side: THREE.DoubleSide
         });
-        let m = board().marker(marker);
-        //let object = m.group.getObjectByName(marker.toString() + '-text');
+        let m = null as any;
         let textMesh = new THREE.Mesh(text3d, material);
         return textMesh;
     }
