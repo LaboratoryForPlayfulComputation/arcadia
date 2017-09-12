@@ -88,6 +88,15 @@ declare namespace design {
     function setShape(marker: number, shape: Shape): void;
 
     /**
+     * Sets the model that displays when the marker is detected. Takes in a string of the 3D model.
+     */
+    //% blockId=ar_set_model block="%marker=marker_block|set model %content" blockGap=8
+    //% weight=20
+    //% blockNamespace=design inBasicCategory=true
+    //% shim=design::setModel
+    function setModel(marker: number, type: ModelType, content: string): void;
+
+    /**
      * Sets the color that displays when the marker is detected
      */
     //% blockId=ar_set_color block="%marker=marker_block|set color %color=colors_named" blockGap=8
