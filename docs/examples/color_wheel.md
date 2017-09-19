@@ -1,6 +1,6 @@
 # Color wheel
 
-```blocks
+```blocks-ignore
 let red = 0
 loops.forever(function () {
     red = markers.mapRotationToRange(markers.marker(MarkerCode.Marker3), 0, 255)

@@ -1,6 +1,6 @@
 # Theremin
 
-```blocks
+```blocks-ignore
 interaction.whileEvent(MarkerCode.Marker0, MarkerLoopEvent.WhileVisible, function () {
     music.setVolume(
     markers.mapPosition(MarkerCode.Marker0, Axes.x, 0, 100)
