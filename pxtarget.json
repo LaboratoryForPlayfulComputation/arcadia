@@ -37,7 +37,6 @@
         "docsLogo": "./static/logo.svg",
         "portraitLogo": "./static/logo.svg",
         "footerLogo": "./static/logo.svg",        
-        "organization": "PXT",
         "docMenu": [
             {
                 "name": "About",
