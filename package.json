@@ -1,7 +1,7 @@
 {
   "name": "pxt-ar",
   "version": "0.0.127",
-  "description": "Microsoft MakeCode editor for AR",
+  "description": "Marker based AR editor",
   "keywords": [
     "JavaScript",
     "education",

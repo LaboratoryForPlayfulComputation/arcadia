@@ -1,8 +1,5 @@
 # AR editor target for Microsoft MakeCode
 
-AR editor target for
-[Microsoft MakeCode](https://github.com/Microsoft/pxt)
-
 ## Running locally
 
 These instructions allow to run locally to modify the sample.
