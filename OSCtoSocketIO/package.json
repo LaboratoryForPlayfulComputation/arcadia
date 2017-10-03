@@ -1,0 +1,10 @@
+{
+  "name": "OSCtoWebsocket",
+  "version": "0.0.1",
+  "description": "a simple OSC to websocket bridge",
+  "dependencies": {
+    "express": "^4.10.2",
+    "node-osc": "^2.0.4",
+    "socket.io": "^1.7.2"
+  }
+}
