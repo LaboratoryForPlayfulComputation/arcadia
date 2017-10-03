@@ -1,6 +1,6 @@
 # Dinner Spinner
 
-```blocks
+```blocks-ignore
 let rotation = 0
 loops.forever(function () {
     rotation = markers.mapRotationToRange(markers.marker(MarkerCode.Marker3), 0, 100)

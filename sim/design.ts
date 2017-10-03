@@ -76,9 +76,11 @@ namespace pxsim.design {
     }
 
     /**
-        * Sets the shape that displays when the marker is detected
-        CURRENTLY DISABLED, NOT A BLOCK
-    */
+     * Sets the model that displays when the marker is detected. Takes in a string of the 3D model.
+     */
+    //% blockId=ar_set_model block="%marker=marker_block|set model %content" blockGap=8
+    //% weight=20
+    //% blockNamespace=design inBasicCategory=true
     export function setModel(marker: number, type: ModelType, content: string) {
         const m = board().marker(marker);
         const mod = three.loadModel(type, content)

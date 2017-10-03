@@ -1,7 +1,7 @@
 {
   "name": "pxt-ar",
-  "version": "0.0.124",
-  "description": "Microsoft MakeCode editor for AR",
+  "version": "0.0.129",
+  "description": "Marker based AR editor",
   "keywords": [
     "JavaScript",
     "education",
@@ -34,8 +34,12 @@
   "dependencies": {
     "@types/three": "^0.84.11",
     "@types/webaudioapi": "0.0.27",
+<<<<<<< HEAD
     "osc": "2.2.0",
     "pxt-core": "2.0.19"
+=======
+    "pxt-core": "2.0.54"
+>>>>>>> 7ffb4b54bbf58ef7644d1f3c220f6aab7a8b5311
   },
   "scripts": {
     "test": "node node_modules/pxt-core/built/pxt.js travis",
