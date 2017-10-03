@@ -6,15 +6,16 @@ These instructions allow to run locally to modify the sample.
 
 ### Copy 3rd party dependencies
 
+Install the following 3rd party dependencies under the ``sim`` folder as mention below:
 
-AR.js https://github.com/jeromeetienne/AR.js/commit/0069b8ea0ae6286524291a128e77057ae6f3d55a
-AFRAME (included in AR.js download)
-ARToolkit (included in AR.js download)
-THREE.js (included in AR.js download)
-AFRAME-typings https://github.com/devpaul/aframe-typings
-@types/three https://www.npmjs.com/package/@types/three
-Tone.js https://github.com/Tonejs/Tone.js/releases/tag/r10
-Drum samples from http://99sounds.org/
+* AR.js https://github.com/jeromeetienne/AR.js/commit/0069b8ea0ae6286524291a128e77057ae6f3d55a
+* AFRAME (included in AR.js download)
+* ARToolkit (included in AR.js download)
+* THREE.js (included in AR.js download)
+* AFRAME-typings https://github.com/devpaul/aframe-typings
+* @types/three https://www.npmjs.com/package/@types/three
+* Tone.js https://github.com/Tonejs/Tone.js/releases/tag/r10
+* Drum samples from http://99sounds.org/
 
 
 The file structure should be as follows:
