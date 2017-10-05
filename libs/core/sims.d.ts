@@ -477,6 +477,15 @@ declare namespace music {
     function setVolume(volume: number): void;
 
 }
+declare namespace network {
+    /**
+     * Send OSC message
+     */
+    //% promise
+    //% shim=network::sendOSCCommandAsync promise
+    function sendOSCCommand(ip: string, port: number, addr: string, args: string): string;
+
+}
 declare namespace paint {
     /**
      * Use a marker as an AR paintbrush..

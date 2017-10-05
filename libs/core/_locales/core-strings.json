@@ -144,6 +144,8 @@
   "music.startOsc|block": "start %wave|wave",
   "music.stopOsc|block": "stop %wave|wave",
   "music|block": "music",
+  "network.sendOsc|block": "send OSC packet| IP %ip| PORT %port| ADDRESS %addr| ARGS %params=lists_create_with|",
+  "network|block": "network",
   "paint.clearBrushStrokes|block": "%marker=marker_block|clear brush strokes",
   "paint.setBrushColor|block": "%marker=marker_block|set brush color %color=colors_named",
   "paint.setBrushMode|block": "%marker=marker_block|set brush %val",
@@ -163,6 +165,7 @@
   "{id:category}Markers": "Markers",
   "{id:category}Math": "Math",
   "{id:category}Music": "Music",
+  "{id:category}Network": "Network",
   "{id:category}Paint": "Paint",
   "{id:category}String": "String",
   "{id:category}Text": "Text"

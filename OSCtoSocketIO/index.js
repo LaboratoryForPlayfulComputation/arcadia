@@ -1,37 +1,38 @@
 var OSC_RECIEVE_PORT = 6448
-var WS_PORT=4243
-
-var osc = require('node-osc');
-
-var express = require('express');
-var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-
-var open_sockets = [];
+var WS_PORT          = 4244
+var osc              = require('node-osc');
+var express          = require('express');
+const WebSocket      = require('ws');
+var app              = express();
+var open_sockets     = [];
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
-
 app.use(express.static('public'));
 
-
-io.on('connection', function(socket){
-  console.log('a user connected');
-  open_sockets.push(socket);
-  socket.on('disconnect', function(){
-        //remove this socket from our list of open sockets
-        open_sockets = open_sockets.filter(function(item){
-              return item != socket;
-        });
+/* handles web socket connections and outgoing osc messages*/
+const wss = new WebSocket.Server({ port: WS_PORT });
+  console.log('listening for WEBSOCKET connections on *:'+ WS_PORT);
+  wss.on('connection', function connection(ws) {
+      console.log('a user connected');
+      open_sockets.push(ws);        
+      ws.on('message', function incoming(message) {
+            console.log('received: %s', message);
+            var msgObj = JSON.parse(message);
+            var msg  = msgObj["msg"]; 
+            var addr = msgObj["addr"]; 
+            var ip   = msgObj["ip"]; 
+            var port = parseInt(msgObj["port"]); 
+            var client = new osc.Client(ip, port);
+            client.send(addr, msg, function () {
+              client.kill();
+            });         
+      });
+      ws.send('something');
   });
-});
 
-http.listen(WS_PORT, function(){
-  console.log('listening for WEBSOCKET connections on *:'+WS_PORT);
-});
-
+/* handles incoming osc messages*/
 var oscServer = new osc.Server(OSC_RECIEVE_PORT, '0.0.0.0');
 console.log('listening for OSC packets on *:'+OSC_RECIEVE_PORT);
 oscServer.on("message", function (msg, rinfo) {
@@ -41,3 +42,4 @@ oscServer.on("message", function (msg, rinfo) {
             socket.emit("osc", {'address':msg[0], 'payload':msg.slice(1)});
       })
 });
+

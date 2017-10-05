@@ -61,6 +61,48 @@ namespace music {
 }
 
 /**
+ * Network
+ */
+namespace network {
+    /**
+     * Send OSC message
+     * @param ip the ip address, eg: 127.0.0.1
+     * @param port the port, eg: 3333
+     * @param addr the osc message address, eg: /message
+     */
+    //% blockId=osc_send block="send OSC packet| IP %ip| PORT %port| ADDRESS %addr| ARGS %params=lists_create_with|" blockGap=8
+    //% weight=98
+    //% blockNamespace=network inBasicCategory=true
+    export function sendOsc(ip: string, port: number, addr: string, params: number[]) {
+        let args = '';
+        for (let i = 0; i < params.length; i++) {
+            args = args + params[i].toString() + ",";
+        }
+        /*let tags     = '';
+        for (let i = 0; i < params.length; i++) {
+            switch(typeof(params[i])){
+                case "boolean":
+                    tags += "b,";                   
+                    break;
+                case "number":
+                    if (params[i] % 1 === 0)
+                        tags += "i,";                   
+                    else
+                        tags += "f,";                   
+                        break;
+                case "string":
+                    tags += "s,";                   
+                    break;
+                default:
+                    tags += "n,";                   
+            }
+            //args.push(params[i]);                   
+        }*/
+        sendOSCCommand(ip, port, addr, args);
+    }    
+}
+
+/**
  * Colors
  */
 //% weight=87 icon="\uf1fc" color=#4c38ff
@@ -95,3 +137,11 @@ namespace paint {
 //% weight=88 icon="\uf1fc" color=#4d03a3
 namespace models {
 }
+
+/**
+ * Network
+ */
+//% weight=86 icon="\uf1fc" color=#4c38ff
+namespace network {
+}
+

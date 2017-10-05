@@ -21,6 +21,17 @@
     $('#messages').append($('<li>').text(msg["address"]+": "+msg["payload"]));
     console.log(msg);
   });
+
+  /*
+  var ws = new WebSocket("ws://localhost:4244");
+
+  ws.onopen = function()
+  {
+  // Web Socket is connected, send data using send()
+  ws.send("Message to send");
+  alert("Message is sent...");
+  };    
+  */
 </script>
 
   <body>
