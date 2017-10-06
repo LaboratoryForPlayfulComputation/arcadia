@@ -32,7 +32,7 @@
     "typings": "latest"
   },
   "dependencies": {
-    "@types/three": "^0.84.11",
+    "@types/three": "^0.84.26",
     "@types/webaudioapi": "0.0.27",
     "pxt-core": "2.1.5"
   },
