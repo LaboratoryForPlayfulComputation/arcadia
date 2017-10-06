@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" manifest="/pxt-ar/release.manifest" data-framework="typescript">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/pxt-ar/sim.css">
+    <style>
+        body {
+            background: transparent;
+            overflow: hidden;
+        }
+    </style>
+    
+    <script src="/pxt-ar/bluebird.min.js"></script>
+    <script src="/pxt-ar/pxtsim.js"></script>
+    <script src="/pxt-ar/sim.js"></script>
+
+    <!-- include AFRAME and AR.js -->
+    <script src="/pxt-ar/aframe.min.js"></script>
+    <script src="/pxt-ar/aframe-ar.js"></script>
+    <script src="/pxt-ar/StereoEffect.js"></script>
+    <script src="/pxt-ar/STLLoader.js"></script>
+    <script src="/pxt-ar/MTLLoader.js"></script>
+    <script src="/pxt-ar/ColladaLoader.js"></script>
+    <script src="/pxt-ar/OBJLoader.js"></script>
+    <script src="/pxt-ar/tone.min.js"></script>
+
+</head>
+
+<body>
+    <button id="flip" onClick="flipSim()" style="position: absolute; z-index: 9999;">flip</button>
+    <script>
+        var flipFilter = " FlipH ";
+        function flipSim (){
+            var canvas = document.getElementsByTagName("canvas")[0];
+            var video  = document.getElementsByTagName("video")[0];
+
+            if (canvas.className.includes("mirror-sim")){
+                canvas.className = canvas.className.replace("mirror-sim", "");
+                video.className  = video.className.replace("mirror-sim", "");
+                canvas.style.filter = canvas.style.filter.replace(flipFilter, "");
+                video.style.filter  = video.style.filter.replace(flipFilter, "");
+            } else {
+                canvas.className += " mirror-sim";
+                video.className  += " mirror-sim";              
+                canvas.style.filter += flipFilter;
+                video.style.filter  += flipFilter;
+            }
+        }
+    </script>
+</body>

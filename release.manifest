@@ -1,0 +1,60 @@
+CACHE MANIFEST
+
+CACHE:
+/pxt-ar/semantic.js
+/pxt-ar/main.js
+/pxt-ar/typescript.js
+/pxt-ar/marked/marked.min.js
+/pxt-ar/highlight.js/highlight.pack.js
+/pxt-ar/lzma/lzma_worker-min.js
+/pxt-ar/fuse.min.js
+/pxt-ar/jquery.js
+/pxt-ar/pxtlib.js
+/pxt-ar/pxtcompiler.js
+/pxt-ar/pxtblocks.js
+/pxt-ar/pxtwinrt.js
+/pxt-ar/pxteditor.js
+/pxt-ar/pxtsim.js
+/pxt-ar/semantic.css
+/pxt-ar/rtlsemantic.css
+/pxt-ar/custom.css
+/pxt-ar/icons.css
+
+
+
+
+# blockly
+/pxt-ar/blockly/blockly_compressed.js
+/pxt-ar/blockly/blocks_compressed.js
+/pxt-ar/blockly/msg/js/en.js
+/pxt-ar/blockly/media/sprites.png
+/pxt-ar/blockly/media/click.mp3
+/pxt-ar/blockly/media/disconnect.wav
+/pxt-ar/blockly/media/delete.mp3
+
+# monaco; keep in sync with webapp/public/index.html
+/pxt-ar/vs/loader.js
+/pxt-ar/vs/base/worker/workerMain.js
+/pxt-ar/vs/basic-languages/src/bat.js
+/pxt-ar/vs/basic-languages/src/cpp.js
+/pxt-ar/vs/editor/editor.main.css
+/pxt-ar/vs/editor/editor.main.js
+/pxt-ar/vs/editor/editor.main.nls.js
+/pxt-ar/vs/language/json/jsonMode.js
+/pxt-ar/vs/language/json/jsonWorker.js
+/pxt-ar/vs/language/typescript/lib/typescriptServices.js
+/pxt-ar/vs/language/typescript/src/mode.js
+/pxt-ar/vs/language/typescript/src/worker.js
+
+# ai
+https://az416426.vo.msecnd.net/scripts/a/ai.0.js
+
+/pxt-ar/worker.js
+/pxt-ar/monacoworker.js
+
+# ver Fri Oct 06 2017 10:02:10 GMT-0600 (MDT)
+
+/pxt-ar/target.js
+  
+NETWORK:
+*
