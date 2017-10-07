@@ -30,9 +30,9 @@
         "aspectRatio": 1.0
     },     
     "appTheme": {
-        "logoUrl": "https://ar.pxt.io/",
-        "homeUrl": "https://ar.pxt.io/",
-        "betaUrl": "https://ar.pxt.io/",
+        "logoUrl": "https://shadowfax6894.github.io/arcadia/",
+        "homeUrl": "https://shadowfax6894.github.io/arcadia/",
+        "betaUrl": "https://shadowfax6894.github.io/arcadia/",
         "logo": "./static/logo.svg",
         "docsLogo": "./static/logo.svg",
         "portraitLogo": "./static/logo.svg",
