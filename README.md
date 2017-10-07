@@ -1,5 +1,7 @@
 # AR editor target for Microsoft MakeCode
 
+Try it out here: https://shadowfax6894.github.io/pxt-ar/
+
 ## Running locally
 
 These instructions allow to run locally to modify the sample.
