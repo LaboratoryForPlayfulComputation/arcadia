@@ -1,6 +1,6 @@
 # AR editor target for Microsoft MakeCode
 
-Try it out here: https://shadowfax6894.github.io/pxt-ar/
+Try it out here: https://shadowfax6894.github.io/arcadia/
 
 ## Running locally
 
