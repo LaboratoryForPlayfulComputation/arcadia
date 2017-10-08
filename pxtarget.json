@@ -1,7 +1,7 @@
 {
-    "id": "ar",
+    "id": "arcadia",
     "name": "Arcadia",
-    "title": "Marker-based Augmented Reality",
+    "title": "Marker-based Augmented Reality Code Editor",
     "corepkg": "core",
     "cloud": {
         "workspace": false,
@@ -36,7 +36,12 @@
         "logo": "./static/logo.svg",
         "docsLogo": "./static/logo.svg",
         "portraitLogo": "./static/logo.svg",
-        "footerLogo": "./static/logo.svg",        
+        "footerLogo": "./static/logo.svg",    
+        "organization": "UC Boulder ATLAS",
+        "organizationUrl": "http://www.colorado.edu/atlas/",
+        "organizationLogo": "./static/cuicon.png",
+        "organizationWideLogo": "./static/cuwide.png",        
+        "hideCookieNotice": true,    
         "docMenu": [
             {
                 "name": "About",
