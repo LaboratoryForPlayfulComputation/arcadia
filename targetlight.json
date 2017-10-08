@@ -70,7 +70,7 @@
     "floatingPoint": true
   },
   "versions": {
-    "target": "0.0.129",
+    "target": "0.0.130",
     "pxt": "2.1.5"
   }
 }
