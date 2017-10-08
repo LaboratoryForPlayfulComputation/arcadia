@@ -1,7 +1,7 @@
 {
-  "id": "ar",
+  "id": "arcadia",
   "name": "Arcadia",
-  "title": "Marker-based Augmented Reality",
+  "title": "Marker-based Augmented Reality Code Editor",
   "corepkg": "core",
   "cloud": {
     "workspace": false,

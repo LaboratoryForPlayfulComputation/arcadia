@@ -1,7 +1,7 @@
 var pxtTargetBundle = {
-  "id": "ar",
+  "id": "arcadia",
   "name": "Arcadia",
-  "title": "Marker-based Augmented Reality",
+  "title": "Marker-based Augmented Reality Code Editor",
   "corepkg": "core",
   "cloud": {
     "workspace": false,
@@ -616,8 +616,8 @@ var pxtTargetBundle = {
       }
     ],
     "embedUrl": "https://shadowfax6894.github.io/arcadia/",
-    "id": "ar",
-    "title": "Marker-based Augmented Reality",
+    "id": "arcadia",
+    "title": "Marker-based Augmented Reality Code Editor",
     "name": "Arcadia",
     "logoCDN": "@cdnUrl@/blob/fdb2da99c22d44dc6ae9f9b24c267c9e9f51bec5/static/logo.svg",
     "docsLogoCDN": "@cdnUrl@/blob/fdb2da99c22d44dc6ae9f9b24c267c9e9f51bec5/static/logo.svg",
