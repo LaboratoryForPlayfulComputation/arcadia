@@ -5,12 +5,12 @@
     "corepkg": "core",
     "cloud": {
         "workspace": false,
-        "packages": true,
-        "sharing": true,
+        "packages": false,
+        "sharing": false,
         "publishing": true,
         "importing": false,
         "preferredPackages": [],
-        "githubPackages": true
+        "githubPackages": false
     },
     "bundleddirs": [
         "libs/core"
@@ -30,7 +30,7 @@
         "aspectRatio": 1.0
     },     
     "appTheme": {
-        "logoUrl": "https://shadowfax6894.github.io/arcadia/",
+        "logoUrl": "https://github.com/shadowfax6894/arcadia",
         "homeUrl": "https://shadowfax6894.github.io/arcadia/",
         "betaUrl": "https://shadowfax6894.github.io/arcadia/",
         "logo": "./static/logo.svg",
