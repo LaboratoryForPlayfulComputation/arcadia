@@ -31,8 +31,8 @@
     },     
     "appTheme": {
         "logoUrl": "https://github.com/shadowfax6894/arcadia",
-        "homeUrl": "https://shadowfax6894.github.io/arcadia/",
-        "betaUrl": "https://shadowfax6894.github.io/arcadia/",
+        "homeUrl": "https://github.com/shadowfax6894/arcadia",
+        "betaUrl": "https://github.com/shadowfax6894/arcadia",
         "logo": "./static/logo.svg",
         "docsLogo": "./static/logo.svg",
         "portraitLogo": "./static/logo.svg",
