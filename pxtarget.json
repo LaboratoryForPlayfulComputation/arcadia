@@ -30,14 +30,14 @@
         "aspectRatio": 1.0
     },     
     "appTheme": {
-        "logoUrl": "https://github.com/shadowfax6894/arcadia",
-        "homeUrl": "https://github.com/shadowfax6894/arcadia",
-        "betaUrl": "https://github.com/shadowfax6894/arcadia",
+        "logoUrl": "https://laboratoryforplayfulcomputation.github.io/arcadia/",
+        "homeUrl": "https://laboratoryforplayfulcomputation.github.io/arcadia/",
+        "betaUrl": "https://laboratoryforplayfulcomputation.github.io/arcadia/",
         "logo": "./static/logo.svg",
         "docsLogo": "./static/logo.svg",
         "portraitLogo": "./static/logo.svg",
         "footerLogo": "./static/logo.svg",    
-        "organization": "UC Boulder ATLAS",
+        "organization": "CU Boulder ATLAS",
         "organizationUrl": "http://www.colorado.edu/atlas/",
         "organizationLogo": "./static/cuicon.png",
         "organizationWideLogo": "./static/cuwide.png",        
