@@ -1,6 +1,6 @@
 # AR editor target for Microsoft MakeCode
 
-Try it out here: https://shadowfax6894.github.io/arcadia/
+Try it out here: https://laboratoryforplayfulcomputation.github.io/arcadia/
 
 ### Setup
 
