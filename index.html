@@ -1,1 +1,165 @@
-Under construction.
+<!DOCTYPE html>
+<html lang="en" manifest="/arcadia/release.manifest" data-framework="typescript">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,height=device-height,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0">
+
+    
+<!-- include appmeta.html -->
+
+<!-- include robotsmeta.html -->
+
+<!-- end include robotsmeta.html -->
+
+<title>Marker-based Augmented Reality</title>
+<meta name="description" content="" />
+<link rel="manifest" href="/arcadia/sim.webmanifest">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Marker-based Augmented Reality">
+<meta name="apple-mobile-web-app-status-bar-style" content="translucent-black">
+<meta name="format-detection" content="telephone=no">
+<meta name="application-name" content="Marker-based Augmented Reality">
+
+<meta name="msapplication-TileColor" content="">
+<meta name="msapplication-TileImage" content="">
+<meta name="msapplication-config" content="/static/icons/browserconfig.xml">
+<meta name="theme-color" content="">
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="" />
+<meta name="twitter:title" content="Marker-based Augmented Reality" />
+<meta name="twitter:description" content="" />
+<meta name="twitter:image" content="" />
+
+<meta property="og:title" content="Marker-based Augmented Reality" />
+<meta property="og:site_name" content="Marker-based Augmented Reality" />
+<meta property="og:description" content="" />
+<meta property="og:image" content="" />
+
+<link rel="apple-touch-icon" href="">
+<link rel="icon" type="image/png" href="">
+<link rel="shortcut icon" href="">
+
+<!-- end include appmeta.html -->
+
+
+    <link id="blocklycss" rel="stylesheet" data-rtl="/arcadia/rtlblockly.css" href="/arcadia/blockly.css" type="text/css">
+    <link rel="stylesheet" data-rtl="/arcadia/rtlsemantic.css" href="/arcadia/semantic.css" type="text/css">
+    <style type="text/css">
+        @import "/arcadia/custom.css";
+        @import "/arcadia/icons.css";
+    </style>
+</head>
+
+<body class="main">
+    <div id='loading' class="ui active dimmer">
+        <div class="ui large loader"></div>
+    </div>
+    
+    <div id='custom-content'>
+    </div>
+
+    <div id='content' class="ui dimmable full-abs">
+    </div>
+
+    <div id='msg' aria-live="polite">
+        <div id='errmsg' class="ui red inverted segment"></div>
+        <div id='warnmsg' class="ui orange inverted segment"></div>
+        <div id='infomsg' class="ui teal inverted segment"></div>
+        <div id='compilemsg' class="ui ignored info message"></div>
+    </div>
+
+    <script>
+        // This line gets patched up by the cloud
+        var pxtConfig = {
+    "relprefix": "/arcadia/",
+    "workerjs": "/arcadia/worker.js",
+    "tdworkerjs": "/arcadia/tdworker.js",
+    "monacoworkerjs": "/arcadia/monacoworker.js",
+    "pxtVersion": "2.1.5",
+    "pxtRelId": "",
+    "pxtCdnUrl": "/arcadia/",
+    "commitCdnUrl": "/arcadia/",
+    "blobCdnUrl": "/arcadia/",
+    "cdnUrl": "/arcadia/",
+    "targetVersion": "0.0.0",
+    "targetRelId": "",
+    "targetUrl": "",
+    "targetId": "ar",
+    "simUrl": "/arcadia/simulator.html",
+    "partsUrl": "/arcadia/siminstructions.html",
+    "runUrl": "/arcadia/run.html",
+    "docsUrl": "/arcadia/docs.html",
+    "isStatic": true
+};
+    </script>
+    
+<!-- include apptracking.html -->
+
+<!-- include tracking.html -->
+
+<!-- end include tracking.html -->
+
+
+<!-- end include apptracking.html -->
+
+    <!-- patch to load JS in electron -->
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script type="text/javascript" src="/arcadia/jquery.js"></script>
+    <script type="text/javascript" src="/arcadia/blockly/blockly_compressed.js"></script>
+    <script type="text/javascript" src="/arcadia/blockly/blocks_compressed.js"></script>
+    <script type="text/javascript" src="/arcadia/blockly/msg/js/en.js"></script>
+    <script type="text/javascript" src="/arcadia/semantic.js"></script>
+    <!-- unpatch to load JS in electron -->
+    <script>if (window.module) module = window.module;</script>
+
+    <script type="text/javascript" src="/arcadia/pxtlib.js"></script>
+    <script type="text/javascript" src="/arcadia/pxtblocks.js"></script>
+    <script type="text/javascript" src="/arcadia/pxtwinrt.js"></script>
+    <script type="text/javascript" src="/arcadia/pxteditor.js"></script>
+    <script type="text/javascript" src="/arcadia/pxtsim.js"></script>
+    <script type="text/javascript" src="/arcadia/target.js"></script>
+    <script id="mainscript" type="text/javascript" src="/arcadia/main.js"></script>
+    <xml id="blocklyToolboxDefinitionCategory" style="display: none">
+        <!-- An empty category is required so that Blockly launches in category mode -->
+        <category name="">
+        </category>
+    </xml>
+    <xml id="blocklyToolboxDefinitionFlyout" style="display: none">
+    </xml>
+    <script>
+        // Before loading vs/editor/editor.main, define a global MonacoEnvironment that overwrites
+        // the default worker url location (used when creating WebWorkers). The problem here is that
+        // HTML5 does not (yet) allow cross-domain web workers, so we need to proxy the instantion of
+        // a web worker through a same-domain script
+        window.MonacoEnvironment = {
+            getWorkerUrl: function(workerId, label) {
+                return pxt.webConfig.monacoworkerjs;
+            }
+        };
+
+        // this get rewritten to blob URLs with SHAs while uploading to the cloud
+        // keep in sync with release.manifest
+        window.MonacoPaths = {
+            "vs/loader": "/arcadia/vs/loader.js",
+            "vs/base/worker/workerMain": "/arcadia/vs/base/worker/workerMain.js",
+            "vs/basic-languages/src/bat": "/arcadia/vs/basic-languages/src/bat.js",
+            "vs/basic-languages/src/cpp": "/arcadia/vs/basic-languages/src/cpp.js",
+            "vs/editor/editor.main.css": "/arcadia/vs/editor/editor.main.css",
+            "vs/editor/editor.main": "/arcadia/vs/editor/editor.main.js",
+            "vs/editor/editor.main.nls": "/arcadia/vs/editor/editor.main.nls.js",
+            "vs/language/json/jsonMode": "/arcadia/vs/language/json/jsonMode.js",
+            "vs/language/json/jsonWorker": "/arcadia/vs/language/json/jsonWorker.js",
+            "vs/language/typescript/lib/typescriptServices": "/arcadia/vs/language/typescript/lib/typescriptServices.js",
+            "vs/language/typescript/src/mode": "/arcadia/vs/language/typescript/src/mode.js",
+            "vs/language/typescript/src/worker": "/arcadia/vs/language/typescript/src/worker.js",
+            "lzma/lzma_worker-min.js": "/arcadia/lzma/lzma_worker-min.js"
+        }
+    </script>
+</body>
+
+</html>

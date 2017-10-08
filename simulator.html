@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" manifest="/arcadia/release.manifest" data-framework="typescript">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/arcadia/sim.css">
+    <style>
+        body {
+            background: transparent;
+            overflow: hidden;
+        }
+    </style>
+    
+    <script src="/arcadia/bluebird.min.js"></script>
+    <script src="/arcadia/pxtsim.js"></script>
+    <script src="/arcadia/sim.js"></script>
+
+    <!-- include AFRAME and AR.js -->
+    <script src="/arcadia/aframe.min.js"></script>
+    <script src="/arcadia/aframe-ar.js"></script>
+    <script src="/arcadia/StereoEffect.js"></script>
+    <script src="/arcadia/STLLoader.js"></script>
+    <script src="/arcadia/MTLLoader.js"></script>
+    <script src="/arcadia/ColladaLoader.js"></script>
+    <script src="/arcadia/OBJLoader.js"></script>
+    <script src="/arcadia/tone.min.js"></script>
+
+</head>
+
+<body>
+    <button id="flip" onClick="flipSim()" style="position: absolute; z-index: 9999;">flip</button>
+    <script>
+        var flipFilter = " FlipH ";
+        function flipSim (){
+            var canvas = document.getElementsByTagName("canvas")[0];
+            var video  = document.getElementsByTagName("video")[0];
+
+            if (canvas.className.includes("mirror-sim")){
+                canvas.className = canvas.className.replace("mirror-sim", "");
+                video.className  = video.className.replace("mirror-sim", "");
+                canvas.style.filter = canvas.style.filter.replace(flipFilter, "");
+                video.style.filter  = video.style.filter.replace(flipFilter, "");
+            } else {
+                canvas.className += " mirror-sim";
+                video.className  += " mirror-sim";              
+                canvas.style.filter += flipFilter;
+                video.style.filter  += flipFilter;
+            }
+        }
+    </script>
+</body>
