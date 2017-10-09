@@ -33,6 +33,7 @@
         "logoUrl": "https://laboratoryforplayfulcomputation.github.io/arcadia/",
         "homeUrl": "https://laboratoryforplayfulcomputation.github.io/arcadia/",
         "betaUrl": "https://laboratoryforplayfulcomputation.github.io/arcadia/",
+        "githubUrl": "https://github.com/LaboratoryForPlayfulComputation/arcadia",
         "logo": "./static/logo.svg",
         "docsLogo": "./static/logo.svg",
         "portraitLogo": "./static/logo.svg",
