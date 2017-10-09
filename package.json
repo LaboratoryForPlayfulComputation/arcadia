@@ -1,19 +1,19 @@
 {
-  "name": "pxt-ar",
+  "name": "arcadia",
   "version": "0.0.130",
-  "description": "Marker based AR editor",
+  "description": "Marker based Augmented Reality Code Editor",
   "keywords": [
     "JavaScript",
     "education",
-    "PXT"
+    "MakeCode"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Microsoft/pxt-ar.git"
+    "url": "git+https://github.com/LaboratoryForPlayfulComputation/arcadia.git"
   },
   "author": "",
   "license": "MIT",
-  "homepage": "https://github.com/Microsoft/pxt-ar#readme",
+  "homepage": "https://laboratoryforplayfulcomputation.github.io/arcadia/",
   "files": [
     "README.md",
     "pxtarget.json",
