@@ -20,14 +20,14 @@
 <meta name="twitter:site" content="@msmakecode" />
 <meta name="twitter:title" content="Marker-based Augmented Reality Code Editor - Arcadia" />
 <meta name="twitter:description" content="Open the editor at &lt;a href=&quot;https://laboratoryforplayfulcomputation.github.io/arcadia/&quot;&gt;https://laboratoryforplayfulcomputation.github.io/arcadia/&lt;/a&gt; in Chrome. You can download Chrome &lt;a href=&quot;https://www.google.com/chrome/browser/&quot;&gt;here&lt;/a&gt;. " />
-<meta name="twitter:image" content="/static/markers-blank.png" />
+<meta name="twitter:image" content="static/markers-blank.png" />
 
 <meta property="og:title" content="Marker-based Augmented Reality Code Editor - Arcadia" />
 <meta property="og:site_name" content="Microsoft MakeCode" />
 <meta property="og:type" content="website" />
 <meta property="og:description" content="Open the editor at &lt;a href=&quot;https://laboratoryforplayfulcomputation.github.io/arcadia/&quot;&gt;https://laboratoryforplayfulcomputation.github.io/arcadia/&lt;/a&gt; in Chrome. You can download Chrome &lt;a href=&quot;https://www.google.com/chrome/browser/&quot;&gt;here&lt;/a&gt;. " />
 <meta property="fb:app_id" content="" />
-<meta property="og:image" content="/static/markers-blank.png" />
+<meta property="og:image" content="static/markers-blank.png" />
 
 <meta name="format-detection" content="telephone=no">
 <link rel="apple-touch-icon" href="">
@@ -579,12 +579,12 @@
     <div class="ui text">
         <h1 id="writing-your-first-ar-program">Writing your first AR program</h1><p>Open the editor at <a href="https://laboratoryforplayfulcomputation.github.io/arcadia/">https://laboratoryforplayfulcomputation.github.io/arcadia/</a> in Chrome. You can download Chrome <a href="https://www.google.com/chrome/browser/">here</a>. </p>
 <p>A quick way to test if your marker is working (i.e. recognized by the application) is to simply hold it up to the camera. If your marker is working a randomly colored cube will appear on your marker in the video feed.</p>
-<p><img class="ui image" src="/static/markers-blank.png" alt="alt text">
-<img class="ui image" src="/static/colored-cubes.png" alt="alt text"></p>
+<p><img class="ui image" src="static/markers-blank.png" alt="alt text">
+<img class="ui image" src="static/colored-cubes.png" alt="alt text"></p>
 <p>A good activity to do to help you get started is to make an AR piano. To do this you will want to use at least 2 unique markers, if you haven’t prepared your markers yet you’ll want to read the <a href="/arcadia/docs/about.html">about</a> and <a href="/arcadia/docs/markers.html">preparing your markers</a> pages.</p>
 <p>Once you have your markers, it’s time to code!</p>
 <p>For this example we will be using markers 3 and 6, but you may use any that you’d like.
-<img class="ui image" src="/static/AR_MARKER_CODES/03-small.png" alt="alt text"><img class="ui image" src="/static/AR_MARKER_CODES/06-small.png" alt="alt text"></p>
+<img class="ui image" src="static/AR_MARKER_CODES/03-small.png" alt="alt text"><img class="ui image" src="static/AR_MARKER_CODES/06-small.png" alt="alt text"></p>
 <p>Let’s start by adding an <code>on marker visible</code> event. Look for this block in the <em>interaction</em> drawer in the lefthand menu and drag it into the workspace. If you’re using different markers, make sure your marker matches the image of the marker in the dropdown of the block.</p>
 <pre><code class="lang-blocks">interaction.onEvent(markers.marker(MarkerCode.Marker3), MarkerEvent.Visible, function () {
 
@@ -594,7 +594,7 @@
     music.playTone(Note.C, BeatFraction.Quarter)
 })</code></pre>
 <p>Let’s test this out. Using the marker that matches the one you just wrote code for, hold it up in front of your webcam. When the marker is detected by the camera you should hear a tone play. Try covering the marker with your hand and then removing your hand, you should hear the tone again.
-<img class="ui image" src="/static/piano1.gif" alt="alt text">
+<img class="ui image" src="static/piano1.gif" alt="alt text">
 Note: notice in the video above how the user is holding the marker. She is not covering the marker with her fingers. It is useful to have the carboard a little thicker than the marker itself to make it easier to hold like this.</p>
 <p>Now, let’s use our second marker to play another note. The code for this marker will look nearly identical to what you have already, except we must change the marker in the dropdown and also pick a new note for the <code>play tone</code> block.</p>
 <pre><code class="lang-blocks">interaction.onEvent(markers.marker(MarkerCode.Marker3), MarkerEvent.Visible, function () {
@@ -606,9 +606,9 @@ interaction.onEvent(markers.marker(MarkerCode.Marker6), MarkerEvent.Visible, fun
 <p>Now you have a two note piano! If you’d like to add more notes to your piano you’ll just need to create more markers and write similar code for them.</p>
 <p>Here are links to some other pages to help you get started!</p>
 <ul>
-<li><a href="/arcadia/docs/about.html">About</a></li>
-<li><a href="/arcadia/docs/markers.html">Preparing your markers</a></li>
-<li><a href="/arcadia/docs/examples.html">Example projects</a></li>
+<li><a href="./about">About</a></li>
+<li><a href="./markers">Preparing your markers</a></li>
+<li><a href="./examples">Example projects</a></li>
 </ul>
 
     </div>
