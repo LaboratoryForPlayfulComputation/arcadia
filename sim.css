@@ -1,0 +1,69 @@
+
+.red-sim {
+    filter: grayscale(100%) sepia(100%) hue-rotate(20deg);
+}
+
+.orange-sim {
+    filter: grayscale(100%) sepia(100%) hue-rotate(30deg);
+}
+
+.yellow-sim {
+    filter: grayscale(100%) sepia(100%) hue-rotate(10deg);
+}
+
+.green-sim {
+    filter: grayscale(100%) sepia(100%) hue-rotate(90deg);
+}
+
+.blue-sim {
+    filter: grayscale(100%) sepia(100%) hue-rotate(40deg);
+}
+
+.purple-sim {
+    filter: grayscale(100%) sepia(100%) hue-rotate(60deg);
+}
+
+.huerotate-sim {
+    filter: hue-rotate(90deg);
+}
+
+.highcontrast-sim {
+    filter: contrast(200%);
+}
+
+.grayscale-sim {
+    filter: grayscale(100%);
+}
+
+.sepia-sim {
+    filter: sepia(100%);
+}
+
+.saturate-sim {
+    filter: saturate(1);
+}
+
+.invert-sim {
+    filter: invert(100%);
+}
+
+.blur-sim {
+    filter: blur(5px);
+}
+
+.mirror-sim {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    -ms-filter: "FlipH";
+}
+
+#flip {
+    background: #fff;
+    border: 1px solid #c6c6c6;
+    border-radius: 3px;
+    padding: 5px 12px 5px 12px;
+    color: #575E75;
+    font-size: 11pt;
+}
