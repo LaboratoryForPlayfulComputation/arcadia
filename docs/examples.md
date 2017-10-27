@@ -5,43 +5,43 @@
 ```codecard
 [{
   "name": "Blinky",
-  "url":"/examples/blinky",
+  "url":"/arcadia/docs/examples/blinky.html",
   "cardType": "example"
 },{
   "name": "Cheers!",
-  "url":"/examples/cheers",
+  "url":"/arcadia/docs/examples/cheers.html",
   "cardType": "example"
 },{
   "name": "Piano",
-  "url":"/examples/piano",
+  "url":"/arcadia/docs/examples/piano.html",
   "cardType": "example"
 },{
   "name": "Drums",
-  "url":"/examples/drums",
+  "url":"/arcadia/docs/examples/drums.html",
   "cardType": "example"  
 },{
   "name": "DJ",
-  "url":"/examples/dj",
+  "url":"/arcadia/docs/examples/dj.html",
   "cardType": "example"  
 },{
   "name": "Dinner Spinner",
-  "url":"/examples/dinner_spinner",
+  "url":"/arcadia/docs/examples/dinner_spinner.html",
   "cardType": "example"  
 },{
   "name": "Color wheel",
-  "url":"/examples/color_wheel",
+  "url":"/arcadia/docs/examples/color_wheel.html",
   "cardType": "example"    
 },{
   "name": "Rainbow Paintbrush",
-  "url":"/examples/rainbow_paintbrush",
+  "url":"/arcadia/docs/examples/rainbow_paintbrush.html",
   "cardType": "example"
 },{
   "name": "Theremin",
-  "url":"/examples/theremin",
+  "url":"/arcadia/docs/examples/theremin.html",
   "cardType": "example"
 },{
   "name": "Timer",
-  "url":"/examples/timer",
+  "url":"/arcadia/docs/examples/timer.html",
   "cardType": "example"
 }]
 ```

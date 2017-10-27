@@ -1,5 +1,7 @@
 namespace pxsim.network {
 
+    let ws: any = null;
+
     /**
     * Send OSC message
     */
@@ -12,14 +14,24 @@ namespace pxsim.network {
                 newArgs.push(parseFloat(params[i]));
         }            
 
-        const ws = new WebSocket("ws://localhost:4244");
-        return new Promise<string>((resolve, reject) => {
-            ws.onopen = function() {
+        if (!ws){
+            ws = new WebSocket("ws://localhost:4244");
+            return new Promise<string>((resolve, reject) => {
+                ws.onopen = function() {
+                    let wsMessage = JSON.stringify({"ip": ip, "port": port, "addr": addr, "msg": newArgs});
+                    ws.send(wsMessage);
+                    resolve(wsMessage);
+                };
+            });             
+        } else {
+            return new Promise<string>((resolve, reject) => {
                 let wsMessage = JSON.stringify({"ip": ip, "port": port, "addr": addr, "msg": newArgs});
                 ws.send(wsMessage);
                 resolve(wsMessage);
-            };
-        }); 
+            }); 
+        }
+
+
     }
 
 }
