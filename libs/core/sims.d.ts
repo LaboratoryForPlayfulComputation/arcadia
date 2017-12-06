@@ -559,5 +559,84 @@ declare namespace phrases {
     function drumPhrase(name: string, beatString: string): void;
 
 }
+declare namespace youtube {
+    /**
+     * Send set video ID command
+     */
+    //% promise
+    //% shim=youtube::sendVideoCommandAsync promise
+    function sendVideoCommand(id: string): string;
+
+    /**
+     * Send speed command
+     */
+    //% promise
+    //% shim=youtube::sendSpeedCommandAsync promise
+    function sendSpeedCommand(rate: number): string;
+
+    /**
+     * Send seek command
+     */
+    //% promise
+    //% shim=youtube::sendSeekCommandAsync promise
+    function sendSeekCommand(time: number): string;
+
+    /**
+     * Send rewind command
+     */
+    //% promise
+    //% shim=youtube::sendRewindCommandAsync promise
+    function sendRewindCommand(time: number): string;
+
+    /**
+     * Send fastforward command
+     */
+    //% promise
+    //% shim=youtube::sendFastForwardCommandAsync promise
+    function sendFastForwardCommand(time: number): string;
+
+    /**
+     * Send play command
+     */
+    //% promise
+    //% shim=youtube::sendPlayCommandAsync promise
+    function sendPlayCommand(): string;
+
+    /**
+     * Send pause command
+     */
+    //% promise
+    //% shim=youtube::sendPauseCommandAsync promise
+    function sendPauseCommand(): string;
+
+    /**
+     * Send stop command
+     */
+    //% promise
+    //% shim=youtube::sendStopCommandAsync promise
+    function sendStopCommand(): string;
+
+    /**
+     * Send volume command
+     */
+    //% promise
+    //% shim=youtube::sendVolumeCommandAsync promise
+    function sendVolumeCommand(value: number): string;
+
+    /**
+     * Send mute command
+     */
+    //% promise
+    //% shim=youtube::sendMuteCommandAsync promise
+    function sendMuteCommand(): string;
+
+    /**
+     * Send unmute command
+     */
+    //% promise
+    //% shim=youtube::sendUnmuteCommandAsync promise
+    function sendUnmuteCommand(): string;
+
+}
 
 // Auto-generated. Do not edit. Really.

@@ -155,6 +155,17 @@
   "phrases.playPhrase|block": "play phrase %name",
   "phrases.stopPhrase|block": "stop phrase %name",
   "phrases|block": "phrases",
+  "youtube.fastforward|block": "fast forward %time",
+  "youtube.mute|block": "mute video",
+  "youtube.pause|block": "pause video",
+  "youtube.play|block": "play video",
+  "youtube.rewind|block": "rewind %time",
+  "youtube.seek|block": "seek to %time",
+  "youtube.setSpeed|block": "set speed %rate",
+  "youtube.setVideo|block": "set video %string",
+  "youtube.stop|block": "stop video",
+  "youtube.unmute|block": "unmute video",
+  "youtube|block": "youtube",
   "{id:category}Array": "Array",
   "{id:category}Arrays": "Arrays",
   "{id:category}Colors": "Colors",
@@ -168,5 +179,6 @@
   "{id:category}Network": "Network",
   "{id:category}Paint": "Paint",
   "{id:category}String": "String",
-  "{id:category}Text": "Text"
+  "{id:category}Text": "Text",
+  "{id:category}Youtube": "Youtube"
 }

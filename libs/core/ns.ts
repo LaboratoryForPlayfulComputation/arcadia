@@ -61,8 +61,120 @@ namespace music {
 }
 
 /**
+ * YouTube
+ */
+//% weight=85 icon="\uf152" color=#f44242
+namespace youtube {
+    /**
+    * Set video using YouTube URL ID 
+     * @param rate
+     */
+    //% blockId=youtube_set_video block="set video %string" blockGap=8
+    //% weight=98
+    //% blockNamespace=youtube inBasicCategory=true
+    export function setVideo(id: string) {
+        sendVideoCommand(id);
+    }
+
+    /**
+    * Change video speed 
+     * @param rate
+     */
+    //% blockId=youtube_set_speed block="set speed %rate" blockGap=8
+    //% weight=98
+    //% blockNamespace=youtube inBasicCategory=true
+    export function setSpeed(rate: number) {
+        sendSpeedCommand(rate);
+    }
+
+    /**
+    * Seek to a specific time 
+     * @param time
+     */
+    //% blockId=youtube_seek block="seek to %time" blockGap=8
+    //% weight=98
+    //% blockNamespace=youtube inBasicCategory=true
+    export function seek(time: number) {
+        sendSeekCommand(time);
+    }    
+
+    /**
+    * Rewind a specific number of seconds 
+     * @param time
+     */
+    //% blockId=youtube_rewind block="rewind %time" blockGap=8
+    //% weight=98
+    //% blockNamespace=youtube inBasicCategory=true
+    export function rewind(time: number) {
+        sendRewindCommand(time);
+    }  
+
+    /**
+    * Fast forward a specific number of seconds 
+     * @param time
+     */
+    //% blockId=youtube_fastforward block="fast forward %time" blockGap=8
+    //% weight=98
+    //% blockNamespace=youtube inBasicCategory=true
+    export function fastforward(time: number) {
+        sendFastForwardCommand(time);
+    }  
+
+    /**
+    * Play video
+     */
+    //% blockId=youtube_play block="play video" blockGap=8
+    //% weight=98
+    //% blockNamespace=youtube inBasicCategory=true
+    export function play() {
+        sendPlayCommand();
+    }  
+
+    /**
+    * Pause video
+     */
+    //% blockId=youtube_pause block="pause video" blockGap=8
+    //% weight=98
+    //% blockNamespace=youtube inBasicCategory=true
+    export function pause() {
+        sendPauseCommand();
+    }
+
+    /**
+    * Stop video
+     */
+    //% blockId=youtube_stop block="stop video" blockGap=8
+    //% weight=98
+    //% blockNamespace=youtube inBasicCategory=true
+    export function stop() {
+        sendStopCommand();
+    }
+
+    /**
+    * Mute video
+     */
+    //% blockId=youtube_mute block="mute video" blockGap=8
+    //% weight=98
+    //% blockNamespace=youtube inBasicCategory=true
+    export function mute() {
+        sendMuteCommand();
+    }
+
+    /**
+    * Unmute video
+     */
+    //% blockId=youtube_unmute block="unmute video" blockGap=8
+    //% weight=98
+    //% blockNamespace=youtube inBasicCategory=true
+    export function unmute() {
+        sendUnmuteCommand();
+    }
+}
+
+/**
  * Network
  */
+//% weight=86 icon="\uf1fc" color=#4c38ff
 namespace network {
     /**
      * Send OSC message
@@ -105,7 +217,7 @@ namespace network {
 /**
  * Colors
  */
-//% weight=87 icon="\uf1fc" color=#4c38ff
+//% weight=87 icon="\uf1fc" color=#af41f4
 namespace colors {
 }
 
@@ -117,7 +229,7 @@ namespace design {
 }
 
 /**
- * Motion
+ * Interaction
  */
 //% weight=92 icon="\uf110" color=#FF5722
 namespace interaction {
@@ -138,10 +250,4 @@ namespace paint {
 namespace models {
 }
 
-/**
- * Network
- */
-//% weight=86 icon="\uf1fc" color=#4c38ff
-namespace network {
-}
 
