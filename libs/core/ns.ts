@@ -121,6 +121,17 @@ namespace youtube {
     }  
 
     /**
+    * Set volume of the video 
+     * @param value
+     */
+    //% blockId=youtube_set_volume block="set volume %value" blockGap=8
+    //% weight=98
+    //% blockNamespace=youtube inBasicCategory=true
+    export function setVolume(value: number) {
+        sendVolumeCommand(value);
+    }  
+
+    /**
     * Play video
      */
     //% blockId=youtube_play block="play video" blockGap=8

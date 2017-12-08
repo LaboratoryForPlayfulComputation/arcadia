@@ -209,6 +209,7 @@
   "youtube.sendVolumeCommand": "Send volume command",
   "youtube.setSpeed": "Change video speed",
   "youtube.setVideo": "Set video using YouTube URL ID",
+  "youtube.setVolume": "Set volume of the video",
   "youtube.stop": "Stop video",
   "youtube.unmute": "Unmute video"
 }

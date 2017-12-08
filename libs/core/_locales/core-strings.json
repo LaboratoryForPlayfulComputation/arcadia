@@ -163,6 +163,7 @@
   "youtube.seek|block": "seek to %time",
   "youtube.setSpeed|block": "set speed %rate",
   "youtube.setVideo|block": "set video %string",
+  "youtube.setVolume|block": "set volume %value",
   "youtube.stop|block": "stop video",
   "youtube.unmute|block": "unmute video",
   "youtube|block": "youtube",
