@@ -95,3 +95,11 @@ namespace paint {
 //% weight=88 icon="\uf1fc" color=#4d03a3
 namespace models {
 }
+
+/**
+ * Messaging
+ */
+//% weight=88
+namespace messaging {
+
+}

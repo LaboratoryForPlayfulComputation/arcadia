@@ -371,6 +371,26 @@ declare namespace markers {
     function slider(marker1: number, marker2: number, marker3: number): number;
 
 }
+declare namespace messaging {
+    /**
+     * Peer
+     * @param id The value of the marker
+     */
+    //% blockId=peer_block block="send key %key| value %value| to %id"
+    //% weight=100
+    //% shim=messaging::send
+    function send(key: string, value: any, id: string): void;
+
+    /**
+     * Allows user to define callbacks for receive event
+     * @param key 
+     */
+    //% blockId=peer_receive block="when I receive key %key|do" blockGap=8
+    //% weight=99
+    //% shim=messaging::receive
+    function receive(key: string, handler: () => void): void;
+
+}
 declare namespace music {
     /**
      * Play a tone for a duration of time
