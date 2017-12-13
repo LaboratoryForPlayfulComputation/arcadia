@@ -1,44 +1,57 @@
 # ARcadia
 ###  A programming editor to enable construction of real-time, interactive tangible interfaces
-#### target for Microsoft MakeCode
 Try it out here: https://laboratoryforplayfulcomputation.github.io/arcadia/
 
 ### Setup
 
-The following commands are a 1-time setup after synching the repo on your machine.
+ARcadia is a target for Microsoft Makecode and the following commands are a 1-time setup after synching the repo on your machine.
 
-* install the PXT command line
+
+#### Setup PXT 
+
+* clone the PXT repo
+```
+git clone https://github.com/Microsoft/pxt
+```
+
+* install necessary tools for building PXT
+```
+npm install -g jake
+npm install -g typings
+```
+
+* build PXT
+```
+npm install
+typings install
+jake
+```
+
+* install the pxt command line tool (only need to do it once):
 ```
 npm install -g pxt
 ```
-* install typings
-```
-npm install -g typings
-```
-* install the dependencies
-```
-npm install
-```
-* install typings
-```
-typings install
-```
-
-### Running the local server
-
-After you're done, simple run this command to open a local web server:
-```
-pxt serve
-```
-
-After making a change in the source, refresh the page in the browser.
-
-## Updating the tools
 
 If you would like to pick up the latest PXT build, simply run
 ```
 pxt update
 ```
+
+#### Setup ARcadia
+
+* link ARcadia to the PXT framework
+```
+npm link ../pxt
+```
+
+### Running the local server
+
+After you're done, simple run this command inside of the ARcadia repo to open a local web server:
+```
+pxt serve
+```
+
+After making a change in the source, refresh the page in the browser.
 
 More instructions at https://github.com/Microsoft/pxt#running-a-target-from-localhost 
 
@@ -46,7 +59,3 @@ More instructions at https://github.com/Microsoft/pxt#running-a-target-from-loca
 ## License
 
 MIT
-
-## Code of Conduct
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
