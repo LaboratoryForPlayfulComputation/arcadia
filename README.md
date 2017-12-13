@@ -1,5 +1,6 @@
-##  A programming editor to enable construction of real-time, interactive tangible interfaces
-### target for Microsoft MakeCode
+# ARcadia
+###  A programming editor to enable construction of real-time, interactive tangible interfaces
+#### target for Microsoft MakeCode
 Try it out here: https://laboratoryforplayfulcomputation.github.io/arcadia/
 
 ### Setup
