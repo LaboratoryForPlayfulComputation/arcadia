@@ -149,6 +149,8 @@
   "markers.rotation": "Gets the x, y, z rotational values of a marker",
   "markers.slider": "Maps the value of 1 marker in relation to its distance between 2 markers.",
   "messaging": "Messaging",
+  "messaging.connect": "Peer",
+  "messaging.connect|param|id": "The value of the marker",
   "messaging.receive": "Allows user to define callbacks for receive event",
   "messaging.send": "Peer",
   "messaging.send|param|id": "The value of the marker",

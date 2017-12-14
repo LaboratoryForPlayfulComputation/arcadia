@@ -28,7 +28,6 @@ namespace pxsim {
      */
     export class Board extends pxsim.BaseBoard {
         public bus              : pxsim.EventBus;
-        public peer             : PeerJs.Peer;
         public font             : THREE.Font;
         public scene            : THREE.Scene;
         public camera           : THREE.Camera;
@@ -51,7 +50,6 @@ namespace pxsim {
                 "Arcadia is currently only supported for the Chrome browser.");
             }
 
-            this.peer = new Peer({key: '648xw9rwll92j4i'}); // key is for the 50 free connections
             this.bus  = new pxsim.EventBus(runtime);
             this.font = three.parseFont(font.helvetiker_regular);
             /* AR */

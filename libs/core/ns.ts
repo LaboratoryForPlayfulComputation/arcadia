@@ -59,7 +59,7 @@ namespace models {
 /**
  * Messaging
  */
-//% weight=88
+//% color=#6657b2 icon="\uf003" weight=88
 namespace messaging {
-
+    
 }
