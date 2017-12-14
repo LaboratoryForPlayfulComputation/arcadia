@@ -45,13 +45,9 @@ namespace pxsim {
         constructor() {
             super();
 
-            if (!isChrome()){
-                console.log("We've detected that you are not using Chrome. " +
-                "Arcadia is currently only supported for the Chrome browser.");
-            }
-
             this.bus  = new pxsim.EventBus(runtime);
             this.font = three.parseFont(font.helvetiker_regular);
+            
             /* AR */
             this.markers          = {};
             this.markerColors     = [0xff0000, 0xff4c00, 0xffe100, 0x33b500,

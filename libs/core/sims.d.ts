@@ -312,6 +312,25 @@ declare namespace markers {
 
 }
 declare namespace messaging {
+    /*
+    let peer : any = null;
+    let connections = new Array();
+    var script = document.createElement('script');
+    script.onload = function () {
+    // this.peer = new Peer({key: '648xw9rwll92j4i'}); // need key for deployment if using the cloud
+    peer = new Peer({host: 'localhost', port: 9000, path: '/'}); // for running locally and with custom server
+    peer.on('open', function(id : string) { });
+    peer.on('connection', function(dataConnection: any) { 
+    connections.push(dataConnection);
+    dataConnection.on('data', function(data : any) { });
+    });
+    peer.on('close', function() { });
+    peer.on('disconnected', function() { });
+    peer.on('error', function(err: any) { });
+    };
+    script.src = "/sim/peer.min.js";
+    document.head.appendChild(script);
+     */
     /**
      * Peer
      * @param id The value of the marker
