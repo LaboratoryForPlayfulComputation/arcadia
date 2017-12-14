@@ -1,25 +1,32 @@
 namespace pxsim.messaging {
     
-        /*
         let peer : any = null;
-        let connections = new Array();
+        let connections : any = {};
     
         var script = document.createElement('script');
         script.onload = function () {
-            // this.peer = new Peer({key: '648xw9rwll92j4i'}); // need key for deployment if using the cloud
-            peer = new Peer({host: 'localhost', port: 9000, path: '/'}); // for running locally and with custom server
-            peer.on('open', function(id : string) { });
+            peer = new Peer({host: 'localhost', port: 9000, path: '/'});
+            peer.on('open', function(id : string) { 
+                document.getElementById('userid').innerHTML = 'Your user id is: ' + id.toString();
+             });
             peer.on('connection', function(dataConnection: any) { 
-                connections.push(dataConnection);
-                dataConnection.on('data', function(data : any) { });
+                console.log("connected to user");
+                connections[dataConnection.id] = dataConnection;
+                dataConnection.on('open', function() {
+                    console.log("ready 4 data");
+                    dataConnection.send("yooo dawg");
+                    dataConnection.on('data', function(data : any) {
+                        console.log(data);
+                    });
+                });
+                dataConnection.on('error', function() {console.log("error")});
             });
-            peer.on('close', function() { });
-            peer.on('disconnected', function() { });
-            peer.on('error', function(err: any) { });
+            peer.on('close', function() {});
+            peer.on('disconnected', function() {});
+            peer.on('error', function(err: any) {});
         };
         script.src = "/sim/peer.min.js";
         document.head.appendChild(script);
-        */
     
         /**
          * Peer
@@ -29,15 +36,16 @@ namespace pxsim.messaging {
         //% blockNamespace=messaging inBasicCategory=true
         //% weight=100
         export function send(key: string, value: number, id: string) { 
-            /*
             if (peer){
-                let conn = peer.connect(id);
-                let sendString = {key: value};
-                conn.on('open', function(){
-                  conn.send(sendString);
-                });
+                if (connections[id]){
+                    connections[id].send("hey hey heyyyy");
+                } else {
+                    let dataConnection = peer.connect(id);
+                    dataConnection.on('open', function(){
+                        dataConnection.send("hey hey heyyyy");
+                    });
+                }
             }
-            */
         } 
     
         /**
@@ -48,11 +56,9 @@ namespace pxsim.messaging {
         //% blockNamespace=messaging inBasicCategory=true
         //% weight=100
         export function connect(id: string) { 
-            /*
             if (peer) {
                 let conn = peer.connect(id);
             }
-            */
         }
     
         /**
@@ -63,10 +69,8 @@ namespace pxsim.messaging {
         //% blockNamespace=messaging inBasicCategory=true
         //% weight=99    
         export function receive(key: string, handler: RefAction) {
-            /*
             let event = 0x1;
             board().bus.listen(key, event, handler);
-            */
         }
     
 
