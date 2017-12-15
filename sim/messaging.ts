@@ -5,7 +5,13 @@ namespace pxsim.messaging {
     
         var script = document.createElement('script');
         script.onload = function () {
-            peer = new Peer({host: 'localhost', port: 9000, path: '/'});
+            peer = new Peer({host: 'localhost',
+                            port: 9000,
+                            path: '/',
+                            config: { 'iceServers': [
+                                { 'url': 'stun:stun.l.google.com:19302' }  
+                              ] }
+                            });
             peer.on('open', function(id : string) { 
                 document.getElementById('userid').innerHTML = 'Your user id is: ' + id.toString();
              });
@@ -37,8 +43,9 @@ namespace pxsim.messaging {
         //% weight=100
         export function send(key: string, value: number, id: string) { 
             if (peer){
-                if (connections[id]){
-                    connections[id].send("hey hey heyyyy");
+                let dataConnection = connections[id];
+                if (dataConnection && dataConnection.open){
+                    dataConnection.send("hey hey heyyyy");
                 } else {
                     let dataConnection = peer.connect(id);
                     dataConnection.on('open', function(){
