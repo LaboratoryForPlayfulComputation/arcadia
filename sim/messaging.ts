@@ -71,25 +71,6 @@ namespace pxsim.messaging {
         } 
     
         /**
-         * Peer
-         * @param id The value of the marker
-         */
-        //% blockId=peer_conn_block block="connect to %id"
-        //% blockNamespace=messaging inBasicCategory=true
-        //% weight=100
-        export function connect(id: string) { 
-            if (peer) {
-                let conn = peer.connect(id);
-                conn.on('open', function(){
-                    initDataConnectionCallbacks(conn);                    
-                });                   
-            } else {
-                initializePeer();
-                connect(id);
-            }
-        }
-    
-        /**
          * Allows user to define callbacks for receive event
          * @param key 
          */
