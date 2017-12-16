@@ -5,35 +5,43 @@ namespace pxsim.messaging {
     
         var script = document.createElement('script');
         script.onload = function () {
-            peer = new Peer({host: 'localhost',
-                            port: 9000,
-                            path: '/',
-                            config: { 'iceServers': [
-                                { 'url': 'stun:stun.l.google.com:19302' }  
-                              ] }
-                            });
+            initializePeer();
+        };
+        script.src = "/sim/peer.min.js";
+        document.head.appendChild(script);
+
+        function updateUserId(id : string){
+            document.getElementById('userid').innerHTML = 'Your user id is: ' + id.toString();
+        }
+
+        function initializePeer(){
+            /* Create instance of PeerJS */
+            peer = new Peer({
+                host: 'liminal-jam.herokuapp.com',
+                secure: true,
+                port: 443,
+                key: 'peerjs',
+                debug: 3});
+
+            /* Received user ID from server */
             peer.on('open', function(id : string) { 
-                document.getElementById('userid').innerHTML = 'Your user id is: ' + id.toString();
-             });
-            peer.on('connection', function(dataConnection: any) { 
-                console.log("connected to user");
-                connections[dataConnection.id] = dataConnection;
-                dataConnection.on('open', function() {
-                    console.log("ready 4 data");
-                    dataConnection.send("yooo dawg");
-                    dataConnection.on('data', function(data : any) {
-                        console.log(data);
-                    });
-                });
-                dataConnection.on('error', function() {console.log("error")});
+                updateUserId(id);
             });
             peer.on('close', function() {});
             peer.on('disconnected', function() {});
             peer.on('error', function(err: any) {});
-        };
-        script.src = "/sim/peer.min.js";
-        document.head.appendChild(script);
-    
+
+            /* Successfully created data connection */
+            peer.on('connection', function(dataConnection: PeerJs.DataConnection) { 
+                connections[dataConnection.peer] = dataConnection;
+                dataConnection.on('data', function(data: any) {
+                    console.log(data);
+                });
+                dataConnection.on('close', function() { });
+                dataConnection.on('error', function() { });
+            });
+        }
+
         /**
          * Peer
          * @param id The value of the marker
@@ -48,8 +56,12 @@ namespace pxsim.messaging {
                     dataConnection.send("hey hey heyyyy");
                 } else {
                     let dataConnection = peer.connect(id);
+                    connections[dataConnection.peer] = dataConnection;
                     dataConnection.on('open', function(){
                         dataConnection.send("hey hey heyyyy");
+                        dataConnection.on('data', function(data: any){
+                            console.log(data);
+                        });
                     });
                 }
             }
