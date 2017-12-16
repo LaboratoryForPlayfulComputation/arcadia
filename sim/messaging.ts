@@ -35,7 +35,8 @@ namespace pxsim.messaging {
             peer.on('connection', function(dataConnection: PeerJs.DataConnection) { 
                 connections[dataConnection.peer] = dataConnection;
                 dataConnection.on('data', function(data: any) {
-                    console.log(data);
+                    console.log(data["key"]);
+                    board().bus.queue(data['key'], 0x1);
                 });
                 dataConnection.on('close', function() { });
                 dataConnection.on('error', function() { });
@@ -53,14 +54,15 @@ namespace pxsim.messaging {
             if (peer){
                 let dataConnection = connections[id];
                 if (dataConnection && dataConnection.open){
-                    dataConnection.send("hey hey heyyyy");
+                    dataConnection.send({"key": key, "value": value});
                 } else {
                     let dataConnection = peer.connect(id);
                     connections[dataConnection.peer] = dataConnection;
                     dataConnection.on('open', function(){
-                        dataConnection.send("hey hey heyyyy");
+                        dataConnection.send({"key": key, "value": value});
                         dataConnection.on('data', function(data: any){
-                            console.log(data);
+                            console.log(data["key"]);
+                            board().bus.queue(data["key"], 0x1);
                         });
                     });
                 }
@@ -88,8 +90,7 @@ namespace pxsim.messaging {
         //% blockNamespace=messaging inBasicCategory=true
         //% weight=99    
         export function receive(key: string, handler: RefAction) {
-            let event = 0x1;
-            board().bus.listen(key, event, handler);
+            board().bus.listen(key, 0x1, handler);
         }
     
 
