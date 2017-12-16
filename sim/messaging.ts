@@ -14,13 +14,13 @@ namespace pxsim.messaging {
             document.getElementById('userid').innerHTML = 'Your user id is: ' + id.toString();
         }
 
-        function initDataConnectionCallbacks(dataConnection: PeerJs.DataConnection){
-            connections[dataConnection.peer] = dataConnection;
-            dataConnection.on('data', function(data: any){
+        function initDataConnectionCallbacks(conn: PeerJs.DataConnection){
+            connections[conn.peer] = conn;
+            conn.on('data', function(data: any){
                 board().bus.queue(data["key"], 0x1);
             });
-            dataConnection.on('close', function() {connections[dataConnection.peer] = undefined;});
-            dataConnection.on('error', function() {connections[dataConnection.peer] = undefined;});  
+            conn.on('close', function() {connections[conn.peer] = undefined;});
+            conn.on('error', function() {connections[conn.peer] = undefined;});  
         }
 
         function initializePeer(){
@@ -33,17 +33,18 @@ namespace pxsim.messaging {
                 debug: 3});
 
             /* Received user ID from server */
-            peer.on('open', function(id : string) { 
-                updateUserId(id);
-            });
-            peer.on('close', function() {});
-            peer.on('disconnected', function() {});
-            peer.on('error', function(err: any) {});
-
+            if (peer) peer.on('open', function(id : string) { updateUserId(id); });
+            else initializePeer();
+            if (peer) peer.on('close', function() { peer = null; });
+            else initializePeer();
+            if (peer) peer.on('disconnected', function() { peer = null; });
+            else initializePeer();
+            if (peer) peer.on('error', function(err: any) { peer = null; });
+            else initializePeer();
+            
             /* Successfully created data connection */
-            peer.on('connection', function(dataConnection: PeerJs.DataConnection) { 
-                initDataConnectionCallbacks(dataConnection);
-            });
+            if (peer) peer.on('connection', function(conn: PeerJs.DataConnection) { initDataConnectionCallbacks(conn); });
+            else initializePeer();
         }
 
         /**
@@ -55,14 +56,17 @@ namespace pxsim.messaging {
         //% weight=100
         export function send(key: string, value: number, id: string) { 
             if (peer){
-                let dataConnection = connections[id];
-                if(!dataConnection || !dataConnection.open){
-                    dataConnection = peer.connect(id);
-                    dataConnection.on('open', function(){
-                        initDataConnectionCallbacks(dataConnection);                        
+                let conn = connections[id];
+                if(!conn || !conn.open){
+                    conn = peer.connect(id);
+                    conn.on('open', function(){
+                        initDataConnectionCallbacks(conn);                        
                     });                    
                 }
-                dataConnection.send({"key": key, "value": value});
+                conn.send({"key": key, "value": value});
+            } else {
+                initializePeer();
+                send(key, value, id);
             }
         } 
     
@@ -75,10 +79,13 @@ namespace pxsim.messaging {
         //% weight=100
         export function connect(id: string) { 
             if (peer) {
-                let dataConnection = peer.connect(id);
-                dataConnection.on('open', function(){
-                    initDataConnectionCallbacks(dataConnection);                    
+                let conn = peer.connect(id);
+                conn.on('open', function(){
+                    initDataConnectionCallbacks(conn);                    
                 });                   
+            } else {
+                initializePeer();
+                connect(id);
             }
         }
     
