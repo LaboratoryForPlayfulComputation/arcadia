@@ -505,126 +505,6 @@ var font;
 })(font || (font = {}));
 var pxsim;
 (function (pxsim) {
-    var fx;
-    (function (fx_1) {
-        /**
-        * Add an effect to a sequence.
-        * @param name name of the phrase
-        * @param effect which drum sound to use
-        */
-        //% blockId=music_add_effect_seq block="add %effect|to %name" blockGap=8
-        //% blockNamespace=music inBasicCategory=true
-        //% effect.fieldEditor="gridpicker"
-        //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
-        //% effect.fieldOptions.tooltips="true"  
-        /*
-        export function addEffectSeq(effect: Effect, name: string) {
-            let phrase = board().phrase(name);
-            if (phrase) phrase.addEffect(effect);
-        }
-        */
-        /**
-        * Remove an effect from a sequence.
-        * @param name name of the phrase
-        * @param effect which drum sound to use
-        */
-        //% blockId=music_rem_effect_seq block="remove %effect|from %name" blockGap=8
-        //% blockNamespace=music inBasicCategory=true
-        //% effect.fieldEditor="gridpicker"
-        //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
-        //% effect.fieldOptions.tooltips="true"  
-        /*
-        export function removeEffectSeq(effect: Effect, name: string) {
-            let phrase = board().phrase(name);
-            if (phrase) phrase.removeEffect(effect);
-        }
-        */
-        /**
-        * Add an effect to every active instrument.
-        * @param effect which effect to use
-        */
-        //% blockId=music_add_effect block="add effect %effect" blockGap=8
-        //% blockNamespace=music inBasicCategory=true
-        //% weight=93
-        //% effect.fieldEditor="gridpicker"
-        //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
-        //% effect.fieldOptions.tooltips="true"  
-        function addEffect(effect) {
-            var type;
-            switch (effect) {
-                case 3 /* Chorus */:
-                    type = "chorus";
-                    break;
-                case 2 /* Delay */:
-                    type = "delay";
-                    break;
-                case 1 /* Distortion */:
-                    type = "distortion";
-                    break;
-                case 4 /* Phaser */:
-                    type = "phaser";
-                    break;
-                default:
-                    type = "reverb";
-            }
-            var fx = pxsim.board().fx[type];
-            if (fx) {
-                for (var i = 0; i < pxsim.board().instruments.length; i++)
-                    pxsim.board().instruments[i].connect(fx);
-                for (var osc in pxsim.board().oscillators)
-                    pxsim.board().oscillators[osc].connect(fx);
-            }
-        }
-        fx_1.addEffect = addEffect;
-        /**
-        * Remove an effect to every active instrument.
-        * @param effect which effect to use
-        */
-        //% blockId=music_rem_effect block="remove effect %effect" blockGap=8
-        //% weight=92
-        //% blockNamespace=music inBasicCategory=true
-        //% effect.fieldEditor="gridpicker"
-        //% effect.fieldOptions.width="200" effect.fieldOptions.columns="1"
-        //% effect.fieldOptions.tooltips="true"  
-        function removeEffect(effect) {
-            var type;
-            switch (effect) {
-                case 3 /* Chorus */:
-                    type = "chorus";
-                    break;
-                case 2 /* Delay */:
-                    type = "delay";
-                    break;
-                case 1 /* Distortion */:
-                    type = "distortion";
-                    break;
-                case 4 /* Phaser */:
-                    type = "phaser";
-                    break;
-                default:
-                    type = "reverb";
-            }
-            var fx = pxsim.board().fx[type];
-            if (fx) {
-                for (var i = 0; i < pxsim.board().instruments.length; i++) {
-                    try {
-                        pxsim.board().instruments[i].disconnect(fx);
-                    }
-                    catch (err) { }
-                }
-                for (var osc in pxsim.board().oscillators) {
-                    try {
-                        pxsim.board().oscillators[osc].disconnect(fx);
-                    }
-                    catch (err) { }
-                }
-            }
-        }
-        fx_1.removeEffect = removeEffect;
-    })(fx = pxsim.fx || (pxsim.fx = {}));
-})(pxsim || (pxsim = {}));
-var pxsim;
-(function (pxsim) {
     var interaction;
     (function (interaction) {
         /**
@@ -1106,228 +986,95 @@ var pxsim;
 })(pxsim || (pxsim = {}));
 var pxsim;
 (function (pxsim) {
-    var music;
-    (function (music) {
+    var messaging;
+    (function (messaging) {
+        var peer = null;
+        var connections = {};
+        var script = document.createElement('script');
+        script.onload = function () {
+            initializePeer();
+        };
+        script.src = "https://cdnjs.cloudflare.com/ajax/libs/peerjs/0.3.14/peer.js";
+        document.head.appendChild(script);
+        function updateUserId(id) {
+            var userId = parent.document.getElementById("userid");
+            userId.value = id.toString();
+        }
+        function initDataConnectionCallbacks(conn) {
+            connections[conn.peer] = conn;
+            conn.on('data', function (data) {
+                pxsim.board().bus.queue(data["key"], 0x1);
+            });
+            conn.on('close', function () { connections[conn.peer] = undefined; });
+            conn.on('error', function () { connections[conn.peer] = undefined; });
+        }
+        function initializePeer() {
+            /* Create instance of PeerJS */
+            peer = new Peer({
+                host: 'liminal-jam.herokuapp.com',
+                secure: true,
+                port: 443,
+                key: 'peerjs',
+                debug: 3 });
+            /* Received user ID from server */
+            if (peer)
+                peer.on('open', function (id) { updateUserId(id); });
+            else
+                initializePeer();
+            if (peer)
+                peer.on('close', function () { });
+            else
+                initializePeer();
+            if (peer)
+                peer.on('disconnected', function () { });
+            else
+                initializePeer();
+            if (peer)
+                peer.on('error', function (err) { });
+            else
+                initializePeer();
+            /* Successfully created data connection */
+            if (peer)
+                peer.on('connection', function (conn) { initDataConnectionCallbacks(conn); });
+            else
+                initializePeer();
+        }
         /**
-        * Play a tone for a duration of time
-        * @param note pitch of the tone to play in Hertz (Hz)
-        * @param duration number of beats to play tone for, eg: BeatFraction.Quarter
-        */
-        //% blockId=music_play_tone block="play tone %note=device_note| for %duration" blockGap=8
+         * Peer
+         * @param id The value of the marker
+         */
+        //% blockId=peer_block block="send key %key| value %value| to %id"
+        //% blockNamespace=messaging inBasicCategory=true
         //% weight=100
-        //% blockNamespace=music inBasicCategory=true promise
-        function playToneAsync(note, duration) {
-            var t = beat(duration);
-            var tone = pxsim.board().monosynth;
-            tone.triggerAttackRelease(note, t, "+16t");
-            return pauseBeatAsync(tone, duration);
-        }
-        music.playToneAsync = playToneAsync;
-        /**
-        * Rest for a duration of time
-        * @param duration number of beats to rest for
-        */
-        //% blockId=music_rest block="rest for %duration" blockGap=8
-        //% weight=97
-        //% blockNamespace=music inBasicCategory=true promise
-        function restAsync(duration) {
-            var tone = pxsim.board().monosynth;
-            return pauseBeatAsync(tone, duration);
-        }
-        music.restAsync = restAsync;
-        /**
-        * Play a chord of an array of notes for a duration of time. Can play up to 5 notes.
-        * @param notes pitches of the tones to play in Hertz (Hz)
-        * @param duration number of beats to play tone for
-        */
-        //% promise
-        function playChordCommandAsync(notesString, duration) {
-            var tone = pxsim.board().polysynth;
-            if (notesString != "") {
-                var notes = notesString.split(",");
-                var notesToPlay = [];
-                if (notes.length > 5) {
-                    for (var i = 0; i < 5; i++)
-                        notesToPlay.push(notes[i]);
+        function send(key, value, id) {
+            if (peer) {
+                var conn_1 = connections[id];
+                if (!conn_1 || !conn_1.open) {
+                    conn_1 = peer.connect(id);
+                    conn_1.on('open', function () {
+                        initDataConnectionCallbacks(conn_1);
+                    });
                 }
-                else {
-                    notesToPlay = notes;
-                }
-                var t = beat(duration);
-                pxsim.board().polysynth.triggerAttackRelease(notesToPlay, t, "+16t");
+                conn_1.send({ "key": key, "value": value });
             }
-            return pauseBeatAsync(tone, duration);
-        }
-        music.playChordCommandAsync = playChordCommandAsync;
-        /**
-        * Play a type of drum sound
-        * @param drum which drum sound to use
-        */
-        //% blockId=music_play_drum_beat block="play %drum" blockGap=8
-        //% weight=99
-        //% blockNamespace=music inBasicCategory=true
-        //% drum.fieldEditor="gridpicker"
-        //% drum.fieldOptions.width="200" drum.fieldOptions.columns="1"
-        //% drum.fieldOptions.tooltips="true"        
-        function playDrum(drum) {
-            switch (drum) {
-                case 1 /* Kick */:
-                    pxsim.board().drumPlayers["kick"].start("+16t");
-                    break;
-                case 2 /* Snare */:
-                    pxsim.board().drumPlayers["snare"].start("+16t");
-                    break;
-                case 3 /* HiHat */:
-                    pxsim.board().drumPlayers["hihat"].start("+16t");
-                    break;
-                case 4 /* Click */:
-                    pxsim.board().drumPlayers["click"].start("+16t");
-                    break;
-                default:
-                    pxsim.board().drumPlayers["splat"].start("+16t");
+            else {
+                initializePeer();
+                send(key, value, id);
             }
         }
-        music.playDrum = playDrum;
+        messaging.send = send;
         /**
-         * Converts into beat notation
+         * Allows user to define callbacks for receive event
+         * @param key
          */
-        function beat(fraction) {
-            switch (fraction) {
-                case 1 /* Whole */: return "1n";
-                case 2 /* Half */: return "2n";
-                case 4 /* Quarter */: return "4n";
-                case 8 /* Eighth */: return "8n";
-                case 16 /* Sixteenth */: return "16n";
-                default: return "8n";
-            }
+        //% blockId=peer_receive block="when I receive key %key|do" blockGap=8
+        //% blockNamespace=messaging inBasicCategory=true
+        //% weight=99    
+        function receive(key, handler) {
+            pxsim.board().bus.listen(key, 0x1, handler);
         }
-        function pauseBeatAsync(tone, fraction) {
-            var t = beat(fraction);
-            var s = tone.toSeconds(t);
-            return pxsim.loops.pauseAsync(s * 1000);
-        }
-        /**
-         * Change the frequency (pitch) of an oscillator
-         * @param wave type of sound wave
-         */
-        //% blockId="music_osc_freq" block="set %wave|wave to %note=device_note"
-        //% weight=90
-        //% wave.fieldEditor="gridpicker"
-        //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
-        //% wave.fieldOptions.tooltips="true"      
-        //% blockNamespace=music inBasicCategory=true
-        function oscFreq(wave, freq) {
-            var type;
-            switch (wave) {
-                case 1 /* Sine */:
-                    type = "sine";
-                    break;
-                case 2 /* Square */:
-                    type = "square";
-                    break;
-                case 3 /* Triangle */:
-                    type = "triangle";
-                    break;
-                default:
-                    type = "sawtooth";
-            }
-            var osc = pxsim.board().oscillators[type];
-            osc.frequency.value = freq;
-        }
-        music.oscFreq = oscFreq;
-        /**
-         * Stop an oscillator type
-         * @param wave type of sound wave
-         */
-        //% blockId="music_stop_osc" block="stop %wave|wave"
-        //% weight=89
-        //% wave.fieldEditor="gridpicker"
-        //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
-        //% wave.fieldOptions.tooltips="true"      
-        //% blockNamespace=music inBasicCategory=true
-        function stopOsc(wave) {
-            var type;
-            switch (wave) {
-                case 1 /* Sine */:
-                    type = "sine";
-                    break;
-                case 2 /* Square */:
-                    type = "square";
-                    break;
-                case 3 /* Triangle */:
-                    type = "triangle";
-                    break;
-                default:
-                    type = "sawtooth";
-            }
-            var osc = pxsim.board().oscillators[type];
-            osc.stop();
-        }
-        music.stopOsc = stopOsc;
-        /**
-         * Start an oscillator type
-         * @param wave type of sound wave
-         */
-        //% blockId="music_start_osc" block="start %wave|wave"
-        //% weight=91
-        //% wave.fieldEditor="gridpicker"
-        //% wave.fieldOptions.width="200" octave.fieldOptions.columns="1"
-        //% wave.fieldOptions.tooltips="true"      
-        //% blockNamespace=music inBasicCategory=true
-        function startOsc(wave) {
-            var type;
-            var vol;
-            switch (wave) {
-                case 1 /* Sine */:
-                    type = "sine";
-                    vol = -20;
-                    break;
-                case 2 /* Square */:
-                    type = "square";
-                    vol = -30;
-                    break;
-                case 3 /* Triangle */:
-                    type = "triangle";
-                    vol = -20;
-                    break;
-                default:
-                    type = "sawtooth";
-                    vol = -30;
-            }
-            var osc = pxsim.board().oscillators[type];
-            osc.volume.value = vol;
-            osc.stop();
-            osc.start("+16t");
-        }
-        music.startOsc = startOsc;
-        /**
-         * Set the beats per minute (tempo)
-         * @param bpm The number of beats per minute, eg: 120
-         */
-        //% blockId="music_bpm" block="set tempo %bpm"
-        //% weight=95
-        //% blockExternalInputs="true" blockGap=8
-        //% blockNamespace=music inBasicCategory=true
-        function setTempo(bpm) {
-            pxsim.tone.bpm(bpm);
-        }
-        music.setTempo = setTempo;
-        /**
-         * Set the master volume. Choose a number in the range of 0-100, the default volume is 100.
-         * @param volume The volume level, eg: 100
-         */
-        //% blockId="music_volume" block="set volume %volume"
-        //% weight=94
-        //% blockExternalInputs="true" blockGap=8
-        //% blockNamespace=music inBasicCategory=true
-        function setVolume(volume) {
-            var cappedVal = Math.min(Math.max(volume, 0), 100); // caps number between the ranges 0 and 100
-            var mappedVal = (cappedVal - 0) * (1 - 0) / (100 - 0) + 0;
-            var decibels = Math.log(mappedVal) * 10;
-            Tone.Master.volume.value = decibels;
-        }
-        music.setVolume = setVolume;
-    })(music = pxsim.music || (pxsim.music = {}));
+        messaging.receive = receive;
+    })(messaging = pxsim.messaging || (pxsim.messaging = {}));
 })(pxsim || (pxsim = {}));
 var pxsim;
 (function (pxsim) {
@@ -1374,194 +1121,13 @@ var pxsim;
         paint.clearBrushStrokes = clearBrushStrokes;
     })(paint = pxsim.paint || (pxsim.paint = {}));
 })(pxsim || (pxsim = {}));
-var pxsim;
-(function (pxsim) {
-    var phrases;
-    (function (phrases) {
-        var pitches = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
-        var drumSounds = ["kick", "snare", "hihat", "click", "splat"];
-        /**
-         * Plays a phrase once
-         * @param name
-         */
-        //% blockId=music_play_phrase block="play phrase %name" blockGap=8
-        //% blockNamespace=music advanced=true
-        function playPhrase(name) {
-            var phrase = pxsim.board().phrase(name);
-            if (phrase)
-                phrase.play();
-        }
-        phrases.playPhrase = playPhrase;
-        /**
-         * Loops a musical phrase
-         * @param name
-         */
-        //% blockId=music_loop_phrase block="loop phrase %name" blockGap=8
-        //% blockNamespace=music advanced=true
-        function loopPhrase(name) {
-            var phrase = pxsim.board().phrase(name);
-            if (phrase)
-                phrase.loop();
-        }
-        phrases.loopPhrase = loopPhrase;
-        /**
-         * Stop a musical phrase
-         * @param name
-         */
-        //% blockId=music_stop_phrase block="stop phrase %name" blockGap=8
-        //% blockNamespace=music advanced=true
-        function stopPhrase(name) {
-            var phrase = pxsim.board().phrase(name);
-            if (phrase)
-                phrase.stop();
-        }
-        phrases.stopPhrase = stopPhrase;
-        /**
-         * Create a drum pattern
-         * @param name
-         * @param beat a string describing the beat
-         */
-        //% blockId="music_drumbeat" block="create beat %name|%beat"
-        //% weight=100
-        //% beat.fieldEditor="drums"
-        //% beat.fieldOptions.onParentBlock=true
-        //% beat.fieldOptions.decompileLiterals=true    
-        //% blockExternalInputs="true" blockGap=8
-        //% blockNamespace=music advanced=true
-        function drumPhrase(name, beatString) {
-            var beat = createNotesMap(JSON.parse(beatString), 8, drumSounds);
-            var numTracks = drumSounds.length;
-            var phrase = pxsim.tone.createDrumSequence("8n", 8, beat);
-            pxsim.board().phrases[name] = phrase;
-        }
-        phrases.drumPhrase = drumPhrase;
-        /* translates what beats are active on each track,
-           to each note that needs to be played on each beat */
-        function createNotesMap(sequence, numBeats, sounds, octave) {
-            var notesMap = {};
-            for (var i = 0; i < numBeats; i++) {
-                var beatNotes = [];
-                var trackindex = 0;
-                for (var track in sequence) {
-                    if (parseInt(sequence[track][i])) {
-                        if (octave)
-                            beatNotes.push(sounds[trackindex] + octave);
-                        else
-                            beatNotes.push(sounds[trackindex]);
-                    }
-                    trackindex++;
-                }
-                notesMap[i] = beatNotes;
-            }
-            notesMap = addRests(notesMap);
-            return notesMap;
-        }
-        phrases.createNotesMap = createNotesMap;
-        function getOctave(octave) {
-            switch (octave) {
-                case 2 /* Lowest */: return "2";
-                case 3 /* Low */: return "3";
-                case 4 /* Middle */: return "4";
-                case 5 /* High */: return "5";
-                default: return "4";
-            }
-        }
-        phrases.getOctave = getOctave;
-        function addRests(notesMap) {
-            for (var beat in notesMap) {
-                var seq = notesMap[beat];
-                for (var i = 0; i < seq.length; i++) {
-                    if (seq[i].length == 0)
-                        seq[i] = null;
-                }
-            }
-            return notesMap;
-        }
-        phrases.addRests = addRests;
-        /* Class to store all of the details of a user created musical phrase */
-        var Phrase = (function () {
-            function Phrase(seq, instr, effects) {
-                this.sequence = seq;
-                this.instrument = instr;
-                this.fx = {};
-                if (effects)
-                    this.fx = effects;
-            }
-            Phrase.prototype.discard = function () {
-                this.sequence.dispose();
-            };
-            Phrase.prototype.addEffect = function (effect) {
-                var fx;
-                var type;
-                switch (effect) {
-                    case 3 /* Chorus */:
-                        fx = new Tone.Chorus(4, 2.5, 0.5).toMaster();
-                        type = "chorus";
-                        break;
-                    case 2 /* Delay */:
-                        fx = new Tone.FeedbackDelay("8n").toMaster();
-                        type = "delay";
-                        break;
-                    case 1 /* Distortion */:
-                        fx = new Tone.Distortion(0.8).toMaster();
-                        type = "distortion";
-                        break;
-                    case 4 /* Phaser */:
-                        fx = new Tone.Phaser({ "frequency": 15,
-                            "octaves": 5,
-                            "baseFrequency": 1000
-                        }).toMaster();
-                        type = "phaser";
-                        break;
-                    default:
-                        fx = new Tone.Freeverb().toMaster();
-                        type = "reverb";
-                        break;
-                }
-                this.fx[type] = fx;
-                this.instrument.connect(fx);
-            };
-            Phrase.prototype.removeEffect = function (effect) {
-                var type;
-                switch (effect) {
-                    case 3 /* Chorus */: type = "chorus";
-                    case 2 /* Delay */: type = "delay";
-                    case 1 /* Distortion */: type = "distortion";
-                    case 4 /* Phaser */: type = "phaser";
-                    default: type = "reverb";
-                }
-                if (this.fx[type]) {
-                    this.instrument.disconnect(this.fx[type]);
-                    this.fx[type].dispose();
-                    this.fx[type] = null;
-                }
-            };
-            Phrase.prototype.play = function (time) {
-                this.sequence.loop = false;
-                this.sequence.start("+16t");
-                this.sequence.stop("+1m");
-            };
-            Phrase.prototype.loop = function (time) {
-                if (this.sequence.state == "stopped") {
-                    this.sequence.loop = true;
-                    this.sequence.start("+16t");
-                }
-            };
-            Phrase.prototype.stop = function (time) {
-                this.sequence.stop();
-            };
-            return Phrase;
-        }());
-        phrases.Phrase = Phrase;
-    })(phrases = pxsim.phrases || (pxsim.phrases = {}));
-})(pxsim || (pxsim = {}));
 /// <reference path="../node_modules/pxt-core/typings/globals/bluebird/index.d.ts"/>
 /// <reference path="../node_modules/pxt-core/built/pxtsim.d.ts"/>
 /// <reference path="../typings/globals/three/index.d.ts" />
+/// <reference path="../typings/globals/peerjs/index.d.ts" />
 /// <reference path="../typings/globals/three-vreffect/index.d.ts" />
 /// <reference path="aframe.d.ts" />
 /// <reference path="threex.d.ts" />
-/// <reference path="tone.d.ts" />
 var pxsim;
 (function (pxsim) {
     /**
@@ -1585,10 +1151,6 @@ var pxsim;
         __extends(Board, _super);
         function Board() {
             _super.call(this);
-            if (!isChrome()) {
-                pxsim.console.log("We've detected that you are not using Chrome. " +
-                    "Arcadia is currently only supported for the Chrome browser.");
-            }
             this.bus = new pxsim.EventBus(pxsim.runtime);
             this.font = pxsim.three.parseFont(font.helvetiker_regular);
             /* AR */
@@ -1606,45 +1168,15 @@ var pxsim;
             this.scene.add(this.camera);
             this.scene.add(pxsim.three.createDirectionalLight());
             this.scene.add(pxsim.three.createAmbientLight());
-            /* music */
-            this.phrases = {};
-            this.instruments = [];
-            this.fx = { "distortion": pxsim.tone.createEffect(1 /* Distortion */),
-                "delay": pxsim.tone.createEffect(2 /* Delay */),
-                "chorus": pxsim.tone.createEffect(3 /* Chorus */),
-                "reverb": pxsim.tone.createEffect(5 /* Reverb */),
-                "phaser": pxsim.tone.createEffect(4 /* Phaser */) };
-            this.monosynth = pxsim.tone.createMonoSynth().toMaster(); // for play tone blocks
-            this.polysynth = pxsim.tone.createPolySynth(5).toMaster(); // for play chord blocks
-            this.instruments.push(this.monosynth);
-            this.instruments.push(this.polysynth);
-            this.oscillators = { "sine": pxsim.tone.createOsc(1 /* Sine */, 440),
-                "square": pxsim.tone.createOsc(2 /* Square */, 440),
-                "triangle": pxsim.tone.createOsc(3 /* Triangle */, 440),
-                "sawtooth": pxsim.tone.createOsc(4 /* Sawtooth */, 440) };
-            pxsim.tone.bpm(120);
-            pxsim.tone.startTransport(0);
-            pxsim.music.setVolume(100);
         }
         Board.prototype.initAsync = function (msg) {
-            var _this = this;
             this.baseURL = msg.cdnUrl;
             /* start rendering */
             pxsim.threex.initArToolkit();
             this.initMarkers();
             this.initRenderFunctions();
             this.runRenderingLoop();
-            return pxsim.tone.loadDrumSamplesAsync(this.baseURL)
-                .then(function (drumSamples) {
-                _this.drumSamples = drumSamples;
-                _this.drumPlayers = { "kick": new Tone.Player(_this.drumSamples.get("kick")).toMaster(),
-                    "snare": new Tone.Player(_this.drumSamples.get("snare")).toMaster(),
-                    "hihat": new Tone.Player(_this.drumSamples.get("hihat")).toMaster(),
-                    "click": new Tone.Player(_this.drumSamples.get("click")).toMaster(),
-                    "splat": new Tone.Player(_this.drumSamples.get("splat")).toMaster() };
-                _this.drumMachine = pxsim.tone.createDrumMachine().toMaster(); // for building drum sequences
-                return Promise.resolve();
-            });
+            return Promise.resolve();
         };
         /**
          * Define functions that we want to run on every render loop
@@ -1703,18 +1235,8 @@ var pxsim;
         };
         Board.prototype.kill = function () {
             pxsim.design.removeAllFilters();
-            Tone.Master.volume.value = -Infinity;
             if (this.scene)
                 pxsim.three.removeSceneChildren(this.scene);
-            if (this.fx)
-                pxsim.tone.killFX();
-            if (this.phrases)
-                pxsim.tone.killPhrases();
-            if (this.instruments)
-                pxsim.tone.killInstruments();
-            if (this.oscillators)
-                pxsim.tone.killOscillators();
-            pxsim.tone.stopTransport();
             this.onRenderFcts = [];
             this.markers = {};
         };
@@ -1729,13 +1251,6 @@ var pxsim;
             if (!m)
                 m = this.markers[marker.toString()] = new pxsim.markers.Marker(marker, this.markerColors[marker]);
             return m;
-        };
-        /**
-         * Gets a phrase
-         * @param name
-         */
-        Board.prototype.phrase = function (name) {
-            return this.phrases[name];
         };
         return Board;
     }(pxsim.BaseBoard));
@@ -1765,6 +1280,8 @@ var pxsim;
             renderer.domElement.style.position = 'absolute';
             renderer.domElement.style.top = '0px';
             renderer.domElement.style.left = '0px';
+            //let scene3d = document.getElementById("scene3d");
+            //scene3d.appendChild(renderer.domElement);
             document.body.appendChild(renderer.domElement);
         }
         return renderer;
@@ -2065,158 +1582,4 @@ var pxsim;
         }
         threex.initArToolkit = initArToolkit;
     })(threex = pxsim.threex || (pxsim.threex = {}));
-})(pxsim || (pxsim = {}));
-var pxsim;
-(function (pxsim) {
-    var tone;
-    (function (tone) {
-        var started = false;
-        function startTransport(time) {
-            /*if (!started){
-                Tone.Transport.start(time);
-                started = true;
-            }*/
-            if (time)
-                Tone.Transport.start(time);
-            else
-                Tone.Transport.start();
-        }
-        tone.startTransport = startTransport;
-        function stopTransport() {
-            Tone.Transport.stop();
-        }
-        tone.stopTransport = stopTransport;
-        function killFX() {
-            for (var effect in pxsim.board().fx) {
-                pxsim.board().fx[effect].dispose();
-            }
-            pxsim.board().fx = {};
-        }
-        tone.killFX = killFX;
-        function killPhrases() {
-            for (var phrase in pxsim.board().phrases) {
-                pxsim.board().phrases[phrase].stop(0);
-                pxsim.board().phrases[phrase].discard();
-            }
-            pxsim.board().phrases = {};
-        }
-        tone.killPhrases = killPhrases;
-        function killInstruments() {
-            for (var i = 0; i < pxsim.board().instruments.length; i++)
-                pxsim.board().instruments[i].dispose();
-            pxsim.board().instruments = [];
-        }
-        tone.killInstruments = killInstruments;
-        function killOscillators() {
-            for (var osc in pxsim.board().oscillators) {
-                pxsim.board().oscillators[osc].dispose();
-            }
-            pxsim.board().oscillators = {};
-        }
-        tone.killOscillators = killOscillators;
-        function loadDrumSamplesAsync(url) {
-            return new Promise(function (resolve, reject) {
-                var drumSamples = new Tone.Buffers({
-                    "kick": url + "/audio/percussion/kick.mp3",
-                    "snare": url + "/audio/percussion/snare.mp3",
-                    "hihat": url + "/audio/percussion/hh.mp3",
-                    "click": url + "/audio/percussion/click.mp3",
-                    "splat": url + "/audio/percussion/splat.mp3"
-                }, function () {
-                    resolve(drumSamples);
-                });
-            });
-        }
-        tone.loadDrumSamplesAsync = loadDrumSamplesAsync;
-        function createDrumMachine() {
-            return new Tone.MultiPlayer(pxsim.board().drumSamples, function () { });
-        }
-        tone.createDrumMachine = createDrumMachine;
-        function createMelodySequence(time, beats, pattern, numTracks) {
-            var division = [];
-            for (var i = 0; i < beats; i++)
-                division.push(i);
-            var instrument = tone.createPolySynth(numTracks);
-            var seq = new Tone.Sequence(function (time, note) {
-                var notes = pattern[note];
-                instrument.triggerAttackRelease(notes, time);
-            }, division, "8n");
-            return new pxsim.phrases.Phrase(seq, instrument);
-        }
-        tone.createMelodySequence = createMelodySequence;
-        function createDrumSequence(time, beats, pattern) {
-            var division = [];
-            for (var i = 0; i < beats; i++)
-                division.push(i);
-            var seq = new Tone.Sequence(function (time, note) {
-                var beat = pattern[note];
-                for (var i = 0; i < beat.length; i++) {
-                    if (beat[i])
-                        pxsim.board().drumMachine.start(beat[i]);
-                }
-            }, division, "8n");
-            return new pxsim.phrases.Phrase(seq, pxsim.board().drumMachine);
-        }
-        tone.createDrumSequence = createDrumSequence;
-        function createMonoSynth() {
-            var mono = new Tone.MonoSynth({ oscillator: {
-                    type: "sine"
-                },
-                envelope: {
-                    attack: 0.01,
-                    decay: 0.1,
-                    sustain: 0.5,
-                    release: 1,
-                    attackCurve: "linear",
-                    releaseCurve: "exponential"
-                } }).toMaster();
-            //board().instruments.push(mono);
-            return mono;
-        }
-        tone.createMonoSynth = createMonoSynth;
-        function createPolySynth(voices) {
-            var poly = new Tone.PolySynth(voices, Tone.MonoSynth);
-            poly.set({
-                oscillator: {
-                    type: "sine"
-                },
-                envelope: {
-                    attack: 0.01,
-                    decay: 0.1,
-                    sustain: 0.5,
-                    release: 1,
-                    attackCurve: "linear",
-                    releaseCurve: "exponential"
-                } }).toMaster();
-            //board().instruments.push(poly);
-            return poly;
-        }
-        tone.createPolySynth = createPolySynth;
-        function createOsc(wave, freq) {
-            switch (wave) {
-                case 1 /* Sine */: return new Tone.Oscillator(freq, "sine").toMaster();
-                case 2 /* Square */: return new Tone.Oscillator(freq, "square").toMaster();
-                case 3 /* Triangle */: return new Tone.Oscillator(freq, "triangle").toMaster();
-                default: return new Tone.Oscillator(freq, "sawtooth").toMaster();
-            }
-        }
-        tone.createOsc = createOsc;
-        function bpm(val) {
-            Tone.Transport.bpm.value = val;
-        }
-        tone.bpm = bpm;
-        function createEffect(fx) {
-            switch (fx) {
-                case 1 /* Distortion */: return new Tone.Distortion(0.5).toMaster();
-                case 2 /* Delay */: return new Tone.FeedbackDelay("8n").toMaster();
-                case 3 /* Chorus */: return new Tone.Chorus(4, 2.5, 0.5).toMaster();
-                case 4 /* Phaser */: return new Tone.Phaser({ "frequency": 15,
-                    "octaves": 5,
-                    "baseFrequency": 1000
-                }).toMaster();
-                default: return new Tone.Freeverb().toMaster();
-            }
-        }
-        tone.createEffect = createEffect;
-    })(tone = pxsim.tone || (pxsim.tone = {}));
 })(pxsim || (pxsim = {}));

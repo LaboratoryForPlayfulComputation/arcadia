@@ -15,7 +15,7 @@
     <script src="/arcadia/bluebird.min.js"></script>
     <script src="/arcadia/pxtsim.js"></script>
     <script src="/arcadia/sim.js"></script>
-
+    
     <!-- include AFRAME and AR.js -->
     <script src="/arcadia/aframe.min.js"></script>
     <script src="/arcadia/aframe-ar.js"></script>
@@ -24,13 +24,38 @@
     <script src="/arcadia/MTLLoader.js"></script>
     <script src="/arcadia/ColladaLoader.js"></script>
     <script src="/arcadia/OBJLoader.js"></script>
-    <script src="/arcadia/tone.min.js"></script>
 
 </head>
 
 <body>
-    <button id="flip" onClick="flipSim()" style="position: absolute; z-index: 9999;">flip</button>
+
     <script>
+        let sims = parent.document.getElementById("simulators");
+
+        /* Code for putting flip button outside of sim frame */
+        let flipButton = parent.document.createElement("BUTTON");
+        flipButton.setAttribute("id", "flipButton");
+        flipButton.innerHTML = "flip";
+        flipButton.onclick = flipSim;
+        sims.appendChild(flipButton);
+
+        /* Code for putting user ID box outside of sim frame */
+        let userIdForm = parent.document.createElement("FORM");
+        let fieldSet = parent.document.createElement("FIELDSET");
+        fieldSet.setAttribute("disabled", "disabled");  
+        fieldSet.setAttribute("style", "display: inline-block;");
+        let legend = parent.document.createElement("LEGEND");
+        legend.innerHTML = "user id";      
+        let userIdInput = parent.document.createElement("INPUT");
+        userIdInput.setAttribute("id", "userid");
+        userIdInput.value = "";
+        userIdInput.setAttribute("type", "text");
+        userIdInput.setAttribute("name", "userId");
+        fieldSet.appendChild(legend);
+        fieldSet.appendChild(userIdInput);
+        userIdForm.appendChild(fieldSet);
+        sims.appendChild(userIdForm);
+
         var flipFilter = " FlipH ";
         function flipSim (){
             var canvas = document.getElementsByTagName("canvas")[0];
