@@ -1,0 +1,76 @@
+{
+  "id": "arcadia",
+  "name": "Arcadia",
+  "title": "Marker-based Augmented Reality Code Editor",
+  "corepkg": "core",
+  "cloud": {
+    "workspace": false,
+    "packages": false,
+    "sharing": false,
+    "publishing": true,
+    "importing": false,
+    "preferredPackages": [],
+    "githubPackages": false
+  },
+  "runtime": {
+    "mathBlocks": true,
+    "loopsBlocks": true,
+    "logicBlocks": true,
+    "variablesBlocks": true,
+    "textBlocks": true,
+    "listsBlocks": true,
+    "functionBlocks": true,
+    "musicBlocks": true
+  },
+  "simulator": {
+    "autoRun": true,
+    "aspectRatio": 1
+  },
+  "blocksprj": {
+    "id": "blocksprj",
+    "config": {
+      "name": "{0}",
+      "dependencies": {
+        "core": "*"
+      },
+      "description": "",
+      "files": [
+        "main.blocks",
+        "main.ts",
+        "README.md"
+      ]
+    },
+    "files": {
+      "README.md": " ",
+      "main.blocks": "<xml xmlns=\"http://www.w3.org/1999/xhtml\">\n</xml>",
+      "main.ts": " "
+    }
+  },
+  "tsprj": {
+    "id": "tsprj",
+    "config": {
+      "name": "{0}",
+      "dependencies": {
+        "core": "*"
+      },
+      "description": "",
+      "files": [
+        "main.ts",
+        "README.md"
+      ]
+    },
+    "files": {
+      "README.md": " ",
+      "main.ts": " "
+    }
+  },
+  "compile": {
+    "isNative": false,
+    "hasHex": false,
+    "floatingPoint": true
+  },
+  "versions": {
+    "target": "0.0.132",
+    "pxt": "2.0.10"
+  }
+}
