@@ -164,6 +164,7 @@ namespace pxsim {
             renderer = new THREE.WebGLRenderer({
                 antialias: true,
                 alpha: true
+                //canvas: document.getElementById("scene3dcanvas") as HTMLCanvasElement
             });
             renderer.setClearColor(new THREE.Color('lightgrey'), 0);
             let width = window.innerWidth ||
@@ -178,6 +179,8 @@ namespace pxsim {
             renderer.domElement.style.position = 'absolute';
             renderer.domElement.style.top = '0px';
             renderer.domElement.style.left = '0px';
+            //let scene3d = document.getElementById("scene3d");
+            //scene3d.appendChild(renderer.domElement);
             document.body.appendChild(renderer.domElement);
         }
         return renderer;        

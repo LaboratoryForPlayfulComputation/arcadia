@@ -6,7 +6,8 @@ declare namespace THREEx {
       sourceWidth: number;
       sourceHeight: number;
       displayWidth: number;
-      displayHeight: number;        
+      displayHeight: number;
+      domElement?: HTMLElement;        
 	}
     class ArToolkitSource {
         constructor(options: ArToolkitSourceOptions);

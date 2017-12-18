@@ -323,16 +323,6 @@ declare namespace messaging {
     function send(key: string, value: number, id: string): void;
 
     /**
-     * Peer
-     * @param id The value of the marker
-     */
-    //% blockId=peer_conn_block block="connect to %id"
-    //% blockNamespace=messaging inBasicCategory=true
-    //% weight=100
-    //% shim=messaging::connect
-    function connect(id: string): void;
-
-    /**
      * Allows user to define callbacks for receive event
      * @param key 
      */

@@ -7,11 +7,11 @@ namespace pxsim.messaging {
         script.onload = function () {
             initializePeer();
         };
-        script.src = "/sim/peer.min.js";
+        script.src = "https://cdnjs.cloudflare.com/ajax/libs/peerjs/0.3.14/peer.js";
         document.head.appendChild(script);
 
         function updateUserId(id : string){
-            document.getElementById('userid').innerHTML = 'Your user id is: ' + id.toString();
+            document.getElementById('userid').innerHTML = 'User ID: ' + id.toString();
         }
 
         function initDataConnectionCallbacks(conn: PeerJs.DataConnection){
@@ -35,11 +35,11 @@ namespace pxsim.messaging {
             /* Received user ID from server */
             if (peer) peer.on('open', function(id : string) { updateUserId(id); });
             else initializePeer();
-            if (peer) peer.on('close', function() { peer = null; });
+            if (peer) peer.on('close', function() { });
             else initializePeer();
-            if (peer) peer.on('disconnected', function() { peer = null; });
+            if (peer) peer.on('disconnected', function() { });
             else initializePeer();
-            if (peer) peer.on('error', function(err: any) { peer = null; });
+            if (peer) peer.on('error', function(err: any) { });
             else initializePeer();
             
             /* Successfully created data connection */

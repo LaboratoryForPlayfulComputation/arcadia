@@ -12,8 +12,6 @@
         }
     </style>
     
-    <p id="userid" style="position: absolute; z-index: 9999;">Your user id is: </p>
-
     <script src="/cdn/bluebird.min.js"></script>
     <script src="/cdn/pxtsim.js"></script>
     <script src="/sim/sim.js"></script>
@@ -30,7 +28,11 @@
 </head>
 
 <body>
-    <button id="flip" onClick="flipSim()" style="position: absolute; z-index: 9999;">flip</button>
+
+    <button id="flip" onClick="flipSim()" style="z-index: 9999;">flip</button>
+    <span id="userid" style="padding: 0px; background-color: white; z-index: 9999;"></span>
+    </div>
+        
     <script>
         var flipFilter = " FlipH ";
         function flipSim (){

@@ -96,7 +96,6 @@
   "markers.rotation|block": "%marker=marker_block|rotation %axis",
   "markers.slider|block": "slider %marker1=marker_block|from %marker2=marker_block|to %marker3=marker_block",
   "markers|block": "markers",
-  "messaging.connect|block": "connect to %id",
   "messaging.receive|block": "when I receive key %key|do",
   "messaging.send|block": "send key %key| value %value| to %id",
   "messaging|block": "messaging",
