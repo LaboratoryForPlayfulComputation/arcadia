@@ -39,7 +39,8 @@ pxt update
 
 #### Setup ARcadia
 
-* link ARcadia to the PXT framework
+* clone ARcadia 
+* link ARcadia to the PXT framework (run command from within ARcadia directory)  
 ```
 npm link ../pxt
 ```
