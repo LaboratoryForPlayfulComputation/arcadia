@@ -5,14 +5,6 @@ namespace pxt.editor {
         pxt.debug("loading pxt-ar target extensions...");
         const modelRx = /\.(obj|mtl|stl|dae)$/i;
         const res: pxt.editor.ExtensionResult = {
-            fieldEditors: [{
-                selector: "drums",
-                editor: DrumSequencer
-            },
-            {
-                selector: "melody",
-                editor: MelodySequencer
-            }],
             resourceImporters: [{
                 id: "model",
                 canImport: file => modelRx.test(file.name),

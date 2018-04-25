@@ -69,6 +69,7 @@
         "simAnimationEnter": "scale in",
         "simAnimationExit": "scale out",
         "extendEditor": true,
+        "extendFieldEditors": true,
         "disableBlockIcons": true,
         "blockColors": {
             "loops": "#2dc660",

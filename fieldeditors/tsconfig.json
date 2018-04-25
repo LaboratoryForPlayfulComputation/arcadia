@@ -4,8 +4,7 @@
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "declaration": true,
-        "outDir": "../built",
-        "module": "commonjs",
+        "out": "../built/fieldeditors.js",
         "rootDir": ".",
         "newLine": "LF",
         "sourceMap": false
