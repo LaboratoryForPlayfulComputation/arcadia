@@ -145,7 +145,7 @@ namespace pxsim.design {
         let object = m.shapeObject();
         if (object){
             object.traverse(function(child){
-                if (child instanceof THREE.Mesh) child.material.opacity = value;
+                if (child instanceof THREE.Mesh) (child.material as THREE.Material).opacity = value;
             });            
         }
     }

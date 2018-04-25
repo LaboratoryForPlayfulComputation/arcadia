@@ -166,9 +166,9 @@ namespace pxsim.three {
         }      
     }  
 
-    export function loadFontAsync(url: string): Promise<String> {
+    export function loadFontAsync(url: string): Promise<THREE.Font> {
         let loader = new THREE.FontLoader();
-        return new Promise<String>((resolve, reject) => {
+        return new Promise<THREE.Font>((resolve, reject) => {
             loader.load(url + "fonts/helvetiker_regular.typeface.json", (font) => { 
                 resolve(font);
             }, null, e => reject(e));
