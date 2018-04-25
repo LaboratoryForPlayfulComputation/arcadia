@@ -33,8 +33,7 @@
     "@types/jquery": "3.2.16",
     "@types/marked": "0.3.0",
     "@types/node": "8.0.53",
-    "@types/three": "^0.84.26",
-    "@types/webaudioapi": "0.0.27"
+    "@types/three": "^0.84.26"
   },
   "dependencies": {
     "pxt-core": "3.12.1"
