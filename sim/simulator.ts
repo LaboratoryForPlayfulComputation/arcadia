@@ -68,7 +68,7 @@ namespace pxsim {
                                             0x0003e5, 0x4200a5, 0x6600ff, 0xe500ff,
                                                 0xff00a5, 0x822600, 0x000000, 0xffffff];
             this.renderer         = getWebGlContext();
-            this.stereoRenderer   = getStereoRenderer();
+            //this.stereoRenderer   = getStereoRenderer();
             this.mirror           = false;
             this.vrEffect         = false;
             this.camera           = three.createCamera();
