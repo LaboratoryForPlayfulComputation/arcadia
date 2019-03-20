@@ -85,7 +85,7 @@
     "workerjs": "/arcadia/worker.js",
     "tdworkerjs": "/arcadia/tdworker.js",
     "monacoworkerjs": "/arcadia/monacoworker.js",
-    "pxtVersion": "2.0.10",
+    "pxtVersion": "2.1.5",
     "pxtRelId": "",
     "pxtCdnUrl": "/arcadia/",
     "commitCdnUrl": "/arcadia/",
@@ -94,6 +94,7 @@
     "targetVersion": "0.0.0",
     "targetRelId": "",
     "targetUrl": "",
+    "targetId": "arcadia",
     "simUrl": "/arcadia/simulator.html",
     "partsUrl": "/arcadia/siminstructions.html",
     "runUrl": "/arcadia/run.html",
@@ -116,7 +117,7 @@
 
         if (!id && !code && !debugSim) {
             console.error("missing id or code");
-            loading.innerText = 'Oops, wrong arguments...';
+            loading.textContent = 'Oops, wrong arguments...';
             return;
         }
 

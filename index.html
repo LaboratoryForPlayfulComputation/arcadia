@@ -47,7 +47,8 @@
 <!-- end include appmeta.html -->
 
 
-    <link rel="stylesheet" data-rtl="/arcadia/rtlsemantic.css" href="/arcadia/semantic.css" type="text/css">    
+    <link id="blocklycss" rel="stylesheet" data-rtl="/arcadia/rtlblockly.css" href="/arcadia/blockly.css" type="text/css">
+    <link rel="stylesheet" data-rtl="/arcadia/rtlsemantic.css" href="/arcadia/semantic.css" type="text/css">
     <style type="text/css">
         @import "/arcadia/custom.css";
         @import "/arcadia/icons.css";
@@ -58,14 +59,14 @@
     <div id='loading' class="ui active dimmer">
         <div class="ui large loader"></div>
     </div>
-
+    
     <div id='custom-content'>
     </div>
 
-    <div id='content'>
+    <div id='content' class="ui dimmable full-abs">
     </div>
 
-    <div id='msg'>
+    <div id='msg' aria-live="polite">
         <div id='errmsg' class="ui red inverted segment"></div>
         <div id='warnmsg' class="ui orange inverted segment"></div>
         <div id='infomsg' class="ui teal inverted segment"></div>
@@ -79,7 +80,7 @@
     "workerjs": "/arcadia/worker.js",
     "tdworkerjs": "/arcadia/tdworker.js",
     "monacoworkerjs": "/arcadia/monacoworker.js",
-    "pxtVersion": "2.0.10",
+    "pxtVersion": "2.1.5",
     "pxtRelId": "",
     "pxtCdnUrl": "/arcadia/",
     "commitCdnUrl": "/arcadia/",
@@ -88,6 +89,7 @@
     "targetVersion": "0.0.0",
     "targetRelId": "",
     "targetUrl": "",
+    "targetId": "arcadia",
     "simUrl": "/arcadia/simulator.html",
     "partsUrl": "/arcadia/siminstructions.html",
     "runUrl": "/arcadia/run.html",

@@ -1,7 +1,1102 @@
 /*!-----------------------------------------------------------------------------
  * Copyright (c) Microsoft Corporation. All rights reserved.
- * pxt-monaco-typescript version: 2.2.5(fc95643431587b259bf83e037075d201f47d6939)
+ * pxt-monaco-typescript version: 2.3.4(4576690a731361e1ac44e7da634213905e1e6562)
  * Released under the MIT license
  * https://github.com/Microsoft/pxt-monaco-typescript/blob/master/LICENSE.md
  *-----------------------------------------------------------------------------*/
-define("vs/language/typescript/src/tokenization",["require","exports","../lib/typescriptServices"],function(e,t,n){"use strict";function r(e){var t=n.createClassifier(),r=e===a.TypeScript?c:l,i=e===a.TypeScript?u:p;return{getInitialState:function(){return new s(e,n.EndOfLineState.None,(!1))},tokenize:function(e,n){return o(r,i,t,n,e)}}}function o(e,t,r,o,c){function u(e,t,n){void 0===n&&(n=null),0!==l.tokens.length&&l.tokens[l.tokens.length-1].scopes===t||(n&&(t.indexOf("identifier")>-1||t.indexOf("keyword")>-1)?l.tokens.push({startIndex:e,scopes:t+" "+n}):l.tokens.push({startIndex:e,scopes:t}))}var l={tokens:[],endState:new s(o.language,n.EndOfLineState.None,(!1))},p=o.language===a.TypeScript;if(!p&&i(0,c,u))return l;var d=r.getClassificationsForLine(c,o.eolState,!0),m=0;l.endState.eolState=d.finalLexState,l.endState.inJsDocComment=d.finalLexState===n.EndOfLineState.InMultiLineCommentTrivia&&(o.inJsDocComment||/\/\*\*.*$/.test(c));for(var g=0,f=d.entries;g<f.length;g++){var h,v=f[g];if(v.classification===n.TokenClass.Punctuation){var S=c.charCodeAt(m);h=e[S]||t[v.classification],u(m,h)}else v.classification===n.TokenClass.Comment?l.endState.inJsDocComment||/\/\*\*.*\*\//.test(c.substr(m,v.length))?u(m,p?"comment.doc.ts":"comment.doc.js"):u(m,p?"comment.ts":"comment.js"):u(m,t[v.classification]||"",c.substr(m,v.length));m+=v.length}return l}function i(e,t,n){if(0===t.indexOf("#!"))return n(e,"comment.shebang"),!0}Object.defineProperty(t,"__esModule",{value:!0});var a;!function(e){e[e.TypeScript=0]="TypeScript",e[e.EcmaScript5=1]="EcmaScript5"}(a=t.Language||(t.Language={})),t.createTokenizationSupport=r;var s=function(){function e(e,t,n){this.language=e,this.eolState=t,this.inJsDocComment=n}return e.prototype.clone=function(){return new e(this.language,this.eolState,this.inJsDocComment)},e.prototype.equals=function(t){return t===this||!!(t&&t instanceof e)&&(this.eolState===t.eolState&&this.inJsDocComment===t.inJsDocComment)},e}(),c=Object.create(null);c["(".charCodeAt(0)]="delimiter.parenthesis.ts",c[")".charCodeAt(0)]="delimiter.parenthesis.ts",c["{".charCodeAt(0)]="delimiter.bracket.ts",c["}".charCodeAt(0)]="delimiter.bracket.ts",c["[".charCodeAt(0)]="delimiter.array.ts",c["]".charCodeAt(0)]="delimiter.array.ts";var u=Object.create(null);u[n.TokenClass.Identifier]="identifier.ts",u[n.TokenClass.Keyword]="keyword.ts",u[n.TokenClass.Operator]="delimiter.ts",u[n.TokenClass.Punctuation]="delimiter.ts",u[n.TokenClass.NumberLiteral]="number.ts",u[n.TokenClass.RegExpLiteral]="regexp.ts",u[n.TokenClass.StringLiteral]="string.ts";var l=Object.create(null);l["(".charCodeAt(0)]="delimiter.parenthesis.js",l[")".charCodeAt(0)]="delimiter.parenthesis.js",l["{".charCodeAt(0)]="delimiter.bracket.js",l["}".charCodeAt(0)]="delimiter.bracket.js",l["[".charCodeAt(0)]="delimiter.array.js",l["]".charCodeAt(0)]="delimiter.array.js";var p=Object.create(null);p[n.TokenClass.Identifier]="identifier.js",p[n.TokenClass.Keyword]="keyword.js",p[n.TokenClass.Operator]="delimiter.js",p[n.TokenClass.Punctuation]="delimiter.js",p[n.TokenClass.NumberLiteral]="number.js",p[n.TokenClass.RegExpLiteral]="regexp.js",p[n.TokenClass.StringLiteral]="string.js"}),define("vs/language/typescript/src/workerManager",["require","exports"],function(e,t){"use strict";function n(e){var t,n,o=new r(function(e,r){t=e,n=r},function(){});return e.then(t,n),o}Object.defineProperty(t,"__esModule",{value:!0});var r=monaco.Promise,o=function(){function e(e,t){var n=this;this._modeId=e,this._defaults=t,this._worker=null,this._idleCheckInterval=setInterval(function(){return n._checkIfIdle()},3e4),this._lastUsedTime=0,this._configChangeListener=this._defaults.onDidChange(function(){return n._stopWorker()})}return e.prototype._stopWorker=function(){this._worker&&(this._worker.dispose(),this._worker=null),this._client=null},e.prototype.dispose=function(){clearInterval(this._idleCheckInterval),this._configChangeListener.dispose(),this._stopWorker()},e.prototype._checkIfIdle=function(){if(this._worker){var e=this._defaults.getWorkerMaxIdleTime(),t=Date.now()-this._lastUsedTime;e>0&&t>e&&this._stopWorker()}},e.prototype._getClient=function(){var e=this;if(this._lastUsedTime=Date.now(),!this._client){this._worker=monaco.editor.createWebWorker({moduleId:"vs/language/typescript/src/worker",label:this._modeId,createData:{compilerOptions:this._defaults.getCompilerOptions(),extraLibs:this._defaults.getExtraLibs()}});var t=this._worker.getProxy();this._defaults.getEagerModelSync()&&(t=t.then(function(t){return e._worker.withSyncedResources(monaco.editor.getModels().filter(function(t){return t.getModeId()===e._modeId}).map(function(e){return e.uri}))})),this._client=t}return this._client},e.prototype.getLanguageServiceWorker=function(){for(var e=this,t=[],r=0;r<arguments.length;r++)t[r]=arguments[r];var o;return n(this._getClient().then(function(e){o=e}).then(function(n){return e._worker.withSyncedResources(t)}).then(function(e){return o}))},e}();t.WorkerManager=o});var __extends=this&&this.__extends||function(){var e=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(e,t){e.__proto__=t}||function(e,t){for(var n in t)t.hasOwnProperty(n)&&(e[n]=t[n])};return function(t,n){function r(){this.constructor=t}e(t,n),t.prototype=null===n?Object.create(n):(r.prototype=n.prototype,new r)}}();define("vs/language/typescript/src/languageFeatures",["require","exports","../lib/typescriptServices"],function(e,t,n){"use strict";function r(e,t){return e.onCancellationRequested(function(){return t.cancel()}),t}Object.defineProperty(t,"__esModule",{value:!0});var o=monaco.Uri,i=monaco.Position,a=monaco.Promise,s={"For Loop":{prefix:"for",body:["for (let ${1:index} = 0; ${1:index} < 4; ${1:index}++) {","\t$0","}"],description:"For Loop"},"Function Statement":{prefix:"function",body:["function ${1:name}() {","\t$0","}"],description:"Function Statement"},"If Statement":{prefix:"if",body:["if (${1:condition}) {","\t$0","}"],description:"If Statement"},"If-Else Statement":{prefix:"ifelse",body:["if (${1:condition}) {","\t$0","} else {","\t","}"],description:"If-Else Statement"},"While Statement":{prefix:"while",body:["while (${1:condition}) {","\t$0","}"],description:"While Statement"}},c=function(){function e(e){this._worker=e}return e.prototype._positionToOffset=function(e,t){var n=monaco.editor.getModel(e);return n.getOffsetAt(t)},e.prototype._offsetToPosition=function(e,t){var n=monaco.editor.getModel(e);return n.getPositionAt(t)},e.prototype._textSpanToRange=function(e,t){var n=this._offsetToPosition(e,t.start),r=this._offsetToPosition(e,t.start+t.length),o=n.lineNumber,i=n.column,a=r.lineNumber,s=r.column;return{startLineNumber:o,startColumn:i,endLineNumber:a,endColumn:s}},e}();t.Adapter=c;var u=function(e){function t(t,n,r){var o=e.call(this,r)||this;o._defaults=t,o._selector=n,o._disposables=[],o._listener=Object.create(null);var i=function(e){if(e.getModeId()===n){var t,r=e.onDidChangeContent(function(){clearTimeout(t),t=setTimeout(function(){return o._doValidate(e.uri)},500)});o._listener[e.uri.toString()]={dispose:function(){r.dispose(),clearTimeout(t)}},o._doValidate(e.uri)}},a=function(e){monaco.editor.setModelMarkers(e,o._selector,[]);var t=e.uri.toString();o._listener[t]&&(o._listener[t].dispose(),delete o._listener[t])};return o._disposables.push(monaco.editor.onDidCreateModel(i)),o._disposables.push(monaco.editor.onWillDisposeModel(a)),o._disposables.push(monaco.editor.onDidChangeModelLanguage(function(e){a(e.model),i(e.model)})),o._disposables.push({dispose:function(){for(var e=0,t=monaco.editor.getModels();e<t.length;e++){var n=t[e];a(n)}}}),o._disposables.push(o._defaults.onDidChange(function(){for(var e=0,t=monaco.editor.getModels();e<t.length;e++){var n=t[e];a(n),i(n)}})),monaco.editor.getModels().forEach(i),o}return __extends(t,e),t.prototype.dispose=function(){this._disposables.forEach(function(e){return e&&e.dispose()}),this._disposables=[]},t.prototype._doValidate=function(e){var t=this;this._worker(e).then(function(n){if(!monaco.editor.getModel(e))return null;var r=[],o=t._defaults.getDiagnosticsOptions(),i=o.noSyntaxValidation,s=o.noSemanticValidation;return i||r.push(n.getSyntacticDiagnostics(e.toString())),s||r.push(n.getSemanticDiagnostics(e.toString())),a.join(r)}).then(function(n){if(!n||!monaco.editor.getModel(e))return null;var r=n.reduce(function(e,t){return t.concat(e)},[]).map(function(n){return t._convertDiagnostics(e,n)});monaco.editor.setModelMarkers(monaco.editor.getModel(e),t._selector,r)}).done(void 0,function(e){console.error(e)})},t.prototype._convertDiagnostics=function(e,t){var r=this._offsetToPosition(e,t.start),o=r.lineNumber,i=r.column,a=this._offsetToPosition(e,t.start+t.length),s=a.lineNumber,c=a.column;return{severity:monaco.Severity.Error,startLineNumber:o,startColumn:i,endLineNumber:s,endColumn:c,message:n.flattenDiagnosticMessageText(t.messageText,"\n")}},t}(c);t.DiagnostcsAdapter=u;var l=function(e){function t(t){var n=e.call(this,t)||this;return n.typescriptSnippets=[],Object.keys(s).forEach(function(e){var t=s[e],r=t.prefix,o=t.body.join("\n"),i=t.description;n.typescriptSnippets.push({prefix:r,body:o,description:i})}),n}return __extends(t,e),Object.defineProperty(t.prototype,"triggerCharacters",{get:function(){return["."]},enumerable:!0,configurable:!0}),t.prototype.provideCompletionItems=function(e,n,o){var s=e.getWordUntilPosition(n),c=e.uri,u=this._positionToOffset(c,n),l=e.getLineContent(n.lineNumber),p=e.getWordAtPosition(n),d="",m="";p&&(d=l.substring(p.startColumn-1,n.column-1),m=l.substring(n.column-1,p.endColumn-1));var g=(l.substr(0,n.column-1),l.substr(n.column-1)),f=!1,h=e.getWordUntilPosition(new i(n.lineNumber,s.startColumn-1));return h&&h.word&&""!=h.word&&(f=!0),r(o,this._worker(c).then(function(e){var r=[];r.push(e.getCompletionsAtPosition(c.toString(),u));var o=e.getNavigateToItems(s.word).then(function(e){function r(e,r){var o=r.containerName?r.containerName+"."+r.name:r.name,i={uri:c,position:n,label:o,name:r.name,sortText:r.name,filterText:(f?h.word+".":r.containerName?r.containerName+".":"")+r.name,kind:t.convertKind(r.kind),containerName:r.containerName,navigation:r,skipCodeSnippet:""!=g.trim(),insertText:{value:(f?h.word+".":r.containerName?r.containerName+".":"")+r.name},range:new monaco.Range(n.lineNumber,n.column-s.word.length-(f?h.word.length+1:0),n.lineNumber,n.column)};e.push(i)}if(!e||0==e.length)return[];var o=[];return e.filter(function(e){return e.kind==v["function"]&&""!=e.kindModifiers&&(!f||e.containerName!=h.word)}).forEach(function(e){return r(o,e)}),o});return r.push(o),a.join(r)}).then(function(e){if(e){var r=e[0],o=e[1];if(r){var i=r.entries.map(function(e){return{uri:c,position:n,label:e.name,name:e.name,sortText:e.sortText,kind:t.convertKind(e.kind),skipCodeSnippet:""!=g.trim()}});return o&&(i=i.concat(o)),i}}}))},t.prototype.resolveCompletionItem=function(e,o){var i=this,s=e,c=s.uri,u=s.position,l=this.typescriptSnippets.filter(function(e){return e.prefix==s.label})[0];return l?new a(function(e,t){s.insertText={value:l.body},s.documentation=l.description,e(s)}):r(o,this._worker(c).then(function(e){return s.navigation?e.getCompletionEntryDetailsAndSnippet(s.navigation.fileName,s.navigation.textSpan.start,s.name,s.label):e.getCompletionEntryDetailsAndSnippet(c.toString(),i._positionToOffset(c,u),s.name,s.label)}).then(function(e){if(!e)return s;var r=e[0],o=e[1];return r?(s.uri=c,s.position=u,s.kind=t.convertKind(r.kind),s.detail=n.displayPartsToString(r.displayParts),s.documentation=n.displayPartsToString(r.documentation),s.insertText=s.skipCodeSnippet?null:{value:o},s):s}))},t.convertKind=function(e){switch(e){case v.primitiveType:case v.keyword:return monaco.languages.CompletionItemKind.Keyword;case v.variable:case v.localVariable:return monaco.languages.CompletionItemKind.Variable;case v.memberVariable:case v.memberGetAccessor:case v.memberSetAccessor:return monaco.languages.CompletionItemKind.Field;case v["function"]:case v.memberFunction:case v.constructSignature:case v.callSignature:case v.indexSignature:return monaco.languages.CompletionItemKind.Function;case v["enum"]:return monaco.languages.CompletionItemKind.Enum;case v.module:return monaco.languages.CompletionItemKind.Module;case v["class"]:return monaco.languages.CompletionItemKind.Class;case v["interface"]:return monaco.languages.CompletionItemKind.Interface;case v.warning:return monaco.languages.CompletionItemKind.File}return monaco.languages.CompletionItemKind.Property},t}(c);t.SuggestAdapter=l;var p=function(e){function t(){var t=null!==e&&e.apply(this,arguments)||this;return t.signatureHelpTriggerCharacters=["(",","],t}return __extends(t,e),t.prototype.provideSignatureHelp=function(e,t,o){var i=this,a=e.uri;return r(o,this._worker(a).then(function(e){return e.getSignatureHelpItems(a.toString(),i._positionToOffset(a,t))}).then(function(e){if(e){var t={activeSignature:e.selectedItemIndex,activeParameter:e.argumentIndex,signatures:[]};return e.items.forEach(function(e){var r={label:"",documentation:null,parameters:[]};r.label+=n.displayPartsToString(e.prefixDisplayParts),e.parameters.forEach(function(t,o,i){var a=n.displayPartsToString(t.displayParts),s={label:a,documentation:n.displayPartsToString(t.documentation)};r.label+=a,r.parameters.push(s),o<i.length-1&&(r.label+=n.displayPartsToString(e.separatorDisplayParts))}),r.label+=n.displayPartsToString(e.suffixDisplayParts),t.signatures.push(r)}),t}}))},t}(c);t.SignatureHelpAdapter=p;var d=function(e){function t(){return null!==e&&e.apply(this,arguments)||this}return __extends(t,e),t.prototype.provideHover=function(e,t,o){var i=this,s=e.uri,c=e.getWordAtPosition(t);return r(o,this._worker(s).then(function(e){var n=[];return n.push(e.getQuickInfoAtPosition(s.toString(),i._positionToOffset(s,t))),n.push(e.getSignatureHelpItems(s.toString(),i._positionToOffset(s,t))),c&&n.push(e.getCompletionEntryDetails(s.toString(),i._positionToOffset(s,t),c.word)),a.join(n)}).then(function(t){if(t){var r=t[0],o=t[1],a=t[2];if(r&&a){var c=n.displayPartsToString(a.documentation);return c||(c=n.displayPartsToString(r.displayParts)),{range:i._textSpanToRange(s,r.textSpan),contents:[c]}}if(o&&o.items[0]){if(o.items[0].parameters.length>0){var u=o.argumentIndex,c=n.displayPartsToString(o.items[0].parameters[u].documentation);c||(c=n.displayPartsToString(o.items[0].parameters[u].displayParts));var l=o.applicableSpan;if(o.argumentCount>1){var p=e.getValue().substr(o.applicableSpan.start,o.applicableSpan.length),d=p.split(",");l.start=l.start+p.indexOf(d[u]),l.length=d[u].length}return{range:i._textSpanToRange(s,l),contents:[c]}}}else if(r){var c=n.displayPartsToString(r.displayParts);return{range:i._textSpanToRange(s,r.textSpan),contents:[c]}}}}))},t}(c);t.QuickInfoAdapter=d;var m=function(e){function t(){return null!==e&&e.apply(this,arguments)||this}return __extends(t,e),t.prototype.provideDocumentHighlights=function(e,t,n){var o=this,i=e.uri;return r(n,this._worker(i).then(function(e){return e.getOccurrencesAtPosition(i.toString(),o._positionToOffset(i,t))}).then(function(e){if(e)return e.map(function(e){return{range:o._textSpanToRange(i,e.textSpan),kind:e.isWriteAccess?monaco.languages.DocumentHighlightKind.Write:monaco.languages.DocumentHighlightKind.Text}})}))},t}(c);t.OccurrencesAdapter=m;var g=function(e){function t(){return null!==e&&e.apply(this,arguments)||this}return __extends(t,e),t.prototype.provideDefinition=function(e,t,n){var i=this,a=e.uri;return r(n,this._worker(a).then(function(e){return e.getDefinitionAtPosition(a.toString(),i._positionToOffset(a,t))}).then(function(e){if(e){for(var t=[],n=0,r=e;n<r.length;n++){var a=r[n],s=o.parse(a.fileName);monaco.editor.getModel(s)&&t.push({uri:s,range:i._textSpanToRange(s,a.textSpan)})}return t}}))},t}(c);t.DefinitionAdapter=g;var f=function(e){function t(){return null!==e&&e.apply(this,arguments)||this}return __extends(t,e),t.prototype.provideReferences=function(e,t,n,i){var a=this,s=e.uri;return r(i,this._worker(s).then(function(e){return e.getReferencesAtPosition(s.toString(),a._positionToOffset(s,t))}).then(function(e){if(e){for(var t=[],n=0,r=e;n<r.length;n++){var i=r[n],s=o.parse(i.fileName);monaco.editor.getModel(s)&&t.push({uri:s,range:a._textSpanToRange(s,i.textSpan)})}return t}}))},t}(c);t.ReferenceAdapter=f;var h=function(e){function t(){return null!==e&&e.apply(this,arguments)||this}return __extends(t,e),t.prototype.provideDocumentSymbols=function(e,t){var n=this,o=e.uri;return r(t,this._worker(o).then(function(e){return e.getNavigationBarItems(o.toString())}).then(function(e){if(e){var t=function(e,r,i){var a={name:r.text,kind:S[r.kind]||monaco.languages.SymbolKind.Variable,location:{uri:o,range:n._textSpanToRange(o,r.spans[0])},containerName:i};if(r.childItems&&r.childItems.length>0)for(var s=0,c=r.childItems;s<c.length;s++){var u=c[s];t(e,u,a.name)}e.push(a)},r=[];return e.forEach(function(e){return t(r,e)}),r}}))},t}(c);t.OutlineAdapter=h;var v=function(){function e(){}return e}();v.unknown="",v.keyword="keyword",v.script="script",v.module="module",v["class"]="class",v["interface"]="interface",v.type="type",v["enum"]="enum",v.variable="var",v.localVariable="local var",v["function"]="function",v.localFunction="local function",v.memberFunction="method",v.memberGetAccessor="getter",v.memberSetAccessor="setter",v.memberVariable="property",v.constructorImplementation="constructor",v.callSignature="call",v.indexSignature="index",v.constructSignature="construct",v.parameter="parameter",v.typeParameter="type parameter",v.primitiveType="primitive type",v.label="label",v.alias="alias",v["const"]="const",v["let"]="let",v.warning="warning",t.Kind=v;var S=Object.create(null);S[v.module]=monaco.languages.SymbolKind.Module,S[v["class"]]=monaco.languages.SymbolKind.Class,S[v["enum"]]=monaco.languages.SymbolKind.Enum,S[v["interface"]]=monaco.languages.SymbolKind.Interface,S[v.memberFunction]=monaco.languages.SymbolKind.Method,S[v.memberVariable]=monaco.languages.SymbolKind.Property,S[v.memberGetAccessor]=monaco.languages.SymbolKind.Property,S[v.memberSetAccessor]=monaco.languages.SymbolKind.Property,S[v.variable]=monaco.languages.SymbolKind.Variable,S[v["const"]]=monaco.languages.SymbolKind.Variable,S[v.localVariable]=monaco.languages.SymbolKind.Variable,S[v.variable]=monaco.languages.SymbolKind.Variable,S[v["function"]]=monaco.languages.SymbolKind.Function,S[v.localFunction]=monaco.languages.SymbolKind.Function;var y=function(e){function t(){return null!==e&&e.apply(this,arguments)||this}return __extends(t,e),t._convertOptions=function(e){return{ConvertTabsToSpaces:e.insertSpaces,TabSize:e.tabSize,IndentSize:e.tabSize,IndentStyle:n.IndentStyle.Smart,NewLineCharacter:"\n",InsertSpaceAfterCommaDelimiter:!0,InsertSpaceAfterSemicolonInForStatements:!0,InsertSpaceBeforeAndAfterBinaryOperators:!0,InsertSpaceAfterKeywordsInControlFlowStatements:!0,InsertSpaceAfterFunctionKeywordForAnonymousFunctions:!0,InsertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis:!1,InsertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets:!1,InsertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces:!1,PlaceOpenBraceOnNewLineForControlBlocks:!1,PlaceOpenBraceOnNewLineForFunctions:!1}},t.prototype._convertTextChanges=function(e,t){return{text:t.newText,range:this._textSpanToRange(e,t.span)}},t}(c);t.FormatHelper=y;var _=function(e){function t(){return null!==e&&e.apply(this,arguments)||this}return __extends(t,e),t.prototype.provideDocumentRangeFormattingEdits=function(e,t,n,o){var i=this,a=e.uri;return r(o,this._worker(a).then(function(e){return e.getFormattingEditsForRange(a.toString(),i._positionToOffset(a,{lineNumber:t.startLineNumber,column:t.startColumn}),i._positionToOffset(a,{lineNumber:t.endLineNumber,column:t.endColumn}),y._convertOptions(n))}).then(function(e){if(e)return e.map(function(e){return i._convertTextChanges(a,e)})}))},t}(y);t.FormatAdapter=_;var b=function(e){function t(){return null!==e&&e.apply(this,arguments)||this}return __extends(t,e),Object.defineProperty(t.prototype,"autoFormatTriggerCharacters",{get:function(){return[";","}","\n"]},enumerable:!0,configurable:!0}),t.prototype.provideOnTypeFormattingEdits=function(e,t,n,o,i){var a=this,s=e.uri;return r(i,this._worker(s).then(function(e){return e.getFormattingEditsAfterKeystroke(s.toString(),a._positionToOffset(s,t),n,y._convertOptions(o))}).then(function(e){if(e)return e.map(function(e){return a._convertTextChanges(s,e)})}))},t}(y);t.FormatOnTypeAdapter=b}),define("vs/language/typescript/src/mode",["require","exports","./tokenization","./workerManager","./languageFeatures"],function(e,t,n,r,o){"use strict";function i(e){p=u(e,"typescript",n.Language.TypeScript)}function a(e){l=u(e,"javascript",n.Language.EcmaScript5)}function s(){return new monaco.Promise(function(e,t){return l?void e(l):t("JavaScript not registered!")})}function c(){return new monaco.Promise(function(e,t){return p?void e(p):t("TypeScript not registered!")})}function u(e,t,i){var a=[],s=new r.WorkerManager(t,e);a.push(s);var c=function(e){for(var t=[],n=1;n<arguments.length;n++)t[n-1]=arguments[n];return s.getLanguageServiceWorker.apply(s,[e].concat(t))};return a.push(monaco.languages.registerCompletionItemProvider(t,new o.SuggestAdapter(c))),a.push(monaco.languages.registerSignatureHelpProvider(t,new o.SignatureHelpAdapter(c))),a.push(monaco.languages.registerHoverProvider(t,new o.QuickInfoAdapter(c))),a.push(monaco.languages.registerDocumentHighlightProvider(t,new o.OccurrencesAdapter(c))),a.push(monaco.languages.registerDefinitionProvider(t,new o.DefinitionAdapter(c))),a.push(monaco.languages.registerReferenceProvider(t,new o.ReferenceAdapter(c))),a.push(monaco.languages.registerDocumentSymbolProvider(t,new o.OutlineAdapter(c))),a.push(monaco.languages.registerDocumentRangeFormattingEditProvider(t,new o.FormatAdapter(c))),a.push(monaco.languages.registerOnTypeFormattingEditProvider(t,new o.FormatOnTypeAdapter(c))),a.push(new o.DiagnostcsAdapter(e,t,c)),a.push(monaco.languages.setLanguageConfiguration(t,d)),a.push(monaco.languages.setTokensProvider(t,n.createTokenizationSupport(i))),c}Object.defineProperty(t,"__esModule",{value:!0});var l,p;t.setupTypeScript=i,t.setupJavaScript=a,t.getJavaScriptWorker=s,t.getTypeScriptWorker=c;var d={wordPattern:/(-?\d*\.\d\w*)|([^\`\~\!\@\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,comments:{lineComment:"//",blockComment:["/*","*/"]},brackets:[["{","}"],["[","]"],["(",")"]],onEnterRules:[{beforeText:/^\s*\/\*\*(?!\/)([^\*]|\*(?!\/))*$/,afterText:/^\s*\*\/$/,action:{indentAction:monaco.languages.IndentAction.IndentOutdent,appendText:" * "}},{beforeText:/^\s*\/\*\*(?!\/)([^\*]|\*(?!\/))*$/,action:{indentAction:monaco.languages.IndentAction.None,appendText:" * "}},{beforeText:/^(\t|(\ \ ))*\ \*(\ ([^\*]|\*(?!\/))*)?$/,action:{indentAction:monaco.languages.IndentAction.None,appendText:"* "}},{beforeText:/^(\t|(\ \ ))*\ \*\/\s*$/,action:{indentAction:monaco.languages.IndentAction.None,removeText:1}}],autoClosingPairs:[{open:"{",close:"}"},{open:"[",close:"]"},{open:"(",close:")"},{open:'"',close:'"',notIn:["string"]},{open:"'",close:"'",notIn:["string","comment"]},{open:"`",close:"`",notIn:["string","comment"]},{open:"/**",close:" */",notIn:["string"]}]}});
+define('vs/language/typescript/src/tokenization',["require", "exports", "../lib/typescriptServices"], function (require, exports, ts) {
+    /*---------------------------------------------------------------------------------------------
+     *  Copyright (c) Microsoft Corporation. All rights reserved.
+     *  Licensed under the MIT License. See License.txt in the project root for license information.
+     *--------------------------------------------------------------------------------------------*/
+    'use strict';
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Language;
+    (function (Language) {
+        Language[Language["TypeScript"] = 0] = "TypeScript";
+        Language[Language["EcmaScript5"] = 1] = "EcmaScript5";
+    })(Language = exports.Language || (exports.Language = {}));
+    function createTokenizationSupport(language) {
+        var classifier = ts.createClassifier(), bracketTypeTable = language === Language.TypeScript ? tsBracketTypeTable : jsBracketTypeTable, tokenTypeTable = language === Language.TypeScript ? tsTokenTypeTable : jsTokenTypeTable;
+        return {
+            getInitialState: function () { return new State(language, ts.EndOfLineState.None, false); },
+            tokenize: function (line, state) { return tokenize(bracketTypeTable, tokenTypeTable, classifier, state, line); }
+        };
+    }
+    exports.createTokenizationSupport = createTokenizationSupport;
+    var State = (function () {
+        function State(language, eolState, inJsDocComment) {
+            this.language = language;
+            this.eolState = eolState;
+            this.inJsDocComment = inJsDocComment;
+        }
+        State.prototype.clone = function () {
+            return new State(this.language, this.eolState, this.inJsDocComment);
+        };
+        State.prototype.equals = function (other) {
+            if (other === this) {
+                return true;
+            }
+            if (!other || !(other instanceof State)) {
+                return false;
+            }
+            if (this.eolState !== other.eolState) {
+                return false;
+            }
+            if (this.inJsDocComment !== other.inJsDocComment) {
+                return false;
+            }
+            return true;
+        };
+        return State;
+    }());
+    function tokenize(bracketTypeTable, tokenTypeTable, classifier, state, text) {
+        // Create result early and fill in tokens
+        var ret = {
+            tokens: [],
+            endState: new State(state.language, ts.EndOfLineState.None, false)
+        };
+        function appendFn(startIndex, type, text) {
+            if (text === void 0) { text = null; }
+            if (ret.tokens.length === 0 || ret.tokens[ret.tokens.length - 1].scopes !== type) {
+                if (text && (type.indexOf("identifier") > -1 || type.indexOf("keyword") > -1)) {
+                    ret.tokens.push({
+                        startIndex: startIndex,
+                        scopes: type + " " + text
+                    });
+                }
+                else {
+                    ret.tokens.push({
+                        startIndex: startIndex,
+                        scopes: type
+                    });
+                }
+            }
+        }
+        var isTypeScript = state.language === Language.TypeScript;
+        // shebang statement, #! /bin/node
+        if (!isTypeScript && checkSheBang(0, text, appendFn)) {
+            return ret;
+        }
+        var result = classifier.getClassificationsForLine(text, state.eolState, true), offset = 0;
+        ret.endState.eolState = result.finalLexState;
+        ret.endState.inJsDocComment = result.finalLexState === ts.EndOfLineState.InMultiLineCommentTrivia && (state.inJsDocComment || /\/\*\*.*$/.test(text));
+        for (var _i = 0, _a = result.entries; _i < _a.length; _i++) {
+            var entry = _a[_i];
+            var type;
+            if (entry.classification === ts.TokenClass.Punctuation) {
+                // punctions: check for brackets: (){}[]
+                var ch = text.charCodeAt(offset);
+                type = bracketTypeTable[ch] || tokenTypeTable[entry.classification];
+                appendFn(offset, type);
+            }
+            else if (entry.classification === ts.TokenClass.Comment) {
+                // comments: check for JSDoc, block, and line comments
+                if (ret.endState.inJsDocComment || /\/\*\*.*\*\//.test(text.substr(offset, entry.length))) {
+                    appendFn(offset, isTypeScript ? 'comment.doc.ts' : 'comment.doc.js');
+                }
+                else {
+                    appendFn(offset, isTypeScript ? 'comment.ts' : 'comment.js');
+                }
+            }
+            else {
+                // everything else
+                appendFn(offset, tokenTypeTable[entry.classification] || '', text.substr(offset, entry.length));
+            }
+            offset += entry.length;
+        }
+        return ret;
+    }
+    var tsBracketTypeTable = Object.create(null);
+    tsBracketTypeTable['('.charCodeAt(0)] = 'delimiter.parenthesis.ts';
+    tsBracketTypeTable[')'.charCodeAt(0)] = 'delimiter.parenthesis.ts';
+    tsBracketTypeTable['{'.charCodeAt(0)] = 'delimiter.bracket.ts';
+    tsBracketTypeTable['}'.charCodeAt(0)] = 'delimiter.bracket.ts';
+    tsBracketTypeTable['['.charCodeAt(0)] = 'delimiter.array.ts';
+    tsBracketTypeTable[']'.charCodeAt(0)] = 'delimiter.array.ts';
+    var tsTokenTypeTable = Object.create(null);
+    tsTokenTypeTable[ts.TokenClass.Identifier] = 'identifier.ts';
+    tsTokenTypeTable[ts.TokenClass.Keyword] = 'keyword.ts';
+    tsTokenTypeTable[ts.TokenClass.Operator] = 'delimiter.ts';
+    tsTokenTypeTable[ts.TokenClass.Punctuation] = 'delimiter.ts';
+    tsTokenTypeTable[ts.TokenClass.NumberLiteral] = 'number.ts';
+    tsTokenTypeTable[ts.TokenClass.RegExpLiteral] = 'regexp.ts';
+    tsTokenTypeTable[ts.TokenClass.StringLiteral] = 'string.ts';
+    var jsBracketTypeTable = Object.create(null);
+    jsBracketTypeTable['('.charCodeAt(0)] = 'delimiter.parenthesis.js';
+    jsBracketTypeTable[')'.charCodeAt(0)] = 'delimiter.parenthesis.js';
+    jsBracketTypeTable['{'.charCodeAt(0)] = 'delimiter.bracket.js';
+    jsBracketTypeTable['}'.charCodeAt(0)] = 'delimiter.bracket.js';
+    jsBracketTypeTable['['.charCodeAt(0)] = 'delimiter.array.js';
+    jsBracketTypeTable[']'.charCodeAt(0)] = 'delimiter.array.js';
+    var jsTokenTypeTable = Object.create(null);
+    jsTokenTypeTable[ts.TokenClass.Identifier] = 'identifier.js';
+    jsTokenTypeTable[ts.TokenClass.Keyword] = 'keyword.js';
+    jsTokenTypeTable[ts.TokenClass.Operator] = 'delimiter.js';
+    jsTokenTypeTable[ts.TokenClass.Punctuation] = 'delimiter.js';
+    jsTokenTypeTable[ts.TokenClass.NumberLiteral] = 'number.js';
+    jsTokenTypeTable[ts.TokenClass.RegExpLiteral] = 'regexp.js';
+    jsTokenTypeTable[ts.TokenClass.StringLiteral] = 'string.js';
+    function checkSheBang(deltaOffset, line, appendFn) {
+        if (line.indexOf('#!') === 0) {
+            appendFn(deltaOffset, 'comment.shebang');
+            return true;
+        }
+    }
+});
+
+define('vs/language/typescript/src/workerManager',["require", "exports"], function (require, exports) {
+    /*---------------------------------------------------------------------------------------------
+     *  Copyright (c) Microsoft Corporation. All rights reserved.
+     *  Licensed under the MIT License. See License.txt in the project root for license information.
+     *--------------------------------------------------------------------------------------------*/
+    'use strict';
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Promise = monaco.Promise;
+    var WorkerManager = (function () {
+        function WorkerManager(modeId, defaults) {
+            var _this = this;
+            this._modeId = modeId;
+            this._defaults = defaults;
+            this._worker = null;
+            this._idleCheckInterval = setInterval(function () { return _this._checkIfIdle(); }, 30 * 1000);
+            this._lastUsedTime = 0;
+            this._configChangeListener = this._defaults.onDidChange(function () { return _this._stopWorker(); });
+        }
+        WorkerManager.prototype._stopWorker = function () {
+            if (this._worker) {
+                this._worker.dispose();
+                this._worker = null;
+            }
+            this._client = null;
+        };
+        WorkerManager.prototype.dispose = function () {
+            clearInterval(this._idleCheckInterval);
+            this._configChangeListener.dispose();
+            this._stopWorker();
+        };
+        WorkerManager.prototype._checkIfIdle = function () {
+            if (!this._worker) {
+                return;
+            }
+            var maxIdleTime = this._defaults.getWorkerMaxIdleTime();
+            var timePassedSinceLastUsed = Date.now() - this._lastUsedTime;
+            if (maxIdleTime > 0 && timePassedSinceLastUsed > maxIdleTime) {
+                this._stopWorker();
+            }
+        };
+        WorkerManager.prototype._getClient = function () {
+            var _this = this;
+            this._lastUsedTime = Date.now();
+            if (!this._client) {
+                this._worker = monaco.editor.createWebWorker({
+                    // module that exports the create() method and returns a `TypeScriptWorker` instance
+                    moduleId: 'vs/language/typescript/src/worker',
+                    label: this._modeId,
+                    // passed in to the create() method
+                    createData: {
+                        compilerOptions: this._defaults.getCompilerOptions(),
+                        extraLibs: this._defaults.getExtraLibs()
+                    }
+                });
+                var p = this._worker.getProxy();
+                if (this._defaults.getEagerModelSync()) {
+                    p = p.then(function (worker) {
+                        return _this._worker.withSyncedResources(monaco.editor.getModels()
+                            .filter(function (model) { return model.getModeId() === _this._modeId; })
+                            .map(function (model) { return model.uri; }));
+                    });
+                }
+                this._client = p;
+            }
+            return this._client;
+        };
+        WorkerManager.prototype.getLanguageServiceWorker = function () {
+            var _this = this;
+            var resources = [];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                resources[_i] = arguments[_i];
+            }
+            var _client;
+            return toShallowCancelPromise(this._getClient().then(function (client) {
+                _client = client;
+            }).then(function (_) {
+                return _this._worker.withSyncedResources(resources);
+            }).then(function (_) { return _client; }));
+        };
+        return WorkerManager;
+    }());
+    exports.WorkerManager = WorkerManager;
+    function toShallowCancelPromise(p) {
+        var completeCallback;
+        var errorCallback;
+        var r = new Promise(function (c, e) {
+            completeCallback = c;
+            errorCallback = e;
+        }, function () { });
+        p.then(completeCallback, errorCallback);
+        return r;
+    }
+});
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+define('vs/language/typescript/src/languageFeatures',["require", "exports", "../lib/typescriptServices"], function (require, exports, ts) {
+    /*---------------------------------------------------------------------------------------------
+     *  Copyright (c) Microsoft Corporation. All rights reserved.
+     *  Licensed under the MIT License. See License.txt in the project root for license information.
+     *--------------------------------------------------------------------------------------------*/
+    'use strict';
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Uri = monaco.Uri;
+    var Position = monaco.Position;
+    var Promise = monaco.Promise;
+    var snippets = {
+        "For Loop": {
+            "prefix": "for",
+            "body": [
+                "for (let ${1:index} = 0; ${1:index} < 4; ${1:index}++) {",
+                "\t$0",
+                "}"
+            ],
+            "description": "For Loop"
+        },
+        "Function Statement": {
+            "prefix": "function",
+            "body": [
+                "function ${1:name}() {",
+                "\t$0",
+                "}"
+            ],
+            "description": "Function Statement"
+        },
+        "If Statement": {
+            "prefix": "if",
+            "body": [
+                "if (${1:condition}) {",
+                "\t$0",
+                "}"
+            ],
+            "description": "If Statement"
+        },
+        "If-Else Statement": {
+            "prefix": "ifelse",
+            "body": [
+                "if (${1:condition}) {",
+                "\t$0",
+                "} else {",
+                "\t",
+                "}"
+            ],
+            "description": "If-Else Statement"
+        },
+        "While Statement": {
+            "prefix": "while",
+            "body": [
+                "while (${1:condition}) {",
+                "\t$0",
+                "}"
+            ],
+            "description": "While Statement"
+        }
+    };
+    var Adapter = (function () {
+        function Adapter(_worker) {
+            this._worker = _worker;
+        }
+        Adapter.prototype._positionToOffset = function (uri, position) {
+            var model = monaco.editor.getModel(uri);
+            return model.getOffsetAt(position);
+        };
+        Adapter.prototype._offsetToPosition = function (uri, offset) {
+            var model = monaco.editor.getModel(uri);
+            return model.getPositionAt(offset);
+        };
+        Adapter.prototype._textSpanToRange = function (uri, span) {
+            var p1 = this._offsetToPosition(uri, span.start);
+            var p2 = this._offsetToPosition(uri, span.start + span.length);
+            var startLineNumber = p1.lineNumber, startColumn = p1.column;
+            var endLineNumber = p2.lineNumber, endColumn = p2.column;
+            return { startLineNumber: startLineNumber, startColumn: startColumn, endLineNumber: endLineNumber, endColumn: endColumn };
+        };
+        return Adapter;
+    }());
+    exports.Adapter = Adapter;
+    // --- diagnostics --- ---
+    var DiagnostcsAdapter = (function (_super) {
+        __extends(DiagnostcsAdapter, _super);
+        function DiagnostcsAdapter(_defaults, _selector, worker) {
+            var _this = _super.call(this, worker) || this;
+            _this._defaults = _defaults;
+            _this._selector = _selector;
+            _this._disposables = [];
+            _this._listener = Object.create(null);
+            var onModelAdd = function (model) {
+                if (model.getModeId() !== _selector) {
+                    return;
+                }
+                var handle;
+                var changeSubscription = model.onDidChangeContent(function () {
+                    clearTimeout(handle);
+                    handle = setTimeout(function () { return _this._doValidate(model.uri); }, 500);
+                });
+                _this._listener[model.uri.toString()] = {
+                    dispose: function () {
+                        changeSubscription.dispose();
+                        clearTimeout(handle);
+                    }
+                };
+                _this._doValidate(model.uri);
+            };
+            var onModelRemoved = function (model) {
+                monaco.editor.setModelMarkers(model, _this._selector, []);
+                var key = model.uri.toString();
+                if (_this._listener[key]) {
+                    _this._listener[key].dispose();
+                    delete _this._listener[key];
+                }
+            };
+            _this._disposables.push(monaco.editor.onDidCreateModel(onModelAdd));
+            _this._disposables.push(monaco.editor.onWillDisposeModel(onModelRemoved));
+            _this._disposables.push(monaco.editor.onDidChangeModelLanguage(function (event) {
+                onModelRemoved(event.model);
+                onModelAdd(event.model);
+            }));
+            _this._disposables.push({
+                dispose: function () {
+                    for (var _i = 0, _a = monaco.editor.getModels(); _i < _a.length; _i++) {
+                        var model = _a[_i];
+                        onModelRemoved(model);
+                    }
+                }
+            });
+            _this._disposables.push(_this._defaults.onDidChange(function () {
+                // redo diagnostics when options change
+                for (var _i = 0, _a = monaco.editor.getModels(); _i < _a.length; _i++) {
+                    var model = _a[_i];
+                    onModelRemoved(model);
+                    onModelAdd(model);
+                }
+            }));
+            monaco.editor.getModels().forEach(onModelAdd);
+            return _this;
+        }
+        DiagnostcsAdapter.prototype.dispose = function () {
+            this._disposables.forEach(function (d) { return d && d.dispose(); });
+            this._disposables = [];
+        };
+        DiagnostcsAdapter.prototype._doValidate = function (resource) {
+            var _this = this;
+            this._worker(resource).then(function (worker) {
+                if (!monaco.editor.getModel(resource)) {
+                    // model was disposed in the meantime
+                    return null;
+                }
+                var promises = [];
+                var _a = _this._defaults.getDiagnosticsOptions(), noSyntaxValidation = _a.noSyntaxValidation, noSemanticValidation = _a.noSemanticValidation;
+                if (!noSyntaxValidation) {
+                    promises.push(worker.getSyntacticDiagnostics(resource.toString()));
+                }
+                if (!noSemanticValidation) {
+                    promises.push(worker.getSemanticDiagnostics(resource.toString()));
+                }
+                return Promise.join(promises);
+            }).then(function (diagnostics) {
+                if (!diagnostics || !monaco.editor.getModel(resource)) {
+                    // model was disposed in the meantime
+                    return null;
+                }
+                var markers = diagnostics
+                    .reduce(function (p, c) { return c.concat(p); }, [])
+                    .map(function (d) { return _this._convertDiagnostics(resource, d); });
+                monaco.editor.setModelMarkers(monaco.editor.getModel(resource), _this._selector, markers);
+            }).done(undefined, function (err) {
+                console.error(err);
+            });
+        };
+        DiagnostcsAdapter.prototype._convertDiagnostics = function (resource, diag) {
+            var _a = this._offsetToPosition(resource, diag.start), startLineNumber = _a.lineNumber, startColumn = _a.column;
+            var _b = this._offsetToPosition(resource, diag.start + diag.length), endLineNumber = _b.lineNumber, endColumn = _b.column;
+            return {
+                severity: monaco.Severity.Error,
+                startLineNumber: startLineNumber,
+                startColumn: startColumn,
+                endLineNumber: endLineNumber,
+                endColumn: endColumn,
+                message: ts.flattenDiagnosticMessageText(diag.messageText, '\n')
+            };
+        };
+        return DiagnostcsAdapter;
+    }(Adapter));
+    exports.DiagnostcsAdapter = DiagnostcsAdapter;
+    var SuggestAdapter = (function (_super) {
+        __extends(SuggestAdapter, _super);
+        function SuggestAdapter(worker) {
+            var _this = _super.call(this, worker) || this;
+            _this.typescriptSnippets = [];
+            Object.keys(snippets).forEach(function (snippetKey) {
+                var snippet = snippets[snippetKey];
+                var prefix = snippet.prefix;
+                var body = snippet.body.join('\n');
+                var description = snippet.description;
+                _this.typescriptSnippets.push({
+                    prefix: prefix,
+                    body: body,
+                    description: description
+                });
+            });
+            return _this;
+        }
+        Object.defineProperty(SuggestAdapter.prototype, "triggerCharacters", {
+            get: function () {
+                return ['.'];
+            },
+            enumerable: true,
+            configurable: true
+        });
+        SuggestAdapter.prototype.provideCompletionItems = function (model, position, token) {
+            var wordInfo = model.getWordUntilPosition(position);
+            var resource = model.uri;
+            var offset = this._positionToOffset(resource, position);
+            var lineContent = model.getLineContent(position.lineNumber);
+            var wordUnderCursor = model.getWordAtPosition(position);
+            var wordBefore = '';
+            var wordAfter = '';
+            if (wordUnderCursor) {
+                wordBefore = lineContent.substring(wordUnderCursor.startColumn - 1, position.column - 1);
+                wordAfter = lineContent.substring(position.column - 1, wordUnderCursor.endColumn - 1);
+            }
+            var lineContentBefore = lineContent.substr(0, position.column - 1);
+            var lineContentAfter = lineContent.substr(position.column - 1);
+            var isNamespace = false;
+            var prevWordInfo = model.getWordUntilPosition(new Position(position.lineNumber, wordInfo.startColumn - 1));
+            if (prevWordInfo && prevWordInfo.word && prevWordInfo.word != "")
+                isNamespace = true;
+            return wireCancellationToken(token, this._worker(resource).then(function (worker) {
+                var promises = [];
+                promises.push(worker.getCompletionsAtPosition(resource.toString(), offset));
+                var promise = worker.getNavigateToItems(wordInfo.word).then(function (navigation) {
+                    if (!navigation || navigation.length == 0)
+                        return [];
+                    function convert(bucket, entry) {
+                        var label = entry.containerName ? entry.containerName + '.' + entry.name : entry.name;
+                        var result = {
+                            uri: resource,
+                            position: position,
+                            label: label,
+                            name: entry.name,
+                            sortText: entry.name,
+                            filterText: (isNamespace ? prevWordInfo.word + "." : (entry.containerName ? entry.containerName + "." : "")) + entry.name,
+                            kind: SuggestAdapter.convertKind(entry.kind),
+                            containerName: entry.containerName,
+                            navigation: entry,
+                            skipCodeSnippet: lineContentAfter.trim() != "",
+                            insertText: {
+                                value: (isNamespace ? prevWordInfo.word + "." : (entry.containerName ? entry.containerName + "." : "")) + entry.name,
+                            },
+                            range: new monaco.Range(position.lineNumber, position.column - wordInfo.word.length - (isNamespace ? prevWordInfo.word.length + 1 : 0), position.lineNumber, position.column)
+                        };
+                        bucket.push(result);
+                    }
+                    var result = [];
+                    navigation
+                        .filter(function (item) { return (item.kind == Kind.function && item.kindModifiers != "")
+                        && (isNamespace ? item.containerName != prevWordInfo.word : true); })
+                        .forEach(function (item) { return convert(result, item); });
+                    return result;
+                });
+                promises.push(promise);
+                return Promise.join(promises);
+            }).then(function (values) {
+                if (!values) {
+                    return;
+                }
+                var info = values[0];
+                var moreinfo = values[1];
+                if (!info) {
+                    return;
+                }
+                var suggestions = info.entries
+                    .map(function (entry) {
+                    return {
+                        uri: resource,
+                        position: position,
+                        label: entry.name,
+                        name: entry.name,
+                        sortText: entry.sortText,
+                        kind: SuggestAdapter.convertKind(entry.kind),
+                        skipCodeSnippet: lineContentAfter.trim() != ""
+                    };
+                });
+                if (moreinfo) {
+                    suggestions = suggestions.concat(moreinfo);
+                }
+                return suggestions;
+            }));
+        };
+        SuggestAdapter.prototype.resolveCompletionItem = function (item, token) {
+            var _this = this;
+            var myItem = item;
+            var resource = myItem.uri;
+            var position = myItem.position;
+            var entry = this.typescriptSnippets.filter(function (snippet) { return snippet.prefix == myItem.label; })[0];
+            if (entry) {
+                return new Promise(function (resolve, reject) {
+                    myItem.insertText = {
+                        value: entry.body
+                    };
+                    myItem.documentation = entry.description;
+                    resolve(myItem);
+                });
+            }
+            return wireCancellationToken(token, this._worker(resource).then(function (worker) {
+                if (myItem.navigation) {
+                    return worker.getCompletionEntryDetailsAndSnippet(myItem.navigation.fileName, myItem.navigation.textSpan.start, myItem.name, myItem.label);
+                }
+                else {
+                    return worker.getCompletionEntryDetailsAndSnippet(resource.toString(), _this._positionToOffset(resource, position), myItem.name, myItem.label);
+                }
+            }).then(function (values) {
+                if (!values) {
+                    return myItem;
+                }
+                var details = values[0];
+                var codeSnippet = values[1];
+                if (!details) {
+                    return myItem;
+                }
+                myItem.uri = resource;
+                myItem.position = position;
+                myItem.kind = SuggestAdapter.convertKind(details.kind);
+                myItem.detail = ts.displayPartsToString(details.displayParts);
+                myItem.documentation = ts.displayPartsToString(details.documentation);
+                myItem.insertText = !myItem.skipCodeSnippet ? { value: codeSnippet } : null;
+                return myItem;
+            }));
+        };
+        SuggestAdapter.convertKind = function (kind) {
+            switch (kind) {
+                case Kind.primitiveType:
+                case Kind.keyword:
+                    return monaco.languages.CompletionItemKind.Keyword;
+                case Kind.variable:
+                case Kind.localVariable:
+                    return monaco.languages.CompletionItemKind.Variable;
+                case Kind.memberVariable:
+                case Kind.memberGetAccessor:
+                case Kind.memberSetAccessor:
+                    return monaco.languages.CompletionItemKind.Field;
+                case Kind.function:
+                case Kind.memberFunction:
+                case Kind.constructSignature:
+                case Kind.callSignature:
+                case Kind.indexSignature:
+                    return monaco.languages.CompletionItemKind.Function;
+                case Kind.enum:
+                    return monaco.languages.CompletionItemKind.Enum;
+                case Kind.module:
+                    return monaco.languages.CompletionItemKind.Module;
+                case Kind.class:
+                    return monaco.languages.CompletionItemKind.Class;
+                case Kind.interface:
+                    return monaco.languages.CompletionItemKind.Interface;
+                case Kind.warning:
+                    return monaco.languages.CompletionItemKind.File;
+            }
+            return monaco.languages.CompletionItemKind.Property;
+        };
+        return SuggestAdapter;
+    }(Adapter));
+    exports.SuggestAdapter = SuggestAdapter;
+    var SignatureHelpAdapter = (function (_super) {
+        __extends(SignatureHelpAdapter, _super);
+        function SignatureHelpAdapter() {
+            var _this = _super !== null && _super.apply(this, arguments) || this;
+            _this.signatureHelpTriggerCharacters = ['(', ','];
+            return _this;
+        }
+        SignatureHelpAdapter.prototype.provideSignatureHelp = function (model, position, token) {
+            var _this = this;
+            var resource = model.uri;
+            return wireCancellationToken(token, this._worker(resource).then(function (worker) { return worker.getSignatureHelpItems(resource.toString(), _this._positionToOffset(resource, position)); }).then(function (info) {
+                if (!info) {
+                    return;
+                }
+                var ret = {
+                    activeSignature: info.selectedItemIndex,
+                    activeParameter: info.argumentIndex,
+                    signatures: []
+                };
+                info.items.forEach(function (item) {
+                    var signature = {
+                        label: '',
+                        documentation: null,
+                        parameters: []
+                    };
+                    signature.label += ts.displayPartsToString(item.prefixDisplayParts);
+                    item.parameters.forEach(function (p, i, a) {
+                        var label = ts.displayPartsToString(p.displayParts);
+                        var parameter = {
+                            label: label,
+                            documentation: ts.displayPartsToString(p.documentation)
+                        };
+                        signature.label += label;
+                        signature.parameters.push(parameter);
+                        if (i < a.length - 1) {
+                            signature.label += ts.displayPartsToString(item.separatorDisplayParts);
+                        }
+                    });
+                    signature.label += ts.displayPartsToString(item.suffixDisplayParts);
+                    ret.signatures.push(signature);
+                });
+                return ret;
+            }));
+        };
+        return SignatureHelpAdapter;
+    }(Adapter));
+    exports.SignatureHelpAdapter = SignatureHelpAdapter;
+    // --- hover ------
+    var QuickInfoAdapter = (function (_super) {
+        __extends(QuickInfoAdapter, _super);
+        function QuickInfoAdapter() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        QuickInfoAdapter.prototype.provideHover = function (model, position, token) {
+            var _this = this;
+            var resource = model.uri;
+            var wordInfo = model.getWordAtPosition(position);
+            return wireCancellationToken(token, this._worker(resource).then(function (worker) {
+                var promises = [];
+                promises.push(worker.getQuickInfoAtPosition(resource.toString(), _this._positionToOffset(resource, position)));
+                promises.push(worker.getSignatureHelpItems(resource.toString(), _this._positionToOffset(resource, position)));
+                if (wordInfo)
+                    promises.push(worker.getCompletionEntryDetails(resource.toString(), _this._positionToOffset(resource, position), wordInfo.word));
+                return Promise.join(promises);
+            }).then(function (values) {
+                if (!values) {
+                    return;
+                }
+                var info = values[0];
+                var signature = values[1];
+                var completion = values[2];
+                if (info && completion) {
+                    var contents = ts.displayPartsToString(completion.documentation);
+                    if (!contents)
+                        contents = ts.displayPartsToString(info.displayParts);
+                    return {
+                        range: _this._textSpanToRange(resource, info.textSpan),
+                        contents: [contents]
+                    };
+                }
+                else if (signature && signature.items[0]) {
+                    if (signature.items[0].parameters.length > 0) {
+                        var activeParameter = signature.argumentIndex;
+                        var contents = ts.displayPartsToString(signature.items[0].parameters[activeParameter].documentation);
+                        if (!contents)
+                            contents = ts.displayPartsToString(signature.items[0].parameters[activeParameter].displayParts);
+                        var parameterSpan = signature.applicableSpan;
+                        if (signature.argumentCount > 1) {
+                            var parametersStr = model.getValue().substr(signature.applicableSpan.start, signature.applicableSpan.length);
+                            var parametersSplit = parametersStr.split(',');
+                            parameterSpan.start = parameterSpan.start + parametersStr.indexOf(parametersSplit[activeParameter]);
+                            parameterSpan.length = parametersSplit[activeParameter].length;
+                        }
+                        return {
+                            range: _this._textSpanToRange(resource, parameterSpan),
+                            contents: [contents]
+                        };
+                    }
+                }
+                else if (info) {
+                    var contents = ts.displayPartsToString(info.displayParts);
+                    return {
+                        range: _this._textSpanToRange(resource, info.textSpan),
+                        contents: [contents]
+                    };
+                }
+                return;
+            }));
+        };
+        return QuickInfoAdapter;
+    }(Adapter));
+    exports.QuickInfoAdapter = QuickInfoAdapter;
+    // --- occurrences ------
+    var OccurrencesAdapter = (function (_super) {
+        __extends(OccurrencesAdapter, _super);
+        function OccurrencesAdapter() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        OccurrencesAdapter.prototype.provideDocumentHighlights = function (model, position, token) {
+            var _this = this;
+            var resource = model.uri;
+            return wireCancellationToken(token, this._worker(resource).then(function (worker) {
+                return worker.getOccurrencesAtPosition(resource.toString(), _this._positionToOffset(resource, position));
+            }).then(function (entries) {
+                if (!entries) {
+                    return;
+                }
+                return entries.map(function (entry) {
+                    return {
+                        range: _this._textSpanToRange(resource, entry.textSpan),
+                        kind: entry.isWriteAccess ? monaco.languages.DocumentHighlightKind.Write : monaco.languages.DocumentHighlightKind.Text
+                    };
+                });
+            }));
+        };
+        return OccurrencesAdapter;
+    }(Adapter));
+    exports.OccurrencesAdapter = OccurrencesAdapter;
+    // --- definition ------
+    var DefinitionAdapter = (function (_super) {
+        __extends(DefinitionAdapter, _super);
+        function DefinitionAdapter() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        DefinitionAdapter.prototype.provideDefinition = function (model, position, token) {
+            var _this = this;
+            var resource = model.uri;
+            return wireCancellationToken(token, this._worker(resource).then(function (worker) {
+                return worker.getDefinitionAtPosition(resource.toString(), _this._positionToOffset(resource, position));
+            }).then(function (entries) {
+                if (!entries) {
+                    return;
+                }
+                var result = [];
+                for (var _i = 0, entries_1 = entries; _i < entries_1.length; _i++) {
+                    var entry = entries_1[_i];
+                    var uri = Uri.parse(entry.fileName);
+                    if (monaco.editor.getModel(uri)) {
+                        result.push({
+                            uri: uri,
+                            range: _this._textSpanToRange(uri, entry.textSpan)
+                        });
+                    }
+                }
+                return result;
+            }));
+        };
+        return DefinitionAdapter;
+    }(Adapter));
+    exports.DefinitionAdapter = DefinitionAdapter;
+    // --- references ------
+    var ReferenceAdapter = (function (_super) {
+        __extends(ReferenceAdapter, _super);
+        function ReferenceAdapter() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        ReferenceAdapter.prototype.provideReferences = function (model, position, context, token) {
+            var _this = this;
+            var resource = model.uri;
+            return wireCancellationToken(token, this._worker(resource).then(function (worker) {
+                return worker.getReferencesAtPosition(resource.toString(), _this._positionToOffset(resource, position));
+            }).then(function (entries) {
+                if (!entries) {
+                    return;
+                }
+                var result = [];
+                for (var _i = 0, entries_2 = entries; _i < entries_2.length; _i++) {
+                    var entry = entries_2[_i];
+                    var uri = Uri.parse(entry.fileName);
+                    if (monaco.editor.getModel(uri)) {
+                        result.push({
+                            uri: uri,
+                            range: _this._textSpanToRange(uri, entry.textSpan)
+                        });
+                    }
+                }
+                return result;
+            }));
+        };
+        return ReferenceAdapter;
+    }(Adapter));
+    exports.ReferenceAdapter = ReferenceAdapter;
+    // --- outline ------
+    var OutlineAdapter = (function (_super) {
+        __extends(OutlineAdapter, _super);
+        function OutlineAdapter() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        OutlineAdapter.prototype.provideDocumentSymbols = function (model, token) {
+            var _this = this;
+            var resource = model.uri;
+            return wireCancellationToken(token, this._worker(resource).then(function (worker) { return worker.getNavigationBarItems(resource.toString()); }).then(function (items) {
+                if (!items) {
+                    return;
+                }
+                var convert = function (bucket, item, containerLabel) {
+                    var result = {
+                        name: item.text,
+                        kind: outlineTypeTable[item.kind] || monaco.languages.SymbolKind.Variable,
+                        location: {
+                            uri: resource,
+                            range: _this._textSpanToRange(resource, item.spans[0])
+                        },
+                        containerName: containerLabel
+                    };
+                    if (item.childItems && item.childItems.length > 0) {
+                        for (var _i = 0, _a = item.childItems; _i < _a.length; _i++) {
+                            var child = _a[_i];
+                            convert(bucket, child, result.name);
+                        }
+                    }
+                    bucket.push(result);
+                };
+                var result = [];
+                items.forEach(function (item) { return convert(result, item); });
+                return result;
+            }));
+        };
+        return OutlineAdapter;
+    }(Adapter));
+    exports.OutlineAdapter = OutlineAdapter;
+    var Kind = (function () {
+        function Kind() {
+        }
+        Kind.unknown = '';
+        Kind.keyword = 'keyword';
+        Kind.script = 'script';
+        Kind.module = 'module';
+        Kind.class = 'class';
+        Kind.interface = 'interface';
+        Kind.type = 'type';
+        Kind.enum = 'enum';
+        Kind.variable = 'var';
+        Kind.localVariable = 'local var';
+        Kind.function = 'function';
+        Kind.localFunction = 'local function';
+        Kind.memberFunction = 'method';
+        Kind.memberGetAccessor = 'getter';
+        Kind.memberSetAccessor = 'setter';
+        Kind.memberVariable = 'property';
+        Kind.constructorImplementation = 'constructor';
+        Kind.callSignature = 'call';
+        Kind.indexSignature = 'index';
+        Kind.constructSignature = 'construct';
+        Kind.parameter = 'parameter';
+        Kind.typeParameter = 'type parameter';
+        Kind.primitiveType = 'primitive type';
+        Kind.label = 'label';
+        Kind.alias = 'alias';
+        Kind.const = 'const';
+        Kind.let = 'let';
+        Kind.warning = 'warning';
+        return Kind;
+    }());
+    exports.Kind = Kind;
+    var outlineTypeTable = Object.create(null);
+    outlineTypeTable[Kind.module] = monaco.languages.SymbolKind.Module;
+    outlineTypeTable[Kind.class] = monaco.languages.SymbolKind.Class;
+    outlineTypeTable[Kind.enum] = monaco.languages.SymbolKind.Enum;
+    outlineTypeTable[Kind.interface] = monaco.languages.SymbolKind.Interface;
+    outlineTypeTable[Kind.memberFunction] = monaco.languages.SymbolKind.Method;
+    outlineTypeTable[Kind.memberVariable] = monaco.languages.SymbolKind.Property;
+    outlineTypeTable[Kind.memberGetAccessor] = monaco.languages.SymbolKind.Property;
+    outlineTypeTable[Kind.memberSetAccessor] = monaco.languages.SymbolKind.Property;
+    outlineTypeTable[Kind.variable] = monaco.languages.SymbolKind.Variable;
+    outlineTypeTable[Kind.const] = monaco.languages.SymbolKind.Variable;
+    outlineTypeTable[Kind.localVariable] = monaco.languages.SymbolKind.Variable;
+    outlineTypeTable[Kind.variable] = monaco.languages.SymbolKind.Variable;
+    outlineTypeTable[Kind.function] = monaco.languages.SymbolKind.Function;
+    outlineTypeTable[Kind.localFunction] = monaco.languages.SymbolKind.Function;
+    // --- formatting ----
+    var FormatHelper = (function (_super) {
+        __extends(FormatHelper, _super);
+        function FormatHelper() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        FormatHelper._convertOptions = function (options) {
+            return {
+                ConvertTabsToSpaces: options.insertSpaces,
+                TabSize: options.tabSize,
+                IndentSize: options.tabSize,
+                IndentStyle: ts.IndentStyle.Smart,
+                NewLineCharacter: '\n',
+                InsertSpaceAfterCommaDelimiter: true,
+                InsertSpaceAfterSemicolonInForStatements: true,
+                InsertSpaceBeforeAndAfterBinaryOperators: true,
+                InsertSpaceAfterKeywordsInControlFlowStatements: true,
+                InsertSpaceAfterFunctionKeywordForAnonymousFunctions: true,
+                InsertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis: false,
+                InsertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets: false,
+                InsertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces: false,
+                PlaceOpenBraceOnNewLineForControlBlocks: false,
+                PlaceOpenBraceOnNewLineForFunctions: false
+            };
+        };
+        FormatHelper.prototype._convertTextChanges = function (uri, change) {
+            return {
+                text: change.newText,
+                range: this._textSpanToRange(uri, change.span)
+            };
+        };
+        return FormatHelper;
+    }(Adapter));
+    exports.FormatHelper = FormatHelper;
+    var FormatAdapter = (function (_super) {
+        __extends(FormatAdapter, _super);
+        function FormatAdapter() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        FormatAdapter.prototype.provideDocumentRangeFormattingEdits = function (model, range, options, token) {
+            var _this = this;
+            var resource = model.uri;
+            return wireCancellationToken(token, this._worker(resource).then(function (worker) {
+                return worker.getFormattingEditsForRange(resource.toString(), _this._positionToOffset(resource, { lineNumber: range.startLineNumber, column: range.startColumn }), _this._positionToOffset(resource, { lineNumber: range.endLineNumber, column: range.endColumn }), FormatHelper._convertOptions(options));
+            }).then(function (edits) {
+                if (edits) {
+                    return edits.map(function (edit) { return _this._convertTextChanges(resource, edit); });
+                }
+            }));
+        };
+        return FormatAdapter;
+    }(FormatHelper));
+    exports.FormatAdapter = FormatAdapter;
+    var FormatOnTypeAdapter = (function (_super) {
+        __extends(FormatOnTypeAdapter, _super);
+        function FormatOnTypeAdapter() {
+            return _super !== null && _super.apply(this, arguments) || this;
+        }
+        Object.defineProperty(FormatOnTypeAdapter.prototype, "autoFormatTriggerCharacters", {
+            get: function () {
+                return [';', '}', '\n'];
+            },
+            enumerable: true,
+            configurable: true
+        });
+        FormatOnTypeAdapter.prototype.provideOnTypeFormattingEdits = function (model, position, ch, options, token) {
+            var _this = this;
+            var resource = model.uri;
+            return wireCancellationToken(token, this._worker(resource).then(function (worker) {
+                return worker.getFormattingEditsAfterKeystroke(resource.toString(), _this._positionToOffset(resource, position), ch, FormatHelper._convertOptions(options));
+            }).then(function (edits) {
+                if (edits) {
+                    return edits.map(function (edit) { return _this._convertTextChanges(resource, edit); });
+                }
+            }));
+        };
+        return FormatOnTypeAdapter;
+    }(FormatHelper));
+    exports.FormatOnTypeAdapter = FormatOnTypeAdapter;
+    /**
+     * Hook a cancellation token to a WinJS Promise
+     */
+    function wireCancellationToken(token, promise) {
+        token.onCancellationRequested(function () { return promise.cancel(); });
+        return promise;
+    }
+});
+
+define('vs/language/typescript/src/mode',["require", "exports", "./tokenization", "./workerManager", "./languageFeatures"], function (require, exports, tokenization_1, workerManager_1, languageFeatures) {
+    /*---------------------------------------------------------------------------------------------
+     *  Copyright (c) Microsoft Corporation. All rights reserved.
+     *  Licensed under the MIT License. See License.txt in the project root for license information.
+     *--------------------------------------------------------------------------------------------*/
+    'use strict';
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var javaScriptWorker;
+    var typeScriptWorker;
+    function setupTypeScript(defaults) {
+        typeScriptWorker = setupMode(defaults, 'typescript', tokenization_1.Language.TypeScript);
+    }
+    exports.setupTypeScript = setupTypeScript;
+    function setupJavaScript(defaults) {
+        javaScriptWorker = setupMode(defaults, 'javascript', tokenization_1.Language.EcmaScript5);
+    }
+    exports.setupJavaScript = setupJavaScript;
+    function getJavaScriptWorker() {
+        return new monaco.Promise(function (resolve, reject) {
+            if (!javaScriptWorker) {
+                return reject("JavaScript not registered!");
+            }
+            resolve(javaScriptWorker);
+        });
+    }
+    exports.getJavaScriptWorker = getJavaScriptWorker;
+    function getTypeScriptWorker() {
+        return new monaco.Promise(function (resolve, reject) {
+            if (!typeScriptWorker) {
+                return reject("TypeScript not registered!");
+            }
+            resolve(typeScriptWorker);
+        });
+    }
+    exports.getTypeScriptWorker = getTypeScriptWorker;
+    function setupMode(defaults, modeId, language) {
+        var disposables = [];
+        var client = new workerManager_1.WorkerManager(modeId, defaults);
+        disposables.push(client);
+        var worker = function (first) {
+            var more = [];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                more[_i - 1] = arguments[_i];
+            }
+            return client.getLanguageServiceWorker.apply(client, [first].concat(more));
+        };
+        disposables.push(monaco.languages.registerCompletionItemProvider(modeId, new languageFeatures.SuggestAdapter(worker)));
+        disposables.push(monaco.languages.registerSignatureHelpProvider(modeId, new languageFeatures.SignatureHelpAdapter(worker)));
+        disposables.push(monaco.languages.registerHoverProvider(modeId, new languageFeatures.QuickInfoAdapter(worker)));
+        disposables.push(monaco.languages.registerDocumentHighlightProvider(modeId, new languageFeatures.OccurrencesAdapter(worker)));
+        disposables.push(monaco.languages.registerDefinitionProvider(modeId, new languageFeatures.DefinitionAdapter(worker)));
+        disposables.push(monaco.languages.registerReferenceProvider(modeId, new languageFeatures.ReferenceAdapter(worker)));
+        disposables.push(monaco.languages.registerDocumentSymbolProvider(modeId, new languageFeatures.OutlineAdapter(worker)));
+        disposables.push(monaco.languages.registerDocumentRangeFormattingEditProvider(modeId, new languageFeatures.FormatAdapter(worker)));
+        disposables.push(monaco.languages.registerOnTypeFormattingEditProvider(modeId, new languageFeatures.FormatOnTypeAdapter(worker)));
+        disposables.push(new languageFeatures.DiagnostcsAdapter(defaults, modeId, worker));
+        disposables.push(monaco.languages.setLanguageConfiguration(modeId, richEditConfiguration));
+        disposables.push(monaco.languages.setTokensProvider(modeId, tokenization_1.createTokenizationSupport(language)));
+        return worker;
+    }
+    var richEditConfiguration = {
+        wordPattern: /(-?\d*\.\d\w*)|([^\`\~\!\@\#\%\^\&\*\(\)\-\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
+        comments: {
+            lineComment: '//',
+            blockComment: ['/*', '*/']
+        },
+        brackets: [
+            ['{', '}'],
+            ['[', ']'],
+            ['(', ')']
+        ],
+        onEnterRules: [
+            {
+                // e.g. /** | */
+                beforeText: /^\s*\/\*\*(?!\/)([^\*]|\*(?!\/))*$/,
+                afterText: /^\s*\*\/$/,
+                action: { indentAction: monaco.languages.IndentAction.IndentOutdent, appendText: ' * ' }
+            },
+            {
+                // e.g. /** ...|
+                beforeText: /^\s*\/\*\*(?!\/)([^\*]|\*(?!\/))*$/,
+                action: { indentAction: monaco.languages.IndentAction.None, appendText: ' * ' }
+            },
+            {
+                // e.g.  * ...|
+                beforeText: /^(\t|(\ \ ))*\ \*(\ ([^\*]|\*(?!\/))*)?$/,
+                action: { indentAction: monaco.languages.IndentAction.None, appendText: '* ' }
+            },
+            {
+                // e.g.  */|
+                beforeText: /^(\t|(\ \ ))*\ \*\/\s*$/,
+                action: { indentAction: monaco.languages.IndentAction.None, removeText: 1 }
+            }
+        ],
+        autoClosingPairs: [
+            { open: '{', close: '}' },
+            { open: '[', close: ']' },
+            { open: '(', close: ')' },
+            { open: '"', close: '"', notIn: ['string'] },
+            { open: '\'', close: '\'', notIn: ['string', 'comment'] },
+            { open: '`', close: '`', notIn: ['string', 'comment'] },
+            { open: "/**", close: " */", notIn: ["string"] }
+        ]
+    };
+});
+

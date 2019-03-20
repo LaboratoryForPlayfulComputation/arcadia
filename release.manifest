@@ -15,13 +15,14 @@ CACHE:
 /arcadia/pxtwinrt.js
 /arcadia/pxteditor.js
 /arcadia/pxtsim.js
+/arcadia/blockly.css
 /arcadia/semantic.css
 /arcadia/rtlsemantic.css
 /arcadia/custom.css
 /arcadia/icons.css
 
 
-
+/arcadia/editor.js
 
 # blockly
 /arcadia/blockly/blockly_compressed.js
@@ -52,7 +53,7 @@ https://az416426.vo.msecnd.net/scripts/a/ai.0.js
 /arcadia/worker.js
 /arcadia/monacoworker.js
 
-# ver Wed May 16 2018 18:58:35 GMT-0600 (MDT)
+# ver Tue Mar 19 2019 18:22:29 GMT-0600 (Mountain Daylight Time)
 
 /arcadia/target.js
   

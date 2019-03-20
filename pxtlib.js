@@ -521,6 +521,31 @@ var ts;
                 return str.replace(/.*?:\/\//g, "");
             }
             Util.stripUrlProtocol = stripUrlProtocol;
+            function normalizePath(path) {
+                if (path) {
+                    path = path.replace(/\\/g, "/");
+                }
+                return path;
+            }
+            Util.normalizePath = normalizePath;
+            function pathJoin(a, b) {
+                normalizePath(a);
+                normalizePath(b);
+                if (!a && !b)
+                    return undefined;
+                else if (!a)
+                    return b;
+                else if (!b)
+                    return a;
+                if (a.charAt(a.length - 1) !== "/") {
+                    a += "/";
+                }
+                if (b.charAt(0) == "/") {
+                    b = b.substring(1);
+                }
+                return a + b;
+            }
+            Util.pathJoin = pathJoin;
             Util.isNodeJS = false;
             function requestAsync(options) {
                 return Util.httpRequestCoreAsync(options)
@@ -766,8 +791,10 @@ var ts;
                 return f() + f() + "-" + f() + "-4" + f().slice(-3) + "-" + f() + "-" + f() + f() + f();
             }
             Util.guidGen = guidGen;
+            // Localization functions. Please port any modifications over to pxtsim/localization.ts
             var _localizeLang = "en";
             var _localizeStrings = {};
+            var _translationsCache = {};
             Util.localizeLive = false;
             /**
              * Returns the current user language, prepended by "live-" if in live mode
@@ -817,33 +844,77 @@ var ts;
                 _localizeStrings = strs;
             }
             Util.setLocalizedStrings = setLocalizedStrings;
-            function updateLocalizationAsync(baseUrl, code, branch, live) {
+            function updateLocalizationAsync(targetId, simulator, baseUrl, code, pxtBranch, targetBranch, live) {
                 // normalize code (keep synched with localized files)
                 if (!/^(es|pt|si|sv|zh)/i.test(code))
                     code = code.split("-")[0];
-                if (_localizeLang != code && live) {
-                    return downloadLiveTranslationsAsync(code, "strings.json", branch)
-                        .then(function (tr) {
-                        _localizeStrings = tr || {};
-                        _localizeLang = code;
-                        Util.localizeLive = true;
-                    }, function (e) {
-                        console.log('failed to load localizations');
-                    });
+                if (code === _localizeLang) {
+                    return Promise.resolve();
                 }
-                if (_localizeLang != code) {
-                    return Util.httpGetJsonAsync(baseUrl + "locales/" + code + "/strings.json")
-                        .then(function (tr) {
-                        _localizeStrings = tr || {};
+                return downloadTranslationsAsync(targetId, simulator, baseUrl, code, pxtBranch, targetBranch, live)
+                    .then(function (translations) {
+                    if (translations) {
                         _localizeLang = code;
-                    }, function (e) {
-                        console.error('failed to load localizations');
-                    });
-                }
-                //
-                return Promise.resolve(undefined);
+                        _localizeStrings = translations;
+                        if (live) {
+                            Util.localizeLive = true;
+                        }
+                    }
+                    return Promise.resolve();
+                });
             }
             Util.updateLocalizationAsync = updateLocalizationAsync;
+            function downloadTranslationsAsync(targetId, simulator, baseUrl, code, pxtBranch, targetBranch, live) {
+                // normalize code (keep synched with localized files)
+                if (!/^(es|pt|si|sv|zh)/i.test(code))
+                    code = code.split("-")[0];
+                var translationsCacheId = code + "/" + live + "/" + simulator;
+                if (_translationsCache[translationsCacheId]) {
+                    return Promise.resolve(_translationsCache[translationsCacheId]);
+                }
+                var stringFiles = simulator
+                    ? [{ branch: targetBranch, path: targetId + "/sim-strings.json" }]
+                    : [
+                        { branch: pxtBranch, path: "strings.json" },
+                        { branch: targetBranch, path: targetId + "/target-strings.json" }
+                    ];
+                var translations;
+                if (live) {
+                    var hadError_1 = false;
+                    return Promise.mapSeries(stringFiles, function (file) {
+                        return downloadLiveTranslationsAsync(code, file.path, file.branch)
+                            .then(function (tr) {
+                            if (!translations) {
+                                translations = {};
+                            }
+                            Object.keys(tr)
+                                .filter(function (k) { return !!tr[k]; })
+                                .forEach(function (k) { return translations[k] = tr[k]; });
+                        }, function (e) {
+                            console.log("failed to load localizations for file " + file);
+                            hadError_1 = true;
+                        });
+                    })
+                        .then(function () {
+                        // Cache translations unless there was an error for one of the files
+                        if (!hadError_1) {
+                            _translationsCache[translationsCacheId] = translations;
+                        }
+                        return Promise.resolve(translations);
+                    });
+                }
+                return Util.httpGetJsonAsync(baseUrl + "locales/" + code + "/strings.json")
+                    .then(function (tr) {
+                    if (tr) {
+                        translations = tr;
+                        _translationsCache[translationsCacheId] = translations;
+                    }
+                }, function (e) {
+                    console.error('failed to load localizations');
+                })
+                    .then(function () { return translations; });
+            }
+            Util.downloadTranslationsAsync = downloadTranslationsAsync;
             function htmlEscape(_input) {
                 if (!_input)
                     return _input; // null, undefined, empty string test
@@ -1414,14 +1485,20 @@ var pxt;
             // collect blockly parameter name mapping
             var instance = (fn.kind == ts.pxtc.SymbolKind.Method || fn.kind == ts.pxtc.SymbolKind.Property) && !fn.attributes.defaultInstance;
             var attrNames = {};
+            var handlerArgs = [];
             if (instance)
                 attrNames["this"] = { name: "this", type: fn.namespace };
             if (fn.parameters)
-                fn.parameters.forEach(function (pr) { return attrNames[pr.name] = {
-                    name: pr.name,
-                    type: pr.type,
-                    shadowValue: pr.default || undefined
-                }; });
+                fn.parameters.forEach(function (pr) {
+                    attrNames[pr.name] = {
+                        name: pr.name,
+                        type: pr.type,
+                        shadowValue: pr.default || undefined
+                    };
+                    if (pr.handlerParameters) {
+                        pr.handlerParameters.forEach(function (arg) { return handlerArgs.push(arg); });
+                    }
+                });
             if (fn.attributes.block) {
                 Object.keys(attrNames).forEach(function (k) { return attrNames[k].name = ""; });
                 var rx = /%([a-zA-Z0-9_]+)(=([a-zA-Z0-9_]+))?/g;
@@ -1442,7 +1519,10 @@ var pxt;
                         at.shadowType = m[3];
                 }
             }
-            return attrNames;
+            return {
+                attrNames: attrNames,
+                handlerArgs: handlerArgs
+            };
         }
         blocks.parameterNames = parameterNames;
         function parseFields(b) {
@@ -1524,7 +1604,7 @@ var pxt;
                 'math_op3': {
                     name: pxt.Util.lf("absolute number"),
                     tooltip: pxt.Util.lf("absolute value of a number"),
-                    url: '/blocks/math/abs',
+                    url: '/reference/math',
                     category: 'math',
                     block: {
                         message0: pxt.Util.lf("absolute of %1")
@@ -1630,7 +1710,7 @@ var pxt;
                 'lists_create_with': {
                     name: pxt.Util.lf("create an array"),
                     tooltip: pxt.Util.lf("Creates a new array."),
-                    url: '/blocks/arrays/create',
+                    url: '/reference/arrays/create',
                     category: 'arrays',
                     blockTextSearch: "LISTS_CREATE_WITH_INPUT_WITH",
                     block: {
@@ -1643,7 +1723,7 @@ var pxt;
                 'lists_length': {
                     name: pxt.Util.lf("array length"),
                     tooltip: pxt.Util.lf("Returns the number of items in an array."),
-                    url: '/blocks/arrays/length',
+                    url: '/reference/arrays/length',
                     category: 'arrays',
                     block: {
                         LISTS_LENGTH_TITLE: pxt.Util.lf("length of array %1")
@@ -1652,7 +1732,7 @@ var pxt;
                 'lists_index_get': {
                     name: pxt.Util.lf("get a value in an array"),
                     tooltip: pxt.Util.lf("Returns the value at the given index in an array."),
-                    url: '/blocks/arrays/get',
+                    url: '/reference/arrays/get',
                     category: 'arrays',
                     block: {
                         message0: pxt.Util.lf("%1 get value at %2")
@@ -1661,7 +1741,7 @@ var pxt;
                 'lists_index_set': {
                     name: pxt.Util.lf("set a value in an array"),
                     tooltip: pxt.Util.lf("Sets the value at the given index in an array"),
-                    url: '/blocks/arrays/set',
+                    url: '/reference/arrays/set',
                     category: 'arrays',
                     block: {
                         message0: pxt.Util.lf("%1 set value at %2 to %3")
@@ -1727,16 +1807,16 @@ var pxt;
                 'text_length': {
                     name: pxt.Util.lf("number of characters in the string"),
                     tooltip: pxt.Util.lf("Returns the number of letters (including spaces) in the provided text."),
-                    url: 'types/string/length',
+                    url: 'reference/text/length',
                     category: 'text',
                     block: {
-                        TEXT_LENGTH_TITLE: pxt.Util.lf("length of text %1")
+                        TEXT_LENGTH_TITLE: pxt.Util.lf("length of %1")
                     }
                 },
                 'text_join': {
                     name: pxt.Util.lf("join items to create text"),
                     tooltip: pxt.Util.lf("Create a piece of text by joining together any number of items."),
-                    url: 'types/string/join',
+                    url: 'reference/text/join',
                     category: 'text',
                     block: {
                         TEXT_JOIN_TITLE_CREATEWITH: pxt.Util.lf("join")
@@ -1941,8 +2021,9 @@ var pxt;
                 matches = /Version\/([0-9\.]+)/i.exec(navigator.userAgent);
                 // pinned web site have a different user agent
                 // Mozilla/5.0 (iPhone; CPU iPhone OS 10_2_1 like Mac OS X) AppleWebKit/602.4.6 (KHTML, like Gecko) Mobile/14D27
+                // Mozilla/5.0 (iPad; CPU OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Mobile/14G60
                 if (!matches)
-                    matches = /(iPod|iPhone|iPad) OS (\d+)/i.exec(navigator.userAgent);
+                    matches = /(iPod|iPhone|iPad); CPU .*?OS (\d+)/i.exec(navigator.userAgent);
             }
             else if (isChrome()) {
                 matches = /(Chrome|Chromium)\/([0-9\.]+)/i.exec(navigator.userAgent);
@@ -2029,13 +2110,17 @@ var pxt;
         BrowserUtils.isBrowserDownloadInSameWindow = isBrowserDownloadInSameWindow;
         function browserDownloadDataUri(uri, name, userContextWindow) {
             var windowOpen = isBrowserDownloadInSameWindow();
+            var versionString = browserVersion();
+            var v = parseInt(versionString || "0");
             if (windowOpen) {
                 if (userContextWindow)
                     userContextWindow.location.href = uri;
                 else
                     window.open(uri, "_self");
             }
-            else if (pxt.BrowserUtils.isSafari()) {
+            else if (pxt.BrowserUtils.isSafari()
+                && (v < 10 || (versionString.indexOf('10.0') == 0) || isMobile())) {
+                // For Safari versions prior to 10.1 and all Mobile Safari versions
                 // For mysterious reasons, the "link" trick closes the
                 // PouchDB database
                 var iframe = document.getElementById("downloader");
@@ -2129,6 +2214,24 @@ var pxt;
             });
         }
         BrowserUtils.loadScriptAsync = loadScriptAsync;
+        function loadAjaxAsync(url) {
+            return new Promise(function (resolve, reject) {
+                var httprequest = new XMLHttpRequest();
+                httprequest.onreadystatechange = function () {
+                    if (httprequest.readyState == XMLHttpRequest.DONE) {
+                        if (httprequest.status == 200) {
+                            resolve(httprequest.responseText);
+                        }
+                        else {
+                            reject(httprequest.status);
+                        }
+                    }
+                };
+                httprequest.open("GET", url, true);
+                httprequest.send();
+            });
+        }
+        BrowserUtils.loadAjaxAsync = loadAjaxAsync;
     })(BrowserUtils = pxt.BrowserUtils || (pxt.BrowserUtils = {}));
 })(pxt || (pxt = {}));
 var pxt;
@@ -2837,7 +2940,7 @@ var pxt;
             res.generatedFiles[sourcePath + "pxtconfig.h"] = pxtConfig;
             if (isYotta)
                 res.generatedFiles["/config.json"] = JSON.stringify(configJson, null, 4) + "\n";
-            res.generatedFiles[sourcePath + "main.cpp"] = "\n#include \"pxt.h\"\n#ifdef PXT_MAIN\nPXT_MAIN\n#else\nint main() { \n    uBit.init(); \n    pxt::start(); \n    while (1) uBit.sleep(10000);    \n    return 0; \n}\n#endif\n";
+            res.generatedFiles[sourcePath + "main.cpp"] = "\n#include \"pxt.h\"\n#ifdef PXT_MAIN\nPXT_MAIN\n#else\nint main() {\n    uBit.init();\n    pxt::start();\n    while (1) uBit.sleep(10000);\n    return 0;\n}\n#endif\n";
             if (makefile) {
                 var allfiles_1 = Object.keys(res.extensionFiles).concat(Object.keys(res.generatedFiles));
                 var inc_1 = "";
@@ -3454,6 +3557,52 @@ var pxt;
             return startAsync();
         }
         crowdin.uploadTranslationAsync = uploadTranslationAsync;
+        /**
+         * Scans files in crowdin and report files that are not on disk anymore
+         */
+        function listFilesAsync(branch, prj, key, crowdinPath) {
+            var q = { json: "true" };
+            var infoUri = apiUri(branch, prj, key, "info", q);
+            function flatten(allFiles, files, parentDir) {
+                var n = files.name;
+                var d = parentDir ? parentDir + "/" + n : n;
+                files.fullName = d;
+                switch (files.node_type) {
+                    case "file":
+                        allFiles.push(files);
+                        break;
+                    case "directory":
+                        (files.files || []).forEach(function (f) { return flatten(allFiles, f, d); });
+                        break;
+                    case "branch":
+                        (files.files || []).forEach(function (f) { return flatten(allFiles, f, parentDir); });
+                        break;
+                }
+            }
+            pxt.log("crowdin: listing files under " + crowdinPath + " in branch " + branch);
+            pxt.debug("ur: " + infoUri);
+            return pxt.Util.httpGetTextAsync(infoUri).then(function (respText) {
+                var info = JSON.parse(respText);
+                if (!info)
+                    throw new Error("info failed");
+                var files = info.files;
+                var allFiles = [];
+                // if branch, filter out
+                if (branch)
+                    files = files.filter(function (f) { return f.node_type == "branch" && f.name == branch; });
+                // flatten the files
+                files.forEach(function (f) { return flatten(allFiles, f, ""); });
+                // filter out crowdin folder
+                allFiles = allFiles.filter(function (f) { return f.fullName.indexOf(crowdinPath) == 0; });
+                pxt.log("crowdin: found " + allFiles.length + " under " + crowdinPath);
+                return allFiles.map(function (f) {
+                    return {
+                        fullName: f.fullName
+                    };
+                });
+            });
+        }
+        crowdin.listFilesAsync = listFilesAsync;
     })(crowdin = pxt.crowdin || (pxt.crowdin = {}));
 })(pxt || (pxt = {}));
 /// <reference path='../typings/globals/marked/index.d.ts' />
@@ -3633,15 +3782,25 @@ var pxt;
                 mparams["LINK"] = m.path;
                 if (tocPath.indexOf(m) >= 0) {
                     mparams["ACTIVE"] = 'active';
+                    mparams["EXPANDED"] = 'true';
                     currentTocEntry = m;
                     breadcrumb.push({
                         name: m.name,
                         href: m.path
                     });
                 }
+                else {
+                    mparams["EXPANDED"] = 'false';
+                }
                 if (m.subitems && m.subitems.length > 0) {
-                    if (lev == 0)
-                        templ = toc["top-dropdown"];
+                    if (lev == 0) {
+                        if (m.name !== "") {
+                            templ = toc["top-dropdown"];
+                        }
+                        else {
+                            templ = toc["top-dropdown-noHeading"];
+                        }
+                    }
                     else if (lev == 1)
                         templ = toc["inner-dropdown"];
                     else
@@ -3661,18 +3820,18 @@ var pxt;
                 params["appstoremeta"] = "<meta name=\"apple-itunes-app\" content=\"app-id=" + U.htmlEscape(theme.appStoreID) + "\"/>";
             var breadcrumbHtml = '';
             if (breadcrumb.length > 1) {
-                breadcrumbHtml = "\n            <div class=\"ui breadcrumb\">\n                " + breadcrumb.map(function (b, i) {
-                    return ("<a class=\"" + (i == breadcrumb.length - 1 ? "active" : "") + " section\"\n                        href=\"" + html2Quote(b.href) + "\">" + html2Quote(b.name) + "</a>");
+                breadcrumbHtml = "\n            <nav class=\"ui breadcrumb\" aria-label=\"" + lf("Breadcrumb") + "\">\n                " + breadcrumb.map(function (b, i) {
+                    return ("<a class=\"" + (i == breadcrumb.length - 1 ? "active" : "") + " section\"\n                        href=\"" + html2Quote(b.href) + "\" aria-current=\"" + (i == breadcrumb.length - 1 ? "page" : "") + "\">" + html2Quote(b.name) + "</a>");
                 })
-                    .join('<i class="right chevron icon divider"></i>') + "\n            </div>";
+                    .join('<i class="right chevron icon divider"></i>') + "\n            </nav>";
             }
             params["breadcrumb"] = breadcrumbHtml;
             if (currentTocEntry) {
                 if (currentTocEntry.prevPath) {
-                    params["prev"] = "<a href=\"" + currentTocEntry.prevPath + "\" class=\"navigation navigation-prev \" aria-label=\"Previous page: " + currentTocEntry.prevName + "\">\n                                    <i class=\"icon angle left\"></i>\n                                </a>";
+                    params["prev"] = "<a href=\"" + currentTocEntry.prevPath + "\" class=\"navigation navigation-prev \" title=\"" + ('Previous page: {0}', currentTocEntry.prevName) + "\">\n                                    <i class=\"icon angle left\"></i>\n                                </a>";
                 }
                 if (currentTocEntry.nextPath) {
-                    params["next"] = "<a href=\"" + currentTocEntry.nextPath + "\" class=\"navigation navigation-next \" aria-label=\"Next page: " + currentTocEntry.nextName + "\">\n                                    <i class=\"icon angle right\"></i>\n                                </a>";
+                    params["next"] = "<a href=\"" + currentTocEntry.nextPath + "\" class=\"navigation navigation-next \" title=\"" + ('Next page {0}', currentTocEntry.nextName) + "\">\n                                    <i class=\"icon angle right\"></i>\n                                </a>";
                 }
             }
             if (theme.boardName)
@@ -3683,7 +3842,7 @@ var pxt;
                 params["homeurl"] = html2Quote(theme.homeUrl);
             params["targetid"] = theme.id || "???";
             params["targetname"] = theme.name || "Microsoft MakeCode";
-            params["targetlogo"] = theme.docsLogo ? "<img class=\"ui mini image\" src=\"" + U.toDataUri(theme.docsLogo) + "\" />" : "";
+            params["targetlogo"] = theme.docsLogo ? "<img aria-hidden=\"true\" role=\"presentation\" class=\"ui mini image\" src=\"" + U.toDataUri(theme.docsLogo) + "\" />" : "";
             var ghURLs = d.ghEditURLs || [];
             if (ghURLs.length) {
                 var ghText = "<p style=\"margin-top:1em\">\n";
@@ -3699,9 +3858,25 @@ var pxt;
             else {
                 params["github"] = "";
             }
+            // Add accessiblity menu 
+            var accMenuHtml = "\n            <a href=\"#maincontent\" class=\"ui item link\" tabindex=\"0\" role=\"menuitem\">" + lf("Skip to main content") + "</a>\n        ";
+            params['accMenu'] = accMenuHtml;
+            // Add print button
+            var printBtnHtml = "\n            <button id=\"printbtn\" class=\"circular ui icon right floated button hideprint\" title=\"" + lf("Print this page") + "\">\n                <i class=\"icon print\"></i>\n            </button>\n        ";
+            params['printBtn'] = printBtnHtml;
+            // Add sidebar toggle
+            var sidebarToggleHtml = "\n            <a id=\"togglesidebar\" class=\"launch icon item\" tabindex=\"0\" title=\"Side menu\" aria-label=\"" + lf("Side menu") + "\" role=\"menu\" aria-expanded=\"false\">\n                <i class=\"content icon\"></i>\n            </a>\n        ";
+            params['sidebarToggle'] = sidebarToggleHtml;
+            // Add search bars
+            var searchBarIds = ['tocsearch1', 'tocsearch2'];
+            var searchBarsHtml = searchBarIds.map(function (searchBarId) {
+                return "\n                <input type=\"search\" name=\"q\" placeholder=\"" + lf("Search...") + "\" aria-label=\"" + lf("Search Documentation") + "\">\n                <i onclick=\"document.getElementById('" + searchBarId + "').submit();\" tabindex=\"0\" class=\"search link icon\" aria-label=\"" + lf("Search") + "\" role=\"button\"></i>\n            ";
+            });
+            params["searchBar1"] = searchBarsHtml[0];
+            params["searchBar2"] = searchBarsHtml[1];
             var style = '';
             if (theme.accentColor)
-                style += "\n.ui.accent { color: " + theme.accentColor + "; }\n.ui.inverted.accent { background: " + theme.accentColor + "; }\n";
+                style += "\n.ui.accent { color: " + theme.accentColor + "; }\n.ui.inverted.accent { background: " + theme.accentColor + "; }\n#accessibleMenu a { background: " + theme.accentColor + "; }\n";
             params["targetstyle"] = style;
             for (var _a = 0, _b = Object.keys(theme); _a < _b.length; _a++) {
                 var k = _b[_a];
@@ -3712,14 +3887,19 @@ var pxt;
             d.finish = function () { return injectHtml(d.html, params, [
                 "body",
                 "menu",
+                "accMenu",
                 "TOC",
                 "prev",
                 "next",
+                "printBtn",
                 "breadcrumb",
                 "targetlogo",
                 "github",
                 "JSON",
-                "appstoremeta"
+                "appstoremeta",
+                "sidebarToggle",
+                "searchBar1",
+                "searchBar2"
             ]); };
         }
         docs.prepTemplate = prepTemplate;
@@ -3774,7 +3954,7 @@ var pxt;
                 marked = docs.requireMarked();
                 var renderer = new marked.Renderer();
                 renderer.image = function (href, title, text) {
-                    var out = '<img class="ui image" src="' + href + '" alt="' + text + '"';
+                    var out = '<img class="ui centered image" src="' + href + '" alt="' + text + '"';
                     if (title) {
                         out += ' title="' + title + '"';
                     }
@@ -3890,7 +4070,7 @@ var pxt;
             }
             // try getting a better custom image for twitter
             var imgM = /<div class="ui embed mdvid"[^<>]+?data-placeholder="([^"]+)"[^>]*\/?>/i.exec(html)
-                || /<img class="ui image" src="([^"]+)"[^>]*\/?>/i.exec(html);
+                || /<img class="ui [^"]*image" src="([^"]+)"[^>]*\/?>/i.exec(html);
             if (imgM)
                 pubinfo["cardLogo"] = html2Quote(imgM[1]);
             pubinfo["twitter"] = html2Quote(opts.theme.twitter || "@msmakecode");
@@ -5970,7 +6150,7 @@ var pxt;
         };
         /**
          * For the given package config or ID, looks through all the currently installed packages to find conflicts in
-         * Yotta settings
+         * Yotta settings and version spec
          */
         Package.prototype.findConflictsAsync = function (pkgOrId, version) {
             var _this = this;
@@ -5989,24 +6169,34 @@ var pxt;
                 .then(function (cfg) {
                 pkgCfg = cfg;
                 // Iterate through all installed packages and check for conflicting settings
-                if (pkgCfg && pkgCfg.yotta) {
-                    var yottaCfg_1 = pxt.U.jsonFlatten(pkgCfg.yotta.config);
+                if (pkgCfg) {
+                    var yottaCfg_1 = pkgCfg.yotta ? pxt.U.jsonFlatten(pkgCfg.yotta.config) : null;
                     _this.parent.sortedDeps().forEach(function (depPkg) {
-                        var depConfig = depPkg.config || JSON.parse(depPkg.readFile(pxt.CONFIG_NAME));
-                        var hasYottaSettings = !!depConfig && !!depConfig.yotta && !!depPkg.config.yotta.config;
-                        if (hasYottaSettings) {
-                            var depYottaCfg = pxt.U.jsonFlatten(depConfig.yotta.config);
-                            for (var _i = 0, _a = Object.keys(yottaCfg_1); _i < _a.length; _i++) {
-                                var settingName = _a[_i];
-                                var depSetting = depYottaCfg[settingName];
-                                var isJustDefaults = pkgCfg.yotta.configIsJustDefaults || depConfig.yotta.configIsJustDefaults;
-                                if (depYottaCfg.hasOwnProperty(settingName) && depSetting !== yottaCfg_1[settingName] && !isJustDefaults && (!depPkg.parent.config.yotta || !depPkg.parent.config.yotta.ignoreConflicts)) {
-                                    var conflict = new pxt.cpp.PkgConflictError(lf("conflict on yotta setting {0} between packages {1} and {2}", settingName, pkgCfg.name, depPkg.id));
-                                    conflict.pkg0 = depPkg;
-                                    conflict.settingName = settingName;
-                                    conflicts.push(conflict);
+                        var foundYottaConflict = false;
+                        if (yottaCfg_1) {
+                            var depConfig = depPkg.config || JSON.parse(depPkg.readFile(pxt.CONFIG_NAME));
+                            var hasYottaSettings = !!depConfig && !!depConfig.yotta && !!depPkg.config.yotta.config;
+                            if (hasYottaSettings) {
+                                var depYottaCfg = pxt.U.jsonFlatten(depConfig.yotta.config);
+                                for (var _i = 0, _a = Object.keys(yottaCfg_1); _i < _a.length; _i++) {
+                                    var settingName = _a[_i];
+                                    var depSetting = depYottaCfg[settingName];
+                                    var isJustDefaults = pkgCfg.yotta.configIsJustDefaults || depConfig.yotta.configIsJustDefaults;
+                                    if (depYottaCfg.hasOwnProperty(settingName) && depSetting !== yottaCfg_1[settingName] && !isJustDefaults && (!depPkg.parent.config.yotta || !depPkg.parent.config.yotta.ignoreConflicts)) {
+                                        var conflict = new pxt.cpp.PkgConflictError(lf("conflict on yotta setting {0} between packages {1} and {2}", settingName, pkgCfg.name, depPkg.id));
+                                        conflict.pkg0 = depPkg;
+                                        conflict.settingName = settingName;
+                                        conflicts.push(conflict);
+                                        foundYottaConflict = true;
+                                    }
                                 }
                             }
+                        }
+                        if (!foundYottaConflict && pkgCfg.name === depPkg.id && depPkg._verspec != version && !/^file:/.test(depPkg._verspec) && !/^file:/.test(version)) {
+                            var conflict = new pxt.cpp.PkgConflictError(lf("version mismatch for package {0} (installed: {1}, installing: {2})", depPkg, depPkg._verspec, version));
+                            conflict.pkg0 = depPkg;
+                            conflict.isVersionConflict = true;
+                            conflicts.push(conflict);
                         }
                     });
                 }
@@ -6034,7 +6224,9 @@ var pxt;
                 var additionalConflicts = [];
                 conflicts.forEach(function (c) {
                     additionalConflicts.push.apply(additionalConflicts, allAncestors(c.pkg0).map(function (anc) {
-                        var confl = new pxt.cpp.PkgConflictError(lf("conflict on yotta setting {0} between packages {1} and {2}", c.settingName, pkgCfg.name, c.pkg0.id));
+                        var confl = new pxt.cpp.PkgConflictError(c.isVersionConflict ?
+                            lf("a dependency of {0} has a version mismatch with package {1} (installed: {1}, installing: {2})", anc.id, pkgCfg.name, c.pkg0._verspec, version) :
+                            lf("conflict on yotta setting {0} between packages {1} and {2}", c.settingName, pkgCfg.name, c.pkg0.id));
                         confl.pkg0 = anc;
                         return confl;
                     }));
@@ -6674,11 +6866,11 @@ var ts;
                     }
                 }
                 else if (fn.attributes.block && locBlock) {
-                    var ps = pxt.blocks.parameterNames(fn);
+                    var ps = pxt.blocks.parameterNames(fn).attrNames;
                     var oldBlock = fn.attributes.block;
                     fn.attributes.block = pxt.blocks.normalizeBlock(locBlock);
                     if (oldBlock != fn.attributes.block) {
-                        var locps = pxt.blocks.parameterNames(fn);
+                        var locps = pxt.blocks.parameterNames(fn).attrNames;
                         if (JSON.stringify(ps) != JSON.stringify(locps)) {
                             pxt.log("block has non matching arguments: " + oldBlock + " vs " + fn.attributes.block);
                             fn.attributes.block = oldBlock;
@@ -6715,7 +6907,7 @@ var ts;
         }
         pxtc.emptyExtInfo = emptyExtInfo;
         var numberAttributes = ["weight", "imageLiteral"];
-        var booleanAttributes = ["advanced", "handlerStatement"];
+        var booleanAttributes = ["advanced", "handlerStatement", "afterOnStart", "optionalVariableArgs"];
         function parseCommentString(cmt) {
             var res = {
                 paramDefl: {},
@@ -8756,6 +8948,7 @@ var pxt;
         function isNavigatorOnline() {
             return navigator && navigator.onLine;
         }
+        Cloud.isNavigatorOnline = isNavigatorOnline;
         function isOnline() {
             if (typeof navigator !== "undefined" && isNavigatorOnline()) {
                 _isOnline = true;

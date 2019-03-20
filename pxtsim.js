@@ -3,6 +3,71 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+// Helpers designed to help to make a simulator accessible.
+var pxsim;
+(function (pxsim) {
+    var accessibility;
+    (function (accessibility) {
+        var liveRegion;
+        function makeFocusable(elem) {
+            elem.setAttribute("focusable", "true");
+            elem.setAttribute("tabindex", "0");
+        }
+        accessibility.makeFocusable = makeFocusable;
+        function enableKeyboardInteraction(elem, handlerKeyDown, handlerKeyUp) {
+            if (handlerKeyDown) {
+                elem.addEventListener('keydown', function (e) {
+                    var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
+                    if (charCode === 32 || charCode === 13) {
+                        handlerKeyDown();
+                    }
+                });
+            }
+            if (handlerKeyUp) {
+                elem.addEventListener('keyup', function (e) {
+                    var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
+                    if (charCode === 32 || charCode === 13) {
+                        handlerKeyUp();
+                    }
+                });
+            }
+        }
+        accessibility.enableKeyboardInteraction = enableKeyboardInteraction;
+        function setAria(elem, role, label) {
+            if (role && !elem.hasAttribute("role")) {
+                elem.setAttribute("role", role);
+            }
+            if (label && !elem.hasAttribute("aria-label")) {
+                elem.setAttribute("aria-label", label);
+            }
+        }
+        accessibility.setAria = setAria;
+        function setLiveContent(value) {
+            if (!liveRegion) {
+                var style = "position: absolute !important;" +
+                    "display: block;" +
+                    "visibility: visible;" +
+                    "overflow: hidden;" +
+                    "width: 1px;" +
+                    "height: 1px;" +
+                    "margin: -1px;" +
+                    "border: 0;" +
+                    "padding: 0;" +
+                    "clip: rect(0 0 0 0);";
+                liveRegion = document.createElement("div");
+                liveRegion.setAttribute("role", "status");
+                liveRegion.setAttribute("aria-live", "polite");
+                liveRegion.setAttribute("aria-hidden", "false");
+                liveRegion.setAttribute("style", style);
+                document.body.appendChild(liveRegion);
+            }
+            if (liveRegion.textContent !== value) {
+                liveRegion.textContent = value;
+            }
+        }
+        accessibility.setLiveContent = setLiveContent;
+    })(accessibility = pxsim.accessibility || (pxsim.accessibility = {}));
+})(pxsim || (pxsim = {}));
 var pxsim;
 (function (pxsim) {
     var GROUND_COLOR = "blue";
@@ -1857,6 +1922,9 @@ var pxsim;
             stop();
             if (msg.mute)
                 mute(msg.mute);
+            if (msg.localizedStrings) {
+                pxsim.localization.setLocalizedStrings(msg.localizedStrings);
+            }
             runtime = new pxsim.Runtime(msg.code);
             runtime.id = msg.id;
             runtime.board.initAsync(msg)
@@ -3073,7 +3141,7 @@ var pxsim;
         function pop(c, x) {
             pxsim.pxtrt.nullCheck(c);
             var ret = c.pop();
-            pxsim.decr(ret);
+            // no decr() since we're returning it
             return ret;
         }
         Array_.pop = pop;
@@ -3088,7 +3156,7 @@ var pxsim;
             pxsim.pxtrt.nullCheck(c);
             if (!c.isValidIndex(x))
                 return;
-            pxsim.decr(c.getAt(x));
+            // no decr() since we're returning it
             return c.removeAt(x);
         }
         Array_.removeAt = removeAt;
@@ -3190,7 +3258,13 @@ var pxsim;
     // (but the code below doesn't come from there; I wrote it myself)
     // TODO use Math.imul if available
     function intMult(a, b) {
-        return (((a & 0xffff) * (b >>> 16) + (b & 0xffff) * (a >>> 16)) << 16) + ((a & 0xffff) * (b & 0xffff));
+        var ah = (a >>> 16) & 0xffff;
+        var al = a & 0xffff;
+        var bh = (b >>> 16) & 0xffff;
+        var bl = b & 0xffff;
+        // the shift by 0 fixes the sign on the high part
+        // the final |0 converts the unsigned value into a signed value 
+        return ((al * bl) + (((ah * bl + al * bh) << 16) >>> 0) | 0);
     }
     var Number_;
     (function (Number_) {
@@ -3565,6 +3639,22 @@ var pxsim;
         BufferMethods.write = write;
     })(BufferMethods = pxsim.BufferMethods || (pxsim.BufferMethods = {}));
 })(pxsim || (pxsim = {}));
+// Localization functions. Please port any modifications over to pxtlib/util.ts
+var pxsim;
+(function (pxsim) {
+    var localization;
+    (function (localization) {
+        var _localizeStrings = {};
+        function setLocalizedStrings(strs) {
+            _localizeStrings = strs || {};
+        }
+        localization.setLocalizedStrings = setLocalizedStrings;
+        function lf(s) {
+            return _localizeStrings[s] || s;
+        }
+        localization.lf = lf;
+    })(localization = pxsim.localization || (pxsim.localization = {}));
+})(pxsim || (pxsim = {}));
 var pxsim;
 (function (pxsim) {
     var logs;
@@ -3678,10 +3768,21 @@ var pxsim;
             };
             LogViewElement.prototype.registerChromeSerial = function () {
                 var _this = this;
+                var extensionId = this.props.chromeExtension;
+                if (!extensionId)
+                    return;
                 var buffers = {};
                 var chrome = window.chrome;
                 if (chrome && chrome.runtime) {
-                    var port = chrome.runtime.connect("cihhkhnngbjlhahcfmhekmbnnjcjdbge", { name: "micro:bit" });
+                    console.debug("chrome: connecting to extension " + extensionId);
+                    var port = chrome.runtime.connect(extensionId, { name: "serial" });
+                    port.postMessage({
+                        type: "serial-config",
+                        useHF2: this.props.useHF2,
+                        vendorId: this.props.vendorId,
+                        productId: this.props.productId,
+                        nameFilter: this.props.nameFilter
+                    });
                     port.onMessage.addListener(function (msg) {
                         if (msg.type == "serial") {
                             if (!_this.dropSim) {
@@ -4644,7 +4745,8 @@ var pxsim;
                 partDefinitions: opts.partDefinitions,
                 mute: opts.mute,
                 highContrast: opts.highContrast,
-                cdnUrl: opts.cdnUrl
+                cdnUrl: opts.cdnUrl,
+                localizedStrings: opts.localizedStrings
             };
             this.applyAspectRatio();
             this.scheduleFrameCleanup();
@@ -5319,7 +5421,7 @@ var pxsim;
             }, false); });
         }
         svg_1.onClick = onClick;
-        function buttonEvents(el, move, start, stop) {
+        function buttonEvents(el, move, start, stop, keydown) {
             var captured = false;
             svg_1.touchEvents.mousedown.forEach(function (evname) { return el.addEventListener(evname, function (ev) {
                 captured = true;
@@ -5346,6 +5448,11 @@ var pxsim;
                 if (stop)
                     stop(ev);
             }, false); });
+            el.addEventListener('keydown', function (ev) {
+                captured = false;
+                if (keydown)
+                    keydown(ev);
+            });
         }
         svg_1.buttonEvents = buttonEvents;
         function mkLinearGradient(id) {

@@ -508,12 +508,46 @@
           "path": "/streaming",
           "prevName": "Offline support",
           "prevPath": "/offline",
-          "nextName": "Documentation",
-          "nextPath": "/docs"
+          "nextName": "Command Line Interface",
+          "nextPath": "/cli"
         }
       ],
       "prevName": "Function",
       "prevPath": "/types/function"
+    },
+    {
+      "name": "",
+      "subitems": [
+        {
+          "name": "Command Line Interface",
+          "subitems": [],
+          "path": "/cli",
+          "prevName": "Streaming",
+          "prevPath": "/streaming",
+          "nextName": "Visual Studio Code support",
+          "nextPath": "/code"
+        },
+        {
+          "name": "Visual Studio Code support",
+          "subitems": [],
+          "path": "/code",
+          "prevName": "Command Line Interface",
+          "prevPath": "/cli",
+          "nextName": "Coding on Raspberry Pi",
+          "nextPath": "/raspberry-pi"
+        },
+        {
+          "name": "Coding on Raspberry Pi",
+          "subitems": [],
+          "path": "/raspberry-pi",
+          "prevName": "Visual Studio Code support",
+          "prevPath": "/code",
+          "nextName": "Documentation",
+          "nextPath": "/docs"
+        }
+      ],
+      "prevName": "Streaming",
+      "prevPath": "/streaming"
     },
     {
       "name": "Documentation",
@@ -545,8 +579,8 @@
         }
       ],
       "path": "/docs",
-      "prevName": "Streaming",
-      "prevPath": "/streaming",
+      "prevName": "Coding on Raspberry Pi",
+      "prevPath": "/raspberry-pi",
       "nextName": "About",
       "nextPath": "/about"
     }
@@ -561,6 +595,5 @@
   "footerLogoCDN": "@cdnUrl@/blob/fdb2da99c22d44dc6ae9f9b24c267c9e9f51bec5/static/logo.svg",
   "organizationLogoCDN": "@cdnUrl@/blob/edfb3030f2e395a8772bc07928a2fea983f2eecd/static/cuicon.png",
   "organizationWideLogoCDN": "@cdnUrl@/blob/c5db58f98d3cdcdbacfd420d0eba29871a11d0e8/static/cuwide.png",
-  "htmlDocIncludes": {},
-  "locales": {}
+  "htmlDocIncludes": {}
 }
